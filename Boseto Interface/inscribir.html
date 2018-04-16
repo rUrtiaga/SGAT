@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Principal Alumnos</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#" >S.G.A.T.</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item ">
+                    <a class="nav-link" href="#">Inicio<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="./talleres.html">Talleres</a>
+                </li>
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Pre-Inscripto</a>
+                        <a class="dropdown-item" href="#">Nueva Inscripcion</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Nuevo
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">Taller</a>
+                    <a class="dropdown-item" href="#">Curso</a>
+                    <a class="dropdown-item" href="#">...</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <form class="form-inline  my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="busque aquí" aria-label="Search">
+                <button class="btn btn-outline my-2 my-sm-0" type="submit">Buscar</button>
+        </form>
+    </nav>
+    <div class="container">
+        <form>
+            <h3>Nueva Inscripcion</h3>
+            <div class="form-group">
+                    <label for="Curso">Curso</label>
+                    <select multiple class="form-control" id="cursos">
+                    <option>Ceramica: Principiantes</option>
+                    <option>Ceramica: Avanzados</option>
+                    <option>Pintura</option>
+                    <option>Tallado en madera</option>
+                    </select>
+            </div>
+
+            <div class="form-row">
+                    <div class="col">
+                        <label for="name">Nombre</label>        
+                        <input type="text" class="form-control" id="name" placeholder="Juan">
+                    </div>
+                    <div class="col">
+                        <label for="lastname">Apellido</label> 
+                        <input type="text" class="form-control" id="lastname" placeholder="Castro">
+                    </div>
+            </div>
+
+            <div class="form-group">
+                <h4 for="contact">Contacto</h4>
+                <div class="form-row">
+                    <div class="col">
+                        <label for="pPhone">Telefono Principal</label>        
+                        <input type="text" class="form-control" id="phone" placeholder="02243 - 45 - XXXX">
+                    </div>
+                    <div class="col">
+                        <label for="sPhone">Secundario</label> 
+                        <input type="text" class="form-control" id="aphone" placeholder="02243 - 45 - XXXX">
+                     </div>
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Correo Electronico</label>
+                <input type="email" class="form-control" id="email" placeholder="nombre@dominio.com">
+            </div>
+            <!-- <div class="form-group">
+                <label for="exampleFormControlSelect2">Example multiple select</label>
+                <select multiple class="form-control" id="exampleFormControlSelect2">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                </select>
+            </div> -->
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Comentario</label>
+                <textarea class="form-control" id="comment" rows="3"></textarea>
+            </div>
+            <div class="row justify-content-end">
+                <!-- <div class="col"></div> -->
+                <div class="col-md-2">
+                    <button type="submit" class='btn btn-danger'>Cancelar</button>    
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class='btn btn-primary'>Aceptar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
