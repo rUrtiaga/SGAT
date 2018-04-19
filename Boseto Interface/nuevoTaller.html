@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Nuevo Taller</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <Script>
+        function inicializar(){
+            ocultarDivNuevaCateg()
+            ocultarDivNuevoNivel()
+        }
+        function mostrarDivNuevaCateg(){
+            document.getElementById("nuevaCategoriaDiv").style.display = "block"
+        }
+        function ocultarDivNuevaCateg(){
+            document.getElementById("nuevaCategoriaDiv").style.display = "none";
+        }
+        function mostrarDivNuevoNivel(){
+            document.getElementById("nuevoNivelDiv").style.display = "block"
+        }
+        function ocultarDivNuevoNivel(){
+            document.getElementById("nuevoNivelDiv").style.display = "none";
+        }  
+    </Script>
+
+
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#" >S.G.A.T.</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item ">
+                    <a class="nav-link" href="#">Inicio<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="./talleres.html">Talleres</a>
+                </li>
+                <li class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Pre-Inscripto</a>
+                        <a class="dropdown-item" href="./inscribir.html">Nueva Inscripcion</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Nuevo
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="./nuevoTaller.html">Taller</a>
+                    <a class="dropdown-item" href="#">Curso</a>
+                    <a class="dropdown-item" href="#">...</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <form class="form-inline  my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="busque aquí" aria-label="Search">
+                <button class="btn btn-outline my-2 my-sm-0" type="submit">Buscar</button>
+        </form>
+    </nav>
+    <div class="container">
+        <form>
+            <h3>Nuevo Taller</h3>
+
+            <div class="form-row">
+                <div class="col">
+            <label for="Curso">Categoria</label>
+            <div class="form-row">
+            <div class="col">
+                <select class="form-control" id="categorias">
+                    <option value="artesManuales">Artes Manuales</option>
+                    <option value="instMusicales">Instrumentos Musicales</option>
+                    <option value="musicales">Musicales</option>
+                    <option value="tecnologias">Tecnologias</option>
+                    <option value="educativas">Educativas</option>
+                    <option value="otras">Otras</option>
+                </select> 
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary" onclick="mostrarDivNuevaCateg()">Nueva Categoria</button>
+            </div>  
+            </div>
+            <!--   -->
+        <div id="nuevaCategoriaDiv" style="display:none">
+            <div class="form-group" >
+                    <label for="exampleFormControlTextarea1">Nombre del la Nueva Categoria</label>
+                    <input type="text" class="form-control" id="nuevaCateg" placeholder="Nombre">
+            </div>
+            <div class="row justify-content-end">
+                <!-- <div class="col"></div> -->
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-danger" onclick="ocultarDivNuevaCateg()">Cancelar</button>    
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary" onclick="ocultarDivNuevaCateg()">Guardar</button>
+                       
+                    </div>
+            </div>
+        </div>
+            <div class="form-row">
+                    <div class="col">
+                        <label for="name">Nombre</label>        
+                        <input type="text" class="form-control" id="name" placeholder="Ej: Pintura">
+                    </div>
+            </div>
+            <label for="Curso">Nivel</label>
+            <div class="form-row">
+                <div class="col">
+              <select class="form-control" id="niveles">
+                  <option value="principiante">Principiante</option>
+                  <option value="intermedio">Intermedio</option>
+                  <option value="avanzado">Avanzado</option>
+                  <option value="unico">Unico</option>
+                </select> 
+            </div>
+            <div class="col">
+                <button type="button" class='btn btn-primary' onclick="mostrarDivNuevoNivel()">Nuevo Nivel</button>
+            </div>  
+            </div>
+            <div id="nuevoNivelDiv" style="display:none; padding-bottom:20px;">
+                    <div class="form-group" >
+                            <label for="exampleFormControlTextarea1">Nombre del Nuevo Nivel</label>
+                            <input type="text" class="form-control" id="nuevaCateg" placeholder="Nombre">
+                        </div>
+                        <div class="row justify-content-end">
+                            <!-- <div class="col"></div> -->
+                            <div class="col-md-2">
+                                    <button type="button" class="btn btn-danger" onclick="ocultarDivNuevoNivel()">Cancelar</button>    
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary" onclick="ocultarDivNuevoNivel()">Guardar</button>
+                                   
+                                </div>
+                            </div>
+                        </div>
+          
+            <div class="row justify-content-end" style="margin-top:10px">
+                <!-- <div class="col"></div> -->
+                <div class="col-md-2">
+                    <button type="submit" class='btn btn-danger'>Cancelar</button>    
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class='btn btn-primary'>Aceptar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
