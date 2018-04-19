@@ -1,29 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <title>Principal Alumnos</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#" >S.G.A.T.</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="#">S.G.A.T.</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+            aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item ">
-                    <a class="nav-link" href="#">Inicio<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#">Inicio
+                        <span class="sr-only">(current)</span>
+                    </a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="./talleres.html">Talleres</a>
                 </li>
                 <li class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="#">Pre-Inscripto</a>
                         <a class="dropdown-item" href="./inscribir.html">Nueva Inscripcion</a>
@@ -31,78 +39,219 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Nuevo
+                        Nuevo
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Taller</a>
-                    <a class="dropdown-item" href="./nuevosCursos.html">Curso</a>
-                    <a class="dropdown-item" href="#">...</a>
+                        <a class="dropdown-item" href="./nuevoTaller.html">Taller</a>
+                        <a class="dropdown-item" href="./nuevosCursos.html">Curso</a>
                     </div>
                 </li>
             </ul>
         </div>
         <form class="form-inline  my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="busque aquí" aria-label="Search">
-                <button class="btn btn-outline my-2 my-sm-0" type="submit">Buscar</button>
+            <input class="form-control mr-sm-2" type="search" placeholder="busque aquí" aria-label="Search">
+            <button class="btn btn-outline my-2 my-sm-0" type="submit">Buscar</button>
         </form>
     </nav>
+
+
     <div class="container mt-3">
-        <div class="card">
-            <div class="card-header"> 
-                <h4 class="card-title"> Ceramica </h4>
+
+        <div class="row">   
+            <div class="col-md-2">
+                <div id="list-category" class="list-group">
+                    <a class="list-group-item list-group-item-action" href="#list-item-1">Artes Manuales</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-2">Instrumentos Musicales</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-3">Musicales</a>
+                </div>
             </div>
-            <div class="card-body">
-                    <div class="card mb-3">
+
+            <div class="col-md-10">
+                <div data-spy="scroll" data-target="#list-category" data-offset="0" class="scrollspy">
+                    <h2 id="list-item-1">Artes Manuales</h2>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title"> Ceramica </h4>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title"> Principiantes </h5>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <p class="card-text">Prof: <span> Fulana</span> Cupo : <span>Disponible</span> Dias: <span>Miercoles y Viernes</span> Horario: <span>20:00hs</span> Lugar : <span>casa de la cultura</span> </p>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title"> Principiantes </h5>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p class="card-text">Prof:
+                                                <span> Fulana</span> Cupo :
+                                                <span>Disponible</span> Dias:
+                                                <span>Miercoles y Viernes</span> Horario:
+                                                <span>20:00hs</span> Lugar :
+                                                <span>casa de la cultura</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary" disabled> Espera </button>
+                                            <button class="btn btn-primary"> Alumnos </button>
+                                            <button class="btn btn-primary"> Inscribir </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <button class="btn btn-primary" disabled> Espera </button>
-                                    <button class="btn btn-primary"> Alumnos </button>
+                            </div>
+                            <div class="card text-white bg-danger">
+                                <div class="card-body">
+                                    <h5 class="card-title"> Avanzados </h5>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p class="card-text">Prof:
+                                                <span>Mengana</span> Cupo :
+                                                <span>Lleno</span> Dias:
+                                                <span>Miercoles y Viernes</span> Horario:
+                                                <span>22:00hs</span> Lugar :
+                                                <span>casa de la cultura</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary"> Espera </button>
+                                            <button class="btn btn-primary"> Alumnos </button>
+                                            <button class="btn btn-primary"> Inscribir </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card text-white bg-danger">
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h4 class="card-title"> Pintura </h4>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title"> Avanzados </h5>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <p class="card-text">Prof: <span>Mengana</span> Cupo : <span>Lleno</span> Dias: <span>Miercoles y Viernes</span> Horario: <span>22:00hs</span> Lugar : <span>casa de la cultura</span> </p>
-                                </div>
-                                <div class="col-md-4">
-                                    <button class="btn btn-primary"> Espera </button>
-                                    <button class="btn btn-primary"> Alumnos </button>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title"> Artistica </h5>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p class="card-text">Prof:
+                                                <span> Juan</span> Cupo :
+                                                <span>Disponible</span> Dias:
+                                                <span>Miercoles y Viernes</span> Horario:
+                                                <span>20:00hs</span> Lugar :
+                                                <span>casa de la cultura</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary" disabled> Espera </button>
+                                            <button class="btn btn-primary"> Alumnos </button>
+                                            <button class="btn btn-primary"> Inscribir </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <h2 id="list-item-2">Instrumentos Musicales</h2>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title"> Guitarra </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="card mb-3 text-white bg-danger">
+                                <div class="card-body">
+                                    <h5 class="card-title"> Principiantes </h5>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p class="card-text">Prof:
+                                                <span> Pedro</span> Cupo :
+                                                <span>lleno</span> Dias:
+                                                <span>Miercoles y Viernes</span> Horario:
+                                                <span>20:00hs</span> Lugar :
+                                                <span>casa de la cultura</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary"> Espera </button>
+                                            <button class="btn btn-primary"> Alumnos </button>
+                                            <button class="btn btn-primary"> Inscribir </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title"> Avanzados </h5>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p class="card-text">Prof:
+                                                <span>Mengana</span> Cupo :
+                                                <span>Disponible</span> Dias:
+                                                <span>Miercoles y Viernes</span> Horario:
+                                                <span>22:00hs</span> Lugar :
+                                                <span>casa de la cultura</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary" disabled> Espera </button>
+                                            <button class="btn btn-primary"> Alumnos </button>
+                                            <button class="btn btn-primary"> Inscribir </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card ">
+                                <div class="card-body">
+                                    <h5 class="card-title"> Niños </h5>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p class="card-text">Prof:
+                                                <span>Mengana</span> Cupo :
+                                                <span>Disponible</span> Dias:
+                                                <span>Miercoles y Viernes</span> Horario:
+                                                <span>22:00hs</span> Lugar :
+                                                <span>casa de la cultura</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary" disabled> Espera </button>
+                                            <button class="btn btn-primary"> Alumnos </button>
+                                            <button class="btn btn-primary"> Inscribir </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h4 class="card-title"> Piano </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title"> Adultos </h5>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p class="card-text">Prof:
+                                                <span> Juan</span> Cupo :
+                                                <span>Disponible</span> Dias:
+                                                <span>Miercoles y Viernes</span> Horario:
+                                                <span>20:00hs</span> Lugar :
+                                                <span>casa de la cultura</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary" disabled> Espera </button>
+                                            <button class="btn btn-primary"> Alumnos </button>
+                                            <button class="btn btn-primary"> Inscribir </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 id="list-item-3">Musicales</h2>
+                    <p>...</p>
+                </div>
             </div>
         </div>
-        <div class="card mt-3">
-                <div class="card-header"> 
-                    <h4 class="card-title"> Pintura </h4>
-                </div>
-                <div class="card-body">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title"> Artistica </h5>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <p class="card-text">Prof: <span> Juan</span> Cupo : <span>Disponible</span> Dias: <span>Miercoles y Viernes</span> Horario: <span>20:00hs</span> Lugar : <span>casa de la cultura</span> </p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <button class="btn btn-primary" disabled> Espera </button>
-                                        <button class="btn btn-primary"> Alumnos </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-        </div>                        
+
     </div>
 </body>
+
 </html>
