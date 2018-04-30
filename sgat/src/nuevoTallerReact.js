@@ -14,10 +14,6 @@ const style3 = {
 
 
 
-
-
-
-
 /*CREAR TALLER*/
 class CrearTaller extends React.Component{
     constructor(props) {
@@ -28,12 +24,13 @@ class CrearTaller extends React.Component{
 			nivel: "",
 			nombreCategoria: "",
 			nombreNivel: "",
-			agregaNivel:true,
-			agregaCategoria:true
+			agregaNivel:false,
+			agregaCategoria:false
 	}
 	}
 	mostrarDivNuevaCateg(){
-		this.setState({agregaCategoria:true})
+		console.log(this.state.agregaCategoria)
+		this.setState({agregaCategoria: !this.state.agregaCategoria})
 	}
 	ocultarDivNuevaCateg(){
 		this.setState({agregaCategoria:false})
@@ -50,29 +47,29 @@ class CrearTaller extends React.Component{
 
 /*PANEL PARA CREAR CATEGORIA */
 
-nuevaCategoria(){
-	if(this.state.agregaCategoria){	return (
-		<div id="nuevaCategoriaDiv" style={style1} >
-		<div className="form-group">
-                                <label htmlFor="nombreCategoria">Nombre de la nueva Categoria</label>
-                                <input type="text" className="form-control" id="nombreCategoria"
-                                    value={this.state.nombreCategoria}
-                                    onChange={(event) => this.setState({ nombreCategoria: event.target.value })}/>
-		</div>
-            <div className="row justify-content-end">
-                <div className="col"></div>
-                    <div className="col-md-2">
-                        <button type="button" className="btn btn-danger" onclick={() => this.ocultarDivNuevaCateg()}>Cancelar</button>  
-                    </div>
-                    <div className="col-md-2">
-                        <button type="button" className="btn btn-primary" onclick={() => this.ocultarDivNuevaCateg()}>Guardar</button>
-                       
-                    </div>
-            </div>
-        </div>
-	)}
-
+	nuevaCategoria(){
+		if(this.state.agregaCategoria){	return (
+			<div id="nuevaCategoriaDiv" style={style1} >
+			<div className="form-group">
+									<label htmlFor="nombreCategoria">Nombre de la nueva Categoria</label>
+									<input type="text" className="form-control" id="nombreCategoria"
+										value={this.state.nombreCategoria}
+										onChange={(event) => this.setState({ nombreCategoria: event.target.value })}/>
+			</div>
+				<div className="row justify-content-end">
+					<div className="col"></div>
+						<div className="col-md-2">
+							<button type="button" className="btn btn-danger" onClick={() => this.ocultarDivNuevaCateg()}>Cancelar</button>  
+						</div>
+						<div className="col-md-2">
+							<button type="button" className="btn btn-primary" onClick={() => this.ocultarDivNuevaCateg()}>Guardar</button>
+						
+						</div>
+				</div>
+			</div>
+		)}
 	}
+
 	nuevoNivel(){
 		return (
 			<div id="nuevoNivelDiv" style={style2}>
@@ -85,10 +82,10 @@ nuevaCategoria(){
 						<div className="row justify-content-end">
 							<div className="col"></div> 
 							<div className="col-md-2">
-									<button type="button" className="btn btn-danger" onclick={() => this.ocultarDivNuevoNivel()}>Cancelar</button>    
+									<button type="button" className="btn btn-danger" onClick={() => this.ocultarDivNuevoNivel()}>Cancelar</button>    
 								</div>
 								<div className="col-md-2">
-									<button type="button" className="btn btn-primary" onclick={() => this.ocultarDivNuevoNivel()}>Guardar</button>
+									<button type="button" className="btn btn-primary" onClick={() => this.ocultarDivNuevoNivel()}>Guardar</button>
 								   
 								</div>
 							</div>
@@ -104,7 +101,7 @@ render() {
 
             <div className="form-row">
                 <div className="col">
-            <label for="Curso">Categoria</label>
+            <label htmlFor="Curso">Categoria</label>
             <div className="form-row">
             <div className="col">
                 <select className="form-control" id="categorias">
@@ -117,7 +114,7 @@ render() {
                 </select> 
             </div>
             <div className="col">
-                <button type="button" className="btn btn-primary" onclick={() => this.mostrarDivNuevaCateg()}>Nueva Categoria</button>
+                <button type="button" className="btn btn-primary" onClick={() => this.mostrarDivNuevaCateg()}>Nueva Categoria</button>
             </div>  
             </div>
 			{
@@ -131,7 +128,7 @@ render() {
                                     value={this.state.nombre}
                                     onChange={(event) => this.setState({ nombre: event.target.value })}/>
 		</div>
-            <label for="Curso">Nivel</label>
+            <label htmlFor="Curso">Nivel</label>
             <div className="form-row">
                 <div className="col">
               <select className="form-control" id="niveles">
@@ -142,7 +139,7 @@ render() {
                 </select> 
             </div>
             <div className="col">
-                <button type="button" className='btn btn-primary' onclick={() => this.ocultarDivNuevoNivel()}>Nuevo Nivel</button>
+                <button type="button" className='btn btn-primary' onClick={() => this.ocultarDivNuevoNivel()}>Nuevo Nivel</button>
             </div>  
             </div>
 		
@@ -160,11 +157,7 @@ render() {
                     <button type="submit" className='btn btn-primary'>Aceptar</button>
                 </div>
             </div>
-			
-        
-		
-    </div>
-
+    </div>	
 	</div>
 	</form>
 	</div>
