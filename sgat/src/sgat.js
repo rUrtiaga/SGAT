@@ -64,7 +64,7 @@ class Menu extends React.Component {
                         </a>
                         <div className="dropdown-menu" aria-labelledby="#">
                         <a className="dropdown-item" href="#" onClick={() =>this.mostrarNuevoTaller()}>Taller</a>
-                        <a className="dropdown-item" href="#" onClick={() =>this.mostrarCurso()}>Curso</a>
+                        <a className="dropdown-item" href="#"  >Curso</a>
                         </div>
                     </li>
                 </ul>
@@ -72,7 +72,7 @@ class Menu extends React.Component {
         </nav>        
         )
     }
-
+    //ESTO VA EN CURSO   onClick={() =>this.mostrarCurso()}
 
     render(){
         if (this.state.pantallaActual === pantallas.nuevoTaller) {
@@ -85,8 +85,16 @@ class Menu extends React.Component {
                     </div>
                 </div>
             )
-        }
-        if (this.state.pantallaActual === pantallas.nuevoCurso) {
+        }          
+    }
+}
+
+/***********************************************
+    Conexión con HTML
+ ***********************************************/
+/*
+ESTO VA EN EL RENDER
+if (this.state.pantallaActual === pantallas.nuevoCurso) {
             this.setUltimaAccion(() => this.mostrarNuevoTaller())
             return (
                 <div>
@@ -96,14 +104,10 @@ class Menu extends React.Component {
                     </div>
                 </div>
             )
-        }           
-    }
-}
+        } 
+        
 
-/***********************************************
-    Conexión con HTML
- ***********************************************/
-/*
+
  ReactDOM.render(
     <Menu />,
     document.getElementById('reactPage')
