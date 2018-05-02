@@ -5,6 +5,11 @@ class Taller {
         this._nombre = nombre
         this._subCategorias = subCategorias //[] esto es una lista
     }
+
+    /******************************
+     *      Setters y getters
+     ******************************/
+
     setCategoria(categoria){ this._categoria = categoria}
     getCategoria() {return this._categoria}
 
@@ -13,6 +18,8 @@ class Taller {
 
     setSubCategoria(subCategorias){ this._subCategorias = subCategorias}
     getSubCategoria() {return this._subCategorias}
+
+
     addSubCategoria(subCategoria) {this._subCategorias.push(subCategoria)}
 }
 
@@ -28,6 +35,11 @@ class Persona{
         this._mail = mail
         this._comentario = comentario
     }
+
+    /******************************
+     *      Setters y getters
+     ******************************/
+
     setDNI(dni){ this._dni = dni}
     getDNI() {return this._dni}
 
@@ -68,39 +80,21 @@ class Curso{
         this._profesores = profesores
         this._anio = new Date().getFullYear() 
     }
-    /**********
-     * Setters y getters
-     */
-    setAlumnos(alumnos){return this._alumnos = alumnos}
-    getAlumnos() {return this._alumnos}
+
     addAlumno(alumno){return this._alumnos.push(alumno)}
+    addEspera(alumno){return this._espera.push(alumno)}    
+    addAlumnoBaja(alumno){return this._alumnosBaja.push(alumno)}
+    addEsperaBaja(alumno){return this._esperaBaja.push(alumno)}    
+    addDiaHorarioLugar(diaHorarioLugar){return this._diasHorariosLugares.push(diaHorarioLugar)}
+
+
     removeAlumno(alumno){
         this.setAlumnos(quitarDeLista(alumno,this.getAlumnos()))
         this.addAlumnoBaja(alumno)}
-
-    setAlumnosBaja(alumnos){return this._alumnosBaja = alumnos}
-    getAlumnosBaja() {return this._alumnosBaja}
-    addAlumnoBaja(alumno){return this._alumnosBaja.push(alumno)}
-
-    setEspera(alumnos){return this._espera = alumnos}
-    getEspera() {return this._espera}
-    addEspera(alumno){return this._espera.push(alumno)}    
     removeEspera(alumno){
         this.setEspera(quitarDeLista(alumno,this.getEspera()))
         this.addEsperaBaja(alumno)}
 
-    setEsperaBaja(alumnos){return this._esperaBaja = alumnos}
-    getEsperaBaja() {return this._esperaBaja}
-    addEsperaBaja(alumno){return this._esperaBaja.push(alumno)}    
-
-    setDiasHorariosLugares(listaDHL){return this._diasHorariosLugares = listaDHL}
-    getDiasHorariosLugares() {return this._diasHorariosLugares}
-    addDiaHorarioLugar(diaHorarioLugar){return this._diasHorariosLugares.push(diaHorarioLugar)}
-    
-    getAnio(){return this._anio}
-
-    setCupo(cupo){ this._cupo = cupo }
-    getCupo(){return this._cupo}
 
     //Se espera que pase de la lista de espera a la lista de alumnos (ojo checkear cupo)
     altaAlumno(alumno){
@@ -130,6 +124,29 @@ class Curso{
         }
     }
 
+    /******************************
+     *      Setters y getters
+     ******************************/
+
+    setAlumnos(alumnos){return this._alumnos = alumnos}
+    getAlumnos() {return this._alumnos}
+
+    setAlumnosBaja(alumnos){return this._alumnosBaja = alumnos}
+    getAlumnosBaja() {return this._alumnosBaja}
+ 
+    setEspera(alumnos){return this._espera = alumnos}
+    getEspera() {return this._espera}
+ 
+    setEsperaBaja(alumnos){return this._esperaBaja = alumnos}
+    getEsperaBaja() {return this._esperaBaja}
+
+    setDiasHorariosLugares(listaDHL){return this._diasHorariosLugares = listaDHL}
+    getDiasHorariosLugares() {return this._diasHorariosLugares}
+    
+    getAnio(){return this._anio}
+
+    setCupo(cupo){ this._cupo = cupo }
+    getCupo(){return this._cupo}
 
     //cantidades de todo    
     getCantidadAlumnos(){return this.getAlumnos().length}
@@ -150,9 +167,9 @@ class diaHorarioLugar {
 }
 
 
-/**
+/***********************
  * Funciones Auxiliares
- */
+ ***********************/
 
 function quitarDeLista(elemento, list){
     let indice = indiceDeLista(elemento, list)
