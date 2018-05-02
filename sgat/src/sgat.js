@@ -4,17 +4,18 @@ const ReactDOM = require('react-dom')
 
 // variables para componentes de pantallas
 const nuevoTaller = require('./nuevoTallerReact')
-
+const nuevoCurso = require('./nuevoCurso')
+const nuevoAlumno = require('./alumnos')
 
 const pantallas = { 
-    muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3
+    muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, nuevoAlumno: 4
 }
 
 /*MENU*/
 class Menu extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { pantallaActual: pantallas.nuevoTaller }
+        this.state = { pantallaActual: pantallas.nuevoAlumno }
         this._cursoActual = null
         this._ultimaAccion = null
     }
@@ -27,8 +28,11 @@ class Menu extends React.Component {
         this.setState({ pantallaActual: pantallas.nuevoTaller })
     }
     
-    mostrarCurso(){
-        this.setState({ pantallaActual: pantallas.nuevoCurso})
+    mostrarNuevoCurso(){
+        this.setState({ pantallaActual: pantallas.nuevoCurso })
+    }
+    mostrarNuevoAlumno() {
+        this.setState({ pantallaActual: pantallas.nuevoAlumno })
     }
 
     setUltimaAccion(accion) {
@@ -51,20 +55,20 @@ class Menu extends React.Component {
                     <li className="nav-item ">
                         <a className="nav-link" href="#">Talleres</a>
                     </li>
-                    <li className="nav-item dropdown ">
-                        <a className="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
+                        <li className="nav-item dropdown active">
+                        <a className="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Alumnos</a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a className="dropdown-item" href="#">Pre-Inscripto</a>
-                            <a className="dropdown-item" href="#">Nueva Inscripcion</a>
+                            <a className="dropdown-item" href="#" onClick={() => this.mostrarNuevoAlumno()}>Nuevo Alumno</a>
                         </div>
                     </li>
-                    <li className="nav-item dropdown active">
+                    <li className="nav-item dropdown ">
                         <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Nuevo
                         </a>
                         <div className="dropdown-menu" aria-labelledby="#">
                         <a className="dropdown-item" href="#" onClick={() =>this.mostrarNuevoTaller()}>Taller</a>
-                        <a className="dropdown-item" href="#" onClick={() =>this.mostrarCurso()}>Curso</a>
+                        <a className="dropdown-item" href="#" onClick={() =>this.mostrarNuevoCurso()}>Curso</a>
                         </div>
                     </li>
                 </ul>
@@ -75,28 +79,18 @@ class Menu extends React.Component {
 
 
     render(){
-        if (this.state.pantallaActual === pantallas.nuevoTaller) {
-            this.setUltimaAccion(() => this.mostrarNuevoTaller())
+        if (this.state.pantallaActual === pantallas.nuevoAlumno) {
+            this.setUltimaAccion(() => this.mostrarNuevoAlumno())
             return (
                 <div>
                     {this.menuBarra()}
                     <div className="container" style={{marginLeft: "20px", marginRight: "20px"}}>
-                        <nuevoTaller.CrearTaller rootComponent={this}/>   
+                        <nuevoAlumno.CrearAlumno rootComponent={this}/>   
                     </div>
                 </div>
             )
         }
-        if (this.state.pantallaActual === pantallas.nuevoCurso) {
-            this.setUltimaAccion(() => this.mostrarNuevoTaller())
-            return (
-                <div>
-                    {this.menuBarra()}
-                    <div className="container" style={{marginLeft: "20px", marginRight: "20px"}}>
-                        <nuevoCurso.CrearCurso rootComponent={this}/>   
-                    </div>
-                </div>
-            )
-        }           
+         
     }
 }
 
