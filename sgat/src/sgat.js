@@ -4,10 +4,11 @@ const ReactDOM = require('react-dom')
 
 // variables para componentes de pantallas
 const nuevoTaller = require('./nuevoTallerReact')
-
+const nuevoCurso = require('./nuevoCurso')
+const nuevoAlumno = require('./alumnos')
 
 const pantallas = { 
-    muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3
+    muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, nuevoAlumno: 4
 }
 
 /*MENU*/
@@ -27,8 +28,12 @@ class Menu extends React.Component {
         this.setState({ pantallaActual: pantallas.nuevoTaller })
     }
     
-    mostrarCurso(){
+    mostrarNuevoCurso(){
         this.setState({ pantallaActual: pantallas.nuevoCurso})
+    }
+
+    mostrarNuevoAlumno() {
+        this.setState({ pantallaActual: pantallas.nuevoAlumno })
     }
 
     setUltimaAccion(accion) {
@@ -55,7 +60,7 @@ class Menu extends React.Component {
                         <a className="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a className="dropdown-item" href="#">Pre-Inscripto</a>
-                            <a className="dropdown-item" href="#">Nueva Inscripcion</a>
+                            <a className="dropdown-item" href="#" onClick={() => this.mostrarNuevoAlumno()}>Nuevo Alumno</a>
                         </div>
                     </li>
                     <li className="nav-item dropdown active">
@@ -64,7 +69,7 @@ class Menu extends React.Component {
                         </a>
                         <div className="dropdown-menu" aria-labelledby="#">
                         <a className="dropdown-item" href="#" onClick={() =>this.mostrarNuevoTaller()}>Taller</a>
-                        <a className="dropdown-item" href="#"  >Curso</a>
+                        <a className="dropdown-item" href="#">Curso</a>
                         </div>
                     </li>
                 </ul>
@@ -80,12 +85,29 @@ class Menu extends React.Component {
             return (
                 <div>
                     {this.menuBarra()}
-                    <div className="container" style={{marginLeft: "20px", marginRight: "20px"}}>
                         <nuevoTaller.CrearTaller rootComponent={this}/>   
-                    </div>
                 </div>
             )
-        }          
+        }
+        else {if (this.state.pantallaActual === pantallas.nuevoCurso) {
+            this.setUltimaAccion(() => this.mostrarNuevoCursor())
+            return (
+                <div>
+                    {this.menuBarra()}
+                        <nuevoCurso.CrearCurso rootComponent={this}/>   
+                </div>
+            )
+        }else {if (this.state.pantallaActual === pantallas.nuevoAlumno) {
+            this.setUltimaAccion(() => this.mostrarNuevoAlumno())
+            return (
+                <div>
+                    {this.menuBarra()}
+                        <nuevoAlumno.CrearAlumno rootComponent={this}/>   
+                </div>
+            )
+        }
+        }
+        }       
     }
 }
 

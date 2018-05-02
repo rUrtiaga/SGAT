@@ -36,7 +36,7 @@ class CrearTaller extends React.Component{
 		this.setState({agregaCategoria:false})
 	}
 	mostrarDivNuevoNivel(){
-		this.setState({agregaNivel:true})
+		this.setState({agregaNivel: !this.state.agregaNivel})
 	}
 	ocultarDivNuevoNivel(){
 		this.setState({agregaNivel:false})
@@ -71,7 +71,7 @@ class CrearTaller extends React.Component{
 	}
 
 	nuevoNivel(){
-		return (
+		if(this.state.agregaNivel){	return (
 			<div id="nuevoNivelDiv" style={style2}>
 			<div className="form-group">
 								<label htmlFor="nombreNivel">Nombre del Nuevo Nivel</label>
@@ -92,6 +92,7 @@ class CrearTaller extends React.Component{
 			</div>
 		)
 	}
+}
 	
 render() {
 	return (
@@ -139,7 +140,7 @@ render() {
                 </select> 
             </div>
             <div className="col">
-                <button type="button" className='btn btn-primary' onClick={() => this.ocultarDivNuevoNivel()}>Nuevo Nivel</button>
+                <button type="button" className='btn btn-primary' onClick={() => this.mostrarDivNuevoNivel()}>Nuevo Nivel</button>
             </div>  
             </div>
 		
