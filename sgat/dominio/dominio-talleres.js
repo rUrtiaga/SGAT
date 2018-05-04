@@ -3,7 +3,7 @@ class Taller {
     constructor(categoria,nombre,...subCategorias){
         this._categoria = categoria
         this._nombre = nombre
-        this._subCategorias = subCategorias //[] esto es una lista
+        this._subCategorias = this.stringToSubCategoria(subCategorias) //[] esto es una lista
     }
 
     /******************************
@@ -16,24 +16,58 @@ class Taller {
     setNombre(nombre){ this._nombre = nombre}
     getNombre() {return this._nombre}
 
-    setSubCategoria(subCategorias){ this._subCategorias = subCategorias}
-    getSubCategoria() {return this._subCategorias}
-
+    setSubCategorias(subCategorias){ this._subCategorias = subCategorias}
+    getSubCategorias() {return this._subCategorias}
+    getSubCategoria(nombre){
+        try {
+            return this.getSubCategorias().find((sc)=>sc.nombre() == nombre)
+        } catch (error) {
+            throw new Error('Subcategoria '+ nombre +' no se encuentra en taller ' + this.getNombre())
+        }
+    }
 
     addSubCategoria(subCategoria) {this._subCategorias.push(subCategoria)}
+
+    esValido(){
+        if (!(this.getNombre() && this.getCategoria())){
+            throw new Error('Estos campos no pueden ser vacios')
+        }
+    }
+    stringToSubCategoria(listSubsString){
+        let listSubsCats = []
+        for (const subCatStr of listSubsString) {
+            listSubsCats.push(new SubCategoria(subCatStr,this))
+        }
+        return (listSubsCats)?listSubsCats:[new SubCategoria('',this)]
+    }
+}
+
+class SubCategoria {
+    constructor(nombre,taller){
+        this._taller = taller
+        this._nombre = nombre
+        this._cursos = []
+    }
+    setNombre(nombre){ this._nombre = nombre }
+    getNombre(){return this._nombre}
+
+    setCursos(cursos){this._cursos = cursos}
+    getCursos(){this._cursos}
+
+    addCurso(curso){this.getCursos().push(curso)}
+    deleteCurso(curso){_.pull(this.getCursos(),curso)}
+
 }
 
 class Persona{
-    constructor(dni,nombre,apellido,fechaNac,direccion,telprincipal,telsecundario,mail,comentario){
+    constructor(dni,nombre,apellido,fechaNac,direccion,telPrincipal,mail){
         this._dni = dni
         this._nombre = nombre
         this._apellido = apellido
         this._fechaNac = fechaNac
         this._direccion = direccion
         this._telPrincipal = telPrincipal
-        this._telSecundario = telSecundario
         this._mail = mail
-        this._comentario = comentario
     }
 
     /******************************
@@ -66,6 +100,16 @@ class Persona{
 
     setComentario(comentario){ this._comentario = comentario}
     getComentario() {return this._comentario}
+
+
+    esValida(){
+        if(!(isAlpha(this.getNombre()))){
+            throw new Error('Nombre no valido')
+        }
+        if(!(isAlpha(this.getApellido()))){
+            throw new Error('Apellido no valido')
+        }
+    }
 }
 
 class Curso{
@@ -179,3 +223,9 @@ function quitarDeLista(elemento, list){
 function indiceDeLista(elemento, list){
     return list.findIndex(elemento)
 }
+
+function isAlpha(ch){
+    return ch.toLowerCase().match(/^[a-z]+$/i) !== null
+}
+
+exports.dominio = { Taller, Persona, Curso, diaHorarioLugar };
