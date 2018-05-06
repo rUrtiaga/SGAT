@@ -69,7 +69,7 @@ class Menu extends React.Component {
                         </a>
                         <div className="dropdown-menu" aria-labelledby="#">
                         <a className="dropdown-item" href="#" onClick={() =>this.mostrarNuevoTaller()}>Taller</a>
-                        <a className="dropdown-item" href="#">Curso</a>
+                        <a className="dropdown-item" href="#"  onClick={() =>this.mostrarNuevoCurso()}>Curso</a>
                         </div>
                     </li>
                 </ul>
@@ -94,7 +94,7 @@ class Menu extends React.Component {
             return (
                 <div>
                     {this.menuBarra()}
-                        <nuevoCurso.CrearCurso rootComponent={this}/>   
+                        <nuevoCurso.NuevoCurso rootComponent={this}/>   
                 </div>
             )
         }else {if (this.state.pantallaActual === pantallas.nuevoAlumno) {
