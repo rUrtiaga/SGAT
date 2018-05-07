@@ -4,6 +4,7 @@ class Taller {
         this._categoria = categoria
         this._nombre = nombre
         this._subCategorias = this.stringToSubCategoria(subCategorias) //[] esto es una lista
+    
     }
 
     /******************************
@@ -56,7 +57,6 @@ class SubCategoria {
 
     addCurso(curso){this.getCursos().push(curso)}
     deleteCurso(curso){_.pull(this.getCursos(),curso)}
-
 }
 
 class Persona{

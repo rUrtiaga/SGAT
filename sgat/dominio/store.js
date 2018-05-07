@@ -6,27 +6,40 @@ let Persona = dominio.Persona
 
 class Store {
     constructor(){
+        this.categorias = ['Artes Manuales','Instrumentos Musicales']
         this.cursos = []
         this.talleres = []
     }
     
-    nuevoTaller(categoria,nombre,...subcategorias){
-        let taller = new Taller(categoria,nombre,...subcategorias)
-        this.addTaller(taller)
-        return taller
+    // nuevoTaller(categoria,nombre,...subcategorias){
+    //     let taller = new Taller(categoria,nombre,...subcategorias)
+    //     this.addTaller(taller)
+    //     return taller
+    // }
+
+    addCategoria(cat){
+        if(!this.getCategorias().some((c)=> cat == c)){
+            this.categorias.push(cat)
+            //this.ordenarCategorias()
+        }
     }
+
     addTaller(taller){
         taller.esValido()
+        this.addCategoria(taller.getCategoria())
         this.talleres.push(taller)
         return taller
     }
-    getTalleres(){
-        return this.talleres
-    }
+    
+    getTalleres(){ return this.talleres }
+
+    getCategorias(){return this.categorias}
+
+    getCategoriaLlamada(nombre){return this.categorias.find((c)=> c == nombre)}
 
     llenar(){
-        const cat1 = 'Artes Manuales'
-        const cat2 = 'Instrumentos Musicales'
+        const cat1 = this.getCategoriaLlamada('Artes Manuales')
+        const cat2 = this.getCategoriaLlamada('Instrumentos Musicales')
         
         //Agrega talleres de Artes Manuales
         let ceramica = this.addTaller(new Taller(cat1,'Ceramica','Normal','Aborigen'))
