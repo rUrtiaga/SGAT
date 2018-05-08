@@ -6,9 +6,10 @@ const ReactDOM = require('react-dom')
 const nuevoTaller = require('./nuevoTallerReact')
 const nuevoCurso = require('./nuevoCurso')
 const listarAlumnos = require('./alumnos')
+const nuevoAlumno = require('./nuevoAlumno')
 
 const pantallas = { 
-    muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, listarAlumnos: 4
+    muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, listarAlumnos: 4, nuevoAlumno: 5
 }
 
 /*MENU*/
@@ -36,6 +37,10 @@ class Menu extends React.Component {
         this.setState({ pantallaActual: pantallas.listarAlumnos })
     }
 
+    mostrarNuevoAlumno() {
+        this.setState({ pantallaActual: pantallas.nuevoAlumno })
+    }
+
     setUltimaAccion(accion) {
         this._accionAnterior = this._ultimaAccion
         this._ultimaAccion = accion
@@ -60,7 +65,9 @@ class Menu extends React.Component {
                         <a className="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a className="dropdown-item" href="#">Pre-Inscripto</a>
-                            <a className="dropdown-item" href="#" onClick={() => this.mostrarListarAlumno()}>Nuevo Alumno</a>
+                            <a className="dropdown-item" href="#" onClick={() => this.mostrarNuvoAlumno()}>Nuevo Alumno</a>
+                            {/*TODO esto es temporal*/}
+                            <a className="dropdown-item" href="#" onClick={() => this.mostrarListarAlumno()}>Listar Alumnos temp</a>
                         </div>
                     </li>
                     <li className="nav-item dropdown active">
@@ -106,6 +113,15 @@ class Menu extends React.Component {
                         <listarAlumnos.ListarAlumnos rootComponent={this}/>   
                 </div>
             )
+        } else { if(this.state.pantallaActual == pantallas.listarAlumnos){
+            this.setUltimaAccion(()=> this.mostrarNuevoAlumno())
+            return(
+                <div>
+                    {this.menuBarra()}
+                        <nuevoAlumno.CrearAlumno rootComponent={this}/>
+                </div>
+            )
+        }
         }
         }
         }       
