@@ -1,5 +1,10 @@
-//TODO agregar a todos setter y getter (NO ACCEDER DIRECTO A LAS PROPIEDADES)
+const Store = require('./store')
+const store = Store.llenar()
+
+//(NO ACCEDER DIRECTO A LAS PROPIEDADES)
 class Taller {
+    //Forma de uso Taller('UnaCategoria','UnNombre') => Crea un taller subcategoria con nombre undefined
+    // Taller('Artes Manuales','Ceramica','Indigena','Tradicional') => crea taller con dos subcategorias, pueden ser N
     constructor(categoria,nombre,...subCategorias){
         this._categoria = categoria
         this._nombre = nombre
@@ -11,7 +16,9 @@ class Taller {
      *      Setters y getters
      ******************************/
 
-    setCategoria(categoria){ this._categoria = categoria}
+    setCategoria(categoria){ 
+        store.addCategoria(categoria)
+        this._categoria = categoria}
     getCategoria() {return this._categoria}
 
     setNombre(nombre){ this._nombre = nombre}
@@ -29,17 +36,15 @@ class Taller {
 
     addSubCategoria(subCategoria) {this._subCategorias.push(subCategoria)}
 
-    esValido(){
-        if (!(this.getNombre() && this.getCategoria())){
-            throw new Error('Estos campos no pueden ser vacios')
-        }
-    }
+    addStrSubCategoria(strSubCat) { this.stringToSubCategoria([strSubCat])}
+    
+    //Esta es la funcion que tranforma una lista de string a subcategorias
     stringToSubCategoria(listSubsString){
         let listSubsCats = []
         for (const subCatStr of listSubsString) {
             listSubsCats.push(new SubCategoria(subCatStr,this))
         }
-        return (listSubsCats)?listSubsCats:[new SubCategoria('',this)]
+        return (listSubsCats)?listSubsCats:[new SubCategoria(undefined,this)]
     }
 }
 
@@ -47,7 +52,6 @@ class SubCategoria {
     constructor(nombre,taller){
         this._taller = taller
         this._nombre = nombre
-        this._cursos = []
     }
     setNombre(nombre){ this._nombre = nombre }
     getNombre(){return this._nombre}
@@ -55,8 +59,6 @@ class SubCategoria {
     setCursos(cursos){this._cursos = cursos}
     getCursos(){this._cursos}
 
-    addCurso(curso){this.getCursos().push(curso)}
-    deleteCurso(curso){_.pull(this.getCursos(),curso)}
 }
 
 class Persona{
@@ -100,60 +102,67 @@ class Persona{
 
     setComentario(comentario){ this._comentario = comentario}
     getComentario() {return this._comentario}
-
-
-    esValida(){
-        if(!(isAlpha(this.getNombre()))){
-            throw new Error('Nombre no valido')
-        }
-        if(!(isAlpha(this.getApellido()))){
-            throw new Error('Apellido no valido')
-        }
-    }
 }
 
 class Curso{
-    constructor(cupo,taller,...profesores){
+    constructor(cupo,subCategoria,...profesores){
+        //Las colecciones tienen DNI(clave de persona), no objetos Persona
         this._alumnos = []
         this._alumnosBaja = []
         this._espera = []
         this._esperaBaja = []
-        this._diasHorariosLugares = [] //coleccion de diaHorarioLugar
-        this._taller = taller
+        this._diasHorariosLugares = [] //coleccion de DiaHorarioLugar
+        this._subCategoria = subCategoria
         this._cupo = cupo
         this._profesores = profesores
         this._anio = new Date().getFullYear() 
     }
 
-    addAlumno(alumno){return this._alumnos.push(alumno)}
-    addEspera(alumno){return this._espera.push(alumno)}    
-    addAlumnoBaja(alumno){return this._alumnosBaja.push(alumno)}
-    addEsperaBaja(alumno){return this._esperaBaja.push(alumno)}    
+    addAlumno(alumno){ return this._alumnos.push(alumno.getDNI())}
+    addEspera(alumno){ return this._espera.push(alumno.getDNI())}    
+    addAlumnoBaja(DNIalumno){return this._alumnosBaja.push(DNIalumno)}
+    addEsperaBaja(DNIalumno){return this._esperaBaja.push(DNIalumno)}    
     addDiaHorarioLugar(diaHorarioLugar){return this._diasHorariosLugares.push(diaHorarioLugar)}
 
 
-    removeAlumno(alumno){
-        this.setAlumnos(quitarDeLista(alumno,this.getAlumnos()))
-        this.addAlumnoBaja(alumno)}
-    removeEspera(alumno){
-        this.setEspera(quitarDeLista(alumno,this.getEspera()))
-        this.addEsperaBaja(alumno)}
+    removeAlumno(DNIalumno){
+        this.setAlumnos(quitarDeLista(DNIalumno,this.getAlumnos()))
+        this.addAlumnoBaja(DNIalumno)}
+    removeEspera(DNIalumno){
+        this.setEspera(quitarDeLista(DNIalumno,this.getEspera()))
+        this.addEsperaBaja(DNIalumno)}
 
 
-    //Se espera que pase de la lista de espera a la lista de alumnos (ojo checkear cupo)
-    altaAlumno(alumno){
-        this.estaEnEspera(alumno)
+    //Se espera que pase de la lista de espera a la lista de alumnos 
+    altaAlumno(DNIalumno){
+        this.estaEnEspera(DNIalumno)
         this.hayCupo()
-        this.addAlumno(alumno)
-        this.removeEspera(alumno)
+        this.addAlumno(DNIalumno)
+        this.removeEspera(DNIalumno)
     }
     //se espera que inscriba a un alumno a este curso dependiendo del cupo
     inscribir(alumno){
+        this.validarAdd(alumno)
+        store.addPersona(alumno)
         if(this.getCantidadAlumnos() < this.getCupo()){
             this.addAlumno(alumno)
         } else {
             this.addEspera(alumno)
         }
+    }
+
+    validarAdd(persona){
+        let DNIpersona = persona.getDNI()
+        if (this.estaEnProf(DNIpersona) || this.estaEnAlumno(DNIpersona)){
+            throw 'La persona llamada'+ persona.getNombre() +" "+ persona.getApellido() + "con DNI:"+ DNIpersona +' ya se encuentra en el curso'
+        } 
+    }
+
+    estaEnProf(dni){
+        return this.getProfesores().some((dniProf)=> dniProf == dni)
+    }
+    estaEnAlumno(dni){
+        return this.getAlumnos().some((dniProf)=> dniProf == dni)    
     }
 
     estaEnEspera(alumno){
@@ -168,12 +177,18 @@ class Curso{
         }
     }
 
+    addDiaHorarioLugar(strDia,strHorario,strLugar){
+        this.getDiasHorariosLugares().push(new DiaHorarioLugar(strDia,strHorario,strLugar))
+    }
     /******************************
      *      Setters y getters
      ******************************/
 
     setAlumnos(alumnos){return this._alumnos = alumnos}
     getAlumnos() {return this._alumnos}
+
+    setSubCategoria(subCate){return this._subCategoria = subCate}
+    getSubCategoria(){return this._subCategoria}
 
     setAlumnosBaja(alumnos){return this._alumnosBaja = alumnos}
     getAlumnosBaja() {return this._alumnosBaja}
@@ -192,6 +207,8 @@ class Curso{
     setCupo(cupo){ this._cupo = cupo }
     getCupo(){return this._cupo}
 
+    getProfesores(){return this._profesores}
+
     //cantidades de todo    
     getCantidadAlumnos(){return this.getAlumnos().length}
     getCantidadAlumnosBaja(){return this.getAlumnosBaja().length}
@@ -202,12 +219,15 @@ class Curso{
 }
 
 //por ejemplo {dia:'Martes',horario:'20:00', lugar:'Casa de la cultura'}
-class diaHorarioLugar {
+class DiaHorarioLugar {
     constructor(dia, horario, lugar){
         this._dia = dia
         this._horario = horario
         this._lugar = lugar
     }
+    getDia(){return this._dia}
+    getHorario(){return this._horario}
+    getLugar(){return this._lugar}
 }
 
 
@@ -224,8 +244,4 @@ function indiceDeLista(elemento, list){
     return list.findIndex(elemento)
 }
 
-function isAlpha(ch){
-    return ch.toLowerCase().match(/^[a-z]+$/i) !== null
-}
-
-exports.dominio = { Taller, Persona, Curso, diaHorarioLugar };
+exports.dominio = { Taller, Persona, Curso, DiaHorarioLugar };
