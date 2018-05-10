@@ -1,5 +1,6 @@
-
-const store = new Store().llenar()
+/********************
+ * DOMINIO
+ ********************/
 
 //(NO ACCEDER DIRECTO A LAS PROPIEDADES)
 class Taller {
@@ -28,7 +29,7 @@ class Taller {
     getSubCategorias() {return this._subCategorias}
     getSubCategoria(nombre){
         try {
-            return this.getSubCategorias().find((sc)=>sc.nombre() == nombre)
+            return this.getSubCategorias().find((sc)=>sc.getNombre() == nombre)
         } catch (error) {
             throw new Error('Subcategoria '+ nombre +' no se encuentra en taller ' + this.getNombre())
         }
@@ -44,7 +45,7 @@ class Taller {
         for (const subCatStr of listSubsString) {
             listSubsCats.push(new SubCategoria(subCatStr,this))
         }
-        return (listSubsCats)?listSubsCats:[new SubCategoria(undefined,this)]
+        return (listSubsCats != [])?listSubsCats:[new SubCategoria(undefined,this)]
     }
 }
 
@@ -58,6 +59,7 @@ class SubCategoria {
 
     setCursos(cursos){this._cursos = cursos}
     getCursos(){this._cursos}
+
 
 }
 
@@ -115,7 +117,7 @@ class Curso{
         this._subCategoria = subCategoria
         this._cupo = cupo
         this._profesores = profesores
-        this._anio = new Date().getFullYear() 
+        this._anio = new Date().getFullYear()
     }
 
     addAlumno(alumno){ return this._alumnos.push(alumno.getDNI())}
@@ -244,12 +246,15 @@ function indiceDeLista(elemento, list){
     return list.findIndex(elemento)
 }
 
+
+
 class Store {
     constructor(){
         this.categorias = []
         this.cursos = []
         this.talleres = []
         this.lugares = []
+        this.personas = []
     }
 
     addCategoria(cat){
@@ -263,7 +268,15 @@ class Store {
     addTaller(taller){
         this.addCategoria(taller.getCategoria())
         this.talleres.push(taller)
+        //this.ordenarTalleres()
         return taller
+    }
+
+    addCurso(curso){
+        // this.addLugares(curso.getDiasHorariosLugares())
+        this.cursos.push(curso)
+        // this.ordenarCursos()
+        return curso
     }
     
     getTalleres(){ return this.talleres }
@@ -271,6 +284,8 @@ class Store {
     getCategorias(){return this.categorias}
 
     getCategoriaLlamada(nombre){return this.categorias.find((c)=> c == nombre)}
+
+    getTallerLLamado(strTaller){return this.getTalleres().find((t)=>t.getNombre() == strTaller)}
 
     llenar(){
         this.categorias = ['Artes Manuales','Instrumentos Musicales']
@@ -300,10 +315,29 @@ class Store {
         this.addTaller(new Taller(cat2,'Flauta Traversa','Principiantes','Avanzados'))
         this.addTaller(new Taller(cat2,'Piano','Principiantes','Avanzados'))
     
-        let prof1 = new Persona(12345678,'Juan','Perez','12/02/1980','',2243451234,'a@a.com')
-        this.addCurso(new Curso(10,ceramica.getSubCategoria('Normal'),prof1))
+        let prof = new Persona(12345678,'Juan','Perez','12/02/1980','',2243451234,'a@a.com')
+
+        let ceramicaNormalc1 = new Curso(10,ceramica.getSubCategoria('Normal'),prof)
+        ceramicaNormalc1.addDiaHorarioLugar(new DiaHorarioLugar('Martes','20:00','Casa de La Cultura'))
+        this.addCurso(ceramicaNormalc1)
     }
 }
 
+var store = new Store()
+store.llenar()
 
-exports = {dominio:{ Taller, Persona, Curso, DiaHorarioLugar },Store}
+module.exports.dominio = { Taller, Persona, Curso, DiaHorarioLugar }
+module.exports.store = store
+
+
+/*
+carlos hace que los objetos de negocio se puedan tranformar a json haciendo metodos como basicUIJSON (que te da un JSON adaptado par ala interfaz)
+y otro como persistenceJSON(que te da el json formateado a como va a ir en la base de datos)
+
+desde el Node en la parte de interfaz web (express) cuando le pega hace un controller.addTaller({aqui json de taller}) que se encarga de hacer el new y demas
+para casos simples usa directo el store, store.all().map()(taller=>taller.basicUIJSON())
+
+En el caso de los test, le pegaria al controller y compara los json resultantes
+
+hacer un Controller que se encargue de tranformar Json a modelo y haga las validaciones
+*/
