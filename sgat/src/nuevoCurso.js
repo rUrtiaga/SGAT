@@ -19,6 +19,8 @@ class NuevoCurso extends React.Component{
 			comentario:""
 	}
 	}
+
+	//El Select TALLER deberia desplegarse una vez que seleciono la CATEGORIA, lo mismo con la SUBCATEGORIA y el TALLER.
 	render() {
 		return (    	
 		<div className="m-4 container-fluid recuadroPantalla">
@@ -35,7 +37,7 @@ class NuevoCurso extends React.Component{
   	<label htmlFor="Curso">Seleccione una Categoria</label>
     <div className="form-row">
         <div className="col">
-			<select className="form-control" id="categorias">
+			<select className="form-control" id="categorias" onChange={(event) => this.setState({ categoria: event.target.value })}>
 				<option value="c1">Artes Manuales</option>
 				<option value="c2">Instrumentos Musicales</option>
 				<option value="c3">Tecnologias</option>
@@ -49,7 +51,7 @@ class NuevoCurso extends React.Component{
   	<label htmlFor="Curso">Seleccione un Taller</label>
     <div className="form-row">
         <div className="col">
-			<select className="form-control" id="talleres">
+			<select className="form-control" id="talleres" onChange={(event) => this.setState({ taller: event.target.value })}>
 				<option value="t1">Pintura</option>
 				<option value="t2">Ceramica</option>
 				<option value="t3">Tejido</option>
@@ -61,7 +63,7 @@ class NuevoCurso extends React.Component{
   	<label htmlFor="Curso">Seleccione una Sub-Categoria</label>
     <div className="form-row">
         <div className="col">
-			<select className="form-control" id="subcategorias">
+			<select className="form-control" id="subcategorias" onChange={(event) => this.setState({ subcategoria: event.target.value })}>
 				<option value="s1">Principiantes</option>
 				<option value="s2">Intermedio</option>
 				<option value="s3">Avanzado</option>
