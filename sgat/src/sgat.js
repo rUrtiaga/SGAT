@@ -65,7 +65,7 @@ class Menu extends React.Component {
                         <a className="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a className="dropdown-item" href="#">Pre-Inscripto</a>
-                            <a className="dropdown-item" href="#" onClick={() => this.mostrarNuvoAlumno()}>Nuevo Alumno</a>
+                            <a className="dropdown-item" href="#" onClick={() => this.mostrarNuevoAlumno()}>Nuevo Alumno</a>
                             {/*TODO esto es temporal*/}
                             <a className="dropdown-item" href="#" onClick={() => this.mostrarListarAlumno()}>Listar Alumnos temp</a>
                         </div>
@@ -87,6 +87,7 @@ class Menu extends React.Component {
 
     //ESTO VA EN CURSO   onClick={() =>this.mostrarCurso()}
 
+    //TODO refactorizar esto codigo repetido, ademas deberia ir en un componente Sgat separado
     render(){
         if (this.state.pantallaActual === pantallas.nuevoTaller) {
             this.setUltimaAccion(() => this.mostrarNuevoTaller())
@@ -113,12 +114,12 @@ class Menu extends React.Component {
                         <listarAlumnos.ListarAlumnos rootComponent={this}/>   
                 </div>
             )
-        } else { if(this.state.pantallaActual == pantallas.listarAlumnos){
+        } else { if(this.state.pantallaActual === pantallas.nuevoAlumno){
             this.setUltimaAccion(()=> this.mostrarNuevoAlumno())
             return(
                 <div>
                     {this.menuBarra()}
-                        <nuevoAlumno.CrearAlumno rootComponent={this}/>
+                        <nuevoAlumno.NuevoAlumno rootComponent={this}/>
                 </div>
             )
         }
@@ -128,28 +129,4 @@ class Menu extends React.Component {
     }
 }
 
-/***********************************************
-    Conexión con HTML
- ***********************************************/
-/*
-ESTO VA EN EL RENDER
-if (this.state.pantallaActual === pantallas.nuevoCurso) {
-            this.setUltimaAccion(() => this.mostrarNuevoTaller())
-            return (
-                <div>
-                    {this.menuBarra()}
-                    <div className="container" style={{marginLeft: "20px", marginRight: "20px"}}>
-                        <nuevoCurso.CrearCurso rootComponent={this}/>   
-                    </div>
-                </div>
-            )
-        } 
-        
-
-
- ReactDOM.render(
-    <Menu />,
-    document.getElementById('reactPage')
-);
-*/
 module.exports.Menu = Menu
