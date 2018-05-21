@@ -1,5 +1,5 @@
 const React = require('react')
-const ReactDOM = require('react-dom')
+const {MuestraCategorias} = require('./componentesComunes/selectMostrarCategorias.jsx')
 
 const style1 = {
 	//display:Block,
@@ -102,33 +102,22 @@ render() {
 
             <div className="form-row">
                 <div className="col">
-            <label htmlFor="Curso">Categoria</label>
-            <div className="form-row">
-            <div className="col">
-                <select className="form-control" id="categorias">
-                    <option value="artesManuales">Artes Manuales</option>
-                    <option value="instMusicales">Instrumentos Musicales</option>
-                    <option value="musicales">Musicales</option>
-                    <option value="tecnologias">Tecnologias</option>
-                    <option value="educativas">Educativas</option>
-                    <option value="otras">Otras</option>
-                </select> 
-            </div>
-            <div className="col">
-                <button type="button" className="btn btn-primary" onClick={() => this.mostrarDivNuevaCateg()}>Nueva Categoria</button>
-            </div>  
-            </div>
-			{
-				//muestra panel de nueva categoria	
-				this.nuevaCategoria()
-			}
-
-		<div className="form-group">
-                                <label htmlFor="nombreTaller">Nombre del Nuevo Taller</label>
-                                <input type="text" className="form-control" id="nombreTaller"
-                                    value={this.state.nombre}
-                                    onChange={(event) => this.setState({ nombre: event.target.value })}/>
-		</div>
+					<label htmlFor="CategoriaTitle">Categorias</label>
+					<div className="form-row">
+            			<MuestraCategorias padre={this} />
+						<div className="col">
+							<button type="button" className="btn btn-primary" onClick={() => this.mostrarDivNuevaCateg()}>Nueva Categoria</button>
+						</div>  
+					</div>
+					{//muestra panel de nueva categoria	
+						this.nuevaCategoria()
+					}
+					<div className="form-group">
+						<label htmlFor="nombreTaller">Nombre del Nuevo Taller</label>
+						<input type="text" className="form-control" id="nombreTaller"
+							value={this.state.nombre}
+							onChange={(event) => this.setState({ nombre: event.target.value })}/>
+					</div>
             <label htmlFor="Curso">Nivel</label>
             <div className="form-row">
                 <div className="col">

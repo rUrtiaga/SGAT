@@ -11,6 +11,10 @@ class Controller{
             throw new Error('El dni no se encuentra')
         }
     }
+
+    getCategorias(){
+        return store.getCategorias()
+    }
 }
 
 exports.controller = new Controller()    

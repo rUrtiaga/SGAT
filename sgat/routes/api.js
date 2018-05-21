@@ -7,5 +7,9 @@ router.get('/persona', function(req, res, next) {
  res.json(controller.getPersonaDNI(req.query.dni))
 });
 
+router.get('/categorias',  function(req, res, next) {
+    res.json(controller.getCategorias())
+});
+
 module.exports = router;
  
