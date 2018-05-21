@@ -27,11 +27,6 @@ class NuevoAlumno extends React.Component{
             </div>
         )
     }
-
-    limpiar(){
-        console.log(this.props.children)
-    }
-
 }
 
 
@@ -60,6 +55,7 @@ class InputPersona extends React.Component{
         }
     }
 
+    //esto no va
     validate(nameEvent,value){
         switch (nameEvent) {
             case 'dni':
