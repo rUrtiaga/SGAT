@@ -5,7 +5,7 @@ const ReactDOM = require('react-dom')
 // variables para componentes de pantallas
 const nuevoTaller = require('./nuevoTallerReact')
 const nuevoCurso = require('./nuevoCurso')
-const listarAlumnos = require('./alumnos')
+const muestraTalleres = require('./talleres')
 
 const pantallas = { 
     muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, listarAlumnos: 4
@@ -54,7 +54,7 @@ class Menu extends React.Component {
                         <a className="nav-link" href="#">Inicio<span className="sr-only"></span></a>
                     </li>
                     <li className="nav-item ">
-                        <a className="nav-link" href="#">Talleres</a>
+                        <a className="nav-link" href="#" onClick={() =>this.mostrarMuestraTalleres()}>Talleres</a>
                     </li>
                     <li className="nav-item dropdown ">
                         <a className="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
@@ -106,7 +106,16 @@ class Menu extends React.Component {
                         <listarAlumnos.ListarAlumnos rootComponent={this}/>   
                 </div>
             )
+        }else {if (this.state.pantallaActual === pantallas.muestraTalleres) {
+            this.setUltimaAccion(() => this.mostrarMuestraTalleres())
+            return (
+                <div>
+                    {this.menuBarra()}
+                        <muestraTalleres.Talleres rootComponent={this}/>   
+                </div>
+            )
         }
+    }
         }
         }       
     }
