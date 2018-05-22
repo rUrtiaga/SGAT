@@ -5,7 +5,8 @@
   "scripts": {
     "server": "node ./bin/www",
     "client": "cd client && npm start",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "instalar": "npm install && cd client && npm install"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
