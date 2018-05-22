@@ -5,7 +5,8 @@ const ReactDOM = require('react-dom')
 // variables para componentes de pantallas
 const nuevoTaller = require('./nuevoTallerReact')
 const nuevoCurso = require('./nuevoCurso')
-const muestraTalleres = require('./talleres')
+// const muestraTalleres = require('./talleres')
+const listarAlumnos = require('./alumnos')
 
 const pantallas = { 
     muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, listarAlumnos: 4
@@ -106,43 +107,20 @@ class Menu extends React.Component {
                         <listarAlumnos.ListarAlumnos rootComponent={this}/>   
                 </div>
             )
-        }else {if (this.state.pantallaActual === pantallas.muestraTalleres) {
-            this.setUltimaAccion(() => this.mostrarMuestraTalleres())
-            return (
-                <div>
-                    {this.menuBarra()}
-                        <muestraTalleres.Talleres rootComponent={this}/>   
-                </div>
-            )
         }
-    }
+    //     else {if (this.state.pantallaActual === pantallas.muestraTalleres) {
+    //         this.setUltimaAccion(() => this.mostrarMuestraTalleres())
+    //         return (
+    //             <div>
+    //                 {this.menuBarra()}
+    //                     <muestraTalleres.Talleres rootComponent={this}/>   
+    //             </div>
+    //         )
+    //     }
+    // }
         }
         }       
     }
 }
 
-/***********************************************
-    Conexión con HTML
- ***********************************************/
-/*
-ESTO VA EN EL RENDER
-if (this.state.pantallaActual === pantallas.nuevoCurso) {
-            this.setUltimaAccion(() => this.mostrarNuevoTaller())
-            return (
-                <div>
-                    {this.menuBarra()}
-                    <div className="container" style={{marginLeft: "20px", marginRight: "20px"}}>
-                        <nuevoCurso.CrearCurso rootComponent={this}/>   
-                    </div>
-                </div>
-            )
-        } 
-        
-
-
- ReactDOM.render(
-    <Menu />,
-    document.getElementById('reactPage')
-);
-*/
 module.exports.Menu = Menu
