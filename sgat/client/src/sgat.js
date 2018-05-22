@@ -5,10 +5,10 @@ const ReactDOM = require('react-dom')
 // variables para componentes de pantallas
 const nuevoTaller = require('./nuevoTallerReact')
 const nuevoCurso = require('./nuevoCurso')
-const nuevoAlumno = require('./alumnos')
+const muestraTalleres = require('./talleres')
 
 const pantallas = { 
-    muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, nuevoAlumno: 4
+    muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, listarAlumnos: 4
 }
 
 /*MENU*/
@@ -32,8 +32,8 @@ class Menu extends React.Component {
         this.setState({ pantallaActual: pantallas.nuevoCurso})
     }
 
-    mostrarNuevoAlumno() {
-        this.setState({ pantallaActual: pantallas.nuevoAlumno })
+    mostrarListarAlumno() {
+        this.setState({ pantallaActual: pantallas.listarAlumnos })
     }
 
     setUltimaAccion(accion) {
@@ -54,13 +54,13 @@ class Menu extends React.Component {
                         <a className="nav-link" href="#">Inicio<span className="sr-only"></span></a>
                     </li>
                     <li className="nav-item ">
-                        <a className="nav-link" href="#">Talleres</a>
+                        <a className="nav-link" href="#" onClick={() =>this.mostrarMuestraTalleres()}>Talleres</a>
                     </li>
                     <li className="nav-item dropdown ">
                         <a className="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a className="dropdown-item" href="#">Pre-Inscripto</a>
-                            <a className="dropdown-item" href="#" onClick={() => this.mostrarNuevoAlumno()}>Nuevo Alumno</a>
+                            <a className="dropdown-item" href="#" onClick={() => this.mostrarListarAlumno()}>Nuevo Alumno</a>
                         </div>
                     </li>
                     <li className="nav-item dropdown active">
@@ -69,7 +69,7 @@ class Menu extends React.Component {
                         </a>
                         <div className="dropdown-menu" aria-labelledby="#">
                         <a className="dropdown-item" href="#" onClick={() =>this.mostrarNuevoTaller()}>Taller</a>
-                        <a className="dropdown-item" href="#">Curso</a>
+                        <a className="dropdown-item" href="#"  onClick={() =>this.mostrarNuevoCurso()}>Curso</a>
                         </div>
                     </li>
                 </ul>
@@ -77,6 +77,7 @@ class Menu extends React.Component {
         </nav>        
         )
     }
+
     //ESTO VA EN CURSO   onClick={() =>this.mostrarCurso()}
 
     render(){
@@ -94,18 +95,27 @@ class Menu extends React.Component {
             return (
                 <div>
                     {this.menuBarra()}
-                        <nuevoCurso.CrearCurso rootComponent={this}/>   
+                        <nuevoCurso.NuevoCurso rootComponent={this}/>   
                 </div>
             )
-        }else {if (this.state.pantallaActual === pantallas.nuevoAlumno) {
-            this.setUltimaAccion(() => this.mostrarNuevoAlumno())
+        } else {if (this.state.pantallaActual === pantallas.listarAlumnos) {
+            this.setUltimaAccion(() => this.mostrarListarAlumno())
             return (
                 <div>
                     {this.menuBarra()}
-                        <nuevoAlumno.CrearAlumno rootComponent={this}/>   
+                        <listarAlumnos.ListarAlumnos rootComponent={this}/>   
+                </div>
+            )
+        }else {if (this.state.pantallaActual === pantallas.muestraTalleres) {
+            this.setUltimaAccion(() => this.mostrarMuestraTalleres())
+            return (
+                <div>
+                    {this.menuBarra()}
+                        <muestraTalleres.Talleres rootComponent={this}/>   
                 </div>
             )
         }
+    }
         }
         }       
     }

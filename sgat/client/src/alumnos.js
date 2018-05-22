@@ -1,31 +1,33 @@
 const React = require('react')
+const ReactDOM = require('react-dom')
 
-// cargo de lodash solamente lo que uso
-//const defaultTo = require('lodash.defaultto')
-
-
-/***********************************************
+    /***********************************************
     Pantallas
- ***********************************************/
-//    const pantallas = {
-//            muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, nuevoAlumno: 4
-//    }
+    ***********************************************/
+    // const pantallas = {
+    //     muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, infoAlumno: 4, listarAlumnos: 5
+    // }
 
-
-/***********************************************
+    /***********************************************
     Alumnos
- ***********************************************/
-/*Crear un Alumno*/
-class CrearAlumno extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            docNro: "", apellido: "", nombre: "",
-            direccion: "", telefono: "", email: "",
-            listaDeAlumnos: [], agregaAlumno: true
+    ***********************************************/
+    /* lista de Alumnos*/
+    class ListarAlumnos extends React.Component {
+        constructor(props) {
+           super(props)
+           this.state = { docNro:"", apellido:"", nombre: "", 
+           direccion:"", telefono:"", email:"", 
+           listaDeAlumnos:[] }
+           this._ultimaAccion = null
         }
-        this._ultimaAccion = null
-    }
+        // mostrarListaAlumnos() {
+        //     this.setState({ pantallaActual: pantallas.infoAlumnos })
+        // }
+               
+        // mostrarFormAgregarAlumno() {
+        //    this.setState({ pantallaActual: pantallas.agregarAlumno })
+        // }
+
     render() {
         return (
             <div>
@@ -34,7 +36,7 @@ class CrearAlumno extends React.Component {
                         <div className="col-md-11">
                             <div className="card text-dark">
                                 <div className="card-header bg-primary text-white">
-                                    <h3>Alumnos</h3>
+                                    <h3>Nuevo Curso</h3>
                                 </div>
                                 <div className="card-body text-dark">
                                     <div className="row">
@@ -43,7 +45,7 @@ class CrearAlumno extends React.Component {
                                         </div>
                                     </div>
                                     <Botonera>
-                                        {this.botonStandard("Nuevo Alumno", () => this.agregarAlumno())}
+                                        {this.botonStandard("Eliminar Alumno", () => this.eliminarAlumno())}
                                     </Botonera>
                                 </div>
                             </div>
@@ -52,7 +54,17 @@ class CrearAlumno extends React.Component {
                 </div>
             </div>
         )
+    }   
+
+    eliminarAlumno() {
+        
+        let codigo = this.state.listaDeAlumnos.filter((alum) => alum.dniNro !== alum.dniNro);
+        this.setState({
+            listaDeAlumnos: codigo
+        });
+        console.log("hola 63")
     }
+
     /*Tabla info de Alumno */
     tblAlumnos() {
         return (
@@ -84,6 +96,7 @@ class CrearAlumno extends React.Component {
         )
         return rowDatosAlumno
     }
+
     /** Encabezado de la Tabla */
     encabezadoDeTabla(titulos) {
         return titulos.map((titulo, ix) => (<th key={ix}>{titulo}</th>))
@@ -104,17 +117,15 @@ class CrearAlumno extends React.Component {
                 {label}
             </button>
         )
-    }
-
-}
-
-
+    }  
+}    
+    
 /***********************************************
     Botonera
- ***********************************************/
+***********************************************/
 // cargo de lodash solamente lo que uso
 const defaultTo = require('lodash.defaultto')
-
+    
 class Botonera extends React.Component {
     render() {
         return (
@@ -131,4 +142,4 @@ class Botonera extends React.Component {
     margenSuperiorDefault() { return "30px" }
 }
 module.exports.Botonera = Botonera
-module.exports.CrearAlumno = CrearAlumno
+module.exports.ListarAlumnos = ListarAlumnos
