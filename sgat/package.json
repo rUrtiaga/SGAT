@@ -1,32 +1,22 @@
 {
-  "name": "sgat",
-  "version": "0.1.0",
+  "name": "react-backend",
+  "version": "0.0.0",
   "private": true,
-  "dependencies": {
-    "express": "^4.16.3",
-    "ajv": "^6.4.0",
-    "bootstrap": "^4.1.1",
-    "jquery": "3.3.1",
-    "popper.js": "^1.14.3",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "react-scripts": "1.1.4"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "jest",
-    "eject": "react-scripts eject"
+    "server": "node ./bin/www",
+    "client": "cd client && npm start",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "instalar": "npm install && cd client && npm install"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.0"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "jest": "^22.4.3",
-    "enzyme": "*",
-    "enzyme-adapter-react-16": "*",
-    "jest-mock-axios": "^2.1.11",
-    "lodash": "^4.17.10",
-    "lodash.range": "3.2.0",
-    "lodash.sortby": "4.7.0",
-    "lodash.defaultto": "^4.14.0"
+    "concurrently": "^3.5.0"
   }
 }
