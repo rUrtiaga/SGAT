@@ -3,10 +3,11 @@ const React = require('react')
 // variables para componentes de pantallas
 const nuevoTaller = require('./nuevoTallerReact')
 const nuevoCurso = require('./nuevoCurso')
+const muestraTalleres = require('./talleres')
 const listarAlumnos = require('./alumnos')
 const nuevoAlumno = require('./nuevoAlumno')
 
-const pantallas = { 
+const pantallas = {
     muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, listarAlumnos: 4, nuevoAlumno: 5
 }
 
@@ -26,7 +27,7 @@ class Menu extends React.Component {
     mostrarNuevoTaller() {
         this.setState({ pantallaActual: pantallas.nuevoTaller })
     }
-    
+
     mostrarNuevoCurso(){
         this.setState({ pantallaActual: pantallas.nuevoCurso})
     }
@@ -54,7 +55,10 @@ class Menu extends React.Component {
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
                     <li className="nav-item ">
-                        <a className="nav-link" >Talleres</a>
+                        <a className="nav-link" href="#">Inicio<span className="sr-only"></span></a>
+                    </li>
+                    <li className="nav-item ">
+                        <a className="nav-link" href="#" onClick={() =>this.mostrarMuestraTalleres()}>Talleres</a>
                     </li>
                     <li className="nav-item dropdown ">
                         <a className="nav-link dropdown-toggle"   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
@@ -69,17 +73,15 @@ class Menu extends React.Component {
                         Nuevo
                         </a>
                         <div className="dropdown-menu" aria-labelledby="#">
-                        <a className="dropdown-item"  onClick={() =>this.mostrarNuevoTaller()}>Taller</a>
-                        <a className="dropdown-item" >Curso</a>
+                        <a className="dropdown-item" href="#" onClick={() =>this.mostrarNuevoTaller()}>Taller</a>
+                        <a className="dropdown-item" href="#"  onClick={() =>this.mostrarNuevoCurso()}>Curso</a>
                         </div>
                     </li>
                 </ul>
             </div>
-        </nav>        
+        </nav>
         )
     }
-
-    //ESTO VA EN CURSO   onClick={() =>this.mostrarCurso()}
 
     //TODO refactorizar esto codigo repetido, ademas deberia ir en un componente Sgat separado
     render(){
@@ -88,7 +90,7 @@ class Menu extends React.Component {
             return (
                 <div>
                     {this.menuBarra()}
-                        <nuevoTaller.CrearTaller rootComponent={this}/>   
+                        <nuevoTaller.CrearTaller rootComponent={this}/>
                 </div>
             )
         }
@@ -97,7 +99,7 @@ class Menu extends React.Component {
             return (
                 <div>
                     {this.menuBarra()}
-                        <nuevoCurso.CrearCurso rootComponent={this}/>   
+                        <nuevoCurso.NuevoCurso rootComponent={this}/>
                 </div>
             )
         } else {if (this.state.pantallaActual === pantallas.listarAlumnos) {
@@ -105,7 +107,7 @@ class Menu extends React.Component {
             return (
                 <div>
                     {this.menuBarra()}
-                        <listarAlumnos.ListarAlumnos rootComponent={this}/>   
+                        <listarAlumnos.ListarAlumnos rootComponent={this}/>
                 </div>
             )
         } else { if(this.state.pantallaActual === pantallas.nuevoAlumno){
@@ -116,10 +118,19 @@ class Menu extends React.Component {
                         <nuevoAlumno.NuevoAlumno rootComponent={this}/>
                 </div>
             )
+        } else {if (this.state.pantallaActual === pantallas.muestraTalleres) {
+            this.setUltimaAccion(() => this.mostrarMuestraTalleres())
+            return (
+                <div>
+                    {this.menuBarra()}
+                        <muestraTalleres.Talleres rootComponent={this}/>
+                </div>
+            )
         }
         }
         }
-        }       
+        }
+        }
     }
 }
 

@@ -36,7 +36,7 @@ const ReactDOM = require('react-dom')
                         <div className="col-md-11">
                             <div className="card text-dark">
                                 <div className="card-header bg-primary text-white">
-                                    <h3>Alumnos</h3>
+                                    <h3>Nuevo Curso</h3>
                                 </div>
                                 <div className="card-body text-dark">
                                     <div className="row">

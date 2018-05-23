@@ -5,7 +5,7 @@ class NuevoAlumno extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            persona: new Persona(),
+            persona: {},
             curso: null
         }
     }
@@ -35,14 +35,14 @@ class InputPersona extends React.Component{
         super(props)
         this._persona = this.props.persona
         this.state = {
-            dni: persona.dni,
-            nombre: persona.nombre,
-            apellido: persona.apellido,
-            direccion: persona.direccion,
-            telPrincipal: persona.telPrincipal,
-            telSecundario: persona.telSecundario,
-            mail: persona.mail,
-            comentario: persona.comentario,
+            dni: this._persona.dni,
+            nombre: this._persona.nombre,
+            apellido: this._persona.apellido,
+            direccion: this._persona.direccion,
+            telPrincipal: this._persona.telPrincipal,
+            telSecundario: this._persona.telSecundario,
+            mail: this._persona.mail,
+            comentario: this._persona.comentario,
         }
     }
 

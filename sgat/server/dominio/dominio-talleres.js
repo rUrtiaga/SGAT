@@ -276,9 +276,25 @@ class Store {
         // this.addLugares(curso.getDiasHorariosLugares())
         this.cursos.push(curso)
         // this.ordenarCursos()
+        this.agregarPersonas(curso.getProfesores())
+        this.agregarPersonas(curso.getAlumnos())
         return curso
     }
     
+    agregarPersonas(personas){
+        for (const persona of personas) {
+            this.agregarPersona(persona)
+        }
+    }
+
+    agregarPersona(persona){
+        if(this.personas.some(p=> p.getDNI() == persona.getDNI())){
+            //remplazar datos de persona anterior
+        } else {
+            this.personas.push(persona)
+        }
+    }
+
     getTalleres(){ return this.talleres }
 
     getCategorias(){return this.categorias}
@@ -286,6 +302,11 @@ class Store {
     getCategoriaLlamada(nombre){return this.categorias.find((c)=> c == nombre)}
 
     getTallerLLamado(strTaller){return this.getTalleres().find((t)=>t.getNombre() == strTaller)}
+
+    getPersonas(){return this.personas}
+    estaPersonaDNI(dni){return this.getPersonas().some(p=>p.getDNI()==dni)}
+    getPersonaDNI(dni){return this.getPersonas().find(p=>p.getDNI()==dni)}
+
 
     llenar(){
         this.categorias = ['Artes Manuales','Instrumentos Musicales']
