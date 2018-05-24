@@ -7,6 +7,7 @@ const muestraTalleres = require('./talleres')
 const listarAlumnos = require('./alumnos')
 const nuevoAlumno = require('./nuevoAlumno')
 
+
 const pantallas = {
     muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, listarAlumnos: 4, nuevoAlumno: 5
 }
@@ -135,3 +136,4 @@ class Menu extends React.Component {
 }
 
 module.exports.Menu = Menu
+
