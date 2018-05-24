@@ -55,10 +55,10 @@ class Menu extends React.Component {
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
                     <li className="nav-item ">
-                        <a className="nav-link" href="#">Inicio<span className="sr-only"></span></a>
+                        <a className="nav-link">Inicio<span className="sr-only"></span></a>
                     </li>
                     <li className="nav-item ">
-                        <a className="nav-link" href="#" onClick={() =>this.mostrarMuestraTalleres()}>Talleres</a>
+                        <a className="nav-link" onClick={() =>this.mostrarMuestraTalleres()}>Talleres</a>
                     </li>
                     <li className="nav-item dropdown ">
                         <a className="nav-link dropdown-toggle"   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
@@ -73,8 +73,8 @@ class Menu extends React.Component {
                         Nuevo
                         </a>
                         <div className="dropdown-menu" aria-labelledby="#">
-                        <a className="dropdown-item" href="#" onClick={() =>this.mostrarNuevoTaller()}>Taller</a>
-                        <a className="dropdown-item" href="#"  onClick={() =>this.mostrarNuevoCurso()}>Curso</a>
+                        <a className="dropdown-item" onClick={() =>this.mostrarNuevoTaller()}>Taller</a>
+                        <a className="dropdown-item"  onClick={() =>this.mostrarNuevoCurso()}>Curso</a>
                         </div>
                     </li>
                 </ul>

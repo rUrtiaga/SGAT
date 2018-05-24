@@ -1,5 +1,4 @@
 const React = require('react')
-const ReactDOM = require('react-dom')
 
 const style3 = {
 	marginTop:10,
