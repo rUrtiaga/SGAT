@@ -1,15 +1,15 @@
 const React = require('react')
-const ReactDOM = require('react-dom')
-
 
 // variables para componentes de pantallas
 const nuevoTaller = require('./nuevoTallerReact')
 const nuevoCurso = require('./nuevoCurso')
-// const muestraTalleres = require('./talleres')
+const muestraTalleres = require('./talleres')
 const listarAlumnos = require('./alumnos')
+const nuevoAlumno = require('./nuevoAlumno')
 
-const pantallas = { 
-    muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, listarAlumnos: 4
+
+const pantallas = {
+    muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, listarAlumnos: 4, nuevoAlumno: 5
 }
 
 /*MENU*/
@@ -28,13 +28,17 @@ class Menu extends React.Component {
     mostrarNuevoTaller() {
         this.setState({ pantallaActual: pantallas.nuevoTaller })
     }
-    
+
     mostrarNuevoCurso(){
         this.setState({ pantallaActual: pantallas.nuevoCurso})
     }
 
     mostrarListarAlumno() {
         this.setState({ pantallaActual: pantallas.listarAlumnos })
+    }
+
+    mostrarNuevoAlumno() {
+        this.setState({ pantallaActual: pantallas.nuevoAlumno })
     }
 
     setUltimaAccion(accion) {
@@ -45,49 +49,49 @@ class Menu extends React.Component {
     menuBarra(){
         return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a className="navbar-brand" href="#" >S.G.A.T.</a>
+            <a className="navbar-brand"  >S.G.A.T.</a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
                     <li className="nav-item ">
-                        <a className="nav-link" href="#">Inicio<span className="sr-only"></span></a>
+                        <a className="nav-link">Inicio<span className="sr-only"></span></a>
                     </li>
                     <li className="nav-item ">
-                        <a className="nav-link" href="#" onClick={() =>this.mostrarMuestraTalleres()}>Talleres</a>
+                        <a className="nav-link" onClick={() =>this.mostrarMuestraTalleres()}>Talleres</a>
                     </li>
                     <li className="nav-item dropdown ">
-                        <a className="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
+                        <a className="nav-link dropdown-toggle"   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inscribir</a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a className="dropdown-item" href="#">Pre-Inscripto</a>
-                            <a className="dropdown-item" href="#" onClick={() => this.mostrarListarAlumno()}>Nuevo Alumno</a>
+                            <a className="dropdown-item"  onClick={() => this.mostrarNuevoAlumno()}>Nuevo Alumno</a>
+                            {/*TODO esto es temporal*/}
+                            <a className="dropdown-item"  onClick={() => this.mostrarListarAlumno()}>Listar Alumnos temp</a>
                         </div>
                     </li>
                     <li className="nav-item dropdown active">
-                        <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a className="nav-link dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Nuevo
                         </a>
                         <div className="dropdown-menu" aria-labelledby="#">
-                        <a className="dropdown-item" href="#" onClick={() =>this.mostrarNuevoTaller()}>Taller</a>
-                        <a className="dropdown-item" href="#"  onClick={() =>this.mostrarNuevoCurso()}>Curso</a>
+                        <a className="dropdown-item" onClick={() =>this.mostrarNuevoTaller()}>Taller</a>
+                        <a className="dropdown-item"  onClick={() =>this.mostrarNuevoCurso()}>Curso</a>
                         </div>
                     </li>
                 </ul>
             </div>
-        </nav>        
+        </nav>
         )
     }
 
-    //ESTO VA EN CURSO   onClick={() =>this.mostrarCurso()}
-
+    //TODO refactorizar esto codigo repetido, ademas deberia ir en un componente Sgat separado
     render(){
         if (this.state.pantallaActual === pantallas.nuevoTaller) {
             this.setUltimaAccion(() => this.mostrarNuevoTaller())
             return (
                 <div>
                     {this.menuBarra()}
-                        <nuevoTaller.CrearTaller rootComponent={this}/>   
+                        <nuevoTaller.CrearTaller rootComponent={this}/>
                 </div>
             )
         }
@@ -96,7 +100,7 @@ class Menu extends React.Component {
             return (
                 <div>
                     {this.menuBarra()}
-                        <nuevoCurso.NuevoCurso rootComponent={this}/>   
+                        <nuevoCurso.NuevoCurso rootComponent={this}/>
                 </div>
             )
         } else {if (this.state.pantallaActual === pantallas.listarAlumnos) {
@@ -104,23 +108,32 @@ class Menu extends React.Component {
             return (
                 <div>
                     {this.menuBarra()}
-                        <listarAlumnos.ListarAlumnos rootComponent={this}/>   
+                        <listarAlumnos.ListarAlumnos rootComponent={this}/>
+                </div>
+            )
+        } else { if(this.state.pantallaActual === pantallas.nuevoAlumno){
+            this.setUltimaAccion(()=> this.mostrarNuevoAlumno())
+            return(
+                <div>
+                    {this.menuBarra()}
+                        <nuevoAlumno.NuevoAlumno rootComponent={this}/>
+                </div>
+            )
+        } else {if (this.state.pantallaActual === pantallas.muestraTalleres) {
+            this.setUltimaAccion(() => this.mostrarMuestraTalleres())
+            return (
+                <div>
+                    {this.menuBarra()}
+                        <muestraTalleres.Talleres rootComponent={this}/>
                 </div>
             )
         }
-    //     else {if (this.state.pantallaActual === pantallas.muestraTalleres) {
-    //         this.setUltimaAccion(() => this.mostrarMuestraTalleres())
-    //         return (
-    //             <div>
-    //                 {this.menuBarra()}
-    //                     <muestraTalleres.Talleres rootComponent={this}/>   
-    //             </div>
-    //         )
-    //     }
-    // }
         }
-        }       
+        }
+        }
+        }
     }
 }
 
 module.exports.Menu = Menu
+
