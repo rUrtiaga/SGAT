@@ -12,6 +12,11 @@ class Controller{
         }
     }
 
+    postPersona(dataPersona){
+        let persona = new dominio.Persona(dataPersona._dni,dataPersona._nombre,dataPersona._apellido,dataPersona._fechaNac,dataPersona._direccion,dataPersona._telPrincipal,dataPersona._mail)
+        store.agregarPersona(persona)
+    }
+
     getCategorias(){
         return store.getCategorias()
     }
