@@ -1,5 +1,6 @@
 const React = require('react')
 const {MuestraCategorias} = require('./componentesComunes/selectMostrarCategorias.jsx')
+const {NuevaCategoria} = require('./componentesComunes/nuevaCategoria.jsx')
 
 
 /*CREAR TALLER*/
@@ -36,23 +37,7 @@ class CrearTaller extends React.Component{
 
 	nuevaCategoria(){
 		if(this.state.agregaCategoria){	return (
-			<div id="nuevaCategoriaDiv"  >
-			<div className="form-group">
-				<label htmlFor="nombreCategoria">Nombre de la nueva Categoria</label>
-				<input type="text" className="form-control" id="nombreCategoria"
-					value={this.state.nombreCategoria}
-					onChange={(event) => this.setState({ nombreCategoria: event.target.value })}/>
-			</div>
-				<div className="row justify-content-end">
-					<div className="col"></div>
-						<div className="col-md-2">
-							<button type="button" className="btn btn-danger" onClick={() => this.ocultarDivNuevaCateg()}>Cancelar</button>  
-						</div>
-						<div className="col-md-2">
-							<button type="button" className="btn btn-primary" onClick={() => this.ocultarDivNuevaCateg()}>Guardar</button>
-						</div>
-				</div>
-			</div>
+			<NuevaCategoria padre={this} />
 		)}
 	}
 
@@ -94,8 +79,11 @@ render() {
 								<button type="button" className="btn btn-primary" onClick={()=> this.mostrarDivNuevaCateg()}>Nueva Categoria</button>
 							</div>
 						</div>
-						{//muestra panel de nueva categoria this.nuevaCategoria() 
-						}
+
+							{	//agrega el componenete nueva categoria
+								this.nuevaCategoria()
+							} 
+
 						<div className="form-group">
 							<label htmlFor="nombreTaller">Nombre del Nuevo Taller</label>
 							<input type="text" className="form-control" id="nombreTaller" value={this.state.nombre} onChange={(event)=> this.setState({ nombre: event.target.value })}/>

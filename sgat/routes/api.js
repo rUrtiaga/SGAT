@@ -11,5 +11,11 @@ router.get('/categorias',  function(req, res, next) {
     res.json(controller.getCategorias())
 });
 
+router.post('/nuevaCategoria', function (req, res){
+   
+    controller.actualizarCategorias(req.body.categoria)
+    res.send(data)
+})
+
 module.exports = router;
  
