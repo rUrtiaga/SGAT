@@ -16,7 +16,7 @@ class Controller{
         return store.getCategorias()
     }
 
-    actualizarCategorias(categoria){
+    agregarCategoria(categoria){
         store.addCategoria(categoria)
         
     }

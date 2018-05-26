@@ -3,10 +3,12 @@ const {MuestraCategorias} = require('./componentesComunes/selectMostrarCategoria
 const {NuevaCategoria} = require('./componentesComunes/nuevaCategoria.jsx')
 
 
+
 /*CREAR TALLER*/
 class CrearTaller extends React.Component{
     constructor(props) {
-        super(props)
+		super(props)
+		
 		this.state = { 
 			nombre:"",
 			categoria: "",
@@ -17,8 +19,10 @@ class CrearTaller extends React.Component{
 			agregaCategoria:false
 	}
 	}
+
 	mostrarDivNuevaCateg(){
 		this.setState({agregaCategoria: !this.state.agregaCategoria})
+	
 	}
 	ocultarDivNuevaCateg(){
 		this.setState({agregaCategoria:false})
@@ -37,7 +41,8 @@ class CrearTaller extends React.Component{
 
 	nuevaCategoria(){
 		if(this.state.agregaCategoria){	return (
-			<NuevaCategoria padre={this} />
+			<NuevaCategoria padre={this} />	
+			
 		)}
 	}
 
@@ -82,6 +87,7 @@ render() {
 
 							{	//agrega el componenete nueva categoria
 								this.nuevaCategoria()
+								
 							} 
 
 						<div className="form-group">

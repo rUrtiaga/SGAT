@@ -34,30 +34,23 @@ class NuevaCategoria extends React.Component{
     }
 
     agregarCategoria(){
-
         const self = this
-        //axios.post('api/nuevaCategoria', this.state.nombreCategoria)
-        
-        axios.post('api/nuevaCategoria', {categoria: self.state.nombreCategoria})
+       
+        axios.post('api/categorias', {categoria: self.state.nombreCategoria})
             .then(function(res){
             console.log("se agrego la categoria " +  self.state.nombreCategoria)
         })
         .catch(error => {
             console.log(error)
         });
-        
-        this.props.padre.setState({agregaCategoria:false})
 
+        this.props.padre.setState({agregaCategoria:false})    
     }
 
     cancelarAgregado(){
-        //event.target.value = ""
         this.setState.nombreCategoria = ""
         this.props.padre.setState({agregaCategoria:false})
     }
-
 }
-
-
 
 exports.NuevaCategoria = NuevaCategoria
