@@ -1,21 +1,20 @@
 const React = require('react')
 const {MuestraCategorias} = require('./componentesComunes/selectMostrarCategorias.jsx')
 const {NuevaCategoria} = require('./componentesComunes/nuevaCategoria.jsx')
-
-
+const {NuevaSubCategoria} = require('./componentesComunes/nuevaSubCategoria.jsx')
 
 /*CREAR TALLER*/
 class CrearTaller extends React.Component{
+
     constructor(props) {
 		super(props)
 		
 		this.state = { 
 			nombre:"",
-			categoria: "",
-			nivel: "",
 			nombreCategoria: "",
-			nombreNivel: "",
-			agregaNivel:false,
+			subCategorias: [],
+			indice : 0,
+			agregaSubCategoria:false,
 			agregaCategoria:false
 	}
 	}
@@ -27,11 +26,11 @@ class CrearTaller extends React.Component{
 	ocultarDivNuevaCateg(){
 		this.setState({agregaCategoria:false})
 	}
-	mostrarDivNuevoNivel(){
-		this.setState({agregaNivel: !this.state.agregaNivel})
+	mostrarDivNuevaSubCategoria(){
+		this.setState({agregaSubCategoria: !this.state.agregaSubCategoria})
 	}
-	ocultarDivNuevoNivel(){
-		this.setState({agregaNivel:false})
+	ocultarDivNuevaSubCategoria(){
+		this.setState({agregaSubCategoria:false})
 	}
 
 /*PANEL PARA CREAR NIVEL*/ 
@@ -46,28 +45,26 @@ class CrearTaller extends React.Component{
 		)}
 	}
 
-	nuevoNivel(){
-			if(this.state.agregaNivel){ 
-				return (
-					<div id="nuevoNivelDiv">
-						<div className="form-group">
-							<label htmlFor="nombreNivel">Nombre del Nuevo Nivel</label>
-							<input type="text" className="form-control" id="nombreNivel" value={this.state.nombre} onChange={(event)=> this.setState({ nombreNivel: event.target.value })}/>
-						</div>
-						<div className="row justify-content-end">
-							<div className="col"></div>
-							<div className="col-md-2">
-								<button type="button" className="btn btn-danger" onClick={()=> this.ocultarDivNuevoNivel()}>Cancelar</button>
-							</div>
-							<div className="col-md-2">
-								<button type="button" className="btn btn-primary" onClick={()=> this.ocultarDivNuevoNivel()}>Guardar</button>
-
-							</div>
-						</div>
-					</div>
-				)
+	nuevaSubCategoria(){
+		if(this.state.agregaSubCategoria){ 
+			return (
+				<NuevaSubCategoria padre={this} />	
+			)
+		}
 	}
-}
+
+	agregarSubCategoria(unaSubCategoria) {
+		var valores = this.state.subCategorias
+		valores[this.state.indice] = unaSubCategoria, 
+		this.setState({subCategorias: valores})
+		this.setState({indice: this.state.indice + 1})
+	  }
+
+	  devolverListadoSubCategorias(){
+		const listItems = this.state.subCategorias.map((sub) =><span>, {sub} </span>)
+		return listItems
+	}
+	
 	
 render() {
  return (
@@ -86,34 +83,29 @@ render() {
 						</div>
 
 							{	//agrega el componenete nueva categoria
-								this.nuevaCategoria()
-								
+								this.nuevaCategoria()	
 							} 
 
 						<div className="form-group">
 							<label htmlFor="nombreTaller">Nombre del Nuevo Taller</label>
 							<input type="text" className="form-control" id="nombreTaller" value={this.state.nombre} onChange={(event)=> this.setState({ nombre: event.target.value })}/>
 						</div>
-						<label htmlFor="Curso">Nivel</label>
-						<div className="form-row">
-							<div className="col">
-								<select className="form-control" id="niveles">
-									<option value="principiante">Principiante</option>
-									<option value="intermedio">Intermedio</option>
-									<option value="avanzado">Avanzado</option>
-									<option value="unico">Unico</option>
-								</select>
-							</div>
-							<div className="col">
-								<button type="button" className='btn btn-primary' onClick={()=> this.mostrarDivNuevoNivel()}>Nuevo Nivel</button>
-							</div>
+						
+
+						<div className="form-group">
+							<h5 htmlFor="nombreTaller">Sub-Categorias del Taller: 
+														{this.state.nombre} :  {this.devolverListadoSubCategorias()}</h5>
 						</div>
 
-						{ //muestra panel de nuevo NIVEL this.nuevoNivel() 
+
+						{ //muestra panel de nuevo NIVEL 
+							this.nuevaSubCategoria() 
 						}
 
-						<div className="row justify-content-end" style={{marginTop:10}}>
-							<div className="col"></div>
+						<div className="row justify-content-start" style={{marginTop:10}}>
+							<div className="col-md-2">
+								<button type="button" className='btn btn-danger' onClick={()=> this.mostrarDivNuevaSubCategoria()}>Agregar Sub-Categoria</button>
+							</div>
 							<div className="col-md-2">
 								<button type="submit" className='btn btn-danger'>Cancelar</button>
 							</div>
