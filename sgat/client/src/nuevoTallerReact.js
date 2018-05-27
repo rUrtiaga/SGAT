@@ -104,13 +104,13 @@ render() {
 
 						<div className="row justify-content-start" style={{marginTop:10}}>
 							<div className="col-md-2">
-								<button type="button" className='btn btn-danger' onClick={()=> this.mostrarDivNuevaSubCategoria()}>Agregar Sub-Categoria</button>
+								<button type="button" className='btn btn-info' onClick={()=> this.mostrarDivNuevaSubCategoria()}>Agregar Sub-Categoria</button>
 							</div>
 							<div className="col-md-2">
-								<button type="submit" className='btn btn-danger'>Cancelar</button>
+								<button type="button" className='btn btn-danger'>Cancelar</button>
 							</div>
 							<div className="col-md-2">
-								<button type="submit" className='btn btn-primary'>Aceptar</button>
+								<button type="button" className='btn btn-primary'>Aceptar</button>
 							</div>
 						</div>
 					</div>
