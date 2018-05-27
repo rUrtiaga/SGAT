@@ -15,6 +15,11 @@ class Controller{
     getCategorias(){
         return store.getCategorias()
     }
+
+    agregarCategoria(categoria){
+        store.addCategoria(categoria)
+        
+    }
 }
 
 exports.controller = new Controller()    

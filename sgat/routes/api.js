@@ -11,5 +11,9 @@ router.get('/categorias',  function(req, res, next) {
     res.json(controller.getCategorias())
 });
 
+router.post('/categorias', function (req, res){
+    controller.agregarCategoria(req.body.categoria)
+})
+
 module.exports = router;
  

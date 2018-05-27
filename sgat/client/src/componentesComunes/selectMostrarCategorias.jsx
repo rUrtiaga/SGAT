@@ -17,6 +17,10 @@ class MuestraCategorias extends React.Component{
             )
     }
 
+    componentDidUpdate() {
+       // setTimeout(() => { this.componentDidMount() })
+    }
+
     render(){
         return(
             <div className='col'>
