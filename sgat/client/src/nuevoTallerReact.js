@@ -80,8 +80,14 @@ class CrearTaller extends React.Component{
 
 	guardarTaller(){
 		const self = this
-		
-        axios.post('api/taller', {categoria: self.state.nombreCategoria, nombre: self.state.nombre, subCategorias: self.state.subCategorias})
+		console.log("la categoria es" + self.state.nombreCategoria)
+		const taller = {
+			_categoria: self.state.nombreCategoria, 
+			_nombre: self.state.nombre, 
+			_subCategorias: self.state.subCategorias}
+
+
+        axios.post('api/taller', taller)
             .then(function(res){
             console.log("se agrego el taller " +  self.state.nombre)
         })

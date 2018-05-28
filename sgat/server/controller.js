@@ -27,8 +27,9 @@ class Controller{
         store.addCategoria(categoria)  
     }
 
-    agregarTaller(categoria, nombre, subcategorias){
-        store.addTaller(new Taller(categoria, nombre, subcategorias))
+    agregarTaller(datosTaller){
+        let unTaller = new dominio.Taller(datosTaller._Categoria, datosTaller._nombre, datosTaller._subCategorias)
+        store.addTaller(unTaller)
     }
 }
 

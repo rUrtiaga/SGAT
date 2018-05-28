@@ -34,7 +34,7 @@ class MuestraCategorias extends React.Component{
 
     manejarSeleccion(event){
         this.setState({seleccionada:event.target.value})
-        this.props.padre.setState({categoria:event.target.value})
+        this.props.padre.setState({nombreCategoria:event.target.value})
     }
 
     desplegarCategorias(){
