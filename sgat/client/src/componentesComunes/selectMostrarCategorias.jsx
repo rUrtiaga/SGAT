@@ -26,6 +26,7 @@ class MuestraCategorias extends React.Component{
             <div className='col'>
                 <select className="form-control" onChange={this.manejarSeleccion.bind(this)} id="categorias">
                     {this.desplegarCategorias()}
+                    
                 </select>
             </div>
         )

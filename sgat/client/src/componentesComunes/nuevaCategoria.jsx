@@ -12,6 +12,7 @@ class NuevaCategoria extends React.Component{
     render(){
         return(
             <div className='col'>
+                
                 <div id="nuevaCategoriaDiv"  >
 			    <div className="form-group">
 				    <label htmlFor="nombreCategoria">Nombre de la nueva Categoria</label>

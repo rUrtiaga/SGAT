@@ -43,23 +43,20 @@ class CrearTaller extends React.Component{
 		
 	}
 
-/*PANEL PARA CREAR NIVEL*/ 
 
 
 /*PANEL PARA CREAR CATEGORIA */
-
 	nuevaCategoria(){
 		if(this.state.agregaCategoria){	return (
 			<NuevaCategoria padre={this} />	
 		)}
 	}
-
+/*PANEL PARA CREAR SUB-CATEGORIA*/ 
 	nuevaSubCategoria(){
 		if(this.state.agregaSubCategoria){ 
 			return (
-				<NuevaSubCategoria padre={this} />	
-			)
-			
+				<NuevaSubCategoria padre={this} />		
+			)		
 		}
 	}
 
