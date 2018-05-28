@@ -16,7 +16,6 @@ router.post('/categorias', function (req, res){
 })
 
 router.post('/taller', function (req, res){
-        
     controller.agregarTaller(req.body.categoria, req.body.nombre, req.body.subCategorias)
     console.log("se agrego el taller " + req.body.nombre)
 })
