@@ -6,7 +6,9 @@ class NuevoAlumno extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            persona: {},
+            selectorCursoOculto: false,
+            inputPersonaOculto: false,
+            persona: {dni:1234,nombre:"juan"},
             curso: null
         }
     }
@@ -26,13 +28,19 @@ class NuevoAlumno extends React.Component{
                         <option>Tallado en madera</option>
                     </select>
                 </div>
-                <InputPersona id='inputPersona' persona={this.state.persona} padre={this}/>
+                {(this.state.inputPersonaOculto)? null :<InputPersona id='inputPersona' persona={this.state.persona} padre={this} onCancel={this.cancel} onAccept={this.acceptPersona}/>}
+                
             </div> 
         )
     }
     //this.InputPersona.state
     cancel(){
         this.limpiar()
+    }
+
+    acceptPersona(){
+        console.log('estoy en Nuevo Alumno')
+        this.setState({inputPersonaOculto: true})
     }
 
     limpiar(){

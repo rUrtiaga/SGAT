@@ -77,6 +77,7 @@ class InputPersona extends React.Component{
                         <div className="col">
                             <label htmlFor="name">D.N.I.</label>
                             <input type="text" className="form-control" name="dni" placeholder="D.N.I." value={this.state.dni} onChange={(event) => this.handleDNI(event)}/>
+                            <small id="dniHelp" className="form-text text-muted">Ingrese el DNI sin puntos.</small>
                         </div>
                     </div>
                 </div>
@@ -135,7 +136,7 @@ class InputPersona extends React.Component{
 
     cancel(){
         this.limpiar()
-        if(this.props.padre){this.props.padre.cancel()}
+        this.props.onCancel()
     }
 
     limpiar(){
@@ -171,6 +172,7 @@ class InputPersona extends React.Component{
             console.log(error);
           });
           
+        this.props.onAccept()
         return persona
     }
 }
