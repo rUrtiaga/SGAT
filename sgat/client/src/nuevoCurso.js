@@ -1,4 +1,5 @@
 const React = require('react')
+const {MuestraCategorias} = require('./componentesComunes/selectMostrarCategorias.jsx')
 
 const style3 = {
 	marginTop:10,
@@ -36,12 +37,7 @@ class NuevoCurso extends React.Component{
   	<label htmlFor="Curso">Seleccione una Categoria</label>
     <div className="form-row">
         <div className="col">
-			<select className="form-control" id="categorias" onChange={(event) => this.setState({ categoria: event.target.value })}>
-				<option value="c1">Artes Manuales</option>
-				<option value="c2">Instrumentos Musicales</option>
-				<option value="c3">Tecnologias</option>
-				<option value="c4">Educativas</option>
-			</select> 
+			<MuestraCategorias padre={this} /> 
     	</div> 
     </div>
   </div>

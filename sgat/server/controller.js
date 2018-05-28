@@ -17,8 +17,11 @@ class Controller{
     }
 
     agregarCategoria(categoria){
-        store.addCategoria(categoria)
-        
+        store.addCategoria(categoria)  
+    }
+
+    agregarTaller(categoria, nombre, subcategorias){
+        store.addTaller(new Taller(categoria, nombre, subcategorias))
     }
 }
 

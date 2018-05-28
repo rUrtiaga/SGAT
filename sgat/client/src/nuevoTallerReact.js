@@ -1,4 +1,6 @@
 const React = require('react')
+const axios = require('axios')
+
 const {MuestraCategorias} = require('./componentesComunes/selectMostrarCategorias.jsx')
 const {NuevaCategoria} = require('./componentesComunes/nuevaCategoria.jsx')
 const {NuevaSubCategoria} = require('./componentesComunes/nuevaSubCategoria.jsx')
@@ -14,10 +16,16 @@ class CrearTaller extends React.Component{
 			nombreCategoria: "",
 			subCategorias: [],
 			indice : 0,
+			
 			agregaSubCategoria:false,
-			agregaCategoria:false
+			agregaCategoria:false,
+
+			disabled:false
 	}
 	}
+	componentWillMount() {
+            this.setState({disabled: false})
+    }
 
 	mostrarDivNuevaCateg(){
 		this.setState({agregaCategoria: !this.state.agregaCategoria})
@@ -30,7 +38,9 @@ class CrearTaller extends React.Component{
 		this.setState({agregaSubCategoria: !this.state.agregaSubCategoria})
 	}
 	ocultarDivNuevaSubCategoria(){
+		this.setState({disabled: true}) // no funca
 		this.setState({agregaSubCategoria:false})
+		
 	}
 
 /*PANEL PARA CREAR NIVEL*/ 
@@ -41,7 +51,6 @@ class CrearTaller extends React.Component{
 	nuevaCategoria(){
 		if(this.state.agregaCategoria){	return (
 			<NuevaCategoria padre={this} />	
-			
 		)}
 	}
 
@@ -50,6 +59,7 @@ class CrearTaller extends React.Component{
 			return (
 				<NuevaSubCategoria padre={this} />	
 			)
+			
 		}
 	}
 
@@ -64,7 +74,21 @@ class CrearTaller extends React.Component{
 		const listItems = this.state.subCategorias.map((sub) =><span>, {sub} </span>)
 		return listItems
 	}
-	
+
+	cancelarCreacion(){
+		this.setState({nombre: ""})
+		this.setState({nombreCategoria: ""})
+		this.setState({subCategorias: []})
+	}
+
+	guardarTaller(){
+		const self = this
+		
+        axios.post('api/taller', {categoria: self.state.nombreCategoria, nombre: self.state.nombre, subCategorias: self.state.subCategorias})
+            .then(function(res){
+            console.log("se agrego el taller " +  self.state.nombre)
+        })
+	}
 	
 render() {
  return (
@@ -91,7 +115,9 @@ render() {
 							<input type="text" className="form-control" id="nombreTaller" value={this.state.nombre} onChange={(event)=> this.setState({ nombre: event.target.value })}/>
 						</div>
 						
-
+						{  
+							// este label no va, pero habria ir mostrando las categorias que agrego de alguna manera...
+						}
 						<div className="form-group">
 							<h5 htmlFor="nombreTaller">Sub-Categorias del Taller: 
 														{this.state.nombre} :  {this.devolverListadoSubCategorias()}</h5>
@@ -104,13 +130,13 @@ render() {
 
 						<div className="row justify-content-start" style={{marginTop:10}}>
 							<div className="col-md-2">
-								<button type="button" className='btn btn-info' onClick={()=> this.mostrarDivNuevaSubCategoria()}>Agregar Sub-Categoria</button>
+								<button type="button" className='btn btn-info' disabled={this.state.disabled} onClick={()=> this.mostrarDivNuevaSubCategoria()}>Agregar Sub-Categoria</button>
 							</div>
 							<div className="col-md-2">
-								<button type="button" className='btn btn-danger'>Cancelar</button>
+								<button type="button" className='btn btn-danger' onClick={()=> this.cancelarCreacion()}>Cancelar</button>
 							</div>
 							<div className="col-md-2">
-								<button type="button" className='btn btn-primary'>Aceptar</button>
+								<button type="button" className='btn btn-primary' onClick={()=> this.guardarTaller()}>Aceptar</button>
 							</div>
 						</div>
 					</div>
@@ -121,5 +147,6 @@ render() {
 	)
 
 }
+
 }
 module.exports.CrearTaller = CrearTaller
