@@ -218,6 +218,9 @@ class Curso{
     getCantidadEsperaBaja(){return this.getEsperaBaja().length}
     getCantidadDHL(){return this.getDiasHorariosLugares().length}
     
+    JSONUIListaAlumnos(){
+        return JSON.stringify({_alumnos: this._alumnos,_cupo: this._cupo})
+    }
 }
 
 //por ejemplo {dia:'Martes',horario:'20:00', lugar:'Casa de la cultura'}
@@ -277,7 +280,7 @@ class Store {
         this.cursos.push(curso)
         // this.ordenarCursos()
         this.agregarPersonas(curso.getProfesores())
-        this.agregarPersonas(curso.getAlumnos())
+        // this.agregarPersonas(curso.getAlumnos())
         return curso
     }
     
@@ -307,6 +310,9 @@ class Store {
     estaPersonaDNI(dni){return this.getPersonas().some(p=>p.getDNI()==dni)}
     getPersonaDNI(dni){return this.getPersonas().find(p=>p.getDNI()==dni)}
 
+    getCurso(numero){
+        return this.cursos[numero]
+    }
 
     llenar(){
         this.categorias = ['Artes Manuales','Instrumentos Musicales']
@@ -341,6 +347,21 @@ class Store {
         let ceramicaNormalc1 = new Curso(10,ceramica.getSubCategoria('Normal'),prof)
         ceramicaNormalc1.addDiaHorarioLugar(new DiaHorarioLugar('Martes','20:00','Casa de La Cultura'))
         this.addCurso(ceramicaNormalc1)
+
+        const juan = new Persona("12345281", "Juan", "Perez", "100359", "Laprida 44", "452345", "451234", "jperez@yopmail", "nada")
+        const pedro = new Persona("11280292", "Pedro", "Perez", "120664", "Saavedra 344", "454567", "452345", "pedro.perez@yopmail", "otro")
+        const jose = new Persona("13245213", "Jose", "Alvarez", "210865", "Paso 440", "457890", "453456", "jalvarez@topmail", "hola")
+        const ana = new Persona("21451224", "Ana", "Alvarez", "240973", "Paso 460", "450987", "454567", "anaalvarez@topmail", "bue")
+        const lili = new Persona("21245235", "Liliana", "Castelli", "291178", "Paz 840", "452460", "450000", "lilicas@hopmail", "Profe")
+
+        this.agregarPersonas([juan, pedro, jose, ana, lili])
+
+        ceramicaNormalc1.addAlumno(juan)
+        ceramicaNormalc1.addAlumno(pedro)
+        ceramicaNormalc1.addAlumno(jose)
+        ceramicaNormalc1.addAlumno(ana)
+        ceramicaNormalc1.addAlumno(lili)
+
     }
 }
 

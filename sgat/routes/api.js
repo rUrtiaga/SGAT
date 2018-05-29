@@ -20,5 +20,9 @@ router.post('/categorias', function (req, res){
     controller.agregarCategoria(req.body.categoria)
 })
 
+router.get('/cursos/:n', function(req,res,next){
+    res.json(controller.getCurso(req.params.n))
+})
+
 module.exports = router;
  
