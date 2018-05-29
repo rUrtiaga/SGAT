@@ -4,6 +4,8 @@ const axios = require('axios')
 /***********************************************
     Alumnos
  ***********************************************/
+
+ //Esta clase se esta usando desde aca, se deberia importar la Persona de dominio,
 class Persona {
     constructor(dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario) {
         this._dni = dni
@@ -48,12 +50,6 @@ class Persona {
     setComentario(comentario) { this._comentario = comentario }
     getComentario() { return this._comentario }
 }
-// const juan = new Alumno("12345281", "Juan", "Perez", "100359", "Laprida 44", "452345", "451234", "jperez@yopmail", "nada")
-// const pedro = new Alumno("11280292", "Pedro", "Perez", "120664", "Saavedra 344", "454567", "452345", "pedro.perez@yopmail", "otro")
-// const jose = new Alumno("13245213", "Jose", "Alvarez", "210865", "Paso 440", "457890", "453456", "jalvarez@topmail", "hola")
-// const ana = new Alumno("21451224", "Ana", "Alvarez", "240973", "Paso 460", "450987", "454567", "anaalvarez@topmail", "bue")
-// const lili = new Alumno("21245235", "Liliana", "Castelli", "291178", "Paz 840", "452460", "450000", "lilicas@hopmail", "Profe")
-// const lista = [juan, pedro, jose, ana, lili]
 
 /***********************************************
  Alumnos
@@ -137,10 +133,6 @@ class ListarAlumnos extends React.Component {
     }   
     
     imprimirAlumnos() { 
-        console.log("keys: "+this.state.listaDeAlumnosKey)
-
-        console.log("listAlumnos: "+this.state.listaDeAlumnos)
-        this.getAlumnos()
     }
 
     /*Tabla info de Alumno */
