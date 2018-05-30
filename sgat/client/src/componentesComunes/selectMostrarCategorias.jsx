@@ -1,47 +1,55 @@
 const React = require('react')
 const axios = require('axios')
 
-class MuestraCategorias extends React.Component{
-    constructor(props){
+class MuestraCategorias extends React.Component {
+    constructor(props) {
         super(props)
         this.state = {
             categorias: []
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         const self = this
-        axios.get('api/categorias')
-            .then(
-                (respuesta)=> self.setState({categorias: respuesta.data})
-            )
+        axios
+            .get('api/categorias')
+            .then((respuesta) => self.setState({categorias: respuesta.data}))
     }
 
     componentDidUpdate() {
-       // setTimeout(() => { this.componentDidMount() })
+        // setTimeout(() => { this.componentDidMount() })
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div className='col'>
-                <select className="form-control" onChange={this.manejarSeleccion.bind(this)} id="categorias">
+                <select
+                    className="form-control"
+                    onChange={this
+                    .manejarSeleccion
+                    .bind(this)}
+                    id="categorias">
                     {this.desplegarCategorias()}
-                    
+
                 </select>
             </div>
         )
     }
 
-    manejarSeleccion(event){
-        this.setState({seleccionada:event.target.value})
-        this.props.padre.setState({nombreCategoria:event.target.value})
+    manejarSeleccion(event) {
+        this.setState({seleccionada: event.target.value})
+        this.props.padre.setState({nombreCategoria: event.target.value})
+        this.props.padre.setState({eligioCategoria: true})
     }
 
-    desplegarCategorias(){
-        return this.state.categorias.map(c => <option key={c} value={c} > {c} </option>)
+    desplegarCategorias() {
+        return this
+            .state
+            .categorias
+            .map(c => <option key={c} value={c}>
+                {c}
+            </option>)
     }
 }
-
-
 
 exports.MuestraCategorias = MuestraCategorias
