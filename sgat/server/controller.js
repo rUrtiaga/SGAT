@@ -1,6 +1,17 @@
 const {dominio} = require('./dominio/dominio-talleres.js')
 const {store} = require('./dominio/dominio-talleres.js')
 
+function talleresToJSON(talleres){
+   return (JSON.stringify(talleres, function( key, value) {
+        if(key == '_taller') {
+            //TODO cambiar por id, o re ver la estructura
+          return value._nombre;
+        } else {
+          return value;
+        };
+    }))
+}
+
 class Controller{
 
     getPersonaDNI(dni){
@@ -21,6 +32,22 @@ class Controller{
 
     getCategorias(){
         return store.getCategorias()
+    }
+
+    getTalleres(){
+        return talleresToJSON(store.getTalleres())
+    }
+    getTalleresDe(categoria){
+       let talleresFiltrados = store.getTalleres().filter(t =>t.getCategoria() == categoria)
+        return talleresToJSON(talleresFiltrados)
+    }
+
+    getTallerID(id){
+        return talleresToJSON([store.getTallerLLamado(id)])
+    }
+
+    getSubCatDeTallerID(id){
+        return talleresToJSON( store.getTallerLLamado(id).getSubCategorias() )
     }
 }
 
