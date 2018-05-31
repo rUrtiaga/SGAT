@@ -20,14 +20,29 @@ router.post('/categorias', function (req, res) {
     controller.agregarCategoria(req.body.categoria)
 })
 
-router.post('/taller', function (req, res) {
-    controller.agregarTaller(req.body)
-    console.log("se agrego el taller " + req.body._categoria + req.body._nombre + req.body._subCategorias)
+//todos los talleres
+router.get('/talleres',function (req, res, next) {
+    if(req.query.categoria || req.params.id){
+        next()
+        return
+    }
+    res.json(controller.getTalleres())
 })
 
+//pido talleres filtrado por su categoria
+router.get('/talleres', function (req, res, next) {
+    var categoria = req.query.categoria;
+    res.json(controller.getTalleresDe(categoria))
+});
 
-router.get('/talleres/:categoria', function (req, res, next) {
-    res.json(controller.talleres(req.params.categorias))
+//pido un taller solo
+router.get('/talleres/:id', function (req, res){
+    res.json(controller.getTallerID(req.params.id))
+})
+
+//pido las subacategorias de un taller
+router.get('/talleres/:id/subcategorias', function (req, res){
+    res.json(controller.getSubCatDeTallerID(req.params.id))
 })
 
 module.exports = router;

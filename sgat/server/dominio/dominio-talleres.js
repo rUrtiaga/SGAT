@@ -504,22 +504,21 @@ class Store {
         this.addTaller(new Taller(cat1, 'Arte Juvenil'))
 
         //Agrega talleres de instrumentos Musicales
-        this.addTaller(new Taller(cat2, 'Piano', 'Principiantes', 'Avanzados'))
-        this.addTaller(new Taller(cat2, 'Bajo', 'Principiantes', 'Avanzados'))
-        this.addTaller(new Taller(cat2, 'Guitarra', 'Principiantes', 'Avanzados'))
-        this.addTaller(new Taller(cat2, 'Violín', 'Principiantes', 'Avanzados'))
-        this.addTaller(new Taller(cat2, 'Viola', 'Principiantes', 'Avanzados'))
-        this.addTaller(new Taller(cat2, 'Violoncello', 'Principiantes', 'Avanzados'))
-        this.addTaller(new Taller(cat2, 'Contrabajo', 'Principiantes', 'Avanzados'))
-        this.addTaller(new Taller(cat2, 'Bateria', 'Principiantes', 'Avanzados'))
-        this.addTaller(new Taller(cat2, 'Bandoneon', 'Principiantes', 'Avanzados'))
-        this.addTaller(new Taller(cat2, 'Flauta Traversa', 'Principiantes', 'Avanzados'))
-        this.addTaller(new Taller(cat2, 'Piano', 'Principiantes', 'Avanzados'))
+        this.addTaller(new Taller(cat2,'Piano','Principiantes','Avanzados'))
+        this.addTaller(new Taller(cat2,'Bajo','Principiantes','Avanzados'))
+        this.addTaller(new Taller(cat2,'Guitarra','Principiantes','Avanzados'))
+        this.addTaller(new Taller(cat2,'Violín','Principiantes','Avanzados'))
+        this.addTaller(new Taller(cat2,'Viola','Principiantes','Avanzados'))
+        this.addTaller(new Taller(cat2,'Violoncello','Principiantes','Avanzados'))
+        this.addTaller(new Taller(cat2,'Contrabajo','Principiantes','Avanzados'))
+        this.addTaller(new Taller(cat2,'Bateria','Principiantes','Avanzados'))
+        this.addTaller(new Taller(cat2,'Bandoneon','Principiantes','Avanzados'))
+        this.addTaller(new Taller(cat2,'Flauta Traversa','Principiantes','Avanzados'))
+    
+        let prof = new Persona(12345678,'Juan','Perez','12/02/1980','',2243451234,'a@a.com')
 
-        let prof = new Persona(12345678, 'Juan', 'Perez', '12/02/1980', '', 2243451234, 'a@a.com')
-
-        let ceramicaNormalc1 = new Curso(10, ceramica.getSubCategoria('Normal'), prof)
-        ceramicaNormalc1.addDiaHorarioLugar(new DiaHorarioLugar('Martes', '20:00', 'Casa de La Cultura'))
+        let ceramicaNormalc1 = new Curso(10,ceramica.getSubCategoria('Normal'),prof)
+        ceramicaNormalc1.addDiaHorarioLugar(new DiaHorarioLugar('Martes','20:00','Casa de La Cultura'))
         this.addCurso(ceramicaNormalc1)
     }
 }
