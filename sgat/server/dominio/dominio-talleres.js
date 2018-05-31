@@ -19,7 +19,8 @@ class Taller {
 
     setCategoria(categoria){ 
         store.addCategoria(categoria)
-        this._categoria = categoria}
+        this._categoria = categoria
+    }
     getCategoria() {return this._categoria}
 
     setNombre(nombre){ this._nombre = nombre}
