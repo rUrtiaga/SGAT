@@ -16,6 +16,9 @@ router.get('/categorias', function (req, res, next) {
     res.json(controller.getCategorias())
 });
 
+router.post('/categorias', function (req, res){
+    controller.agregarCategoria(req.body.categoria)
+})
 
 //todos los talleres
 router.get('/talleres',function (req, res, next) {
@@ -41,6 +44,5 @@ router.get('/talleres/:id', function (req, res){
 router.get('/talleres/:id/subcategorias', function (req, res){
     res.json(controller.getSubCatDeTallerID(req.params.id))
 })
-
 
 module.exports = router;

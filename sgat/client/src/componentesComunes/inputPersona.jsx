@@ -23,6 +23,7 @@ class InputPersona extends React.Component {
             this.setState({
                 [event.target.name]: event.target.value
             });
+
         } catch (error) {
             console.log(error)
         }
@@ -53,16 +54,26 @@ class InputPersona extends React.Component {
         })
     }
 
-    // esto no va, pero lo dejo por que es algo similar a lo que se va a validar
-    // validate(nameEvent,value){     switch (nameEvent) {         case 'dni':
-    //       if(value > 100000000){                 throw new Error('El dni
-    // ingresado es demasiado alto')             }
-    // if(value.toString().match(/[^0-9]+$/) ){                 throw new
-    // Error('Ingrese solo numeros')             }             break;
-    // default:             break;     } }
 
-    render() {
-        return (
+    //esto no va, pero lo dejo por que es algo similar a lo que se va a validar
+    // validate(nameEvent,value){
+    //     switch (nameEvent) {
+    //         case 'dni':
+    //             if(value > 100000000){
+    //                 throw new Error('El dni ingresado es demasiado alto')
+    //             }
+    //             if(value.toString().match(/[^0-9]+$/) ){
+    //                 throw new Error('Ingrese solo numeros')
+    //             }
+    //             break;
+ 
+    //         default:
+    //             break;
+    //     }
+    // }
+
+    render(){
+        return(
             <React.Fragment>
                 <div className="form-group">
                     <div className="form-row">
@@ -76,6 +87,7 @@ class InputPersona extends React.Component {
                                 value={this.state.dni}
                                 onChange={(event) => this.handleDNI(event)}/>
                             <small id="dniHelp" className="form-text text-muted">Ingrese el DNI sin puntos.</small>
+
                         </div>
                     </div>
                 </div>
@@ -107,6 +119,7 @@ class InputPersona extends React.Component {
 
                 <div className="form-group">
                     <h4 className="mt-4 mb-4" htmlFor="contact">Contacto</h4>
+
                     <div className="form-group">
                         <label htmlFor="direc">Dirección</label>
                         <input

@@ -49,6 +49,10 @@ class Controller{
     getSubCatDeTallerID(id){
         return talleresToJSON( store.getTallerLLamado(id).getSubCategorias() )
     }
+  
+    agregarCategoria(categoria){
+        store.addCategoria(categoria)
+    }
 }
 
 exports.controller = new Controller()    
