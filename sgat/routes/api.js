@@ -19,7 +19,7 @@ router.get('/categorias', function (req, res, next) {
 
 //todos los talleres
 router.get('/talleres',function (req, res, next) {
-    if(req.query.categoria || req.params.id){
+    if(req.query.categoria){
         next()
         return
     }
