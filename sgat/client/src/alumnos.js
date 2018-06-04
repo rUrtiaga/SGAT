@@ -64,25 +64,24 @@ class ListarAlumnos extends React.Component {
             listaDeAlumnos:[]}
     }
     
-
     componentDidMount() { 
         this.getDataCurso()
     }    
 
     getDataCurso(){
         let self = this
-        axios.get('/api/cursos/'+0)
+        axios.get('/api/cursos/0')
         .then(function(response){
             const json = JSON.parse(response.data)
             self.setState({
                 listaDeAlumnosKey: json._alumnos,
                 cupo: json._cupo
             })
-            console.log(json._alumnos)
+            console.log(json._alumnos +" Cupo " + json._cupo)
             return Promise.resolve(json._alumnos)
         })
         .then(function(lAlumnosDni){
-            self.getAlumnos(lAlumnosDni)
+          // self.getAlumnos(lAlumnosDni)
         })
         .catch(function (error) {
             console.log(error)
@@ -94,11 +93,12 @@ class ListarAlumnos extends React.Component {
         lAlumnosDni.forEach(key => {
             axios.get('/api/personas/'+ key)
             .then(function (response) {
-                console.log("alu"+response.data._dni)
-                let alumno = new Persona(response.data._dni,response.data._nombre,response.data._apellido)
+                let alumno = new Persona(response.data._dni, 
+                    response.data._nombre, response.data._apellido, 
+                    response.data._telPrincipal)
                 self.setState({
                     listaDeAlumnos: [...self.state.listaDeAlumnos,alumno]
-                })
+                })  
             })
             .catch(function(error){
                 console.log(error)
@@ -113,18 +113,22 @@ class ListarAlumnos extends React.Component {
                     <div className="row">
                         <div className="col-md-11">
                             <div className="card text-dark">
-                                <div className="card-header bg-primary text-white">
-                                    <h3>Alumnos</h3>
-                                </div>
-                                <div className="card-body text-dark">
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            {this.tblAlumnos()}
-                                        </div>
+                                <div className="align-self-center card-header bg-info text-white">  
+                                    <h3> Curso </h3></div>
+                                    <div className="card-bg-info bg-primary text-white">
+                                        <h4>Alumnos</h4>
                                     </div>
-                                    {this.botonStandard("Imprimir", () => this.imprimirAlumnos())}
-                                </div>
-                            </div>
+                                    <div className="card-body text-dark">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                {this.tblAlumnos()}
+                                            </div>
+                                        </div>
+                                        {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success")}
+                                    </div>
+                                    <h4> Alumnos Registrados </h4>
+                                </div>    
+                            
                         </div>
                     </div>
                 </div>
@@ -159,28 +163,28 @@ class ListarAlumnos extends React.Component {
     infoAlumnos(alumno) {
         const rowDatosAlumno = (
             <tr key={alumno.getDni()}>
-
                 <td>{alumno.getDni()}</td>
-                <td>{alumno.getApellido()}</td>
+                <td>{this.linkInfoAlumno(alumno)}</td>
                 <td>{alumno.getNombre()}</td>
                 <td>{alumno.getTelPrincipal()}</td>
                 <td>{alumno.getMail()}</td>
                 
-                <td>{this.botonDetalle(alumno)}</td>
+                {/* <td>{this.botonDetalle(alumno)}</td> */}
                 <td>{this.botonEliminar(alumno)}</td>
-            
             </tr>
         )
         return rowDatosAlumno
     }
 
-    eliminarAlumno(alumno) {
-        let codigo = this.state.listaDeAlumnos.filter((alu) => alu.getDni() !== alumno.getDni());
-        this.setState({
-            listaDeAlumnos: codigo
-        })
+    /** --- Link para Info del Alumno ---  */
+    linkInfoAlumno(alumno) {
+        return (
+            <a href="#" onClick={() => this.infoPersona(alumno)}>{alumno.getApellido()}</a>
+        )
     }
-
+    infoPersona(unAlumno) {
+        console.log('algo');
+    }
     /** --- Encabezado de la Tabla --- */
 
     encabezadoDeTabla(titulos) {
@@ -189,7 +193,6 @@ class ListarAlumnos extends React.Component {
     
 
     /** --- Filas de la Tabla --- */
-
     datoEnFila(label, valor, anchoLabel = 3) {
         return (
             <div className="row" style={{ marginBottom: "6px" }}>
@@ -198,26 +201,22 @@ class ListarAlumnos extends React.Component {
             </div>
         )
     }
+
     /** ---   Botones   --- */
     botonEliminar(alumno) {
         return (
-
             <button className="btn btn-danger btn-xs" onClick={() => this.eliminarAlumno(alumno)}>
-                      
                 <span className="fa fa-times-circle"> Eliminar </span>
             </button>
-
         )
     }
-    botonDetalle(alumno) {
-        return (
-            <button className="btn btn-info btn-xs" onClick={() => this.mostrarDatosAlumno(alumno)}>
-
-                <span className="fa fa-info"> Info  </span> 
-
-            </button>
-        )
+    eliminarAlumno(alumno) {
+        let codigo = this.state.listaDeAlumnos.filter((alu) => alu.getDni() !== alumno.getDni());
+        this.setState({
+            listaDeAlumnos: codigo
+        })
     }
+
     // Botón -  parámetro con valor por defecto
     botonStandard(label, accion, clasesAdicionales = "btn-info") {
         return (
