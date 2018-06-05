@@ -95,9 +95,9 @@ class ListarAlumnos extends React.Component {
         lAlumnosDni.forEach(key => {
             axios.get('/api/personas/'+ key)
             .then(function (response) {
-                let alumno = new Persona(response.data._dni, 
-                    response.data._nombre, response.data._apellido, 
-                    response.data._telPrincipal)
+                let alumno = {dni: response.data._dni, 
+                    nombre: response.data._nombre, apellido: response.data._apellido, 
+                    telPrincipal: response.data._telPrincipal, mail: response.data._mail}
                 self.setState({
                     listaDeAlumnos: [...self.state.listaDeAlumnos,alumno]
                 })  
@@ -164,12 +164,12 @@ class ListarAlumnos extends React.Component {
     // dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario
     infoAlumnos(alumno) {
         const rowDatosAlumno = (
-            <tr key={alumno.getDni()}>
-                <td>{alumno.getDni()}</td>
+            <tr key={alumno.dni}>
+                <td>{alumno.dni}</td>
                 <td>{this.linkInfoAlumno(alumno)}</td>
-                <td>{alumno.getNombre()}</td>
-                <td>{alumno.getTelPrincipal()}</td>
-                <td>{alumno.getMail()}</td>
+                <td>{alumno.nombre}</td>
+                <td>{alumno.telPrincipal}</td>
+                <td>{alumno.mail}</td>
                 
                 <td>{this.botonDetalle(alumno)} 
                 {this.botonEliminar(alumno)}</td>
@@ -181,11 +181,11 @@ class ListarAlumnos extends React.Component {
     /** --- Link para Info del Alumno ---  */
     linkInfoAlumno(alumno) {
         return (
-            <a href="#" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno.getApellido()}</a>
+            <a href="#" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno.apellido}</a>
         )
     }
     mostrarDatosAlumno(unAlumno) {
-        console.log(unAlumno.getApellido());
+        console.log(unAlumno.apellido);
     }
     /** --- Encabezado de la Tabla --- */
 
@@ -220,7 +220,7 @@ class ListarAlumnos extends React.Component {
         )
     }
     eliminarAlumno(alumno) {
-        let codigo = this.state.listaDeAlumnos.filter((alu) => alu.getDni() !== alumno.getDni());
+        let codigo = this.state.listaDeAlumnos.filter((alu) => alu.dni() !== alumno.dni());
         this.setState({
             listaDeAlumnos: codigo
         })
