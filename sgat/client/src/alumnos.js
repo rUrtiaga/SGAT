@@ -1,3 +1,5 @@
+// import {Persona} from "../../server/dominio/dominio-talleres"   // no funciona porque el server esta fuera del alcance
+
 const React = require('react')
 const axios = require('axios')
 
@@ -6,50 +8,50 @@ const axios = require('axios')
  ***********************************************/
 
  //Esta clase se esta usando desde aca, se deberia importar la Persona de dominio,
-class Persona {
-    constructor(dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario) {
-        this._dni = dni
-        this._nombre = nombre
-        this._apellido = apellido
-        this._fechaNac = fechaNac
-        this._direccion = direccion
-        this._telPrincipal = telPrincipal
-        this._telSecundario = telSecundario
-        this._mail = mail
-        this._comentario = comentario
-    }
+// class Persona {
+//     constructor(dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario) {
+//         this._dni = dni
+//         this._nombre = nombre
+//         this._apellido = apellido
+//         this._fechaNac = fechaNac
+//         this._direccion = direccion
+//         this._telPrincipal = telPrincipal
+//         this._telSecundario = telSecundario
+//         this._mail = mail
+//         this._comentario = comentario
+//     }
 
-    /******************************
-      *      Setters y getters
-    ******************************/
+//     /******************************
+//       *      Setters y getters
+//     ******************************/
 
-    setDni(dni) { this._dni = dni }
-    getDni() { return this._dni }
+//     setDni(dni) { this._dni = dni }
+//     getDni() { return this._dni }
 
-    setApellido(apellido) { this._apellido = apellido }
-    getApellido() { return this._apellido }
+//     setApellido(apellido) { this._apellido = apellido }
+//     getApellido() { return this._apellido }
 
-    setNombre(nombre) { this._nombre = nombre }
-    getNombre() { return this._nombre }
+//     setNombre(nombre) { this._nombre = nombre }
+//     getNombre() { return this._nombre }
 
-    setFechaNac(fechaNac) { this._fechaNac = fechaNac }
-    getFechaNac() { return this._fechaNac }
+//     setFechaNac(fechaNac) { this._fechaNac = fechaNac }
+//     getFechaNac() { return this._fechaNac }
 
-    setDireccion(direccion) { this._direccion = direccion }
-    getDireccion() { return this._direccion }
+//     setDireccion(direccion) { this._direccion = direccion }
+//     getDireccion() { return this._direccion }
 
-    setTelPrincipal(telPrincipal) { this._telPrincipal = telPrincipal }
-    getTelPrincipal() { return this._telPrincipal }
+//     setTelPrincipal(telPrincipal) { this._telPrincipal = telPrincipal }
+//     getTelPrincipal() { return this._telPrincipal }
 
-    setTelSecundario(telSecundario) { this._telSecundario = telSecundario }
-    getTelSecundario() { return this._telSecundario }
+//     setTelSecundario(telSecundario) { this._telSecundario = telSecundario }
+//     getTelSecundario() { return this._telSecundario }
 
-    setMail(mail) { this._mail = mail }
-    getMail() { return this._mail }
+//     setMail(mail) { this._mail = mail }
+//     getMail() { return this._mail }
 
-    setComentario(comentario) { this._comentario = comentario }
-    getComentario() { return this._comentario }
-}
+//     setComentario(comentario) { this._comentario = comentario }
+//     getComentario() { return this._comentario }
+// }
 
 /***********************************************
  Alumnos
@@ -81,7 +83,7 @@ class ListarAlumnos extends React.Component {
             return Promise.resolve(json._alumnos)
         })
         .then(function(lAlumnosDni){
-          // self.getAlumnos(lAlumnosDni)
+            self.getAlumnos(lAlumnosDni)
         })
         .catch(function (error) {
             console.log(error)
@@ -169,8 +171,8 @@ class ListarAlumnos extends React.Component {
                 <td>{alumno.getTelPrincipal()}</td>
                 <td>{alumno.getMail()}</td>
                 
-                {/* <td>{this.botonDetalle(alumno)}</td> */}
-                <td>{this.botonEliminar(alumno)}</td>
+                <td>{this.botonDetalle(alumno)} 
+                {this.botonEliminar(alumno)}</td>
             </tr>
         )
         return rowDatosAlumno
@@ -179,11 +181,11 @@ class ListarAlumnos extends React.Component {
     /** --- Link para Info del Alumno ---  */
     linkInfoAlumno(alumno) {
         return (
-            <a href="#" onClick={() => this.infoPersona(alumno)}>{alumno.getApellido()}</a>
+            <a href="#" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno.getApellido()}</a>
         )
     }
-    infoPersona(unAlumno) {
-        console.log('algo');
+    mostrarDatosAlumno(unAlumno) {
+        console.log(unAlumno.getApellido());
     }
     /** --- Encabezado de la Tabla --- */
 
@@ -203,6 +205,13 @@ class ListarAlumnos extends React.Component {
     }
 
     /** ---   Botones   --- */
+    botonDetalle(alumno) {
+        return (
+            <button className="btn btn-info btn-xs ml-1 mr-1" onClick={() => this.mostrarDatosAlumno(alumno)}>
+                <span className="fa fa-info"> Info  </span>
+            </button>
+        )
+    }
     botonEliminar(alumno) {
         return (
             <button className="btn btn-danger btn-xs" onClick={() => this.eliminarAlumno(alumno)}>
