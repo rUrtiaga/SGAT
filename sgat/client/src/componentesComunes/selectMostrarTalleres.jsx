@@ -82,5 +82,6 @@ class MuestraTalleres extends MuestraFromProps {
   }
 }
 
+
 exports.MuestraFromProps = MuestraFromProps;
 exports.MuestraTalleres = MuestraTalleres;

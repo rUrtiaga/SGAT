@@ -4,6 +4,7 @@ const axios = require('axios')
 const {MuestraCategorias} = require('./componentesComunes/selectMostrarCategorias.jsx')
 const {NuevaCategoria} = require('./componentesComunes/nuevaCategoria.jsx')
 const {NuevaSubCategoria} = require('./componentesComunes/nuevaSubCategoria.jsx')
+const {actualizar} = require('./componentesComunes/selectMostrarCategorias.jsx')
 
 const style = {
     marginTop: 20
@@ -11,20 +12,27 @@ const style = {
 
 /*CREAR TALLER*/
 class CrearTaller extends React.Component {
+    
+   
 
     constructor(props) {
         super(props)
+        this.child = React.createRef();
+
+
         this.state = {
             nombre: "",
-            nombreCategoria: "",
+            categoria: "",
             subCategorias: [],
             indice: 0,
             agregaSubCategoria: false,
             agregaCategoria: false,
 
-            disabled: false
+            disabled: false,
+
         }
     }
+
     componentWillMount() {
         this.setState({disabled: false})
     }
@@ -33,7 +41,7 @@ class CrearTaller extends React.Component {
         this.setState({
             agregaCategoria: !this.state.agregaCategoria
         })
-
+       
     }
     ocultarDivNuevaCateg() {
         this.setState({agregaCategoria: false})
@@ -49,16 +57,21 @@ class CrearTaller extends React.Component {
 
     }
 
+    mostrarSelectCategorias(){
+            return <MuestraCategorias padre={this} />
+    }
+
     /*PANEL PARA CREAR CATEGORIA */
     nuevaCategoria() {
         if (this.state.agregaCategoria) {
             return (<NuevaCategoria padre={this}/>)
+            this.forceUpdate()
         }
     }
     /*PANEL PARA CREAR SUB-CATEGORIA*/
     nuevaSubCategoria() {
         if (this.state.agregaSubCategoria) {
-            return (<NuevaSubCategoria padre={this}/>)
+            return (<NuevaSubCategoria padre={this} myfunc={this.props.renderizarSelect}/>)
         }
     }
 
@@ -81,7 +94,7 @@ class CrearTaller extends React.Component {
 
 	cancelarCreacion(){
 		this.setState({nombre: ""})
-		this.setState({nombreCategoria: ""})
+		this.setState({categoria: ""})
 		this.setState({subCategorias: []})
 	}
 
@@ -89,7 +102,7 @@ class CrearTaller extends React.Component {
 		const self = this
 		
 		const taller = {
-			_categoria: self.state.nombreCategoria, 
+			_categoria: self.state.categoria, 
 			_nombre: self.state.nombre, 
 			_subCategorias: self.state.subCategorias}
 
@@ -109,7 +122,8 @@ class CrearTaller extends React.Component {
                             <div className="col">
                                 <label htmlFor="CategoriaTitle">Categorias</label>
                                 <div className="form-row">
-                                    <MuestraCategorias padre={this}/>
+                                    
+                                    {this.mostrarSelectCategorias()}
                                     <div className="col">
                                         <button
                                             type="button"
@@ -170,7 +184,7 @@ class CrearTaller extends React.Component {
 				
 				<div className="card mb-2"style={style}>
 						<p>Esta por Crear el Siguiente Taller:</p>
-						<p>Categoria:</p><h4>{this.state.nombreCategoria}</h4>
+						<p>Categoria:</p><h4>{this.state.categoria}</h4>
 						<p>Nombre:</p><h4>{this.state.nombre}</h4>
 						<p>SubCategorias:</p><h4>{this.state.subCategorias}</h4>
 					

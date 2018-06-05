@@ -1,34 +1,32 @@
 
 const React = require("react");
 const axios = require("axios");
+const { MuestraFromProps } = require("./selectMostrarTalleres.jsx");
 
-class MuestraCategorias extends React.Component {
+class MuestraCategorias extends MuestraFromProps {
   constructor(props) {
     super(props);
     this.state = {
-      categorias: []
+      elementsOrError: null,
+
+      actualizo: false
     };
   }
 
   componentDidMount() {
+    this.request();
+  }
+
+  componentDidUpdate() {
+    //setTimeout(() => { this.request() },30)
+}
+
+
+  request() {
     const self = this;
     axios
       .get("api/categorias")
-      .then(respuesta => self.setState({ categorias: respuesta.data }));
-  }
-
-  render() {
-    return (
-      <div className="col">
-        <select
-          className="form-control"
-          onChange={this.manejarSeleccion.bind(this)}
-          id="categorias"
-        >
-          {this.desplegarCategorias()}
-        </select>
-      </div>
-    );
+      .then(respuesta => self.setState({ elementsOrError: respuesta.data }));
   }
 
   manejarSeleccion(event) {
@@ -36,13 +34,12 @@ class MuestraCategorias extends React.Component {
     this.props.padre.setState({ categoria: event.target.value });
   }
 
-  desplegarCategorias() {
-    return this.state.categorias.map(c => (
+  desplegar() {
+    return this.state.elementsOrError.map(c => (
       <option key={c} value={c}>
         {c}
       </option>
     ));
   }
 }
-
 exports.MuestraCategorias = MuestraCategorias;

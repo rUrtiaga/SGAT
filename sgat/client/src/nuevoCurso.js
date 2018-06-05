@@ -1,6 +1,7 @@
 const React = require('react')
-const {MuestraCategorias} = require('./componentesComunes/selectMostrarCategorias.jsx')
-const {MuestraTalleres} = require('./componentesComunes/selectMostrarTaller.jsx')
+
+const {Selector} = require('./componentesComunes/selector.jsx')
+
 const style3 = {
     marginTop: 10
 };
@@ -19,21 +20,9 @@ class NuevoCurso extends React.Component {
             comentario: "",
 
             eligioCategoria: false,
-            eligioTaller:   false
+            eligioTaller:   false,
+            selectorCursoOculto: false
 
-        }
-    }
-
-    mostrarSelectTaller(){
-        if (this.state.eligioCategoria){
-            <div className="col-md-3">
-                            <label htmlFor="Curso">Seleccione un Taller</label>
-                            <div className="form-row">
-                                <div className="col">
-                                    <MuestraTalleres padre={this}/>
-                                </div>
-                            </div>
-                        </div> 
         }
     }
 
@@ -41,6 +30,8 @@ class NuevoCurso extends React.Component {
     // mismo con la SUBCATEGORIA y el TALLER.
     render() {
         return (
+            
+
             <div className="m-4 container-fluid recuadroPantalla">
 
                 <div className="card">
@@ -48,38 +39,11 @@ class NuevoCurso extends React.Component {
                         <h3>Nuevo Curso</h3>
                     </div>
                 </div>
+                
+                <Selector padre={this} style={style3}/>
 
-                <div className="form-group">
-                    <div className="form-row">
-                        <div className="col-md-3">
-                            <label htmlFor="Curso">Seleccione una Categoria</label>
-                            <div className="form-row">
-                                <div className="col">
-                                    <MuestraCategorias padre={this}/>
-                                </div>
-                            </div>
-                        </div>
-                        {this.mostrarSelectTaller()}
-                        
-                        <div className="col-md-3">
-                            <label htmlFor="Curso">Seleccione una Sub-Categoria</label>
-                            <div className="form-row">
-                                <div className="col">
-                                    <select
-                                        className="form-control"
-                                        id="subcategorias"
-                                        onChange={(event) => this.setState({subcategoria: event.target.value})}>
-                                        <option value="s1">Principiantes</option>
-                                        <option value="s2">Intermedio</option>
-                                        <option value="s3">Avanzado</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="card mb-3">
+                
+                <div className="card mb-3" style={style3}>
                     <div className="form-group">
                         <div className="col-md-1">
                             <label htmlFor="cupo">Cupo:</label>
