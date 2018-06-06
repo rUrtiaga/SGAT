@@ -64,13 +64,14 @@ class SubCategoria {
 }
 
 class Persona{
-    constructor(dni,nombre,apellido,fechaNac,direccion,telPrincipal,mail){
+    constructor(dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail){
         this._dni = dni
         this._nombre = nombre
         this._apellido = apellido
         this._fechaNac = fechaNac
         this._direccion = direccion
         this._telPrincipal = telPrincipal
+        this._telSecundario = telSecundario
         this._mail = mail
     }
 
@@ -249,8 +250,6 @@ function indiceDeLista(elemento, list){
     return list.findIndex(elemento)
 }
 
-
-
 class Store {
     constructor(){
         this.categorias = []
@@ -348,9 +347,9 @@ class Store {
         ceramicaNormalc1.addDiaHorarioLugar(new DiaHorarioLugar('Martes','20:00','Casa de La Cultura'))
         this.addCurso(ceramicaNormalc1)
 
-        const juan = new Persona("12345281", "Juan", "Perez", "100359", "Laprida 44", "452345", "451234", "jperez@yopmail", "nada")
+        const juan = new Persona("12345281", "Juan", "Pavón", "100359", "Laprida 44", "452345", "451234", "jpavon@yopmail", "nada")
         const pedro = new Persona("11280292", "Pedro", "Perez", "120664", "Saavedra 344", "454567", "452345", "pedro.perez@yopmail", "otro")
-        const jose = new Persona("13245213", "Jose", "Alvarez", "210865", "Paso 440", "457890", "453456", "jalvarez@topmail", "hola")
+        const jose = new Persona("13245213", "Jose", "López", "210865", "Paso 440", "457890", "453456", "jlopez@topmail", "hola")
         const ana = new Persona("21451224", "Ana", "Alvarez", "240973", "Paso 460", "450987", "454567", "anaalvarez@topmail", "bue")
         const lili = new Persona("21245235", "Liliana", "Castelli", "291178", "Paz 840", "452460", "450000", "lilicas@hopmail", "Profe")
 
