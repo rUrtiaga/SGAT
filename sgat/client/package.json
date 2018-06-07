@@ -20,15 +20,18 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "babel-jest": "*",
+    "babel-preset-env": "*",
+    "babel-preset-react": "*",
     "chai": "^4.1.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^22.4.3",
-    "enzyme": "*",
-    "enzyme-adapter-react-16": "*",
     "jest-mock-axios": "^2.1.11",
     "lodash": "^4.17.10",
+    "lodash.defaultto": "^4.14.0",
     "lodash.range": "3.2.0",
-    "lodash.sortby": "4.7.0",
-    "lodash.defaultto": "^4.14.0"
+    "lodash.sortby": "4.7.0"
   },
   "proxy": "http://localhost:3001"
 }

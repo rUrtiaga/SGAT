@@ -7,11 +7,11 @@ const mount = Enzyme.mount
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const {InputPersona} = require('../nuevoAlumno');
+// const {InputPersona} = require('../nuevoAlumno');
 
 
 describe("React input Persona", () => {
-    const inputPersona = shallow(<InputPersona/>)
+    // const inputPersona = shallow(<InputPersona/>)
     it("e1", () => {
         
     })
