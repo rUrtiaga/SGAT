@@ -10,6 +10,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 const { InputPersona } = require("../componentesComunes/inputPersona.jsx");
 
+
 var mock = new MockAdapter(axios);
 
 describe("React input Persona", () => {

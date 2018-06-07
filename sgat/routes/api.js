@@ -16,9 +16,13 @@ router.get('/categorias', function (req, res, next) {
     res.json(controller.getCategorias())
 });
 
-router.post('/categorias', function (req, res){
+router.post('/categorias', function (req, res) {
     controller.agregarCategoria(req.body.categoria)
 })
+
+
+router.get('/cursos/:n', function(req,res,next){
+    res.json(controller.getCurso(req.params.n))
 
 //todos los talleres
 router.get('/talleres',function (req, res, next) {
@@ -49,6 +53,5 @@ router.get('/talleres/:id/subcategorias', function (req, res){
 router.get('/talleres/:id/subcategorias/:subid/cursos', function (req, res){
     res.json(controller.getCursosSubCatDeTaller(req.params.id,req.params.subid))
 })
-
 
 module.exports = router;

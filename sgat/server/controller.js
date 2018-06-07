@@ -58,6 +58,10 @@ class Controller{
     agregarCategoria(categoria){
         store.addCategoria(categoria)
     }
+
+    getCurso(keyDeCurso){
+        return store.getCurso(keyDeCurso).JSONUIListaAlumnos()
+    }
 }
 
 exports.controller = new Controller()    
