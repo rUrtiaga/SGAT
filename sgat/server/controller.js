@@ -54,6 +54,10 @@ class Controller{
         return talleresToJSON( store.cursos )
     }
     
+  
+    agregarCategoria(categoria){
+        store.addCategoria(categoria)
+    }
 }
 
 exports.controller = new Controller()    

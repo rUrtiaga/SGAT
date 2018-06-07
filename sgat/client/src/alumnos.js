@@ -64,6 +64,7 @@ class ListarAlumnos extends React.Component {
         this.state = { listaDeAlumnos:[], indexAlumno: null }
     }
     
+
     componentDidMount() { this.setState({ listaDeAlumnos: lista }) }    
 
     render() {
@@ -119,6 +120,7 @@ class ListarAlumnos extends React.Component {
     infoAlumnos(alumno) {
         const rowDatosAlumno = (
             <tr key={alumno.getDni()}>
+
                 <td>{alumno.getDni()}</td>
                 <td>{alumno.getApellido()}</td>
                 <td>{alumno.getNombre()}</td>
@@ -132,7 +134,7 @@ class ListarAlumnos extends React.Component {
         )
         return rowDatosAlumno
     }
-    
+
     eliminarAlumno(alumno) {
         let codigo = this.state.listaDeAlumnos.filter((alu) => alu.getDni() !== alumno.getDni());
         this.setState({
@@ -141,11 +143,14 @@ class ListarAlumnos extends React.Component {
     }
 
     /** --- Encabezado de la Tabla --- */
+
     encabezadoDeTabla(titulos) {
         return titulos.map((titulo, ix) => (<th key={ix}>{titulo}</th>))
     }
     
+
     /** --- Filas de la Tabla --- */
+
     datoEnFila(label, valor, anchoLabel = 3) {
         return (
             <div className="row" style={{ marginBottom: "6px" }}>
@@ -157,16 +162,20 @@ class ListarAlumnos extends React.Component {
     /** ---   Botones   --- */
     botonEliminar(alumno) {
         return (
+
             <button className="btn btn-danger btn-xs" onClick={() => this.eliminarAlumno(alumno)}>
                       
                 <span className="fa fa-times-circle"> Eliminar </span>
             </button>
+
         )
     }
     botonDetalle(alumno) {
         return (
             <button className="btn btn-info btn-xs" onClick={() => this.mostrarDatosAlumno(alumno)}>
+
                 <span className="fa fa-info"> Info  </span> 
+
             </button>
         )
     }
