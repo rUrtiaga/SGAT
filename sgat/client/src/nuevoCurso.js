@@ -96,13 +96,13 @@ class NuevoCurso extends React.Component {
 
                 <div className="row justify-content-end" style={style3}>
                     <div className="col-md-2">
-                        <button type="submit" className='btn btn-danger'>Agregar Docente</button>
+                        <button className='btn btn-danger'>Agregar Docente</button>
                     </div>
                     <div className="col-md-2">
-                        <button type="submit" className='btn btn-danger'>Cancelar</button>
+                        <button className='btn btn-danger'>Cancelar</button>
                     </div>
                     <div className="col-md-2">
-                        <button type="submit" className='btn btn-primary'>Aceptar</button>
+                        <button className='btn btn-primary'>Aceptar</button>
                     </div>
                 </div>
 

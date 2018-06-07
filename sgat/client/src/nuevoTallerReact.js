@@ -4,7 +4,6 @@ const axios = require('axios')
 const {MuestraCategorias} = require('./componentesComunes/selectMostrarCategorias.jsx')
 const {NuevaCategoria} = require('./componentesComunes/nuevaCategoria.jsx')
 const {NuevaSubCategoria} = require('./componentesComunes/nuevaSubCategoria.jsx')
-const {actualizar} = require('./componentesComunes/selectMostrarCategorias.jsx')
 
 const style = {
     marginTop: 20
