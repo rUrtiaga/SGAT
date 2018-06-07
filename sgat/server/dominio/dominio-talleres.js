@@ -45,7 +45,7 @@ class Taller {
         for (const subCatStr of listSubsString) {
             listSubsCats.push(new SubCategoria(subCatStr,this))
         }
-        return (listSubsCats != [])?listSubsCats:[new SubCategoria(undefined,this)]
+        return (listSubsCats !== [])?listSubsCats:[new SubCategoria(undefined,this)]
     }
 }
 
@@ -339,7 +339,6 @@ class Store {
         this.addTaller(new Taller(cat2,'Bateria','Principiantes','Avanzados'))
         this.addTaller(new Taller(cat2,'Bandoneon','Principiantes','Avanzados'))
         this.addTaller(new Taller(cat2,'Flauta Traversa','Principiantes','Avanzados'))
-        this.addTaller(new Taller(cat2,'Piano','Principiantes','Avanzados'))
     
         let prof = new Persona(12345678,'Juan','Perez','12/02/1980','',2243451234,'a@a.com')
 
