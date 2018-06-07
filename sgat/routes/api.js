@@ -37,9 +37,14 @@ router.get('/talleres/:id', function (req, res){
     res.json(controller.getTallerID(req.params.id))
 })
 
-//pido las subacategorias de un taller
+//pido las subcategorias de un taller
 router.get('/talleres/:id/subcategorias', function (req, res){
     res.json(controller.getSubCatDeTallerID(req.params.id))
+})
+
+//pido las subcategorias de un taller
+router.get('/talleres/:id/subcategorias/:subid/cursos', function (req, res){
+    res.json(controller.getCursosSubCatDeTaller(req.params.id,req.params.subid))
 })
 
 

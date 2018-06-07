@@ -79,6 +79,10 @@ class CrearTaller extends React.Component{
 	}
 }
 	
+seleccionarCategoria(valor){
+	this.setState({categoria:valor})
+}
+
 render() {
  return (
 		<div className="container">
@@ -89,7 +93,7 @@ render() {
 					<div className="col">
 						<label htmlFor="CategoriaTitle">Categorias</label>
 						<div className="form-row">
-							<MuestraCategorias padre={this} />
+							<MuestraCategorias seleccionar={(v)=>this.seleccionarCategoria(v)} padre={this} />
 							<div className="col">
 								<button type="button" className="btn btn-primary" onClick={()=> this.mostrarDivNuevaCateg()}>Nueva Categoria</button>
 							</div>

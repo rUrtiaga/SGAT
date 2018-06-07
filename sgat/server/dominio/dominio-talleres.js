@@ -124,7 +124,7 @@ class Curso{
     addEspera(alumno){ return this._espera.push(alumno.getDNI())}    
     addAlumnoBaja(DNIalumno){return this._alumnosBaja.push(DNIalumno)}
     addEsperaBaja(DNIalumno){return this._esperaBaja.push(DNIalumno)}    
-    addDiaHorarioLugar(diaHorarioLugar){return this._diasHorariosLugares.push(diaHorarioLugar)}
+    addDiaHorarioLugar(diaHorarioLugar){this._diasHorariosLugares.push(diaHorarioLugar)}
 
 
     removeAlumno(DNIalumno){
@@ -179,9 +179,9 @@ class Curso{
         }
     }
 
-    addDiaHorarioLugar(strDia,strHorario,strLugar){
-        this.getDiasHorariosLugares().push(new DiaHorarioLugar(strDia,strHorario,strLugar))
-    }
+    // addDiaHorarioLugar(strDia,strHorario,strLugar){
+    //     this.getDiasHorariosLugares().push(new DiaHorarioLugar(strDia,strHorario,strLugar))
+    // }
     /******************************
      *      Setters y getters
      ******************************/
@@ -339,6 +339,7 @@ class Store {
 
         let ceramicaNormalc1 = new Curso(10,ceramica.getSubCategoria('Normal'),prof)
         ceramicaNormalc1.addDiaHorarioLugar(new DiaHorarioLugar('Martes','20:00','Casa de La Cultura'))
+        ceramicaNormalc1.addDiaHorarioLugar(new DiaHorarioLugar('Miercoles','21:00','Casa de La Cultura'))
         this.addCurso(ceramicaNormalc1)
     }
 }

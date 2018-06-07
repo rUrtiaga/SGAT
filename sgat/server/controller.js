@@ -49,6 +49,11 @@ class Controller{
     getSubCatDeTallerID(id){
         return talleresToJSON( store.getTallerLLamado(id).getSubCategorias() )
     }
+
+    getCursosSubCatDeTaller(idt,idsub){
+        return talleresToJSON( store.cursos )
+    }
+    
 }
 
 exports.controller = new Controller()    

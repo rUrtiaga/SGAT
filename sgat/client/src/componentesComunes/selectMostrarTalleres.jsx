@@ -70,7 +70,7 @@ class MuestraTalleres extends MuestraFromProps {
   }
 
   manejarSeleccion(event) {
-    this.props.padre.setState({ taller: event.target.value });
+    this.props.seleccionar(event.target.value);
   }
 
   desplegar() {
