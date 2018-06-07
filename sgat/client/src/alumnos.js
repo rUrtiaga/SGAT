@@ -4,56 +4,6 @@ const React = require('react')
 const axios = require('axios')
 
 /***********************************************
-    Alumnos
- ***********************************************/
-
- //Esta clase se esta usando desde aca, se deberia importar la Persona de dominio,
-// class Persona {
-//     constructor(dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario) {
-//         this._dni = dni
-//         this._nombre = nombre
-//         this._apellido = apellido
-//         this._fechaNac = fechaNac
-//         this._direccion = direccion
-//         this._telPrincipal = telPrincipal
-//         this._telSecundario = telSecundario
-//         this._mail = mail
-//         this._comentario = comentario
-//     }
-
-//     /******************************
-//       *      Setters y getters
-//     ******************************/
-
-//     setDni(dni) { this._dni = dni }
-//     getDni() { return this._dni }
-
-//     setApellido(apellido) { this._apellido = apellido }
-//     getApellido() { return this._apellido }
-
-//     setNombre(nombre) { this._nombre = nombre }
-//     getNombre() { return this._nombre }
-
-//     setFechaNac(fechaNac) { this._fechaNac = fechaNac }
-//     getFechaNac() { return this._fechaNac }
-
-//     setDireccion(direccion) { this._direccion = direccion }
-//     getDireccion() { return this._direccion }
-
-//     setTelPrincipal(telPrincipal) { this._telPrincipal = telPrincipal }
-//     getTelPrincipal() { return this._telPrincipal }
-
-//     setTelSecundario(telSecundario) { this._telSecundario = telSecundario }
-//     getTelSecundario() { return this._telSecundario }
-
-//     setMail(mail) { this._mail = mail }
-//     getMail() { return this._mail }
-
-//     setComentario(comentario) { this._comentario = comentario }
-//     getComentario() { return this._comentario }
-// }
-
-/***********************************************
  Alumnos
     ***********************************************/
 /* lista de Alumnos*/
