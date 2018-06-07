@@ -270,11 +270,6 @@ class Curso {
         }
     }
 
-    addDiaHorarioLugar(strDia, strHorario, strLugar) {
-        this
-            .getDiasHorariosLugares()
-            .push(new DiaHorarioLugar(strDia, strHorario, strLugar))
-    }
     /******************************
      *      Setters y getters
      ******************************/
@@ -487,10 +482,10 @@ class Store {
         return this
             .getPersonas()
             .find(p => p.getDNI() == dni)
-
-      getCurso(numero){
+        }
+        
+    getCurso(numero){
         return this.cursos[numero]
-
     }
 
     llenar() {
@@ -524,6 +519,7 @@ class Store {
 
         let ceramicaNormalc1 = new Curso(10,ceramica.getSubCategoria('Normal'),prof)
         ceramicaNormalc1.addDiaHorarioLugar(new DiaHorarioLugar('Martes','20:00','Casa de La Cultura'))
+        ceramicaNormalc1.addDiaHorarioLugar(new DiaHorarioLugar('Miercoles','21:00','Casa de La Cultura'))
         this.addCurso(ceramicaNormalc1)
 
         const juan = new Persona("12345281", "Juan", "Pavón", "100359", "Laprida 44", "452345", "451234", "jpavon@yopmail", "nada")

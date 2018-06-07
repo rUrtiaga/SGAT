@@ -1,5 +1,3 @@
-// import {Persona} from "../../server/dominio/dominio-talleres"   // no funciona porque el server esta fuera del alcance
-
 const React = require('react')
 const axios = require('axios')
 
@@ -21,16 +19,16 @@ class ListarAlumnos extends React.Component {
     }    
 
     getDataCurso(){
+        //provisoriamente se codea esta 
         let self = this
-        axios.get('/api/cursos/0')
+        axios.get( '/api/talleres/Ceramica/subcategorias/Normal/cursos')
         .then(function(response){
             const json = JSON.parse(response.data)
             self.setState({
-                listaDeAlumnosKey: json._alumnos,
-                cupo: json._cupo
+                listaDeAlumnosKey: json[0]._alumnos,
+                cupo: json[0]._cupo
             })
-            console.log(json._alumnos +" Cupo " + json._cupo)
-            return Promise.resolve(json._alumnos)
+            return Promise.resolve(json[0]._alumnos)
         })
         .then(function(lAlumnosDni){
             self.getAlumnos(lAlumnosDni)
@@ -132,7 +130,7 @@ class ListarAlumnos extends React.Component {
     /** --- Link para Info del Alumno ---  */
     linkInfoAlumno(alumno) {
         return (
-            <a href="#" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno.apellido}</a>
+            <a onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno.apellido}</a>
         )
     }
     mostrarDatosAlumno(unAlumno) {

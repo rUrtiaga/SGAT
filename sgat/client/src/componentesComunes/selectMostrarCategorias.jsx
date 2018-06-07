@@ -14,7 +14,8 @@ class MuestraCategorias extends React.Component {
     const self = this;
     axios
       .get("api/categorias")
-      .then(respuesta => self.setState({ categorias: respuesta.data }));
+      .then(respuesta => self.setState({ categorias: respuesta.data }))
+      .then(()=>this.props.seleccionar(this.state.categorias[0]))
   }
 
   render() {
@@ -23,8 +24,7 @@ class MuestraCategorias extends React.Component {
         <select
           className="form-control"
           onChange={this.manejarSeleccion.bind(this)}
-          id="categorias"
-        >
+          id="categorias">
           {this.desplegarCategorias()}
         </select>
       </div>
@@ -32,8 +32,9 @@ class MuestraCategorias extends React.Component {
   }
 
   manejarSeleccion(event) {
-    this.setState({ seleccionada: event.target.value });
-    this.props.padre.setState({ categoria: event.target.value });
+    // this.setState({ seleccionada: event.target.value });
+    // this.props.padre.setState({ categoria: event.target.value });
+    this.props.seleccionar(event.target.value) 
   }
 
   desplegarCategorias() {

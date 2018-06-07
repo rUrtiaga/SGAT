@@ -18,7 +18,7 @@ class MuestraSubCategorias extends MuestraFromProps {
       }
     
       manejarSeleccion(event) {
-        this.props.padre.setState({ subCategoria: event.target.value });
+        this.props.seleccionar( event.target.value )
       }
     
       //la key y el value deben ser remplazadas por id

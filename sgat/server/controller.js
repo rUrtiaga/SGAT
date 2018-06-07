@@ -49,14 +49,15 @@ class Controller{
     getSubCatDeTallerID(id){
         return talleresToJSON( store.getTallerLLamado(id).getSubCategorias() )
     }
-  
+
+    getCursosSubCatDeTaller(idt,idsub){
+        return talleresToJSON( store.cursos )
+    }
+    
     agregarCategoria(categoria){
         store.addCategoria(categoria)
     }
 
-    getCurso(keyDeCurso){
-        return store.getCurso(keyDeCurso).JSONUIListaAlumnos()
-    }
 }
 
 exports.controller = new Controller()    
