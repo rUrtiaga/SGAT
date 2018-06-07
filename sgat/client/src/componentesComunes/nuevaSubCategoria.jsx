@@ -1,5 +1,4 @@
 const React = require('react')
-const axios = require('axios')
 
 class NuevaSubCategoria extends React.Component {
     constructor(props) {
@@ -42,12 +41,6 @@ class NuevaSubCategoria extends React.Component {
     }
 
     agregarSubCategoria() {
-        const self = this
-
-        // axios.post('api/categorias', {categoria: self.state.nombreCategoria})
-        // .then(function(res){     console.log("se agrego la categoria " +
-        // self.state.nombreCategoria) }) .catch(error => {     console.log(error) });
-
         this
             .props
             .padre
@@ -56,7 +49,7 @@ class NuevaSubCategoria extends React.Component {
             .props
             .padre
             .setState({agregaSubCategoria: false})
-    }
+    }   
 
     cancelarAgregado() {
         this.setState.nombreSubCategoria = ""

@@ -482,10 +482,10 @@ class Store {
         return this
             .getPersonas()
             .find(p => p.getDNI() == dni)
-
-      getCurso(numero){
+        }
+        
+    getCurso(numero){
         return this.cursos[numero]
-
     }
 
     llenar() {

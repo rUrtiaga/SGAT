@@ -1,5 +1,4 @@
 const React = require("react");
-const axios = require("axios");
 
 class Curso extends React.Component {
   constructor(props) {
