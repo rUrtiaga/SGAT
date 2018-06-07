@@ -46,3 +46,4 @@ class MuestraCategorias extends React.Component {
 }
 
 exports.MuestraCategorias = MuestraCategorias;
+

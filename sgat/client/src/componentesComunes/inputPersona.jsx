@@ -2,7 +2,7 @@ const React = require('react')
 const axios = require('axios')
 
 class InputPersona extends React.Component {
-    constructor(props) {
+    constructor(props){
         super(props)
         this._persona = this.props.persona
         this.state = {
