@@ -49,5 +49,5 @@ router.get('/talleres/:id/subcategorias', function (req, res){
     res.json(controller.getSubCatDeTallerID(req.params.id))
 
 })
-
+})
 module.exports = router;
