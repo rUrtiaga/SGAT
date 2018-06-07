@@ -21,7 +21,7 @@ class NuevaCategoria extends React.Component {
                             className="form-control"
                             id="nombreCategoria"
                             value={this.state.nombreCategoria}
-                            onChange={(event) => this.setState({nombreCategoria: event.target.value})}/>
+                            onChange={(event) => this.setState({ nombreCategoria: event.target.value })} />
                     </div>
                     <div className="row justify-content-end">
                         <div className="col"></div>
@@ -45,22 +45,20 @@ class NuevaCategoria extends React.Component {
 
     agregarCategoria() {
         const self = this
-
         axios
-            .post('api/categorias', {categoria: self.state.nombreCategoria})
-            .then(function (res) {
-                console.log("se agrego la categoria " + self.state.nombreCategoria)
-            })
+            .post('api/categorias', { categoria: self.state.nombreCategoria })
+            //.then(function (res) {
+            //    console.log("se agrego la categoria " + self.state.nombreCategoria)
+            //})
             .catch(error => {
                 console.log(error)
             });
-        this.props.padre.setState({agregaCategoria: false})
-
+            this.props.padre.setState({ agregaCategoria: false })
     }
 
     cancelarAgregado() {
         this.setState.nombreCategoria = ""
-        this.props.padre.setState({agregaCategoria: false})
+        this.props.padre.setState({ agregaCategoria: false })
     }
 }
 
