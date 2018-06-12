@@ -38,8 +38,8 @@ describe("React Listar Alumnos", () => {
 
         mock.onGet('/api/talleres/Ceramica/subcategorias/Normal/cursos')
             .reply(200, [{
-                "_alumnos": [{ "key": 222, "_dni": 222, _nombre: "Federico", _apellido: "Arari", _telPrincipal: "444" }, 
-                             { "key": 223,"_dni": 223, _nombre: "Fede", _apellido: "Arambarri", _telPrincipal: "555" }],
+                "_alumnos": [{ "_dni": 222, _nombre: "Federico", _apellido: "Arari", _telPrincipal: "444" }, 
+                             { "_dni": 223, _nombre: "Fede", _apellido: "Arambarri", _telPrincipal: "555" }],
 
                 "_cupo": 10
             }]);
