@@ -47,17 +47,16 @@ class NuevoCurso extends React.Component {
        
     }
     agregarPersona(){
-        this.setState({
-            inputPersonaOculto: !this.state.inputPersonaOculto
-          });
+        this.setState({ inputPersonaOculto: true });
     }
     acceptPersona() {
-      this.setState({ inputPersonaOculto: !this.state.inputPersonaOculto })
+        this.ocultarNuevaPersona()   
+    }
+    ocultarNuevaPersona(){
+        this.setState({ inputPersonaOculto: false });
     }
     cancelarPersona(){
-        this.setState({
-            inputPersonaOculto: !this.state.inputPersonaOculto
-          });
+        this.ocultarNuevaPersona()
     }
 
     nuevaPersona(){
@@ -67,8 +66,8 @@ class NuevoCurso extends React.Component {
               id="inputPersona"
               persona={this.state.persona}
               padre={this}
-              onCancel={this.cancelarPersona}
-              onAccept={this.cancelarPersona}
+              onCancel={this.cancelarPersona.bind(this)}
+              onAccept={this.cancelarPersona.bind(this)}
             />
             )
     }
