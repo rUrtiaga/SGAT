@@ -3,8 +3,8 @@ const axios = require('axios')
 
 /***********************************************
  Alumnos
-    ***********************************************/
-/* lista de Alumnos*/
+***********************************************/
+/* lista de Alumnos */
 class ListarAlumnos extends React.Component {
     constructor(props) {
         super(props)
