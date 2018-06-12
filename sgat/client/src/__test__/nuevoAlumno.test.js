@@ -22,15 +22,20 @@ describe("React input Persona", () => {
   });
   it("persona inicializado con algunos datos", done => {
     const persona = { _dni: 231, _nombre: "Juanito", _apellido: "Casta" };
-    let input = shallow(<InputPersona persona={persona} />);
-
-    expect(input.instance()._persona).toEqual(persona);
-    expect(input.state("dni")).toEqual(persona._dni);
-    expect(input.state().nombre).toEqual(persona._nombre);
-    expect(input.state().apellido).toEqual(persona._apellido);
-    done();
+    
+    Promise.resolve().then(()=>{
+      let input = shallow(<InputPersona persona={persona} />);
+      return Promise.resolve(input)
+    }).then((i)=>{
+      let input = i.instance()
+      expect(input._persona).toEqual(persona);
+      expect(input.state.dni).toEqual(persona._dni);
+      expect(input.state.nombre).toEqual(persona._nombre);
+      expect(input.state.apellido).toEqual(persona._apellido);
+      done();
+    })
   });
-  it("axios", () => {
+  it("fetch persona from api", () => {
     let input = shallow(<InputPersona persona={{}} />);
 
     let data = { _dni: 122333, _nombre: "Foo", _apellido: "Roque" };
