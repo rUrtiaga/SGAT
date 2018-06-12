@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 let {controller} = require('../server/controller.js')
+const {store} = require('../server/Store.js')
+const {service} = require('../server/service.js')
+
 
 /* GET users listing.*/
 // router.get('/personas/:dni', function(req, res, next) {
@@ -12,12 +15,16 @@ router.post('/personas', function(req,res,next){
     res.send(controller.getPersonaDNI(req.body._dni))
 })
 
+//Este get usa el fetch autosuficiente de STORE
 router.get('/categorias',  function(req, res, next) {
-    controller.getCategorias(res)
+    service.fetchCategorias()
+     .then((cats) => res.json(cats))
 });
 
 router.post('/categorias', function (req, res){
-    res.send(controller.agregarCategoria(req.body.categoria))
+    service.pushCategoria(req.body.categoria)
+        .then((status) => res.send(status))
+        // .catch((e)=> res.send(e))
 })
 
 module.exports = router;
