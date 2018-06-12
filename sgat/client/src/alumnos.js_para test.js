@@ -23,16 +23,13 @@ class ListarAlumnos extends React.Component {
         let self = this
         return axios.get( '/api/talleres/Ceramica/subcategorias/Normal/cursos')
         .then(function(response){
-            const json = JSON.parse(response.data)      // para Test hay que comentar esta linea
-            // const json = response.data               // para Test hay que descomentar
+            //const json = JSON.parse(response.data)
+            const json = response.data
             self.setState({
-                listaDeAlumnosKey: json[0]._alumnos,
+                listaDeAlumnos: json[0]._alumnos,
                 cupo: json[0]._cupo
             })
             return Promise.resolve(json[0]._alumnos)
-        })
-        .then(function (lAlumnosDni) {
-            self.getAlumnos(lAlumnosDni)
         })
         .catch(function (error) {
             console.log(error)
@@ -45,10 +42,10 @@ class ListarAlumnos extends React.Component {
             axios.get('/api/personas/'+ key)
             .then(function (response) {
                 let alumno = {
-                    _dni: response.data._dni,
-                    _nombre: response.data._nombre, _apellido: response.data._apellido, 
-                    _telPrincipal: response.data._telPrincipal,
-                    _mail: response.data._mail}
+                    dni: response.data._dni,
+                    nombre: response.data._nombre, apellido: response.data._apellido, 
+                    telPrincipal: response.data._telPrincipal,
+                    mail: response.data._mail}
                 self.setState({
                     listaDeAlumnos: [...self.state.listaDeAlumnos,alumno]
                 })  
@@ -66,21 +63,22 @@ class ListarAlumnos extends React.Component {
                     <div className="row">
                         <div className="col-md-11">
                             <div className="card text-dark">
-                                <div className="align-self-center card-bg-info bg-primary text-white  ">  
-                                    <h3> Acá va el nombre del Curso </h3></div>
-                                <div className="card-body text-black">
-                                        <h4>Listado de Alumnos</h4>
-                                </div>
-                                <div className="card-body text-dark">
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            {this.tblAlumnos()}
-                                        </div>
+                                <div className="align-self-center card-header bg-info text-white">  
+                                    <h3> Curso </h3></div>
+                                    <div className="card-bg-info bg-primary text-white">
+                                        <h4>Alumnos</h4>
                                     </div>
-                                    {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success")}
-                                </div>
-                                <h4> Alumnos Registrados {this.state.listaDeAlumnos.length} de {this.state.cupo}</h4>
-                            </div>    
+                                    <div className="card-body text-dark">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                {this.tblAlumnos()}
+                                            </div>
+                                        </div>
+                                        {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success")}
+                                    </div>
+                                    <h4> Alumnos Registrados </h4>
+                                </div>    
+                            
                         </div>
                     </div>
                 </div>
@@ -130,7 +128,7 @@ class ListarAlumnos extends React.Component {
     /** --- Link para Info del Alumno ---  */
     linkInfoAlumno(alumno) {
         return (
-            <a href="#" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno._apellido}</a>
+            <a onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno.apellido}</a>
         )
     }
     mostrarDatosAlumno(unAlumno) {
