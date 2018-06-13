@@ -1,6 +1,5 @@
 const { MongoClient } = require("mongodb");
 
-
 /* Tres cosas de carlos
  *  - no vale abrir mas de una conexion para cada llamada por API
  *  - digamos que el servicio es el encargado de manejar la conexion
@@ -73,7 +72,7 @@ class Store {
   //   .then(function(conn) {
   //     dbConnection = conn; //Guardo la conneccion en la variable externa al promise
   //     db = dbConnection.db(dbName);
-      
+
   //     return db
   //       .collection(collectionName)
   //       .find().toArray();
@@ -95,31 +94,34 @@ class Store {
   //   return this.doOperationOnConnection((db) => this.fetchCategorias(db))
   // }
 
-  fetchCategorias(db){
-    return db
-        .collection("categorias")
-        .find().toArray()
-  }
-
-  pushCategoria(db,categoria){
-    return db
-        .collection("categorias")
-        .insertOne({'categoria':categoria})
-  }
-
-  existsCategoria(db,categoria){
+  fetchCategorias(db) {
     return db
       .collection("categorias")
-      .find({"categoria": categoria})
+      .find()
+      .toArray();
+  }
+
+  pushCategoria(db, categoria) {
+    return db.collection("categorias").insertMany([{ categoria: categoria }]);
+  }
+
+  existsCategoria(db, categoria) {
+    return db
+      .collection("categorias")
+      .find({ categoria: categoria })
       .toArray()
   }
+  // return db
+  //   .collection("categorias")
+  //   .find({ categoria: categoria })
+  //   .toArray();
 
   //sin condiciones
   // fetchCategoriasCompacto() {
   //   return this.doOperationOnConnection((db) => {
   //     return db
   //         .collection("categorias")
-  //         .find().toArray()        
+  //         .find().toArray()
   //   })
   // }
 
@@ -128,7 +130,7 @@ class Store {
   //   return this.doOperationOnConnection((db) => {
   //     return db
   //         .collection("categorias")
-  //         .find(filtro).toArray()        
+  //         .find(filtro).toArray()
   //   })
   // }
 
@@ -137,9 +139,8 @@ class Store {
   // fetchCategoriasCompacto() {
   //   return MagicContext.db()
   //       .collection("categorias")
-  //       .find().toArray()        
+  //       .find().toArray()
   // }
-
 
   // ESTE SE PASO A SERVICE
   // doOperationOnConnection(operation) {
@@ -150,7 +151,7 @@ class Store {
   //   .then(function(conn) {
   //     dbConnection = conn; //Guardo la conneccion en la variable externa al promise
   //     db = dbConnection.db(dbName);
-      
+
   //     return operation(db)
   //   })
   //   .then(function(data) {
@@ -163,11 +164,8 @@ class Store {
   //     return Promise.reject(error)
   //   })
   // }
-
-
 }
-
 
 let store = new Store();
 
-exports.store = store
+exports.store = store;

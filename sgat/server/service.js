@@ -38,11 +38,11 @@ class Service {
       })
       .then(function(data) {
         dbConnection.close();
-        console.log('data en service'+data);
+        // console.log("data en service" + data);
         return Promise.resolve(data);
       })
       .catch(function(error) {
-        console.log('catch!!! '+ error);
+        // console.log("catch!!! " + error);
         dbConnection.close();
         return Promise.reject(error);
       });
@@ -52,17 +52,24 @@ class Service {
     return this.doOperationOnConnection(db => store.fetchCategorias(db));
   }
 
-  pushCategoria(categoria) {
-    return this.doOperationOnConnection(db => {
-      //hacer la pequeña validacion con el esistCategoria
-      return store.existsCategoria(db, categoria)
-            .then(dataCategoria => {
-              console.log(dataCategoria);
-              return store.pushCategoria(db, categoria);
-            })
-            .catch((e)=> console.log(e));
+  existCategoria(db, categoria) {
+    return store.existsCategoria(db, categoria).then(dcat => {
+      if (dcat.length == 0) {
+        return Promise.resolve();
+      } else {
+        return Promise.reject(
+          new Error(
+            "ya se encuentra una categoria con el nombre: '" + categoria + "'"
+          )
+        );
+      }
     });
   }
+
+  pushCategoria(db,categoria) {
+    return store.pushCategoria(db, categoria);
+  }
+
 }
 
 let service = new Service();
