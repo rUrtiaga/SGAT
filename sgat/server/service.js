@@ -48,6 +48,10 @@ class Service {
       });
   }
 
+  fetchPersonaDNI(dni) {
+    return this.doOperationOnConnection(db => store.fetchPersona(db,dni));
+  }
+
   fetchCategorias() {
     return this.doOperationOnConnection(db => store.fetchCategorias(db));
   }

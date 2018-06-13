@@ -94,6 +94,12 @@ class Store {
   //   return this.doOperationOnConnection((db) => this.fetchCategorias(db))
   // }
 
+  fetchPersona(db, dni) {
+    return db
+      .collection("personas")
+      .find({ _dni: parseInt(dni) })
+      .toArray();
+  }
   fetchCategorias(db) {
     return db
       .collection("categorias")
@@ -109,7 +115,7 @@ class Store {
     return db
       .collection("categorias")
       .find({ categoria: categoria })
-      .toArray()
+      .toArray();
   }
   // return db
   //   .collection("categorias")

@@ -5,8 +5,14 @@ const { store } = require("../server/Store.js");
 const { service } = require("../server/service.js");
 
 /* GET users listing.*/
-// router.get('/personas/:dni', function(req, res, next) {
-//   res.json(controller.getPersonaDNI(req.params.dni))
+router.get('/personas', function(req, res, next) {
+    // res.json(controller.getPersonaDNI(req.query.dni))
+    console.log(req.query.dni)
+    service.fetchPersonaDNI(req.query.dni).then(p => res.json(p[0]))
+  });
+
+// router.get('/personas/:id', function(req, res, next) {
+//   res.json(controller.getPersonaDNI(req.params.id))
 // });
 
 // router.post("/personas", function(req, res, next) {
