@@ -50,4 +50,13 @@ router.get('/talleres/:id/subcategorias/:subid/cursos', function (req, res){
     res.json(controller.getCursosSubCatDeTaller(req.params.id,req.params.subid))
 })
 
+router.post('/cursos/:id/alumnos',function(req,res){
+    try {
+        controller.pushAlumno(req.params.id,req.body._dni)
+        res.status(201).send('ok')
+    } catch (error) {
+        res.send(error)
+    }
+})
+
 module.exports = router;

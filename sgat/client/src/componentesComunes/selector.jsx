@@ -25,6 +25,7 @@ class Selector extends React.Component{
     }
 
     seleccionCurso(valor){
+        this.props.onSelect(valor)
         this.setState({ curso: valor })
     }
 

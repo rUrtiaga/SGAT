@@ -58,6 +58,10 @@ class Controller{
         store.addCategoria(categoria)
     }
 
+    pushAlumno(idCurso,idPersona){
+        let a = store.getPersonaDNI(idPersona)
+        store.getCurso(idCurso).addAlumno(a)
+    }
 }
 
 exports.controller = new Controller()    
