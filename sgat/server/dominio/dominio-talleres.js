@@ -93,14 +93,16 @@ class SubCategoria {
 }
 
 class Persona {
-  constructor(dni, nombre, apellido, fechaNac, direccion, telPrincipal, mail) {
-    this._dni = dni;
-    this._nombre = nombre;
-    this._apellido = apellido;
-    this._fechaNac = fechaNac;
-    this._direccion = direccion;
-    this._telPrincipal = telPrincipal;
-    this._mail = mail;
+  constructor(dataPersona) {
+    this._dni = dataPersona._dni;
+    this._nombre = dataPersona._nombre;
+    this._apellido = dataPersona._apellido;
+    this._fechaNac = dataPersona._fechaNac;
+    this._direccion = dataPersona._direccion;
+    this._telPrincipal = dataPersona._telPrincipal;
+    this._telSecundario = dataPersona._telSecundario;
+    this._mail = dataPersona._mail;
+    this._comentario = dataPersona._comentario;
   }
 
   /******************************
@@ -176,6 +178,13 @@ class Persona {
     persistentJSON(){
         return JSON.stringify(this)
     }
+
+    basicUIJSON(){
+      //TODO
+      return JSON.stringify(this)
+    }
+
+
 }
 
 class Curso {
@@ -528,7 +537,7 @@ function indiceDeLista(elemento, list) {
 // var store = new Store();
 // store.llenar();
 
-module.exports.dominio = { Taller, Persona, Curso, DiaHorarioLugar };
+module.exports = { Taller, Persona, Curso, DiaHorarioLugar };
 //module.exports.store = store;
 
 /*

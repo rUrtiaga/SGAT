@@ -4,22 +4,36 @@ let { controller } = require("../server/controller.js");
 const { store } = require("../server/Store.js");
 const { service } = require("../server/service.js");
 
-/* GET users listing.*/
-router.get('/personas', function(req, res, next) {
-    // res.json(controller.getPersonaDNI(req.query.dni))
-    console.log(req.query.dni)
-    service.fetchPersonaDNI(req.query.dni).then(p => res.json(p[0]))
-  });
+/* PERSONAS .*/
+router.route("/personas").get(function(req, res) {
+  service
+    .fetchPersonaDNI(req.query.dni)
+    .then(p => res.send(p))
+    .catch(e => {
+      res.status(500).send({ message: e.message || "Ocurrió un error" });
+    });
+}).post(function (req,res) {
+    service.pushPersona(req.body)
+     .then(data=> res.send(data))
+     .catch(e=>res.send(e))
+}).put(function(req,res){
+    //TODO
+})
 
-// router.get('/personas/:id', function(req, res, next) {
-//   res.json(controller.getPersonaDNI(req.params.id))
-// });
+router.get("/personas/:id", function(req, res, next) {
+  service
+    .fetchPersona(req.params.id)
+    .then(p => res.send(p))
+    .catch(e => {
+      if (e.code == 404) {
+        res.status(404).send({ message: e.message });
+      } else {
+        res.status(500).send({ message: e.message || "Ocurrió un error" });
+      }
+    });
+});
 
-// router.post("/personas", function(req, res, next) {
-//   controller.postPersona(req.body);
-//   res.send(controller.getPersonaDNI(req.body._dni));
-// });
-
+/* CATEGORIAS .*/
 //Este get usa el fetch autosuficiente de STORE
 router.get("/categorias", function(req, res, next) {
   service.fetchCategorias().then(cats => res.json(cats));
@@ -33,8 +47,8 @@ router.post("/categorias", function(req, res) {
       return service
         .existCategoria(db, categoria)
         .catch(e => {
-          e.code=10
-          return Promise.reject(e)
+          e.code = 409;
+          return Promise.reject(e);
         })
         .then(() => {
           return service.pushCategoria(db, categoria);
@@ -42,27 +56,15 @@ router.post("/categorias", function(req, res) {
         .then(status => {
           res.status(201).json(status);
           return Promise.resolve();
-        })
-    }).catch(e => {
-        if(e.code == 10){
-            res.status(409).json({ message: e.message });
-        } else {
-            res.status(500).send({ message: e.message || "Ocurrió un error" });
-        }
-      })
-    
-    
-  //   service
-  //     .pushCategoria(req.body.categoria)
-  //     .then(status => res.status(201).json(status))
-  //     .catch(e => {
-  //         console.log(e)
-  //       res.status(409).json({ message: e.message });
-  //     });
+        });
+    })
+    .catch(e => {
+      if (e.code == 409) {
+        res.status(409).json({ message: e.message });
+      } else {
+        res.status(500).send({ message: e.message || "Ocurrió un error" });
+      }
+    });
 });
-
-// function categoriasValidatorDominio(req,res,next,cat) {
-
-// }
 
 module.exports = router;

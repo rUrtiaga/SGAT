@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient ,ObjectID } = require("mongodb");
 
 /* Tres cosas de carlos
  *  - no vale abrir mas de una conexion para cada llamada por API
@@ -94,12 +94,25 @@ class Store {
   //   return this.doOperationOnConnection((db) => this.fetchCategorias(db))
   // }
 
-  fetchPersona(db, dni) {
+  fetchPersonaDNI(db, dni) {
     return db
       .collection("personas")
-      .find({ _dni: parseInt(dni) })
-      .toArray();
+      .findOne({ _dni: parseInt(dni) })
   }
+
+  fetchPersona(db,id){
+    let oid = new ObjectID(id)
+    return db
+    .collection("personas")
+    .findOne({_id: oid})
+  }
+
+  pushPersona(db, persona){
+    return db
+            .collection('personas')
+            .insertMany([persona])
+  }
+
   fetchCategorias(db) {
     return db
       .collection("categorias")

@@ -1,4 +1,4 @@
-const { dominio } = require("./dominio/dominio-talleres.js");
+const { Taller, Persona, Curso, DiaHorarioLugar } = require("./dominio/dominio-talleres.js");
 const { store } = require("./Store.js");
 const { MongoClient } = require("mongodb");
 
@@ -6,21 +6,6 @@ const dbServerURL = "mongodb://localhost:27017/";
 const dbName = "sgat";
 
 class Service {
-  // agregarPersona(persona) {
-  //   let persona = new dominio.Persona(
-  //     dataPersona._dni,
-  //     dataPersona._nombre,
-  //     dataPersona._apellido,
-  //     dataPersona._fechaNac,
-  //     dataPersona._direccion,
-  //     dataPersona._telPrincipal,
-  //     dataPersona._mail
-  //   );
-  //   persona.setTelSecundario(dataPersona._telSecundario);
-  //   persona.setComentario(dataPersona._comentario);
-
-  //   store.agregarPersona(persona);
-  // }
 
   doOperationOnConnection(operation) {
     let dbConnection = null;
@@ -38,18 +23,48 @@ class Service {
       })
       .then(function(data) {
         dbConnection.close();
-        // console.log("data en service" + data);
         return Promise.resolve(data);
       })
       .catch(function(error) {
-        // console.log("catch!!! " + error);
         dbConnection.close();
         return Promise.reject(error);
       });
   }
 
   fetchPersonaDNI(dni) {
-    return this.doOperationOnConnection(db => store.fetchPersona(db,dni));
+    return this.doOperationOnConnection(db => {
+      return store.fetchPersonaDNI(db, dni).then(p => {
+        if (p == null) {
+          return Promise.resolve({});
+        } else {
+          return Promise.resolve(p);
+        }
+      });
+    });
+  }
+
+  fetchPersona(id) {
+    return this.doOperationOnConnection(db => {
+      return store.fetchPersona(db, id).then(p => {
+        if (p == null) {
+          let e = new Error(
+            "no se encuentra la persona con id: '" + id + "'"
+          );
+          e.code = 404;
+          return Promise.reject(e);
+        } else {
+          return Promise.resolve(p);
+        }
+      });
+    });
+  }
+
+  pushPersona(dataPersona){
+    let persona = new Persona(dataPersona)
+
+    return this.doOperationOnConnection(db => {
+      return store.pushPersona(db, persona)
+    })
   }
 
   fetchCategorias() {
@@ -70,10 +85,9 @@ class Service {
     });
   }
 
-  pushCategoria(db,categoria) {
+  pushCategoria(db, categoria) {
     return store.pushCategoria(db, categoria);
   }
-
 }
 
 let service = new Service();
