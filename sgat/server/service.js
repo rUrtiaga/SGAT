@@ -1,12 +1,18 @@
-const { Taller, Persona, Curso, DiaHorarioLugar } = require("./dominio/dominio-talleres.js");
+const {
+  Taller,
+  Persona,
+  Curso,
+  DiaHorarioLugar
+} = require("./dominio/dominio-talleres.js");
 const { store } = require("./Store.js");
 const { MongoClient } = require("mongodb");
+const { SgatError } = require("./extras/SgatError.js");
+const process = require('process');
 
-const dbServerURL = "mongodb://localhost:27017/";
+const dbServerURL = process.env.MONGOSERVER || "mongodb://localhost:27017/";
 const dbName = "sgat";
 
 class Service {
-
   doOperationOnConnection(operation) {
     let dbConnection = null;
     let db = null;
@@ -47,11 +53,12 @@ class Service {
     return this.doOperationOnConnection(db => {
       return store.fetchPersona(db, id).then(p => {
         if (p == null) {
-          let e = new Error(
-            "no se encuentra la persona con id: '" + id + "'"
+          return Promise.reject(
+            new SgatError(
+              "no se encuentra la persona con id: '" + id + "'",
+              404
+            )
           );
-          e.code = 404;
-          return Promise.reject(e);
         } else {
           return Promise.resolve(p);
         }
@@ -59,12 +66,26 @@ class Service {
     });
   }
 
-  pushPersona(dataPersona){
-    let persona = new Persona(dataPersona)
+  pushPersona(dataPersona) {
+    let persona = new Persona(dataPersona);
 
     return this.doOperationOnConnection(db => {
-      return store.pushPersona(db, persona)
-    })
+      return this.isFreeDNI(db, persona.getDNI()).then(() =>
+        store.pushPersona(db, persona)
+      );
+    });
+  }
+
+  isFreeDNI(db, dni) {
+    return store.fetchPersonaDNI(db, dni).then(value => {
+      if (value == null) {
+        return Promise.resolve();
+      } else {
+        return Promise.reject(
+          new SgatError("el dni " + dni + " ya se encuentra en el sistema", 400)
+        );
+      }
+    });
   }
 
   fetchCategorias() {
@@ -77,8 +98,9 @@ class Service {
         return Promise.resolve();
       } else {
         return Promise.reject(
-          new Error(
-            "ya se encuentra una categoria con el nombre: '" + categoria + "'"
+          new SgatError(
+            "ya se encuentra una categoria con el nombre: '" + categoria + "'",
+            409
           )
         );
       }
