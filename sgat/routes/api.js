@@ -4,6 +4,32 @@ let { controller } = require("../server/controller.js");
 const { store } = require("../server/Store.js");
 const { service } = require("../server/service.js");
 
+/**
+ * Talleres
+ */
+router
+    .route("/talleres")
+    .post(function (req,res,next) {
+        service.pushTaller(req.body)
+            .then(dataOK=> res.status(201).send(dataOK))
+            .catch(e => next(e))
+    })
+    .get(function(req,res,next){
+        if(req.query.categoria){
+            next()
+            return
+        }
+        service.fetchTalleres()
+            .then(t => res.send(t))
+            .catch(e => next(e))
+    })
+    .get(function (req,res,next) {
+        service.fetchTalleresCategoria(req.query.categoria)
+        .then(t => res.send(t))
+        .catch(e => next(e))
+    })
+
+
 /* PERSONAS .*/
 router
   .route("/personas")
@@ -63,6 +89,7 @@ router
   });
 
 /* Manejador de errores
+    --debe ir al final del archivo--
 */
 
 router.use(function(e, req, res, next) {

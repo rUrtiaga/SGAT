@@ -6,7 +6,7 @@
 class Taller {
   //Forma de uso Taller('UnaCategoria','UnNombre') => Crea un taller subcategoria con nombre undefined
   // Taller('Artes Manuales','Ceramica','Indigena','Tradicional') => crea taller con dos subcategorias, pueden ser N
-  constructor(categoria, nombre, ...subCategorias) {
+  constructor(categoria, nombre, subCategorias) {
     this._categoria = categoria;
     this._nombre = nombre;
     this._subCategorias = this.stringToSubCategoria(subCategorias); //[] esto es una lista
@@ -39,18 +39,18 @@ class Taller {
   }
 
   //NO IRIA
-  getSubCategoria(nombre) {
-    try {
-      return this.getSubCategorias().find(sc => sc.getNombre() == nombre);
-    } catch (error) {
-      throw new Error(
-        "Subcategoria " +
-          nombre +
-          " no se encuentra en taller " +
-          this.getNombre()
-      );
-    }
-  }
+  // getSubCategoria(nombre) {
+  //   try {
+  //     return this.getSubCategorias().find(sc => sc.getNombre() == nombre);
+  //   } catch (error) {
+  //     throw new Error(
+  //       "Subcategoria " +
+  //         nombre +
+  //         " no se encuentra en taller " +
+  //         this.getNombre()
+  //     );
+  //   }
+  // }
 
   addSubCategoria(subCategoria) {
     this._subCategorias.push(subCategoria);
@@ -64,18 +64,18 @@ class Taller {
   stringToSubCategoria(listSubsString) {
     let listSubsCats = [];
     for (const subCatStr of listSubsString) {
-      listSubsCats.push(new SubCategoria(subCatStr, this));
+      listSubsCats.push(new SubCategoria(subCatStr));
     }
-    return listSubsCats != []
+    return listSubsCats !== []
       ? listSubsCats
-      : [new SubCategoria(undefined, this)];
+      : [new SubCategoria('UNICO', this)];
   }
 }
 
 class SubCategoria {
-  constructor(nombre, taller) {
-    this._taller = taller;
+  constructor(nombre) {
     this._nombre = nombre;
+    this._cursos = []
   }
   setNombre(nombre) {
     this._nombre = nombre;
@@ -174,6 +174,7 @@ class Persona {
 
   /*
     JSON
+      no usado por ahora
   */
     persistentJSON(){
         return JSON.stringify(this)

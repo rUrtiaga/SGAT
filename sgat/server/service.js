@@ -7,7 +7,7 @@ const {
 const { store } = require("./Store.js");
 const { MongoClient } = require("mongodb");
 const { SgatError } = require("./extras/SgatError.js");
-const process = require('process');
+const process = require("process");
 
 const dbServerURL = process.env.MONGOSERVER || "mongodb://localhost:27017/";
 const dbName = "sgat";
@@ -36,6 +36,28 @@ class Service {
         return Promise.reject(error);
       });
   }
+  /**
+   * Talleres
+   */
+
+  pushTaller(dataTaller) {
+    let taller = new Taller(dataTaller._categoria,dataTaller._nombre, dataTaller._subCategorias)
+    return this.doOperationOnConnection(db => {
+      return store.pushTaller(db, taller);
+    });
+  }
+
+  fetchTalleres() {
+    return this.doOperationOnConnection(db => {
+      return store.fetchTalleres(db);
+    });
+  }
+
+  
+
+  /**
+   *  Personas
+   */
 
   fetchPersonaDNI(dni) {
     return this.doOperationOnConnection(db => {
