@@ -9,6 +9,7 @@ const { MongoClient } = require("mongodb");
 const { SgatError } = require("./extras/SgatError.js");
 const process = require("process");
 
+//lo del process es para hacer la variable de sistema.
 const dbServerURL = process.env.MONGOSERVER || "mongodb://localhost:27017/";
 const dbName = "sgat";
 
@@ -53,7 +54,26 @@ class Service {
     });
   }
 
-  
+  fetchTalleresCategoria(categoria) {
+    return this.doOperationOnConnection(db => {
+      return store.fetchTalleresCategoria(db,categoria);
+    });
+  }
+
+  fetchTaller(id){
+    return this.doOperationOnConnection(db=>{
+      return store.fetchTaller(db,id)
+    })
+  }
+
+  //Esto esta feo... 
+  fetchCursos(ids){
+    return this.doOperationOnConnection(db=>{
+      return store.fetchSubCatCursos(db,ids)
+              .then(listT => listT[0]._subCategorias[0]._cursos)
+              // .then(listC => )
+    })
+  }
 
   /**
    *  Personas

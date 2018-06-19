@@ -7,6 +7,7 @@ const { service } = require("../server/service.js");
 /**
  * Cursos
  */
+
 router.route("/cursos").post(function(req, res, next) {
   service
     .pushCurso(req.body)
@@ -17,6 +18,7 @@ router.route("/cursos").post(function(req, res, next) {
 /**
  * Talleres
  */
+
 router
   .route("/talleres")
   .post(function(req, res, next) {
@@ -41,6 +43,26 @@ router
       .then(t => res.send(t))
       .catch(e => next(e));
   });
+
+router.get("/talleres/:id", function(req, res, next) {
+  service
+    .fetchTaller(req.params.id)
+    .then(t => res.send(t))
+    .catch(e => next(e));
+});
+
+router.get("/talleres/:id/cursos",function(req,res,next){
+  service.fetchTaller(req.params.id)
+  .then(t => res.send(t._cursos))
+  .catch(e => next(e))
+})
+
+router.get("/talleres/:id/subcategorias/:subid/cursos",function(req,res,next){
+  service.fetchCursos(req.params)
+  .then(cursos => res.send(cursos))
+  .catch(e => next(e))
+})
+
 
 /* PERSONAS .*/
 router

@@ -1,3 +1,5 @@
+const {ObjectID} = require('mongodb')
+
 /********************
  * DOMINIO
  ********************/
@@ -74,6 +76,7 @@ class Taller {
 
 class SubCategoria {
   constructor(nombre) {
+    this._id = new ObjectID();
     this._nombre = nombre;
     this._cursos = []
   }
