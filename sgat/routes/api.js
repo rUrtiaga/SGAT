@@ -5,30 +5,42 @@ const { store } = require("../server/Store.js");
 const { service } = require("../server/service.js");
 
 /**
+ * Cursos
+ */
+router.route("/cursos").post(function(req, res, next) {
+  service
+    .pushCurso(req.body)
+    .then(dataOK => res.status(201).send(dataOK))
+    .catch(e => next(e));
+});
+
+/**
  * Talleres
  */
 router
-    .route("/talleres")
-    .post(function (req,res,next) {
-        service.pushTaller(req.body)
-            .then(dataOK=> res.status(201).send(dataOK))
-            .catch(e => next(e))
-    })
-    .get(function(req,res,next){
-        if(req.query.categoria){
-            next()
-            return
-        }
-        service.fetchTalleres()
-            .then(t => res.send(t))
-            .catch(e => next(e))
-    })
-    .get(function (req,res,next) {
-        service.fetchTalleresCategoria(req.query.categoria)
-        .then(t => res.send(t))
-        .catch(e => next(e))
-    })
-
+  .route("/talleres")
+  .post(function(req, res, next) {
+    service
+      .pushTaller(req.body)
+      .then(dataOK => res.status(201).send(dataOK))
+      .catch(e => next(e));
+  })
+  .get(function(req, res, next) {
+    if (req.query.categoria) {
+      next();
+      return;
+    }
+    service
+      .fetchTalleres()
+      .then(t => res.send(t))
+      .catch(e => next(e));
+  })
+  .get(function(req, res, next) {
+    service
+      .fetchTalleresCategoria(req.query.categoria)
+      .then(t => res.send(t))
+      .catch(e => next(e));
+  });
 
 /* PERSONAS .*/
 router
@@ -40,7 +52,7 @@ router
       .catch(e => next(e));
   })
   .post(function(req, res, next) {
-      //validacion de string y demas aca.
+    //validacion de string y demas aca.
     return service
       .pushPersona(req.body)
       .then(data => res.status(201).send(data))
