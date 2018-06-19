@@ -163,7 +163,7 @@ class ListarAlumnos extends React.Component {
     botonEliminar(alumno) {
         return (
             <button className="btn btn-danger btn-xs" onClick={() => this.eliminarAlumno(alumno)}>
-                <span className="fa fa-times-circle"> Eliminar </span>
+                <span className="fa fa-close"> Eliminar </span>
             </button>
         )
     }
