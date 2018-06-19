@@ -1,5 +1,4 @@
-const React = require('react')
-
+const React = require("react");
 
 class AceptarYCancelar extends React.Component {
   render() {
@@ -7,6 +6,7 @@ class AceptarYCancelar extends React.Component {
       <div className="row justify-content-end">
         <div className="col-md-2">
           <button
+            id="cancelar"
             type="submit"
             className="btn btn-danger"
             onClick={() => this.props.cancelar()}
@@ -16,6 +16,7 @@ class AceptarYCancelar extends React.Component {
         </div>
         <div className="col-md-2">
           <button
+            id="aceptar"
             type="submit"
             className="btn btn-primary"
             onClick={() => this.props.aceptar()}
@@ -28,4 +29,4 @@ class AceptarYCancelar extends React.Component {
   }
 }
 
-exports.AceptarYCancelar = AceptarYCancelar
+exports.AceptarYCancelar = AceptarYCancelar;

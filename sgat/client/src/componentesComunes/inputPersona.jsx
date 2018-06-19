@@ -223,15 +223,17 @@ class InputPersona extends React.Component {
         axios
             .post('/api/personas', persona)
             .then(function (response) {
-                console.log(response);
+                // console.log(response);
             })
             .catch(function (error) {
-                console.log(error);
+                // console.log(error);
             });
 
-        this
-            .props
-            .onAccept(persona._dni)
+        if(this.props.onAccept){
+            this
+                .props
+                .onAccept(persona._dni)
+        }
         return persona
     }
 }
