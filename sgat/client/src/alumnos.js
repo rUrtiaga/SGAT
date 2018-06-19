@@ -168,7 +168,7 @@ class ListarAlumnos extends React.Component {
         )
     }
     eliminarAlumno(alumno) {
-        let codigo = this.state.listaDeAlumnos.filter((alu) => alu.dni !== alumno.dni);
+        let codigo = this.state.listaDeAlumnos.filter((alu) => alu._dni !== alumno._dni);
         this.setState({
             listaDeAlumnos: codigo
         })
