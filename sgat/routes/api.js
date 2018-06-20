@@ -8,12 +8,36 @@ const { service } = require("../server/service.js");
  * Cursos
  */
 
-router.route("/cursos").post(function(req, res, next) {
+router
+  .route("/cursos")
+  .post(function(req, res, next) {
+    service
+      .pushCurso(req.body)
+      .then(dataOK => res.status(201).send(dataOK))
+      .catch(e => next(e));
+  })
+  .get(function(req, res, next) {
+    service
+      .fetchCursos()
+      .then(cursos => res.send(cursos))
+      .catch(e => next(e));
+  });
+
+  //aplicar lookup
+router.get("/cursos/:id", function(req, res, next) {
   service
-    .pushCurso(req.body)
-    .then(dataOK => res.status(201).send(dataOK))
+    .fetchCurso(req.params.id)
+    .then(curso => res.send(curso))
     .catch(e => next(e));
 });
+
+router.post("/cursos/:id/alumnos", function(req, res, next) {
+  service
+    .postAlumnoCurso(req.params.id,req.body._idPersona)
+    .then(algo => res.send(algo))
+    .catch(e => next(e));
+});
+
 
 /**
  * Talleres
@@ -51,18 +75,19 @@ router.get("/talleres/:id", function(req, res, next) {
     .catch(e => next(e));
 });
 
-router.get("/talleres/:id/cursos",function(req,res,next){
-  service.fetchTaller(req.params.id)
-  .then(t => res.send(t._cursos))
-  .catch(e => next(e))
-})
+//creo que deberia ir con un parametro
+router.get("/talleres/:id/cursos", function(req, res, next) {
+  service
+    .fetchCursosTaller(req.params.id)
+    .then(cursos => res.send(cursos))
+    .catch(e => next(e));
+});
 
-router.get("/talleres/:id/subcategorias/:subid/cursos",function(req,res,next){
-  service.fetchCursos(req.params)
-  .then(cursos => res.send(cursos))
-  .catch(e => next(e))
-})
-
+// router.get("/talleres/:id/subcategorias/:subid/cursos",function(req,res,next){
+//   service.fetchCursos(req.params)
+//   .then(cursos => res.send(cursos))
+//   .catch(e => next(e))
+// })
 
 /* PERSONAS .*/
 router
@@ -127,6 +152,7 @@ router
 */
 
 router.use(function(e, req, res, next) {
+  console.log(e);
   if (e.status) {
     res.status(e.status).send({ message: e.message });
   } else {

@@ -6,22 +6,23 @@ const {ObjectID} = require('mongodb')
 
 //(NO ACCEDER DIRECTO A LAS PROPIEDADES)
 class Taller {
-  //Forma de uso Taller('UnaCategoria','UnNombre') => Crea un taller subcategoria con nombre undefined
+  // Forma de uso Taller('UnaCategoria','UnNombre') => Crea un taller subcategoria con nombre undefined
   // Taller('Artes Manuales','Ceramica','Indigena','Tradicional') => crea taller con dos subcategorias, pueden ser N
-  constructor(categoria, nombre, subCategorias) {
-    this._categoria = categoria;
-    this._nombre = nombre;
-    this._subCategorias = this.stringToSubCategoria(subCategorias); //[] esto es una lista
+  constructor(dataTaller, subCategoria) {
+    this._categoria = dataTaller._categoria;
+    this._nombre = dataTaller._nombre;
+    this._subCategoria = subCategoria; 
   }
 
   /******************************
    *      Setters y getters
    ******************************/
 
-  setCategoria(categoria) {
-    store.addCategoria(categoria);
-    this._categoria = categoria;
-  }
+  // setCategoria(categoria) {
+  //   store.addCategoria(categoria);
+  //   this._categoria = categoria;
+  // }
+
   getCategoria() {
     return this._categoria;
   }
@@ -33,67 +34,53 @@ class Taller {
     return this._nombre;
   }
 
-  setSubCategorias(subCategorias) {
-    this._subCategorias = subCategorias;
+  setSubCategoria(subCategoria) {
+    this._subCategoria = subCategoria;
   }
-  getSubCategorias() {
-    return this._subCategorias;
+  getSubCategoria() {
+    return this._subCategoria;
   }
 
-  //NO IRIA
-  // getSubCategoria(nombre) {
-  //   try {
-  //     return this.getSubCategorias().find(sc => sc.getNombre() == nombre);
-  //   } catch (error) {
-  //     throw new Error(
-  //       "Subcategoria " +
-  //         nombre +
-  //         " no se encuentra en taller " +
-  //         this.getNombre()
-  //     );
-  //   }
+  // addSubCategoria(subCategoria) {
+  //   this._subCategorias.push(subCategoria);
   // }
 
-  addSubCategoria(subCategoria) {
-    this._subCategorias.push(subCategoria);
-  }
-
-  addStrSubCategoria(strSubCat) {
-    this.stringToSubCategoria([strSubCat]);
-  }
+  // addStrSubCategoria(strSubCat) {
+  //   this.stringToSubCategoria([strSubCat]);
+  // }
 
   //Esta es la funcion que tranforma una lista de string a subcategorias
-  stringToSubCategoria(listSubsString) {
-    let listSubsCats = [];
-    for (const subCatStr of listSubsString) {
-      listSubsCats.push(new SubCategoria(subCatStr));
-    }
-    return listSubsCats !== []
-      ? listSubsCats
-      : [new SubCategoria('UNICO', this)];
-  }
+  // stringToSubCategoria(listSubsString) {
+  //   let listSubsCats = [];
+  //   for (const subCatStr of listSubsString) {
+  //     listSubsCats.push(new SubCategoria(subCatStr));
+  //   }
+  //   return listSubsCats !== []
+  //     ? listSubsCats
+  //     : [new SubCategoria('UNICO', this)];
+  // }
 }
 
-class SubCategoria {
-  constructor(nombre) {
-    this._id = new ObjectID();
-    this._nombre = nombre;
-    this._cursos = []
-  }
-  setNombre(nombre) {
-    this._nombre = nombre;
-  }
-  getNombre() {
-    return this._nombre;
-  }
+// class SubCategoria {
+//   constructor(nombre) {
+//     this._id = new ObjectID();
+//     this._nombre = nombre;
+//     this._cursos = []
+//   }
+//   setNombre(nombre) {
+//     this._nombre = nombre;
+//   }
+//   getNombre() {
+//     return this._nombre;
+//   }
 
-  setCursos(cursos) {
-    this._cursos = cursos;
-  }
-  getCursos() {
-    this._cursos;
-  }
-}
+//   setCursos(cursos) {
+//     this._cursos = cursos;
+//   }
+//   getCursos() {
+//     this._cursos;
+//   }
+// }
 
 class Persona {
   constructor(dataPersona) {
@@ -187,21 +174,22 @@ class Persona {
       //TODO
       return JSON.stringify(this)
     }
-
-
 }
 
 class Curso {
-  constructor(cupo, subCategoria, ...profesores) {
+  constructor(dataCurso) {
     //Las colecciones tienen DNI(clave de persona), no objetos Persona
     this._alumnos = [];
     this._alumnosBaja = [];
     this._espera = [];
     this._esperaBaja = [];
-    this._diasHorariosLugares = []; //coleccion de DiaHorarioLugar
-    this._subCategoria = subCategoria;
-    this._cupo = cupo;
-    this._profesores = profesores;
+    this._diasHorariosLugares = toDHL(dataCurso._diasHorariosLugares); //coleccion de DiaHorarioLugar
+    this._tallerID = dataCurso._tallerID;
+    this._comentario = dataCurso._comentario;
+    // this._categoria = dataCurso._categoria;
+    // this._subCategoria = subCategoria;
+    this._cupo = dataCurso._cupo;
+    this._profesores = dataCurso._profesores;
     this._anio = new Date().getFullYear();
   }
 
@@ -296,6 +284,7 @@ class Curso {
       new DiaHorarioLugar(strDia, strHorario, strLugar)
     );
   }
+
   /******************************
    *      Setters y getters
    ******************************/
@@ -305,6 +294,13 @@ class Curso {
   }
   getAlumnos() {
     return this._alumnos;
+  }
+
+  setCategoria(cate) {
+    return (this._categoria = cate);
+  }
+  getCategoria() {
+    return this._categoria;
   }
 
   setSubCategoria(subCate) {
@@ -326,6 +322,14 @@ class Curso {
   }
   getEspera() {
     return this._espera;
+  }
+
+
+  setComentario(comentario) {
+    return (this._comentario = comentario);
+  }
+  getComentario() {
+    return this._comentario;
   }
 
   setEsperaBaja(alumnos) {
@@ -357,23 +361,6 @@ class Curso {
   getProfesores() {
     return this._profesores;
   }
-
-  //cantidades de todo
-//   getCantidadAlumnos() {
-//     return this.getAlumnos().length;
-//   }
-//   getCantidadAlumnosBaja() {
-//     return this.getAlumnosBaja().length;
-//   }
-//   getCantidadEspera() {
-//     return this.getEspera().length;
-//   }
-//   getCantidadEsperaBaja() {
-//     return this.getEsperaBaja().length;
-//   }
-//   getCantidadDHL() {
-//     return this.getDiasHorariosLugares().length;
-//   }
 }
 
 //por ejemplo {dia:'Martes',horario:'20:00', lugar:'Casa de la cultura'}
@@ -397,6 +384,10 @@ class DiaHorarioLugar {
 /***********************
  * Funciones Auxiliares
  ***********************/
+
+ function toDHL(listJsonDHL) {
+   return listJsonDHL.map(dhlJSON => new DiaHorarioLugar(dhlJSON._dia,dhlJSON._horario,dhlJSON._lugar))
+ }
 
 function quitarDeLista(elemento, list) {
   let indice = indiceDeLista(elemento, list);

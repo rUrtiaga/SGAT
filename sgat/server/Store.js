@@ -6,6 +6,14 @@ const { MongoClient, ObjectID } = require("mongodb");
  *  - vale que un store "haga de servicio" para llamados API sencillos.
  *    En tal caso, tener dos metodos: el autosuficiente (que no recibe parametros)
  *    y el normal (que recibe la db por parametro)
+ * 
+ * 
+ * 
+ * categoria:{_id:aa,_nombre:"unaCategoria"}
+
+    taller: {_id:sarasa,_categoria:"unaCategoria",_subCategoria:'Aborigen',_nombre:"Ceramica"}
+    curso: {_id:sa,_taller:sarasa,_alumnos:[], _profesores:[], ...}
+    persona: {_id:p,_dni:12345678,_nombre,_apellido,_fechaNacimiento,_telPrincipal,_telSecundario,_mail,_comentario,}
  */
 
 class Store {
@@ -21,8 +29,8 @@ class Store {
    * Metodos de operacion
    */
 
-  pushTaller(db, taller) {
-    return db.collection("talleres").insertMany([taller]);
+  pushTalleres(db, talleres) {
+    return db.collection("talleres").insertMany(talleres);
   }
 
   fetchTalleres(db) {
@@ -43,15 +51,31 @@ class Store {
     return this.fetchID(db, "talleres", id);
   }
 
-  fetchSubCatCursos(db, ids) {
-    let oid = new ObjectID(ids.subid);
-    console.log(ids.subid);
+  fetchCurso(db, id) {
+    return this.fetchID(db, "cursos", id);
+  }
 
+  fetchCursos(db) {
     return db
-      .collection("talleres")
-      .find({ "_subCategorias._id": oid })
-      .project({ _subCategorias: { $elemMatch: { _id: oid } } })
+      .collection("cursos")
+      .find()
       .toArray();
+  }
+
+  fetchCursosTaller(db, idTaller) {
+    return db
+      .collection("cursos")
+      .find({ _taller: idTaller })
+      .toArray();
+  }
+  pushCurso(db, curso) {
+    return db.collection("cursos").insertMany([curso]);
+  }
+
+  updateCursoAlumno(db,idCurso,idPersona){
+    let personaOID = new ObjectID(idPersona)
+    let cursoOID = new ObjectID(idCurso)
+    return db.collection('cursos').updateOne({_id:cursoOID}, {$push: { _alumnos: personaOID}})
   }
 
   fetchPersonaDNI(db, dni) {

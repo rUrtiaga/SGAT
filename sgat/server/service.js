@@ -42,9 +42,12 @@ class Service {
    */
 
   pushTaller(dataTaller) {
-    let taller = new Taller(dataTaller._categoria,dataTaller._nombre, dataTaller._subCategorias)
+    let talleres = dataTaller._subCategorias.map(
+      subCat => new Taller(dataTaller, subCat)
+    );
     return this.doOperationOnConnection(db => {
-      return store.pushTaller(db, taller);
+      // store.pushCategoria(dataTaller._categoria)
+      return store.pushTalleres(db, talleres);
     });
   }
 
@@ -56,23 +59,56 @@ class Service {
 
   fetchTalleresCategoria(categoria) {
     return this.doOperationOnConnection(db => {
-      return store.fetchTalleresCategoria(db,categoria);
+      return store.fetchTalleresCategoria(db, categoria);
     });
   }
 
-  fetchTaller(id){
-    return this.doOperationOnConnection(db=>{
-      return store.fetchTaller(db,id)
-    })
+  fetchTaller(id) {
+    return this.doOperationOnConnection(db => {
+      return store.fetchTaller(db, id);
+    });
   }
 
-  //Esto esta feo... 
-  fetchCursos(ids){
-    return this.doOperationOnConnection(db=>{
-      return store.fetchSubCatCursos(db,ids)
-              .then(listT => listT[0]._subCategorias[0]._cursos)
-              // .then(listC => )
-    })
+  fetchCursos() {
+    return this.doOperationOnConnection(db => {
+      return store.fetchCursos(db);
+    });
+  }
+
+  fetchCurso(id) {
+    return this.doOperationOnConnection(db => {
+      return store.fetchCurso(db, id);
+    });
+  }
+
+  pushCurso(dataCurso) {
+    let curso = new Curso(dataCurso);
+    return this.doOperationOnConnection(db => {
+      return store.pushCurso(db, curso);
+    });
+  }
+
+  fetchCursosTaller(idTaller) {
+    return this.doOperationOnConnection(db => {
+      return store.fetchCursosTaller(db, idTaller);
+    });
+  }
+  //Esto esta feo...
+  // fetchCursos(ids){
+  //   return this.doOperationOnConnection(db=>{
+  //     return store.fetchSubCatCursos(db,ids)
+  //             .then(listT => listT[0]._subCategorias[0]._cursos)
+  //             // .then(listC => )
+  //   })
+  // }
+  /**
+   * Alumnos
+   */
+
+  postAlumnoCurso(idCurso, idPersona) {
+    return this.doOperationOnConnection(db => {
+      return store.updateCursoAlumno(db, idCurso, idPersona);
+    });
   }
 
   /**
