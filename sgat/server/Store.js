@@ -21,12 +21,11 @@ class Store {
    * Funciones generales
    */
   fetchID(db, col, id) {
-    let oid = new ObjectID(id);
-    return db.collection(col).findOne({ _id: oid });
+    return db.collection(col).findOne({ _id: ObjectID(id) });
   }
 
   /**
-   * Metodos de operacion
+   * Metodos de operacion 
    */
 
   pushTalleres(db, talleres) {
@@ -52,7 +51,20 @@ class Store {
   }
 
   fetchCurso(db, id) {
-    return this.fetchID(db, "cursos", id);
+    // return this.fetchID(db, "cursos", id);
+    return db.collection("cursos").aggregate([
+      {
+        $match: { _id: ObjectID(id) }
+      },
+      {
+        $lookup: {
+          from: "personas",
+          localField: "_alumnos",
+          foreignField: "_id",
+          as: "_alumnos" 
+        }
+      }
+    ]).toArray();
   }
 
   fetchCursos(db) {
@@ -72,10 +84,12 @@ class Store {
     return db.collection("cursos").insertMany([curso]);
   }
 
-  updateCursoAlumno(db,idCurso,idPersona){
-    let personaOID = new ObjectID(idPersona)
-    let cursoOID = new ObjectID(idCurso)
-    return db.collection('cursos').updateOne({_id:cursoOID}, {$push: { _alumnos: personaOID}})
+  updateCursoAlumno(db, idCurso, idPersona) {
+    let personaOID = new ObjectID(idPersona);
+    let cursoOID = new ObjectID(idCurso);
+    return db
+      .collection("cursos")
+      .updateOne({ _id: cursoOID }, { $push: { _alumnos: personaOID } });
   }
 
   fetchPersonaDNI(db, dni) {

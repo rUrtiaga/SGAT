@@ -27,7 +27,8 @@ router
 router.get("/cursos/:id", function(req, res, next) {
   service
     .fetchCurso(req.params.id)
-    .then(curso => res.send(curso))
+    .then(curso => {console.log(curso);
+    ;res.send(curso)})
     .catch(e => next(e));
 });
 
