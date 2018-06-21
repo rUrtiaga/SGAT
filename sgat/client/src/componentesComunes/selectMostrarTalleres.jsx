@@ -63,7 +63,7 @@ class MuestraTalleres extends MuestraFromProps {
   request() {
     const self = this;
     axios
-      .get("api/talleres?categoria=" + this.props.select)
+      .get("api1/talleres?categoria=" + this.props.select)
       .then(respuesta =>
         self.setState({ elementsOrError: JSON.parse(respuesta.data) })
       );

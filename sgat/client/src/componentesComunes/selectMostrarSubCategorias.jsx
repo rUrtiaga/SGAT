@@ -11,7 +11,7 @@ class MuestraSubCategorias extends MuestraFromProps {
       request() {
         const self = this;
         axios
-          .get("api/talleres/"+ this.props.select +"/subcategorias" )
+          .get("api1/talleres/"+ this.props.select +"/subcategorias" )
           .then(respuesta =>{
             self.setState({ elementsOrError: JSON.parse(respuesta.data)})
           });
