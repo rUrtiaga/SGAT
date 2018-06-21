@@ -112,6 +112,15 @@ class Service {
   }
 
   /**
+   * Profesores
+   */
+  postProfesorCurso(idCurso,idPersona){
+    return this.doOperationOnConnection(db =>{
+      return store.updateCursoProfesor(db,idCurso,idPersona)
+    })
+  }
+
+  /**
    *  Personas
    */
 

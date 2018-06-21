@@ -63,6 +63,14 @@ class Store {
           foreignField: "_id",
           as: "_alumnos" 
         }
+      },
+      {
+        $lookup: {
+          from: "personas",
+          localField: "_profesores",
+          foreignField: "_id",
+          as: "_profesores" 
+        }
       }
     ]).toArray();
   }
@@ -84,12 +92,18 @@ class Store {
     return db.collection("cursos").insertMany([curso]);
   }
 
-  updateCursoAlumno(db, idCurso, idPersona) {
-    let personaOID = new ObjectID(idPersona);
-    let cursoOID = new ObjectID(idCurso);
+  updateCurso(db,property,idCurso,idPersona){
     return db
       .collection("cursos")
-      .updateOne({ _id: cursoOID }, { $push: { _alumnos: personaOID } });
+      .updateOne({ _id: ObjectID(idCurso) }, { $push: { [property]: ObjectID(idPersona) } });
+  }
+
+  updateCursoAlumno(db, idCurso, idPersona) {
+    return this.updateCurso(db,'_alumnos',idCurso,idPersona)
+  }
+
+  updateCursoProfesor(db,idCurso,idPersona) {
+    return this.updateCurso(db,'_profesores',idCurso,idPersona)
   }
 
   fetchPersonaDNI(db, dni) {

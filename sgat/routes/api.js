@@ -40,6 +40,13 @@ router.post("/cursos/:id/alumnos", function(req, res, next) {
 });
 
 
+router.post("/cursos/:id/profesores", function(req, res, next) {
+  service
+    .postProfesorCurso(req.params.id,req.body._idPersona)
+    .then(algo => res.send(algo))
+    .catch(e => next(e));
+});
+
 /**
  * Talleres
  */
