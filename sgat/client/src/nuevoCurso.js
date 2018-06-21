@@ -46,7 +46,7 @@ class NuevoCurso extends React.Component {
         })
        
     }
-    agregarPersona(){
+    agregarDocente(){
         this.setState({ inputPersonaOculto: true });
     }
     acceptPersona() {
@@ -143,13 +143,13 @@ class NuevoCurso extends React.Component {
 
                 <div className="row justify-content-end" style={style3}>
                     <div className="col-md-2">
-                        <button className='btn btn-danger' onClick={() => this.agregarPersona()}>Agregar Docente</button>
+                        <button className='btn btn-danger' onClick={() => this.agregarDocente()}>Agregar Docente</button>
                     </div>
                     <div className="col-md-2">
-                        <button className='btn btn-danger' onClick={() => this.guardarCurso()}>Cancelar</button>
+                        <button className='btn btn-danger' onClick={() => this.cancelarAgregado()}>Cancelar</button>
                     </div>
                     <div className="col-md-2">
-                        <button className='btn btn-primary' onClick={() => this.cancelarAgregado()}>Aceptar</button>
+                        <button className='btn btn-primary' onClick={() => this.guardarCurso()}>Aceptar</button>
                     </div>
                 </div>
 
