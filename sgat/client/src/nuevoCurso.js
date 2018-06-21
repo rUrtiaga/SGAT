@@ -1,6 +1,7 @@
 const React = require('react')
 
-const {Selector} = require('./componentesComunes/selector.jsx')
+const {Selector} = require('./componentesComunes/selectorSinCurso.jsx')
+const {InputPersona} = require('./componentesComunes/inputPersona.jsx')
 
 const style3 = {
     marginTop: 10
@@ -10,6 +11,7 @@ class NuevoCurso extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            persona: {},
             categoria: "",
             taller: "",
             subcategoria: "",
@@ -21,10 +23,55 @@ class NuevoCurso extends React.Component {
 
             eligioCategoria: false,
             eligioTaller:   false,
-            selectorCursoOculto: false
-
+            selectorCursoOculto: false,
+            inputPersonaOculto: false
         }
     }
+
+    guardarCurso(){
+        //guarda un curso
+    }
+
+    cancelarAgregado() {
+        this.setState({
+            categoria: "",
+            taller: "",
+            subcategoria: "",
+            cupo: "",
+            dia: "",
+            hora: "",
+            lugar: "",
+            comentario: "",
+            inputPersonaOculto:false  
+        })
+       
+    }
+    agregarDocente(){
+        this.setState({ inputPersonaOculto: true });
+    }
+    acceptPersona() {
+        this.ocultarNuevaPersona()   
+    }
+    ocultarNuevaPersona(){
+        this.setState({ inputPersonaOculto: false });
+    }
+    cancelarPersona(){
+        this.ocultarNuevaPersona()
+    }
+
+    nuevaPersona(){
+        if (this.state.inputPersonaOculto) {
+            return(
+            <InputPersona
+              id="inputPersona"
+              persona={this.state.persona}
+              padre={this}
+              onCancel={this.cancelarPersona.bind(this)}
+              onAccept={this.cancelarPersona.bind(this)}
+            />
+            )
+    }
+}
 
     // El Select TALLER deberia desplegarse una vez que seleciono la CATEGORIA, lo
     // mismo con la SUBCATEGORIA y el TALLER.
@@ -69,7 +116,7 @@ class NuevoCurso extends React.Component {
                                 type="text"
                                 className="form-control"
                                 id="lugar"
-                                value={this.state.cupo}
+                                value={this.state.lugar}
                                 onChange={(event) => this.setState({lugar: event.target.value})}/>
                         </div>
                         <div className="col-md-3">
@@ -96,15 +143,19 @@ class NuevoCurso extends React.Component {
 
                 <div className="row justify-content-end" style={style3}>
                     <div className="col-md-2">
-                        <button className='btn btn-danger'>Agregar Docente</button>
+                        <button className='btn btn-danger' onClick={() => this.agregarDocente()}>Agregar Docente</button>
                     </div>
                     <div className="col-md-2">
-                        <button className='btn btn-danger'>Cancelar</button>
+                        <button className='btn btn-danger' onClick={() => this.cancelarAgregado()}>Cancelar</button>
                     </div>
                     <div className="col-md-2">
-                        <button className='btn btn-primary'>Aceptar</button>
+                        <button className='btn btn-primary' onClick={() => this.guardarCurso()}>Aceptar</button>
                     </div>
                 </div>
+
+            {
+                this.nuevaPersona()
+            }
 
             </div>
         )
