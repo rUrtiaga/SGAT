@@ -7,7 +7,6 @@ class AceptarYCancelar extends React.Component {
         <div className="col-md-2">
           <button
             id="cancelar"
-            type="submit"
             className="btn btn-danger"
             onClick={() => this.props.cancelar()}
           >
@@ -17,7 +16,6 @@ class AceptarYCancelar extends React.Component {
         <div className="col-md-2">
           <button
             id="aceptar"
-            type="submit"
             className="btn btn-primary"
             onClick={() => this.props.aceptar()}
           >
