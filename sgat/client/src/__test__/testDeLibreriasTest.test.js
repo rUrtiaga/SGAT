@@ -26,13 +26,13 @@ class Test extends React.Component {
     return axios
       .get("/test")
       .then(response => {
-        this.setState({ s:  response.data });
+         this.setState({ s:  response.data.text });
       })
       .catch(function(error) {
         console.log(error);
       });
   }
-
+ 
   render() {
     return <p>Hola</p>;
   }
@@ -45,14 +45,14 @@ describe("Test mock", () => {
   });
   it("axios", done => {
     let mock = new MockAdapter(axios);
-    let text = "server says hello!";
+    let text = {'text':'server says hello!'};
     mock.onGet("/test").reply(200, text);
 
     test
       .instance()
       .request()
       .then(() => {
-        expect(test.state("s")).toEqual(text);
+        expect(test.state("s")).toEqual('server says hello!');
         done();
       })
       .catch(e => console.log(e));
