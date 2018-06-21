@@ -77,7 +77,7 @@ class NuevoAlumno extends React.Component {
 
   aceptarAlumno() {
     axios
-    .post('/api/cursos/0/alumnos' /*+ this.state.curso._id/alumnos */, {_dni:this.state.personaID} )
+    .post('/api1/cursos/0/alumnos' /*+ this.state.curso._id/alumnos */, {_dni:this.state.personaID} )
     .then(function (response) {
         console.log(response);
     })
