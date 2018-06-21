@@ -261,7 +261,7 @@ class Curso {
     estaEnEspera(alumno) {
         if (!this.getEspera().find((e) => e == alumno)) {
             throw 'El alumno ingresado no esta en la lista de espera'
-        }pushAlumno
+        }
     }
 
     hayCupo() {
