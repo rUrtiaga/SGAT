@@ -13,7 +13,7 @@ class MuestraCursos extends MuestraFromProps {
     const self = this;
     return axios
       .get(
-        "/api/talleres/" +
+        "/api1/talleres/" +
           this.props.padre.state.taller +
           "/subcategorias/" +
           this.props.select +

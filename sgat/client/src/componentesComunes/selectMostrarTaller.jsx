@@ -13,7 +13,7 @@ class MuestraTalleres extends React.Component {
     componentDidMount() {
         const self = this
         this.setState({categoria: this.props.padre.state.categoria})
-        axios.get('api/talleres'+this.state.categoria)
+        axios.get('api1/talleres'+this.state.categoria)
             .then((respuesta) => self.setState({talleres: respuesta.data}))
     }
 

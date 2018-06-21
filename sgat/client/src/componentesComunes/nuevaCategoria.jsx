@@ -47,7 +47,7 @@ class NuevaCategoria extends React.Component {
         const self = this
 
         axios
-            .post('api/categorias', {categoria: self.state.nombreCategoria})
+            .post('api1/categorias', {categoria: self.state.nombreCategoria})
             .then(function (res) {
                 console.log("se agrego la categoria " + self.state.nombreCategoria)
             })

@@ -21,7 +21,7 @@ class ListarAlumnos extends React.Component {
     getDataCurso(){
         //provisoriamente se codea esta 
         let self = this
-        return axios.get( '/api/talleres/Ceramica/subcategorias/Normal/cursos')
+        return axios.get( '/api1/talleres/Ceramica/subcategorias/Normal/cursos')
         .then(function(response){
             const json = JSON.parse(response.data)      // para Test hay que comentar esta linea
             // const json = response.data               // para Test hay que descomentar
@@ -42,7 +42,7 @@ class ListarAlumnos extends React.Component {
     getAlumnos(lAlumnosDni){
         let self = this
         lAlumnosDni.forEach(key => {
-            axios.get('/api/personas/'+ key)
+            axios.get('/api1/personas/'+ key)
             .then(function (response) {
                 let alumno = {
                     _dni: response.data._dni,

@@ -40,7 +40,7 @@ class InputPersona extends React.Component {
     request(value){
         let self = this
         return axios
-            .get('/api/personas/' + value)
+            .get('/api1/personas/' + value)
             .then(function (response) {
                 self.llenarPersona(response.data)
                 return Promise.resolve()
@@ -221,7 +221,7 @@ class InputPersona extends React.Component {
         }
 
         axios
-            .post('/api/personas', persona)
+            .post('/api1/personas', persona)
             .then(function (response) {
                 // console.log(response);
             })
