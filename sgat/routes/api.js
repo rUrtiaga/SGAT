@@ -23,12 +23,10 @@ router
       .catch(e => next(e));
   });
 
-  //aplicar lookup
 router.get("/cursos/:id", function(req, res, next) {
   service
     .fetchCurso(req.params.id)
-    .then(curso => {console.log(curso);
-    ;res.send(curso)})
+    .then(curso => res.send(curso))
     .catch(e => next(e));
 });
 
@@ -60,6 +58,7 @@ router
       .catch(e => next(e));
   })
   .get(function(req, res, next) {
+    console.log(req.query.categoria);
     if (req.query.categoria) {
       next();
       return;
