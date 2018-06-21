@@ -1,6 +1,8 @@
 const React = require('react')
 const axios = require('axios')
 
+const infoPersona = require("./componentesComunes/infoPersona.jsx");
+
 /***********************************************
  Alumnos
 ***********************************************/
@@ -11,9 +13,19 @@ class ListarAlumnos extends React.Component {
         this.state = {
             cupo: null,
             listaDeAlumnosKey:[],
-            listaDeAlumnos:[]}
+            listaDeAlumnos:[],
+            infoDeAlumno: false }
     }
     
+    mostrarTrInfoAlumno() {
+        this.setState({
+            infoDeAlumno: !this.state.infoDeAlumno
+        });
+    }
+    ocultarTrInfoAlumno() {
+        this.setState({ infoDeAlumno: false });
+    }
+
     componentDidMount() { 
         this.getDataCurso()
     }    
@@ -114,7 +126,7 @@ class ListarAlumnos extends React.Component {
     // dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario
     infoAlumnos(alumno) {
         const rowDatosAlumno = (
-            <tr key={alumno._dni}>
+            <tr id="infoAlum" key={alumno._dni}>
                 <td>{alumno._dni}</td>
                 <td>{this.linkInfoAlumno(alumno)}</td>
                 <td>{alumno._nombre}</td>
@@ -135,6 +147,9 @@ class ListarAlumnos extends React.Component {
     }
     mostrarDatosAlumno(unAlumno) {
         console.log(unAlumno);
+        console.log(this);
+        this.props.infoPersona
+        
     }
     /** --- Encabezado de la Tabla --- */
 
@@ -168,7 +183,7 @@ class ListarAlumnos extends React.Component {
         )
     }
     eliminarAlumno(alumno) {
-        let codigo = this.state.listaDeAlumnos.filter((alu) => alu.dni !== alumno.dni);
+        let codigo = this.state.listaDeAlumnos.filter((alu) => alu._dni !== alumno._dni);
         this.setState({
             listaDeAlumnos: codigo
         })
