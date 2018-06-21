@@ -1,5 +1,5 @@
-const {dominio} = require('./dominio/dominio-talleres.js')
-const {store} = require('./dominio/dominio-talleres.js')
+const {dominio} = require('./dominio/dominio-talleres-v1.js')
+const {store} = require('./dominio/dominio-talleres-v1.js')
 
 function talleresToJSON(talleres){
    return (JSON.stringify(talleres, function( key, value) {
