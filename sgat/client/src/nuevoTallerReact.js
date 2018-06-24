@@ -145,7 +145,8 @@ class CrearTaller extends React.Component {
       _subCategorias: self.state.subCategorias
     };
 
-    axios.post("api1/taller ", taller).then(function(res) {
+    axios.post("api/talleres ",taller)
+    .then(function(res) {
       console.log("se agrego el taller " + self.state.nombre);
     });
   }

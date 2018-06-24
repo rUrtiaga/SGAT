@@ -54,6 +54,7 @@ class NuevaCategoria extends React.Component {
                 console.log(error)
             });
             this.props.padre.setState({ agregaCategoria: false })
+            this.props.padre.setState({categoria: self.state.nombreCategoria})
     }
 
     cancelarAgregado() {
