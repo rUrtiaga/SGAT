@@ -17,8 +17,17 @@ router
       .catch(e => next(e));
   })
   .get(function(req, res, next) {
+    if(req.query.tallerID){
+      next()
+      return
+    }
     service
       .fetchCursos()
+      .then(cursos => res.send(cursos))
+      .catch(e => next(e));
+  }).get(function(req,res,next){
+    service
+      .fetchCursosTallerID(req.query.tallerID)
       .then(cursos => res.send(cursos))
       .catch(e => next(e));
   });
@@ -30,17 +39,16 @@ router.get("/cursos/:id", function(req, res, next) {
     .catch(e => next(e));
 });
 
-router.post("/cursos/:id/alumnos", function(req, res, next) {
+router.put("/cursos/:id/alumnos", function(req, res, next) {
   service
-    .postAlumnoCurso(req.params.id,req.body._idPersona)
-    .then(algo => res.send(algo))
+    .putAlumnoCurso(req.params.id, req.body._idPersona)
+    .then(() => res.send('OK'))
     .catch(e => next(e));
 });
 
-
 router.post("/cursos/:id/profesores", function(req, res, next) {
   service
-    .postProfesorCurso(req.params.id,req.body._idPersona)
+    .postProfesorCurso(req.params.id, req.body._idPersona)
     .then(algo => res.send(algo))
     .catch(e => next(e));
 });
@@ -69,8 +77,18 @@ router
       .catch(e => next(e));
   })
   .get(function(req, res, next) {
+    if (req.query.taller) {
+      next();
+      return;
+    }
     service
       .fetchTalleresCategoria(req.query.categoria)
+      .then(t => res.send(t))
+      .catch(e => next(e));
+  })
+  .get(function(req, res, next) {
+    service
+      .fetchTalleresCatYTaller(req.query.categoria, req.query.taller)
       .then(t => res.send(t))
       .catch(e => next(e));
   });

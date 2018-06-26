@@ -178,7 +178,7 @@ class Persona {
 
 class Curso {
   constructor(dataCurso) {
-    //Las colecciones tienen DNI(clave de persona), no objetos Persona
+    //Las colecciones tienen clave de persona, no objetos Persona
     this._alumnos = [];
     this._alumnosBaja = [];
     this._espera = [];
@@ -186,8 +186,6 @@ class Curso {
     this._diasHorariosLugares = toDHL(dataCurso._diasHorariosLugares); //coleccion de DiaHorarioLugar
     this._tallerID = dataCurso._tallerID;
     this._comentario = dataCurso._comentario;
-    // this._categoria = dataCurso._categoria;
-    // this._subCategoria = subCategoria;
     this._cupo = dataCurso._cupo;
     this._profesores = dataCurso._profesores;
     this._anio = new Date().getFullYear();

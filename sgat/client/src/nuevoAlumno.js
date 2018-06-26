@@ -24,25 +24,31 @@ class NuevoAlumno extends React.Component {
         {this.state.curso ? (
           <p>
             {" "}
-            CURSO SELECCIONADO {this.state.curso._subCategoria._taller}{" "}
-            {this.state.curso._subCategoria._nombre}
+            CURSO - {this.state.curso._taller._nombre}{" "}
+            {this.state.curso._taller._subCategoria}
           </p>
         ) : (
           <Selector padre={this} onSelect={c => this.selectCurso(c)} />
         )}
-        {this.state.personaID ? (
-          <p> {this.state.personaID} </p>
-        ) : (
-          this.state.curso ? (
-            <InputPersona
+        {this.state.persona ? (
+          <p>
+            {" "}
+            {"D.N.I: " +
+              this.state.persona._dni +
+              ", Nombre: " +
+              this.state.persona._nombre +
+              " " +
+              this.state.persona._apellido}{" "}
+          </p>
+        ) : this.state.curso ? (
+          <InputPersona
             persona={{}}
             // onCancel={() => this.cancelPersona()}
-            onAccept={pid => this.acceptPersona(pid)}
+            onAccept={p => this.acceptPersona(p)}
             padre={this}
           />
-         ):null
-        )}
-        {this.state.personaID && this.state.curso ? (
+        ) : null}
+        {this.state.persona && this.state.curso ? (
           <AceptarYCancelar
             cancelar={() => this.cancel()}
             aceptar={() => this.aceptarAlumno()}
@@ -64,26 +70,27 @@ class NuevoAlumno extends React.Component {
     this.limpiar();
   }
 
-
-  acceptPersona(personaID) {
+  acceptPersona(persona) {
     this.setState({
-      personaID
+      persona
     });
   }
 
   limpiar() {
-    this.setState({ curso: null, personaID: null });
+    this.setState({ curso: null, persona: null });
   }
 
   aceptarAlumno() {
     axios
-    .post('/api1/cursos/0/alumnos' /*+ this.state.curso._id/alumnos */, {_dni:this.state.personaID} )
-    .then(function (response) {
+      .put("/api/cursos/" + this.state.curso._id + "/alumnos", {
+        _idPersona: this.state.persona._id
+      })
+      .then(function(response) {
         console.log(response);
-    })
-    .catch(function (error) {
+      })
+      .catch(function(error) {
         console.log(error);
-    });
+      });
   }
 }
 
