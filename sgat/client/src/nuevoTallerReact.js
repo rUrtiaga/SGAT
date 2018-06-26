@@ -1,6 +1,7 @@
 const React = require("react");
 const axios = require("axios");
 
+
 const {
   MuestraCategorias
 } = require("./componentesComunes/selectMostrarCategorias.jsx");
@@ -20,19 +21,18 @@ class CrearTaller extends React.Component {
     this.child = React.createRef();
 
     this.state = {
-      nombre: "",
-      categoria: "",
       subCategorias: [],
       indice: 0,
       agregaSubCategoria: false,
       agregaCategoria: false,
-
+      error:false,
       disabled: false
     };
   }
 
   componentWillMount() {
     this.setState({ disabled: false });
+    this.mostrarDivNuevaSubCategoria()
   }
 
   mostrarDivNuevaCateg() {
@@ -85,6 +85,7 @@ class CrearTaller extends React.Component {
   }
 
   cancelarCreacion() {
+    //this.setState({ error: false});
     this.setState({ nombre: "" });
     this.setState({ categoria: "" });
     this.setState({ subCategorias: [] });
@@ -102,7 +103,9 @@ class CrearTaller extends React.Component {
               id="nombreNivel"
               value={this.state.nombre}
               onChange={event =>
-                this.setState({ nombreNivel: event.target.value })
+                this.setState({ 
+                  nombreNivel: event.target.value,
+                  error: false})
               }
             />
           </div>
@@ -144,12 +147,57 @@ class CrearTaller extends React.Component {
       _nombre: self.state.nombre,
       _subCategorias: self.state.subCategorias
     };
-
-    axios.post("api/talleres ",taller)
-    .then(function(res) {
-      console.log("se agrego el taller " + self.state.nombre);
-    });
+    this.validar()
+    if ((!this.state.error)){
+      axios.post("api/talleres ",taller)
+      .then(function(res) {
+        console.log("se agrego el taller " + self.state.nombre);
+      
+      })
+      .then(this.cancelarCreacion());
+      
+      
+    }
   }
+
+  mostrarSubCategoriasAgregadas(){
+    if(!(this.state.subCategorias.length === 0)){
+      return (
+        <div className="card mb-2" style={style}>
+        <p>SubCategorias Agregadas:</p>
+        <h4>{this.state.subCategorias.map( subC => subC + " ")}</h4>
+        </div>
+    )
+  }
+}
+
+  validar(){
+    if ((this.state.nombre === undefined)){
+      this.setState({ error: true});
+    }
+    else{
+      this.setState({ error: false});
+    }
+    if(!(this.state.subCategorias === [])){
+      this.setState({ error: true });
+    } 
+    else{
+      this.setState({ error: false});
+    }
+  }
+
+  mostrarValidacion(){
+    //this.validar()
+    if (this.state.error){
+      console.log(this.state.error)
+    return (
+      <div class="alert alert-danger" style={style}>
+        <strong>ERROR!</strong> DEBE COMPLETAR SI O SI TODOS LOS CAMPOS!
+       </div>
+    )
+  }
+  }
+
 
   render() {
     return (
@@ -201,16 +249,7 @@ class CrearTaller extends React.Component {
                   marginTop: 10
                 }}
               >
-                <div className="col-md-2">
-                  <button
-                    type="button"
-                    className="btn btn-info"
-                    disabled={this.state.disabled}
-                    onClick={() => this.mostrarDivNuevaSubCategoria()}
-                  >
-                    Agregar Sub-Categoria
-                  </button>
-                </div>
+                
                 <div className="col-md-2">
                   <button
                     type="button"
@@ -226,23 +265,17 @@ class CrearTaller extends React.Component {
                     className="btn btn-primary"
                     onClick={() => this.guardarTaller()}
                   >
-                    Aceptar
+                    Guardar Taller
                   </button>
                 </div>
               </div>
             </div>
           </div>
         </form>
-
-        <div className="card mb-2" style={style}>
-          <p>Esta por Crear el Siguiente Taller:</p>
-          <p>Categoria:</p>
-          <h4>{this.state.categoria}</h4>
-          <p>Nombre:</p>
-          <h4>{this.state.nombre}</h4>
-          <p>SubCategorias:</p>
-          <h4>{this.state.subCategorias}</h4>
-        </div>
+         
+         {this.mostrarSubCategoriasAgregadas()}
+         {this.mostrarValidacion()}
+     
       </div>
     );
   }
