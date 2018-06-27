@@ -2,7 +2,7 @@ const React = require('react')
 const {MuestraCategorias} = require('./selectMostrarCategorias.jsx')
 const {MuestraTalleres} = require('./selectMostrarTalleres.jsx')
 const {MuestraSubCategorias} = require('./selectMostrarSubCategorias.jsx')
-const {MuestraCursos} = require('./selectMostrarCursos.jsx')
+
 
 
 class Selector extends React.Component{
@@ -21,11 +21,17 @@ class Selector extends React.Component{
     }
 
     seleccionSubCategoria(valor){
-        this.setState({subCategoria:valor,curso:null})
+        this.setState({subCategoria:valor,curso:null})  
+        this.guardarDatos() 
+        } 
+
+    guardarDatos(){
+        this.props.padre.categoria(this.state.categoria)
+        this.props.padre.taller(this.state.taller)
+        this.props.padre.subCategoria(this.state.subCategoria)
     }
 
     seleccionCurso(valor){
-        this.props.onSelect(valor)
         this.setState({ curso: valor })
     }
 
@@ -39,9 +45,10 @@ class Selector extends React.Component{
                 {this.state.taller ? (
                   <MuestraSubCategorias select={this.state.taller} seleccionar={(v)=>this.seleccionSubCategoria(v)} padre={this} />
                 ) : null}
-                { this.state.subCategoria ? (
-                  <MuestraCursos select={this.state.subCategoria} seleccionar={(v)=>this.seleccionCurso(v)} padre={this} />
-                ) : null} 
+                { //this.state.subCategoria ? (
+                  //<MuestraCursos select={this.state.subCategoria} seleccionar={(v)=>this.seleccionCurso(v)} padre={this} />
+                //) : null
+            } 
             </div>
     )
     }

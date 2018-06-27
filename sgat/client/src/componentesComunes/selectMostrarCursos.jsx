@@ -13,21 +13,20 @@ class MuestraCursos extends MuestraFromProps {
     const self = this;
     return axios
       .get(
-        "/api/talleres/" +
+        "/api1/talleres/" +
           this.props.padre.state.taller +
           "/subcategorias/" +
           this.props.select +
           "/cursos"
       )
       .then(respuesta => {
-        console.log(respuesta);
         self.setState({ elementsOrError: JSON.parse(respuesta.data) });
       })
       .catch(e => console.log(e));
   }
 
-  manejarSeleccion(event) {
-    this.props.seleccionar(event.target.value);
+  manejarSeleccion(value) {
+    this.props.seleccionar(value);
   }
 
   //la key y el value deben ser remplazadas por id
@@ -43,9 +42,37 @@ class MuestraCursos extends MuestraFromProps {
       return null;
     } else {
       return (
-        <div className='container'>{this.state.elementsOrError.map(c => <Curso curso={c} />)}</div>
+        <div className="container">
+          {this.state.elementsOrError.map(c => (
+            <Curso
+              // key={c._id}
+              curso={c}
+              botones={<Botones seleccionar={() => this.manejarSeleccion(c)} />}
+            />
+          ))}
+        </div>
       );
     }
+  }
+}
+
+/* <div className="col-md-4 text-right">
+<button className="btn btn-primary">Espera</button>
+<button className="btn btn-primary">Alumnos</button>
+<button className="btn btn-primary">Inscribir</button>
+</div> */
+class Botones extends React.Component {
+  render() {
+    return (
+      <div className="col-sm-3 text-right">
+        <button
+          className="btn btn-primary"
+          onClick={v => this.props.seleccionar(v)}
+        >
+          Seleccionar
+        </button>
+      </div>
+    );
   }
 }
 

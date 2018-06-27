@@ -1,19 +1,21 @@
 const React = require('react')
 const axios = require('axios')
+const { AceptarYCancelar } = require("./botones.jsx")
+
 
 class InputPersona extends React.Component {
     constructor(props) {
         super(props)
         this._persona = this.props.persona
         this.state = {
-            dni: this._persona.dni,
-            nombre: this._persona.nombre,
-            apellido: this._persona.apellido,
-            direccion: this._persona.direccion,
-            telPrincipal: this._persona.telPrincipal,
-            telSecundario: this._persona.telSecundario,
-            mail: this._persona.mail,
-            comentario: this._persona.comentario
+            dni: this._persona._dni,
+            nombre: this._persona._nombre,
+            apellido: this._persona._apellido,
+            direccion: this._persona._direccion,
+            telPrincipal: this._persona._telPrincipal,
+            telSecundario: this._persona._telSecundario,
+            mail: this._persona._mail,
+            comentario: this._persona._comentario
         }
     }
 
@@ -30,13 +32,18 @@ class InputPersona extends React.Component {
     }
 
     handleDNI(event) {
-        let self = this
         this.limpiar()
         this.handleChange(event)
-        axios
-            .get('/api/personas/' + event.target.value)
+        this.request(event.target.value)
+    }
+
+    request(value){
+        let self = this
+        return axios
+            .get('/api1/personas/' + value)
             .then(function (response) {
                 self.llenarPersona(response.data)
+                return Promise.resolve()
             })
             .catch((error) => console.log(error))
     }
@@ -174,26 +181,18 @@ class InputPersona extends React.Component {
                         value={this.state.comentario}
                         onChange={(event) => this.handleChange(event)}></textarea>
                 </div>
-                <div className="row justify-content-end">
-                    <div className="col-md-2">
-                        <button type="submit" className='btn btn-danger' onClick={() => this.cancel()}>Cancelar</button>
-                    </div>
-                    <div className="col-md-2">
-                        <button
-                            type="submit"
-                            className='btn btn-primary'
-                            onClick={() => this.aceptarPersona()}>Aceptar</button>
-                    </div>
-                </div>
+                <AceptarYCancelar aceptar={()=>this.aceptarPersona()} cancelar={()=>this.cancel()} />
             </React.Fragment>
         )
     }
 
     cancel() {
         this.limpiar()
-        this
-            .props
-            .onCancel()
+        if(this.props.onCancel){
+            this
+                .props
+                .onCancel()
+        }
     }
 
     limpiar() {
@@ -222,17 +221,19 @@ class InputPersona extends React.Component {
         }
 
         axios
-            .post('/api/personas', persona)
+            .post('/api1/personas', persona)
             .then(function (response) {
-                console.log(response);
+                // console.log(response);
             })
             .catch(function (error) {
-                console.log(error);
+                // console.log(error);
             });
 
-        this
-            .props
-            .onAccept()
+        if(this.props.onAccept){
+            this
+                .props
+                .onAccept(persona._dni)
+        }
         return persona
     }
 }

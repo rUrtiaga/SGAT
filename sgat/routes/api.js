@@ -1,53 +1,170 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-let {controller} = require('../server/controller.js')
+let { controller } = require("../server/controller.js");
+const { store } = require("../server/Store.js");
+const { service } = require("../server/service.js");
 
-/* GET users listing.*/
-router.get('/personas/:dni', function (req, res, next) {
-    res.json(controller.getPersonaDNI(req.params.dni))
+/**
+ * Cursos
+ */
+
+router
+  .route("/cursos")
+  .post(function(req, res, next) {
+    service
+      .pushCurso(req.body)
+      .then(dataOK => res.status(201).send(dataOK))
+      .catch(e => next(e));
+  })
+  .get(function(req, res, next) {
+    service
+      .fetchCursos()
+      .then(cursos => res.send(cursos))
+      .catch(e => next(e));
+  });
+
+router.get("/cursos/:id", function(req, res, next) {
+  service
+    .fetchCurso(req.params.id)
+    .then(curso => res.send(curso))
+    .catch(e => next(e));
 });
 
-router.post('/personas', function (req, res, next) {
-    controller.postPersona(req.body)
-    res.send(controller.getPersonaDNI(req.body._dni))
-})
-
-router.get('/categorias', function (req, res, next) {
-    res.json(controller.getCategorias())
+router.post("/cursos/:id/alumnos", function(req, res, next) {
+  service
+    .postAlumnoCurso(req.params.id,req.body._idPersona)
+    .then(algo => res.send(algo))
+    .catch(e => next(e));
 });
 
-router.post('/categorias', function (req, res) {
-    controller.agregarCategoria(req.body.categoria)
-})
 
-//todos los talleres
-router.get('/talleres',function (req, res, next) {
-    if(req.query.categoria){
-        next()
-        return
+router.post("/cursos/:id/profesores", function(req, res, next) {
+  service
+    .postProfesorCurso(req.params.id,req.body._idPersona)
+    .then(algo => res.send(algo))
+    .catch(e => next(e));
+});
+
+/**
+ * Talleres
+ */
+
+router
+  .route("/talleres")
+  .post(function(req, res, next) {
+    service
+      .pushTaller(req.body)
+      .then(dataOK => res.status(201).send(dataOK))
+      .catch(e => next(e));
+  })
+  .get(function(req, res, next) {
+    console.log(req.query.categoria);
+    if (req.query.categoria) {
+      next();
+      return;
     }
-    res.json(controller.getTalleres())
-})
+    service
+      .fetchTalleres()
+      .then(t => res.send(t))
+      .catch(e => next(e));
+  })
+  .get(function(req, res, next) {
+    service
+      .fetchTalleresCategoria(req.query.categoria)
+      .then(t => res.send(t))
+      .catch(e => next(e));
+  });
 
-//pido talleres filtrado por su categoria
-router.get('/talleres', function (req, res, next) {
-    var categoria = req.query.categoria;
-    res.json(controller.getTalleresDe(categoria))
+router.get("/talleres/:id", function(req, res, next) {
+  service
+    .fetchTaller(req.params.id)
+    .then(t => res.send(t))
+    .catch(e => next(e));
 });
 
-//pido un taller solo
-router.get('/talleres/:id', function (req, res){
-    res.json(controller.getTallerID(req.params.id))
-})
+//creo que deberia ir con un parametro
+router.get("/talleres/:id/cursos", function(req, res, next) {
+  service
+    .fetchCursosTaller(req.params.id)
+    .then(cursos => res.send(cursos))
+    .catch(e => next(e));
+});
 
-//pido las subcategorias de un taller
-router.get('/talleres/:id/subcategorias', function (req, res){
-    res.json(controller.getSubCatDeTallerID(req.params.id))
-})
+// router.get("/talleres/:id/subcategorias/:subid/cursos",function(req,res,next){
+//   service.fetchCursos(req.params)
+//   .then(cursos => res.send(cursos))
+//   .catch(e => next(e))
+// })
 
-//pido las subcategorias de un taller
-router.get('/talleres/:id/subcategorias/:subid/cursos', function (req, res){
-    res.json(controller.getCursosSubCatDeTaller(req.params.id,req.params.subid))
-})
+/* PERSONAS .*/
+router
+  .route("/personas")
+  .get(function(req, res, next) {
+    service
+      .fetchPersonaDNI(req.query.dni)
+      .then(p => res.send(p))
+      .catch(e => next(e));
+  })
+  .post(function(req, res, next) {
+    //validacion de string y demas aca.
+    return service
+      .pushPersona(req.body)
+      .then(data => res.status(201).send(data))
+      .catch(e => next(e));
+  })
+  .put(function(req, res) {
+    //TODO
+  });
+
+router.get("/personas/:id", function(req, res, next) {
+  service
+    .fetchPersona(req.params.id)
+    .then(p => res.send(p))
+    .catch(e => next(e));
+});
+
+/* CATEGORIAS .*/
+//Este get usa el fetch autosuficiente de STORE
+router
+  .route("/categorias")
+  .get(function(req, res, next) {
+    service
+      .fetchCategorias()
+      .then(cats => res.json(cats))
+      .catch(e => next(e));
+  })
+  .post(function(req, res, next) {
+    //las validaciones de strings y demas que son las misma sque de ui deben ir con un next
+    service
+      .doOperationOnConnection(db => {
+        let categoria = req.body.categoria;
+        return service
+          .existCategoria(db, categoria)
+          .catch(e => {
+            return Promise.reject(e);
+          })
+          .then(() => {
+            return service.pushCategoria(db, categoria);
+          })
+          .then(status => {
+            res.status(201).json(status);
+            return Promise.resolve();
+          });
+      })
+      .catch(e => next(e));
+  });
+
+/* Manejador de errores
+    --debe ir al final del archivo--
+*/
+
+router.use(function(e, req, res, next) {
+  console.log(e);
+  if (e.status) {
+    res.status(e.status).send({ message: e.message });
+  } else {
+    res.status(500).send({ message: e.message });
+  }
+});
 
 module.exports = router;

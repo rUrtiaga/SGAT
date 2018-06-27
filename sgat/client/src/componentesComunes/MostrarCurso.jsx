@@ -24,7 +24,7 @@ class Curso extends React.Component {
               Prof/s: {this.nombresProfes()}
             </h5>
           </div>
-          <Botones />
+          {this.props.botones}
         </div>
         {/* <p className="card-text ml-sm-4"> y si escribo aca que pasa</p> */}
         <div className="container">
@@ -36,11 +36,17 @@ class Curso extends React.Component {
 }
 
 class DHL extends React.Component {
+  constructor(props){
+    super(props)
+    this.i = 0
+  }
   render() {
     return (
       <div className="container">
         <table className="table table-sm text-center">
-          {this.props.dhls.map(dhl => <FilaDHL dhl={dhl} />)}
+          <tbody>
+          {this.props.dhls.map(dhl => <FilaDHL dhl={dhl} key={this.i++} />)}
+          </tbody>
         </table>
       </div>
     );
@@ -59,24 +65,24 @@ class FilaDHL extends React.Component {
   }
 }
 
-class Botones extends React.Component {
-  render() {
-    if (this.props.pantalla) {
-      return (
-        <div className="col-md-4 text-right">
-          <button className="btn btn-primary">Espera</button>
-          <button className="btn btn-primary">Alumnos</button>
-          <button className="btn btn-primary">Inscribir</button>
-        </div>
-      );
-    } else {
-      return (
-        <div className="col-sm-3 text-right">
-          <button className="btn btn-primary">Seleccionar</button>
-        </div>
-      );
-    }
-  }
-}
+// class Botones extends React.Component {
+//   render() {
+//     if (this.props.pantalla) {
+//       return (
+//         <div className="col-md-4 text-right">
+//           <button className="btn btn-primary">Espera</button>
+//           <button className="btn btn-primary">Alumnos</button>
+//           <button className="btn btn-primary">Inscribir</button>
+//         </div>
+//       );
+//     } else {
+//       return (
+//         <div className="col-sm-3 text-right">
+//           <button className="btn btn-primary">Seleccionar</button>
+//         </div>
+//       );
+//     }
+//   }
+// }
 
 exports.Curso = Curso;
