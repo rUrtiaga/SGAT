@@ -12,10 +12,17 @@ class InfoPersona extends React.Component {
     render(){
         return(
             <React.Fragment>
-                <div className="form-group">
-                    <div className="form-row">
-                        <div className="col">
-                            <label htmlFor="name">D.N.I.</label>
+                <div className="col-md-12">
+                    <div className="card text-dark">
+                        <div className="align-self-center card-bg-info bg-primary text-white  ">  
+                            <label htmlFor="name">Datos de: </label>
+                            {this.props.data.nombre}
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <label>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>

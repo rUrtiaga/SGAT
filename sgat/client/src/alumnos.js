@@ -14,7 +14,9 @@ class ListarAlumnos extends React.Component {
             cupo: null,
             listaDeAlumnosKey:[],
             listaDeAlumnos:[],
-            infoDeAlumno: false }
+            infoDeAlumno: false,
+            mostrarPanelDeAbajo: false
+        }
     }
     
     mostrarTrInfoAlumno() {
@@ -72,11 +74,16 @@ class ListarAlumnos extends React.Component {
     }
 
     render() {
+        let panelDeAbajo = null
+        if (this.state.mostrarPanelDeAbajo) {
+            panelDeAbajo = (<infoPersona.InfoPersona data={{ nombre: "Juan", apellido: "Pavon" }} />)
+            // panelDeAbajo = (<infoPersona.InfoPersona data={ this.state.alumnoActual } />)
+        }
         return (
             <div>
                 <div className="m-4 container-fluid recuadroPantalla">
                     <div className="row">
-                        <div className="col-md-11">
+                        <div className="col-md-12">
                             <div className="card text-dark">
                                 <div className="align-self-center card-bg-info bg-primary text-white  ">  
                                     <h3> Acá va el nombre del Curso </h3></div>
@@ -88,6 +95,7 @@ class ListarAlumnos extends React.Component {
                                         <div className="col-md-12">
                                             {this.tblAlumnos()}
                                         </div>
+                                        {panelDeAbajo}
                                     </div>
                                     {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success")}
                                 </div>
@@ -142,17 +150,16 @@ class ListarAlumnos extends React.Component {
     /** --- Link para Info del Alumno ---  */
     linkInfoAlumno(alumno) {
         return (
-            <a href="#" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno._apellido}</a>
+            <a href="/" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno._apellido}</a>
         )
     }
     mostrarDatosAlumno(unAlumno) {
         console.log(unAlumno);
         console.log(this);
-        this.props.infoPersona
-        
+        this.setState({ mostrarPanelDeAbajo: true })
     }
-    /** --- Encabezado de la Tabla --- */
 
+    /** --- Encabezado de la Tabla --- */
     encabezadoDeTabla(titulos) {
         return titulos.map((titulo, ix) => (<th key={ix}>{titulo}</th>))
     }
