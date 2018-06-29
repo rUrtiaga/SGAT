@@ -18,15 +18,6 @@ class ListarAlumnos extends React.Component {
             mostrarPanelDeAbajo: false
         }
     }
-    
-    mostrarTrInfoAlumno() {
-        this.setState({
-            infoDeAlumno: !this.state.infoDeAlumno
-        });
-    }
-    ocultarTrInfoAlumno() {
-        this.setState({ infoDeAlumno: false });
-    }
 
     componentDidMount() { 
         this.getDataCurso()
@@ -35,7 +26,8 @@ class ListarAlumnos extends React.Component {
     getDataCurso(){
         //provisoriamente se codea esta 
         let self = this
-        return axios.get( '/api1/talleres/Ceramica/subcategorias/Normal/cursos')
+        return axios.get( '/api1/talleres/Ceramica/subcategorias/Normal/cursos')  // antes de modificar
+        // return axios.post('/api/cursos/:id/alumnos')
         .then(function(response){
             const json = JSON.parse(response.data)      // para Test hay que comentar esta linea
             // const json = response.data               // para Test hay que descomentar
@@ -76,7 +68,8 @@ class ListarAlumnos extends React.Component {
     render() {
         let panelDeAbajo = null
         if (this.state.mostrarPanelDeAbajo) {
-            panelDeAbajo = (<infoPersona.InfoPersona data={{ nombre: "Juan", apellido: "Pavon" }} />)
+            panelDeAbajo = (<infoPersona.InfoPersona  />)
+            // panelDeAbajo = (<infoPersona.InfoPersona data={{ nombre: "Juan", apellido: "Pavon" }} />)
             // panelDeAbajo = (<infoPersona.InfoPersona data={ this.state.alumnoActual } />)
         }
         return (

@@ -1,3 +1,4 @@
+
 const React = require('react')
 
 // variables para componentes de pantallas
@@ -8,6 +9,7 @@ const listarAlumnos = require('./alumnos')
 const nuevoAlumno = require('./nuevoAlumno')
 const infoPersona = require('./componentesComunes/infoPersona')
 
+const logo = require('./images/logoGB_2.png')
 
 const pantallas = {
     muestraTalleres: 1, nuevoTaller: 2, nuevoCurso: 3, listarAlumnos: 4, nuevoAlumno: 5, infoPersona: 6
@@ -17,7 +19,7 @@ const pantallas = {
 class Menu extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { pantallaActual: pantallas.nuevoTaller }
+        this.state = { pantallaActual: pantallas.muestraTalleres }
         this._cursoActual = null
         this._ultimaAccion = null
     }
@@ -52,17 +54,20 @@ class Menu extends React.Component {
 
     menuBarra(){
         return(
-        <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a className="navbar-brand"  >S.G.A.T.</a>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-primary ">
+            <a className="navbar-brand bg-primary text-white " href="/">
+               S. G. A. T.
+            </a>
+            <img src={logo} size="mini" style={{ width: '20', height: '20' }} />
+            {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
-            </button>
+            </button> */}
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
-                    <li className="nav-item ">
+                    {/* <li className="nav-item ">
                         <a className="nav-link">Inicio<span className="sr-only"></span></a>
-                    </li>
-                    <li className="nav-item ">
+                    </li> */}
+                    <li className="nav-item active">
                         <a className="nav-link" onClick={() =>this.mostrarMuestraTalleres()}>Talleres</a>
                     </li>
                     <li className="nav-item dropdown ">
@@ -74,7 +79,7 @@ class Menu extends React.Component {
                             <a className="dropdown-item" onClick={() => this.mostrarDatosPersona()}>Mostrar Info Persona temp</a>
                         </div>
                     </li>
-                    <li className="nav-item dropdown active">
+                    <li className="nav-item dropdown ">
                         <a className="nav-link dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Nuevo
                         </a>
@@ -85,6 +90,9 @@ class Menu extends React.Component {
                     </li>
                 </ul>
             </div>
+                <a className="navbar-brand bg-primary text-white " href="/">
+                    Mun. Gral. Belgrano
+                </a>
         </nav>
         )
     }
@@ -99,54 +107,59 @@ class Menu extends React.Component {
                         <nuevoTaller.CrearTaller rootComponent={this}/>
                 </div>
             )
-        }
-        else {if (this.state.pantallaActual === pantallas.nuevoCurso) {
-            this.setUltimaAccion(() => this.mostrarNuevoCursor())
-            return (
-                <div>
-                    {this.menuBarra()}
-                        <nuevoCurso.NuevoCurso rootComponent={this}/>
-                </div>
-            )
-        } else {if (this.state.pantallaActual === pantallas.listarAlumnos) {
-            this.setUltimaAccion(() => this.mostrarListarAlumno())
-            return (
-                <div>
-                    {this.menuBarra()}
-                        <listarAlumnos.ListarAlumnos rootComponent={this}/>
-                </div>
-            )
-        } else { if(this.state.pantallaActual === pantallas.nuevoAlumno){
-            this.setUltimaAccion(()=> this.mostrarNuevoAlumno())
-            return(
-                <div>
-                    {this.menuBarra()}
-                        <nuevoAlumno.NuevoAlumno rootComponent={this}/>
-                </div>
-            )
-        } else {if (this.state.pantallaActual === pantallas.muestraTalleres) {
-            this.setUltimaAccion(() => this.mostrarMuestraTalleres())
-            return (
-                <div>
-                    {this.menuBarra()}
-                        <muestraTalleres.Talleres rootComponent={this}/>
-                </div>
-            )
-        } else { if (this.state.pantallaActual === pantallas.infoPersona) {
-            this.setUltimaAccion(() => this.mostrarDatosPersona())
+        } else {
+            if (this.state.pantallaActual === pantallas.nuevoCurso) {
+                this.setUltimaAccion(() => this.mostrarNuevoCursor())
                 return (
                     <div>
                         {this.menuBarra()}
-                        <infoPersona.InfoPersona rootComponent={this} />
+                            <nuevoCurso.NuevoCurso rootComponent={this}/>
                     </div>
-                )}
+                )
+            } else {
+                if (this.state.pantallaActual === pantallas.listarAlumnos) {
+                    this.setUltimaAccion(() => this.mostrarListarAlumno())
+                    return (
+                        <div>
+                            {this.menuBarra()}
+                                <listarAlumnos.ListarAlumnos rootComponent={this}/>
+                        </div>
+                    )
+                } else { 
+                    if(this.state.pantallaActual === pantallas.nuevoAlumno){
+                        this.setUltimaAccion(()=> this.mostrarNuevoAlumno())
+                        return(
+                            <div>
+                                {this.menuBarra()}
+                                    <nuevoAlumno.NuevoAlumno rootComponent={this}/>
+                            </div>
+                        )
+                    } else {
+                        if (this.state.pantallaActual === pantallas.muestraTalleres) {
+                            this.setUltimaAccion(() => this.mostrarMuestraTalleres())
+                            return (
+                                <div>
+                                    {this.menuBarra()}
+                                        <muestraTalleres.Talleres rootComponent={this}/>
+                                </div>
+                            )
+                        } else { 
+                            if (this.state.pantallaActual === pantallas.infoPersona) {
+                                this.setUltimaAccion(() => this.mostrarDatosPersona())
+                                    return (
+                                        <div>
+                                            {this.menuBarra()}
+                                            <infoPersona.InfoPersona rootComponent={this} />
+                                        </div>
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-        }
-        }
-        }
     }
-}
 
 module.exports.Menu = Menu
 
