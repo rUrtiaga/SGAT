@@ -156,8 +156,8 @@ class CrearTaller extends React.Component {
       })
       .then(this.cancelarCreacion());
       
-      
     }
+
   }
 
   mostrarSubCategoriasAgregadas(){
@@ -172,6 +172,25 @@ class CrearTaller extends React.Component {
 }
 
   validar(){
+     //MEJORAR VALDIACION, NO HACE LO QUE DEBERIA PERO....
+    if((this.state.categoria !== undefined) 
+        && (this.state.nombre !== undefined) 
+        && (this.state.subCategorias !== []))
+        {
+          this.setState({ error: true})
+    }
+    else{
+      this.setState({ error: false});
+    }
+
+   
+/*
+    if ((this.state.categoria === undefined)){
+      this.setState({ error: true});
+    }
+    else{
+      this.setState({ error: false});
+    }
     if ((this.state.nombre === undefined)){
       this.setState({ error: true});
     }
@@ -184,6 +203,7 @@ class CrearTaller extends React.Component {
     else{
       this.setState({ error: false});
     }
+    */
   }
 
   mostrarValidacion(){
