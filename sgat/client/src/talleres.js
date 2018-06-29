@@ -1,5 +1,5 @@
 const React = require('react')
-const axios = require('axios')
+// const axios = require('axios')
 
 const style3 = { marginRight:10 };
 
@@ -12,26 +12,26 @@ class Talleres extends React.Component{
 		}
 	}	
 
-	componentDidMount() {
-		this.getDataTaller()
-	}
+	// componentDidMount() {
+	// 	this.getDataTaller()
+	// }
 
-	getDataTaller() {
-		//provisoriamente se codea esta 
-		let self = this
-		return axios.get('/api1/talleres')
-			.then(function (response) {
-				const json = JSON.parse(response.data)
-				self.setState({
-					listaDeTalleres: json._talleres,
-					cupo: json[0]._cupo
-				})
-				return Promise.resolve(json._talleres)
-			})
-			.catch(function (error) {
-				console.log(error)
-			})
-	}
+	// getDataTaller() {
+	// 	//provisoriamente se codea esta 
+	// 	let self = this
+	// 	return axios.get('/api1/talleres')
+	// 		.then(function (response) {
+	// 			const json = JSON.parse(response.data)
+	// 			self.setState({
+	// 				listaDeTalleres: json._talleres,
+	// 				cupo: json[0]._cupo
+	// 			})
+	// 			return Promise.resolve(json._talleres)
+	// 		})
+	// 		.catch(function (error) {
+	// 			console.log(error)
+	// 		})
+	// }
 
 	render() {
 		return (
@@ -41,7 +41,7 @@ class Talleres extends React.Component{
 					<div className="row">
 						<div className="col-md-2">
 							<div className="col-md-12">
-								{this.tblTalleres()}
+								{/* {this.tblTalleres()} */}
 							</div>
 						</div>
 					</div>

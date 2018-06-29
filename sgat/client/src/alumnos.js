@@ -12,57 +12,30 @@ class ListarAlumnos extends React.Component {
         super(props)
         this.state = {
             cupo: null,
-            listaDeAlumnosKey:[],
             listaDeAlumnos:[],
             infoDeAlumno: false,
             mostrarPanelDeAbajo: false
         }
     }
-
+    
     componentDidMount() { 
         this.getDataCurso()
     }    
-
+    
     getDataCurso(){
-        //provisoriamente se codea esta 
         let self = this
-        return axios.get( '/api1/talleres/Ceramica/subcategorias/Normal/cursos')  // antes de modificar
-        // return axios.post('/api/cursos/:id/alumnos')
+        return axios.get('/api/cursos/' + this.props.idCurso )
         .then(function(response){
-            const json = JSON.parse(response.data)      // para Test hay que comentar esta linea
-            // const json = response.data               // para Test hay que descomentar
+            const json = response.data
+            
             self.setState({
-                listaDeAlumnosKey: json[0]._alumnos,
+                listaDeAlumnos: json[0]._alumnos,
                 cupo: json[0]._cupo
             })
-            return Promise.resolve(json[0]._alumnos)
-        })
-        .then(function (lAlumnosDni) {
-            self.getAlumnos(lAlumnosDni)
         })
         .catch(function (error) {
             console.log(error)
         })
-    }
-
-    getAlumnos(lAlumnosDni){
-        let self = this
-        lAlumnosDni.forEach(key => {
-            axios.get('/api1/personas/'+ key)
-            .then(function (response) {
-                let alumno = {
-                    _dni: response.data._dni,
-                    _nombre: response.data._nombre, _apellido: response.data._apellido, 
-                    _telPrincipal: response.data._telPrincipal,
-                    _mail: response.data._mail}
-                self.setState({
-                    listaDeAlumnos: [...self.state.listaDeAlumnos,alumno]
-                })  
-            })
-            .catch(function(error){
-                console.log(error)
-            })
-        }); 
     }
 
     render() {

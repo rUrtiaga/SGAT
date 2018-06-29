@@ -58,7 +58,7 @@ class Menu extends React.Component {
             <a className="navbar-brand bg-primary text-white " href="/">
                S. G. A. T.
             </a>
-            <img src={logo} size="mini" style={{ width: '20', height: '20' }} />
+            <img src={logo} size="mini" style={{ width: '20', height: '20' }} alt="SGAT" />
             {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button> */}
@@ -122,7 +122,7 @@ class Menu extends React.Component {
                     return (
                         <div>
                             {this.menuBarra()}
-                                <listarAlumnos.ListarAlumnos rootComponent={this}/>
+                            <listarAlumnos.ListarAlumnos idCurso={'5b297a332c495f18c331f41f'} rootComponent={this}/>
                         </div>
                     )
                 } else { 

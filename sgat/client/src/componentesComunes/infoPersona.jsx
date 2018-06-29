@@ -1,5 +1,5 @@
 const React = require('react')
-const axios = require('axios')
+// const axios = require('axios')
 
 class InfoPersona extends React.Component {
     constructor(props) {
