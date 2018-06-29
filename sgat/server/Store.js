@@ -44,7 +44,7 @@ class Store {
       db
         .collection("talleres")
         .find({ _categoria: cat })
-        //este agregate era por que pense que tenia que devolver la lista sola
+        //este agregate era por que pense que tenia que devolver la lista sola podria ser otra consulta 
         // .aggregate([
         //   { $match: { _categoria: cat } },
         //   { $group: { _id: "$_nombre" }},
@@ -64,8 +64,17 @@ class Store {
     return this.fetchID(db, "talleres", id);
   }
 
+  fetchCursoRaw(db,id){
+    return this.fetchID(db, "cursos", id);
+  }
+
+  // validatePersonInCurso(db,idCurso,idPersona){
+  //   this.fetchCursoRaw(db,idCurso).then((dataCurso)=>{
+
+  //   })
+  // }
+
   fetchCurso(db, id) {
-    // return this.fetchID(db, "cursos", id);
     return db
       .collection("cursos")
       .aggregate([

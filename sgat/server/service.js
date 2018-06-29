@@ -63,8 +63,7 @@ class Service {
     });
   }
 
-
-  fetchTalleresCatYTaller(categoria,nTaller){
+  fetchTalleresCatYTaller(categoria, nTaller) {
     return this.doOperationOnConnection(db => {
       return store.fetchTalleresCatYTaller(db, categoria, nTaller);
     });
@@ -107,17 +106,21 @@ class Service {
 
   putAlumnoCurso(idCurso, idPersona) {
     return this.doOperationOnConnection(db => {
-      return store.updateCursoAlumno(db, idCurso, idPersona);
+      return store.fetchCursoRaw(db, idCurso).then(dataCurso => {
+        return Curso.estaRepetidoPersona(dataCurso, idPersona)
+          .then(() => store.updateCursoAlumno(db, idCurso, idPersona))
+          .catch(e => Promise.reject(e));
+      });
     });
   }
 
   /**
    * Profesores
    */
-  postProfesorCurso(idCurso,idPersona){
-    return this.doOperationOnConnection(db =>{
-      return store.updateCursoProfesor(db,idCurso,idPersona)
-    })
+  postProfesorCurso(idCurso, idPersona) {
+    return this.doOperationOnConnection(db => {
+      return store.updateCursoProfesor(db, idCurso, idPersona);
+    });
   }
 
   /**

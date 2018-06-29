@@ -1,4 +1,6 @@
-const {ObjectID} = require('mongodb')
+const { SgatError } = require("../extras/SgatError");
+
+const { ObjectID } = require("mongodb");
 
 /********************
  * DOMINIO
@@ -11,7 +13,7 @@ class Taller {
   constructor(dataTaller, subCategoria) {
     this._categoria = dataTaller._categoria;
     this._nombre = dataTaller._nombre;
-    this._subCategoria = subCategoria; 
+    this._subCategoria = subCategoria;
   }
 
   /******************************
@@ -166,14 +168,14 @@ class Persona {
     JSON
       no usado por ahora
   */
-    persistentJSON(){
-        return JSON.stringify(this)
-    }
+  persistentJSON() {
+    return JSON.stringify(this);
+  }
 
-    basicUIJSON(){
-      //TODO
-      return JSON.stringify(this)
-    }
+  basicUIJSON() {
+    //TODO
+    return JSON.stringify(this);
+  }
 }
 
 class Curso {
@@ -189,6 +191,19 @@ class Curso {
     this._cupo = dataCurso._cupo;
     this._profesores = dataCurso._profesores;
     this._anio = new Date().getFullYear();
+  }
+
+  /**
+   * STATIC
+   *
+   */
+  static estaRepetidoPersona(dataCurso, idPersona) {
+    if (dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) || dataCurso._profesores.some(pOid=> pOid.toString() == idPersona)){
+      return Promise.reject(
+        new SgatError("Esta persona ya se encuentra en el curso", 409)
+      );
+    }
+    return Promise.resolve();
   }
 
   addAlumno(alumno) {
@@ -235,13 +250,13 @@ class Curso {
     }
   }
 
-  hayCupo(){
-    return this.getCantidadAlumnos() < this.getCupo()
+  hayCupo() {
+    return this.getCantidadAlumnos() < this.getCupo();
   }
 
   //remplazar por ID
-  estaPersona(DNIpersona){
-      return this.estaEnProf(DNIpersona) || this.estaEnAlumno(DNIpersona)
+  estaPersona(DNIpersona) {
+    return this.estaEnProf(DNIpersona) || this.estaEnAlumno(DNIpersona);
   }
 
   validarAdd(persona) {
@@ -322,7 +337,6 @@ class Curso {
     return this._espera;
   }
 
-
   setComentario(comentario) {
     return (this._comentario = comentario);
   }
@@ -383,9 +397,12 @@ class DiaHorarioLugar {
  * Funciones Auxiliares
  ***********************/
 
- function toDHL(listJsonDHL) {
-   return listJsonDHL.map(dhlJSON => new DiaHorarioLugar(dhlJSON._dia,dhlJSON._horario,dhlJSON._lugar))
- }
+function toDHL(listJsonDHL) {
+  return listJsonDHL.map(
+    dhlJSON =>
+      new DiaHorarioLugar(dhlJSON._dia, dhlJSON._horario, dhlJSON._lugar)
+  );
+}
 
 function quitarDeLista(elemento, list) {
   let indice = indiceDeLista(elemento, list);
@@ -396,142 +413,7 @@ function indiceDeLista(elemento, list) {
   return list.findIndex(elemento);
 }
 
-// class Store {
-//   constructor() {
-//     this.categorias = [];
-//     this.cursos = [];
-//     this.talleres = [];
-//     this.lugares = [];
-//     this.personas = [];
-//   }
-
-//   addCategoria(cat) {
-//     if (!this.getCategorias().some(c => cat == c)) {
-//       this.categorias.push(cat);
-//       //this.ordenarCategorias()
-//     }
-//   }
-//   //Borrar Categoria deberia checkear que ningun taller la este usando.
-
-//   addTaller(taller) {
-//     this.addCategoria(taller.getCategoria());
-//     this.talleres.push(taller);
-//     //this.ordenarTalleres()
-//     return taller;
-//   }
-
-//   addCurso(curso) {
-//     // this.addLugares(curso.getDiasHorariosLugares())
-//     this.cursos.push(curso);
-//     // this.ordenarCursos()
-//     this.agregarPersonas(curso.getProfesores());
-//     this.agregarPersonas(curso.getAlumnos());
-//     return curso;
-//   }
-
-//   agregarPersonas(personas) {
-//     for (const persona of personas) {
-//       this.agregarPersona(persona);
-//     }
-//   }
-
-//   agregarPersona(persona) {
-//     if (this.personas.some(p => p.getDNI() == persona.getDNI())) {
-//       //remplazar datos de persona anterior
-//     } else {
-//       this.personas.push(persona);
-//     }
-//   }
-
-//   getTalleres() {
-//     return this.talleres;
-//   }
-
-//   getCategorias() {
-//     return this.categorias;
-//   }
-
-//   getCategoriaLlamada(nombre) {
-//     return this.categorias.find(c => c == nombre);
-//   }
-
-//   getTallerLLamado(strTaller) {
-//     return this.getTalleres().find(t => t.getNombre() == strTaller);
-//   }
-
-//   getPersonas() {
-//     return this.personas;
-//   }
-//   estaPersonaDNI(dni) {
-//     return this.getPersonas().some(p => p.getDNI() == dni);
-//   }
-//   getPersonaDNI(dni) {
-//     return this.getPersonas().find(p => p.getDNI() == dni);
-//   }
-
-//   llenar() {
-//     this.categorias = ["Artes Manuales", "Instrumentos Musicales"];
-
-//     const cat1 = this.getCategoriaLlamada("Artes Manuales");
-//     const cat2 = this.getCategoriaLlamada("Instrumentos Musicales");
-
-//     //Agrega talleres de Artes Manuales
-//     let ceramica = this.addTaller(
-//       new Taller(cat1, "Ceramica", "Normal", "Aborigen")
-//     );
-//     this.addTaller(new Taller(cat1, "Tallado En Madera"));
-//     this.addTaller(new Taller(cat1, "Mimbreria"));
-//     this.addTaller(new Taller(cat1, "Plateria"));
-//     this.addTaller(new Taller(cat1, "Marroquineria"));
-//     this.addTaller(new Taller(cat1, "Dibujo", "Normal", "Digital"));
-//     this.addTaller(new Taller(cat1, "Arte Juvenil"));
-
-//     //Agrega talleres de instrumentos Musicales
-//     this.addTaller(new Taller(cat2, "Piano", "Principiantes", "Avanzados"));
-//     this.addTaller(new Taller(cat2, "Bajo", "Principiantes", "Avanzados"));
-//     this.addTaller(new Taller(cat2, "Guitarra", "Principiantes", "Avanzados"));
-//     this.addTaller(new Taller(cat2, "Violín", "Principiantes", "Avanzados"));
-//     this.addTaller(new Taller(cat2, "Viola", "Principiantes", "Avanzados"));
-//     this.addTaller(
-//       new Taller(cat2, "Violoncello", "Principiantes", "Avanzados")
-//     );
-//     this.addTaller(
-//       new Taller(cat2, "Contrabajo", "Principiantes", "Avanzados")
-//     );
-//     this.addTaller(new Taller(cat2, "Bateria", "Principiantes", "Avanzados"));
-//     this.addTaller(new Taller(cat2, "Bandoneon", "Principiantes", "Avanzados"));
-//     this.addTaller(
-//       new Taller(cat2, "Flauta Traversa", "Principiantes", "Avanzados")
-//     );
-//     this.addTaller(new Taller(cat2, "Piano", "Principiantes", "Avanzados"));
-
-//     let prof = new Persona(
-//       12345678,
-//       "Juan",
-//       "Perez",
-//       "12/02/1980",
-//       "",
-//       2243451234,
-//       "a@a.com"
-//     );
-
-//     let ceramicaNormalc1 = new Curso(
-//       10,
-//       ceramica.getSubCategoria("Normal"),
-//       prof
-//     );
-//     ceramicaNormalc1.addDiaHorarioLugar(
-//       new DiaHorarioLugar("Martes", "20:00", "Casa de La Cultura")
-//     );
-//     this.addCurso(ceramicaNormalc1);
-//   }
-// }
-
-// var store = new Store();
-// store.llenar();
-
 module.exports = { Taller, Persona, Curso, DiaHorarioLugar };
-//module.exports.store = store;
 
 /*
 carlos hace que los objetos de negocio se puedan tranformar a json haciendo metodos como basicUIJSON (que te da un JSON adaptado par ala interfaz)

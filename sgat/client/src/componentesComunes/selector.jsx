@@ -24,6 +24,9 @@ class Selector extends React.Component {
   }
 
   seleccionSubCategoria(valor) {
+    if(this.props.callbackNuevoCurso){
+      this.props.callbackNuevoCurso(valor)
+    }
     this.setState({ subCategoria: valor, curso: null });
   }
 
@@ -64,7 +67,7 @@ class Selector extends React.Component {
             />
           </div>
         ) : null}
-        {this.state.subCategoria ? (
+        {this.state.subCategoria && !this.props.callbackNuevoCurso ? (
           <div>
             <h6 className="ml-3 mt-2">Cursos</h6>
             <MuestraCursos
