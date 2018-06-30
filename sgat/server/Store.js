@@ -204,7 +204,7 @@ class Store {
   }
 
   pushCategoria(db, categoria) {
-    return db.collection("categorias").insertMany([{ categoria: categoria }]);
+    return db.collection("categorias").insertMany([{ _categoria: categoria }]);
   }
 
   existsCategoria(db, categoria) {
