@@ -12,15 +12,9 @@ class MuestraCursos extends MuestraFromProps {
   request() {
     const self = this;
     return axios
-      .get(
-        "/api1/talleres/" +
-          this.props.padre.state.taller +
-          "/subcategorias/" +
-          this.props.select +
-          "/cursos"
-      )
+      .get("/api/talleres/" + this.props.select + "/cursos")
       .then(respuesta => {
-        self.setState({ elementsOrError: JSON.parse(respuesta.data) });
+        self.setState({ elementsOrError: respuesta.data });
       })
       .catch(e => console.log(e));
   }
@@ -45,7 +39,7 @@ class MuestraCursos extends MuestraFromProps {
         <div className="container">
           {this.state.elementsOrError.map(c => (
             <Curso
-              // key={c._id}
+              key={c._id}
               curso={c}
               botones={<Botones seleccionar={() => this.manejarSeleccion(c)} />}
             />

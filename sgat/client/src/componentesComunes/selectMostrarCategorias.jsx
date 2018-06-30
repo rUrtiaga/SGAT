@@ -13,8 +13,11 @@ class MuestraCategorias extends React.Component {
   componentDidMount() {
     const self = this;
     axios
-      .get("api1/categorias")
-      .then(respuesta => self.setState({ categorias: respuesta.data }))
+      .get("api/categorias")
+      .then(respuesta => {
+        let catSinId = respuesta.data.map(c=> c._categoria)
+        self.setState({ categorias: catSinId })
+      })
       .then(()=>this.props.seleccionar(this.state.categorias[0]))
   }
 

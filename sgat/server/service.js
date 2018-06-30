@@ -63,6 +63,12 @@ class Service {
     });
   }
 
+  fetchTalleresCatYTaller(categoria, nTaller) {
+    return this.doOperationOnConnection(db => {
+      return store.fetchTalleresCatYTaller(db, categoria, nTaller);
+    });
+  }
+
   fetchTaller(id) {
     return this.doOperationOnConnection(db => {
       return store.fetchTaller(db, id);
@@ -93,31 +99,28 @@ class Service {
       return store.fetchCursosTaller(db, idTaller);
     });
   }
-  //Esto esta feo...
-  // fetchCursos(ids){
-  //   return this.doOperationOnConnection(db=>{
-  //     return store.fetchSubCatCursos(db,ids)
-  //             .then(listT => listT[0]._subCategorias[0]._cursos)
-  //             // .then(listC => )
-  //   })
-  // }
+
   /**
    * Alumnos
    */
 
-  postAlumnoCurso(idCurso, idPersona) {
+  putAlumnoCurso(idCurso, idPersona) {
     return this.doOperationOnConnection(db => {
-      return store.updateCursoAlumno(db, idCurso, idPersona);
+      return store.fetchCursoRaw(db, idCurso).then(dataCurso => {
+        return Curso.estaRepetidoPersona(dataCurso, idPersona)
+          .then(() => store.updateCursoAlumno(db, idCurso, idPersona))
+          .catch(e => Promise.reject(e));
+      });
     });
   }
 
   /**
    * Profesores
    */
-  postProfesorCurso(idCurso,idPersona){
-    return this.doOperationOnConnection(db =>{
-      return store.updateCursoProfesor(db,idCurso,idPersona)
-    })
+  postProfesorCurso(idCurso, idPersona) {
+    return this.doOperationOnConnection(db => {
+      return store.updateCursoProfesor(db, idCurso, idPersona);
+    });
   }
 
   /**
