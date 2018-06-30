@@ -22,18 +22,20 @@ class NuevaSubCategoria extends React.Component {
                 </div>
                 <div className="row justify-content-end">
                     <div className="col"></div>
-                    <div className="col-md-2">
-                        <button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={() => this.cancelarAgregado()}>Cancelar</button>
-                    </div>
+                    
                     <div className="col-md-2">
                         <button
                             type="button"
                             className="btn btn-primary"
-                            onClick={() => this.agregarSubCategoria()}>Guardar</button>
+                            onClick={() => this.agregarSubCategoria()}>Agregar Sub-Categoria</button>
 
+                    </div>
+
+                    <div className="col-md-2">
+                        <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={() => this.cancelarAgregado()}>Borrar Sub-Categorias</button>
                     </div>
                 </div>
             </div>
@@ -45,18 +47,14 @@ class NuevaSubCategoria extends React.Component {
             .props
             .padre
             .agregarSubCategoria(this.state.nombreSubCategoria)
-        this
-            .props
-            .padre
-            .setState({agregaSubCategoria: false})
+            this.props.padre.setState({error: false})
+        this.setState({nombreSubCategoria: ""})
+        
     }   
 
     cancelarAgregado() {
-        this.setState.nombreSubCategoria = ""
-        this
-            .props
-            .padre
-            .setState({agregaSubCategoria: false})
+        this.setState({nombreSubCategoria: ""})
+        this.props.padre.setState({subCategorias: ""})
     }
 }
 
