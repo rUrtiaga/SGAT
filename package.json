@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "test": "jest",
+    "server": "cd ./server && npm run server",
+    "client": "cd ./client && npm start",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "instalar": "npm install && cd client && npm install && cd ../server && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0"
+  }
+}
