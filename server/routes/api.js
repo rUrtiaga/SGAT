@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
-let { controller } = require("../server/controller.js");
-const { store } = require("../server/Store.js");
-const { service } = require("../server/service.js");
+let { controller } = require("../service/controller.js");
+const { store } = require("../service/Store.js");
+const { service } = require("../service/service.js");
 
 /**
  * Cursos

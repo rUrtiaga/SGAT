@@ -10,7 +10,7 @@ const { SgatError } = require("./extras/SgatError.js");
 const process = require("process");
 
 //lo del process es para hacer la variable de sistema.
-const dbServerURL = process.env.MONGOSERVER || "mongodb://localhost:27017/";
+const dbServerURL = process.env.MONGO_SERVER || "mongodb://localhost:27017/";
 const dbName = "sgat";
 
 class Service {
@@ -33,7 +33,9 @@ class Service {
         return Promise.resolve(data);
       })
       .catch(function(error) {
-        dbConnection.close();
+        if(dbConnection) {
+         dbConnection.close();
+        }  
         return Promise.reject(error);
       });
   }

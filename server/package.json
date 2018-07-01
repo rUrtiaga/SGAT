@@ -4,14 +4,12 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "server": "node ./bin/www",
-    "client": "cd client && npm start",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "instalar": "npm install && cd client && npm install"
+    "server": "node ./bin/www"
   },
   "dependencies": {
     "babel-preset-env": "^1.7.0",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.4",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
@@ -19,8 +17,5 @@
     "mongodb": "^3.1.0-beta4",
     "morgan": "~1.9.0",
     "pug": "*"
-  },
-  "devDependencies": {
-    "concurrently": "^3.5.0"
   }
 }

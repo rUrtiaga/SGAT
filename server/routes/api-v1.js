@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let {controller} = require('../server/controller-v1.js')
+let {controller} = require('../service/controller-v1.js')
 
 /* GET users listing.*/
 router.get('/personas/:dni', function (req, res, next) {
