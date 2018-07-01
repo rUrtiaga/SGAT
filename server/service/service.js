@@ -33,7 +33,9 @@ class Service {
         return Promise.resolve(data);
       })
       .catch(function(error) {
-        dbConnection.close();
+        if(dbConnection) {
+         dbConnection.close();
+        }  
         return Promise.reject(error);
       });
   }
