@@ -8,7 +8,7 @@ import MockAdapter from 'axios-mock-adapter';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const { ListarAlumnos } = require('../alumnos.js');
+const { ListarAlumnos } = require('../alumnos_test.js');
 
 describe("React Listar Alumnos", () => {
 
