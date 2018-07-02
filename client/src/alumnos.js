@@ -1,6 +1,8 @@
 const React = require('react')
 const axios = require('axios')
 
+const infoPersona = require("./componentesComunes/infoPersona.jsx");
+
 /***********************************************
  Alumnos
 ***********************************************/
@@ -10,61 +12,44 @@ class ListarAlumnos extends React.Component {
         super(props)
         this.state = {
             cupo: null,
-            listaDeAlumnosKey:[],
-            listaDeAlumnos:[]}
+            listaDeAlumnos:[],
+            infoDeAlumno: false,
+            mostrarPanelDeAbajo: false
+        }
     }
     
     componentDidMount() { 
         this.getDataCurso()
     }    
-
+    
     getDataCurso(){
-        //provisoriamente se codea esta 
         let self = this
-        return axios.get( '/api1/talleres/Ceramica/subcategorias/Normal/cursos')
+        return axios.get('/api/cursos/' + this.props.idCurso )
         .then(function(response){
-            const json = JSON.parse(response.data)      // para Test hay que comentar esta linea
-            // const json = response.data               // para Test hay que descomentar
+            const json = response.data
+            
             self.setState({
-                listaDeAlumnosKey: json[0]._alumnos,
+                listaDeAlumnos: json[0]._alumnos,
                 cupo: json[0]._cupo
             })
-            return Promise.resolve(json[0]._alumnos)
-        })
-        .then(function (lAlumnosDni) {
-            self.getAlumnos(lAlumnosDni)
         })
         .catch(function (error) {
             console.log(error)
         })
     }
 
-    getAlumnos(lAlumnosDni){
-        let self = this
-        lAlumnosDni.forEach(key => {
-            axios.get('/api1/personas/'+ key)
-            .then(function (response) {
-                let alumno = {
-                    _dni: response.data._dni,
-                    _nombre: response.data._nombre, _apellido: response.data._apellido, 
-                    _telPrincipal: response.data._telPrincipal,
-                    _mail: response.data._mail}
-                self.setState({
-                    listaDeAlumnos: [...self.state.listaDeAlumnos,alumno]
-                })  
-            })
-            .catch(function(error){
-                console.log(error)
-            })
-        }); 
-    }
-
     render() {
+        let panelDeAbajo = null
+        if (this.state.mostrarPanelDeAbajo) {
+            panelDeAbajo = (<infoPersona.InfoPersona  />)
+            // panelDeAbajo = (<infoPersona.InfoPersona data={{ nombre: "Juan", apellido: "Pavon" }} />)
+            // panelDeAbajo = (<infoPersona.InfoPersona data={ this.state.alumnoActual } />)
+        }
         return (
             <div>
                 <div className="m-4 container-fluid recuadroPantalla">
                     <div className="row">
-                        <div className="col-md-11">
+                        <div className="col-md-12">
                             <div className="card text-dark">
                                 <div className="align-self-center card-bg-info bg-primary text-white  ">  
                                     <h3> Acá va el nombre del Curso </h3></div>
@@ -76,6 +61,7 @@ class ListarAlumnos extends React.Component {
                                         <div className="col-md-12">
                                             {this.tblAlumnos()}
                                         </div>
+                                        {panelDeAbajo}
                                     </div>
                                     {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success")}
                                 </div>
@@ -114,7 +100,7 @@ class ListarAlumnos extends React.Component {
     // dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario
     infoAlumnos(alumno) {
         const rowDatosAlumno = (
-            <tr key={alumno._dni}>
+            <tr id="infoAlum" key={alumno._dni}>
                 <td>{alumno._dni}</td>
                 <td>{this.linkInfoAlumno(alumno)}</td>
                 <td>{alumno._nombre}</td>
@@ -130,14 +116,16 @@ class ListarAlumnos extends React.Component {
     /** --- Link para Info del Alumno ---  */
     linkInfoAlumno(alumno) {
         return (
-            <a href="#" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno._apellido}</a>
+            <a href="/" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno._apellido}</a>
         )
     }
     mostrarDatosAlumno(unAlumno) {
         console.log(unAlumno);
+        console.log(this);
+        this.setState({ mostrarPanelDeAbajo: true })
     }
-    /** --- Encabezado de la Tabla --- */
 
+    /** --- Encabezado de la Tabla --- */
     encabezadoDeTabla(titulos) {
         return titulos.map((titulo, ix) => (<th key={ix}>{titulo}</th>))
     }
@@ -163,7 +151,7 @@ class ListarAlumnos extends React.Component {
     botonEliminar(alumno) {
         return (
             <button className="btn btn-danger btn-xs" onClick={() => this.eliminarAlumno(alumno)}>
-                <span className="fa fa-times-circle"> Eliminar </span>
+                <span className="fa fa-close"> Eliminar </span>
             </button>
         )
     }
