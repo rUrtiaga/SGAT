@@ -6,6 +6,7 @@ class InputPersona extends React.Component {
   constructor(props) {
     super(props);
     this._persona = this.props.persona;
+    this.minCaracteres = 6;
     this.state = {
       dni: this._persona._dni,
       nombre: this._persona._nombre,
@@ -19,12 +20,12 @@ class InputPersona extends React.Component {
     };
   }
 
-  handleChange(event) {
+  handleChange(event,callback) {
     try {
       // this.validate(event.target.name,event.target.value)
       this.setState({
         [event.target.name]: event.target.value
-      });
+      }, callback);
     } catch (error) {
       console.log(error);
     }
@@ -33,7 +34,9 @@ class InputPersona extends React.Component {
   handleDNI(event) {
     this.limpiar();
     this.handleChange(event);
-    this.request(event.target.value);
+    if(event.target.value.length > this.minCaracteres){
+      this.request(event.target.value);
+    }
   }
 
   request(value) {
