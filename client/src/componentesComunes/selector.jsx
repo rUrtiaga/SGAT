@@ -39,7 +39,7 @@ class Selector extends React.Component {
     return (
       <div className="mt-3 mb-3">
         <div>
-          <h6 className="ml-3">Categoria</h6>
+          <h6 className="ml-3">Categoría</h6>
           <MuestraCategorias
             seleccionar={v => this.seleccionMuestraCategorias(v)}
             padre={this}

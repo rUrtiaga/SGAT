@@ -6,9 +6,11 @@ class InputPersona extends React.Component {
   constructor(props) {
     super(props);
     this._persona = this.props.persona;
+    this.minCaracteres = 6;
     this.state = {
       dni: this._persona._dni,
       nombre: this._persona._nombre,
+      fechaNac: this._persona._fechaNac,
       apellido: this._persona._apellido,
       direccion: this._persona._direccion,
       telPrincipal: this._persona._telPrincipal,
@@ -18,12 +20,12 @@ class InputPersona extends React.Component {
     };
   }
 
-  handleChange(event) {
+  handleChange(event,callback) {
     try {
       // this.validate(event.target.name,event.target.value)
       this.setState({
         [event.target.name]: event.target.value
-      });
+      }, callback);
     } catch (error) {
       console.log(error);
     }
@@ -32,7 +34,9 @@ class InputPersona extends React.Component {
   handleDNI(event) {
     this.limpiar();
     this.handleChange(event);
-    this.request(event.target.value);
+    if(event.target.value.length > this.minCaracteres){
+      this.request(event.target.value);
+    }
   }
 
   request(value) {
@@ -54,6 +58,7 @@ class InputPersona extends React.Component {
       dni: persona._dni,
       nombre: persona._nombre,
       apellido: persona._apellido,
+      fechaNac: this.toDateUI(persona._fechaNac),
       direccion: persona._direccion,
       telPrincipal: persona._telPrincipal,
       telSecundario: persona._telSecundario,
@@ -62,8 +67,11 @@ class InputPersona extends React.Component {
     });
   }
 
+  toDateUI(isoDate){
+    return isoDate.slice(0,isoDate.indexOf('T'))
+  }
   //esto no va, pero lo dejo por que es algo similar a lo que se va a validar
-  // validate(nameEvent,value){
+  // validate(nameEvent,value){ 
   //     switch (nameEvent) {
   //         case 'dni':
   //             if(value > 100000000){
@@ -97,6 +105,18 @@ class InputPersona extends React.Component {
               <small id="dniHelp" className="form-text text-muted">
                 Ingrese el DNI sin puntos.
               </small>
+            </div>
+            <div className="col">
+              <label>Fecha de Nacimiento</label>
+
+              <input
+                className="form-control"
+                type="date"
+                name="fechaNac"
+                value={this.state.fechaNac}
+                onChange={event => this.handleChange(event)}
+                id="date-input"
+              />
             </div>
           </div>
         </div>
@@ -212,6 +232,7 @@ class InputPersona extends React.Component {
       id: "",
       dni: "",
       nombre: "",
+      fechaNac: "",
       apellido: "",
       direccion: "",
       telPrincipal: "",
@@ -222,11 +243,12 @@ class InputPersona extends React.Component {
   }
 
   aceptarPersona() {
-    let self = this
+    let self = this;
     const persona = {
       _dni: parseInt(this.state.dni, 10),
       _nombre: this.state.nombre,
       _apellido: this.state.apellido,
+      _fechaNac: new Date(this.state.fechaNac),
       _direccion: this.state.direccion,
       _telPrincipal: this.state.telPrincipal,
       _telSecundario: this.state.telSecundario,
@@ -237,10 +259,8 @@ class InputPersona extends React.Component {
       axios
         .post("/api/personas", persona)
         .then(function(response) {
-          //   console.log(response);
-          // console.log(response.data.insertedIds);
           if (self.props.onAccept) {
-            persona._id = response.data.insertedIds[0]
+            persona._id = response.data.insertedIds[0];
             self.props.onAccept(persona);
           }
         })
@@ -249,7 +269,7 @@ class InputPersona extends React.Component {
         });
     } else {
       if (self.props.onAccept) {
-        persona._id = this.state.id
+        persona._id = this.state.id;
         self.props.onAccept(persona);
       }
     }
