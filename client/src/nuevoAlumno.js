@@ -19,7 +19,7 @@ class NuevoAlumno extends React.Component {
   render() {
     return (
       <div className="container">
-        <h3 className="mt-4 mb-4">Nueva Inscripcion</h3>
+        <h3 className="mt-4 mb-4">Nueva Inscripción</h3>
 
         {this.state.curso ? (
           <p>
