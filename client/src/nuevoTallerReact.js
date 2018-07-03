@@ -21,6 +21,7 @@ class CrearTaller extends React.Component {
     this.child = React.createRef();
 
     this.state = {
+      categoria:"",
       subCategorias: [],
       indice: 0,
       agregaSubCategoria: false,
@@ -77,12 +78,6 @@ class CrearTaller extends React.Component {
     });
   }
 
-  devolverListadoSubCategorias() {
-    const listItems = this.state.subCategorias.map(sub => (
-      <span>, {sub} </span>
-    ));
-    return listItems;
-  }
 
   cancelarCreacion() {
     //this.setState({ error: false});
@@ -135,9 +130,7 @@ class CrearTaller extends React.Component {
     }
   }
 
-  seleccionarCategoria(valor) {
-    this.setState({ categoria: valor });
-  }
+  
 
   guardarTaller() {
     const self = this;

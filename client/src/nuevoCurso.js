@@ -1,47 +1,73 @@
 const React = require('react')
+const axios = require("axios");
 
-const {Selector} = require('./componentesComunes/selectorSinCurso.jsx')
+const {Selector} = require('./componentesComunes/selector.jsx')
 const {InputPersona} = require('./componentesComunes/inputPersona.jsx')
 
 const style3 = {
     marginTop: 10
 };
+const style = {
+    marginTop: 20
+  };
 
 class NuevoCurso extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            persona: {},
-            categoria: "",
-            taller: "",
-            subcategoria: "",
+            profesores: [],
+            profesoresId: [],
+            tallerId:"",
+            taller:"",
             cupo: "",
             dia: "",
             hora: "",
             lugar: "",
             comentario: "",
 
-            eligioCategoria: false,
-            eligioTaller:   false,
-            selectorCursoOculto: false,
+            inputCurso: false,
             inputPersonaOculto: false
         }
     }
 
     guardarCurso(){
-        //guarda un curso
+            const self = this;
+            const DHL = [{"_dia":this.state.dia,"_horario":this.state.hora,"_lugar":this.state.lugar}]
+            const curso = {
+                _alumnos: [],
+                _alumnosBaja: [],
+                _espera: [],
+                _esperaBaja: [],
+              _diasHoratiosLugas: DHL,
+              _tallerID: this.state.tallerId,
+              _comentario: this.state.comentario,
+              _profesores: this.state.profesoresId,
+              _anio: (new Date).getFullYear()
+            }
+            //console.log(curso)
+            axios
+                .post("/api/cursos", curso)
+                .then(function(res) {
+                    console.log("se agrego el CURSO " + DHL);
+                })
+                //.then(this.cancelarAgregado()); 
+                .catch(function(error) {
+                    console.log(error);
+                });
     }
 
     cancelarAgregado() {
         this.setState({
-            categoria: "",
-            taller: "",
-            subcategoria: "",
+            indice: 0,
+            profesores: [],
+            profesoresId: [],
+            tallerId:"",
             cupo: "",
             dia: "",
             hora: "",
             lugar: "",
             comentario: "",
+            inputCurso: false,
             inputPersonaOculto:false  
         })
        
@@ -64,21 +90,58 @@ class NuevoCurso extends React.Component {
             return(
             <InputPersona
               id="inputPersona"
-              persona={this.state.persona}
+              persona={{}}
               padre={this}
               onCancel={this.cancelarPersona.bind(this)}
-              onAccept={this.cancelarPersona.bind(this)}
+              onAccept={p => this.acceptPersona(p)}
             />
             )
     }
 }
+    acceptPersona(persona) {
+        this.agregarProfesor(persona)
+        this.ocultarNuevaPersona()
+    }
 
-    // El Select TALLER deberia desplegarse una vez que seleciono la CATEGORIA, lo
-    // mismo con la SUBCATEGORIA y el TALLER.
+    agregarProfesor(persona) {
+        var prof = this.state.profesores;
+        var profId = this.state.profesoresId
+
+        prof[this.state.indice] = persona
+        profId[this.state.indice] = persona._Id
+            this.setState({ profesor: prof });
+            this.setState({ profesorId: profId });
+            this.setState({indice: this.state.indice + 1});
+      }
+
+    mostrarProfesores(){
+        if(!(this.state.profesoresId.length === 0)){
+            return (
+              <div className="card mb-2" style={style}>
+              <p>Profesores:</p>
+              
+              <h5>{this.state.profesores.map( p => p._apellido + " ")}</h5>
+              
+              
+              </div>
+          )
+        }
+    }
+
+    seleccionarCategoria(valor) {
+        this.setState({ tallerId: valor });
+
+        const self = this;
+        axios
+            .get("api/talleres/"+ self.state.tallerId)
+            .then(respuesta => {
+            self.setState({ taller: respuesta.data })
+        })      
+    }
+
     render() {
         return (
             
-
             <div className="m-4 container-fluid recuadroPantalla">
 
                 <div className="card">
@@ -87,8 +150,7 @@ class NuevoCurso extends React.Component {
                     </div>
                 </div>
                 
-                <Selector padre={this} style={style3}/>
-
+                <Selector padre={this} callbackNuevoCurso={c => this.seleccionarCategoria(c)} />
                 
                 <div className="card mb-3" style={style3}>
                     <div className="form-group">
@@ -138,6 +200,9 @@ class NuevoCurso extends React.Component {
                                 value={this.state.comentario}
                                 onChange={(event) => this.setState({comentario: event.target.value})}/>
                         </div>
+                      
+                            {this.mostrarProfesores()}
+         
                     </div>
                 </div>
 
@@ -149,7 +214,7 @@ class NuevoCurso extends React.Component {
                         <button className='btn btn-danger' onClick={() => this.cancelarAgregado()}>Cancelar</button>
                     </div>
                     <div className="col-md-2">
-                        <button className='btn btn-primary' onClick={() => this.guardarCurso()}>Aceptar</button>
+                        <button className='btn btn-primary' onClick={() => this.guardarCurso()}>Guardar Curso</button>
                     </div>
                 </div>
 
