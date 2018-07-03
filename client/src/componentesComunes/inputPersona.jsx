@@ -20,8 +20,6 @@ class InputPersona extends React.Component {
   }
 
   handleChange(event) {
-    console.log(typeof this.state.fechaNac)
-    console.log(this.state.fechaNac)
     try {
       // this.validate(event.target.name,event.target.value)
       this.setState({
@@ -111,7 +109,6 @@ class InputPersona extends React.Component {
               <input
                 className="form-control"
                 type="date"
-                format="dd/MM/yyyy"
                 name="fechaNac"
                 value={this.state.fechaNac}
                 onChange={event => this.handleChange(event)}
@@ -259,8 +256,6 @@ class InputPersona extends React.Component {
       axios
         .post("/api/personas", persona)
         .then(function(response) {
-          //   console.log(response);
-          // console.log(response.data.insertedIds);
           if (self.props.onAccept) {
             persona._id = response.data.insertedIds[0];
             self.props.onAccept(persona);
