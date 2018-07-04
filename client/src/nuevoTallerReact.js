@@ -134,7 +134,6 @@ class CrearTaller extends React.Component {
 
   guardarTaller() {
     const self = this;
-
     const taller = {
       _categoria: self.state.categoria,
       _nombre: self.state.nombre,
@@ -162,6 +161,9 @@ class CrearTaller extends React.Component {
         </div>
     )
   }
+}
+seleccionarCategoria(valor) {
+  this.setState({ categoria: valor });
 }
 
   validar(){

@@ -1,5 +1,5 @@
 const React = require('react')
-const axios = require("axios");
+const axios = require("axios")
 
 const {Selector} = require('./componentesComunes/selector.jsx')
 const {InputPersona} = require('./componentesComunes/inputPersona.jsx')
@@ -38,11 +38,11 @@ class NuevoCurso extends React.Component {
                 _alumnosBaja: [],
                 _espera: [],
                 _esperaBaja: [],
-              _diasHoratiosLugas: DHL,
+                _diasHorariosLugares: DHL,
               _tallerID: this.state.tallerId,
               _comentario: this.state.comentario,
-              _profesores: this.state.profesoresId,
-              _anio: (new Date).getFullYear()
+              _cupo: this.state.cupo,
+              _profesores: this.state.profesoresId
             }
             //console.log(curso)
             axios
@@ -131,12 +131,12 @@ class NuevoCurso extends React.Component {
     seleccionarCategoria(valor) {
         this.setState({ tallerId: valor });
 
-        const self = this;
-        axios
-            .get("api/talleres/"+ self.state.tallerId)
-            .then(respuesta => {
-            self.setState({ taller: respuesta.data })
-        })      
+        //const self = this;
+        //axios
+        //   .get("api/talleres/"+ self.state.tallerId)
+        //    .then(respuesta => {
+        //    self.setState({ taller: respuesta.data })
+        //})      
     }
 
     render() {
