@@ -44,13 +44,12 @@ class NuevaCategoria extends React.Component {
     }
 
     agregarCategoria() {
+        console.log(this.state.categorias)
         const self = this
         axios
             .post('api/categorias', {categoria: self.state.nombreCategoria})
             .then(function (res) {
-                
                 console.log("se agrego la categoria " + self.state.nombreCategoria)
-                
             })
             .catch(error => {
                 console.log(error)
@@ -58,9 +57,9 @@ class NuevaCategoria extends React.Component {
             
         this.props.padre.setState({ 
             agregaCategoria: false,
-            categoria: self.state.nombreCategoria
+            categorias: [...this.props.padre.state.categorias, self.state.nombreCategoria]
         })
-
+        
     }
 
     cancelarAgregado() {

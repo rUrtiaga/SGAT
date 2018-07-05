@@ -2,28 +2,23 @@ const React = require("react");
 const axios = require("axios");
 
 
-const {
-  MuestraCategorias
-} = require("./componentesComunes/selectMostrarCategorias.jsx");
+const {MuestraCategorias} = require("./componentesComunes/selectMostrarCategorias.jsx");
 const { NuevaCategoria } = require("./componentesComunes/nuevaCategoria.jsx");
-const {
-  NuevaSubCategoria
-} = require("./componentesComunes/nuevaSubCategoria.jsx");
+const {NuevaSubCategoria} = require("./componentesComunes/nuevaSubCategoria.jsx");
 
 
 /*CREAR TALLER*/
 class CrearTaller extends React.Component {
   constructor(props) {
     super(props);
-    this.child = React.createRef();
-
     this.state = {
+      categorias: "",
       categoria:"",
       subCategorias: [],
       agregaSubCategoria: false,
       agregaCategoria: false,
-      error:false,
-      disabled: false
+      disabled: false,
+      muestraCategorias:true
     };
   }
 
@@ -56,17 +51,19 @@ class CrearTaller extends React.Component {
   nuevaSubCategoria() {
     if (this.state.agregaSubCategoria) {
       return (
-        <NuevaSubCategoria padre={this} myfunc={this.props.renderizarSelect} />
+        <NuevaSubCategoria padre={this} updateCategorias={this.renderizarSelect} />
       );
     }
   }
 
+  renderizarSelect(){
+    //
+  }  
   agregarSubCategoria(unaSubCategoria) {  
     this.setState({subCategorias: [... this.state.subCategorias, unaSubCategoria]})
   }
 
   cancelarCreacion() {
-    this.setState({ error: false});
     this.setState({ nombre: "" });
     this.setState({ categoria: "" });
     this.setState({ subCategorias: [] });
@@ -84,7 +81,6 @@ class CrearTaller extends React.Component {
       axios.post("api/talleres ",taller)
       .then(function(res) {
         console.log("se agrego el taller " + self.state.nombre);
-      
       })
       .then(this.cancelarCreacion());
     }
@@ -104,45 +100,18 @@ seleccionarCategoria(valor) {
   this.setState({ categoria: valor });
 }
 
-  validar(){
-     //MEJORAR VALDIACION, NO HACE LO QUE DEBERIA PERO....
-    if((this.state.categoria !== undefined) 
-        && (this.state.nombre !== undefined) 
-        && (this.state.subCategorias !== []))
+validar(){
+    if((this.state.categoria == false) || (this.state.nombre == false) || (this.state.subCategorias == false))
         {
           this.setState({ error: true})
-    }
+        }
     else{
-      this.setState({ error: false});
+      this.setState({ error: false})
     }
-
-   
-/*
-    if ((this.state.categoria === undefined)){
-      this.setState({ error: true});
-    }
-    else{
-      this.setState({ error: false});
-    }
-    if ((this.state.nombre === undefined)){
-      this.setState({ error: true});
-    }
-    else{
-      this.setState({ error: false});
-    }
-    if(!(this.state.subCategorias === [])){
-      this.setState({ error: true });
-    } 
-    else{
-      this.setState({ error: false});
-    }
-    */
   }
 
   mostrarValidacion(){
-    //this.validar()
     if (this.state.error){
-      console.log(this.state.error)
     return (
       <div class="alert alert-danger mt-2">
         <strong>ERROR!</strong> DEBE COMPLETAR SI O SI TODOS LOS CAMPOS!
@@ -151,8 +120,19 @@ seleccionarCategoria(valor) {
   }
   }
 
+  mostrarMuestraCategoria(){
+      return (
+        <MuestraCategorias
+        seleccionar={v => this.seleccionarCategoria(v)}
+        padre={this}
+        categorias={this.state.categorias}
+        />
+      )
+  }
+  
 
   render() {
+    console.log(this.state.error)
     return (
       <div className="container">
         <form>
@@ -162,10 +142,9 @@ seleccionarCategoria(valor) {
             <div className="col">
               <label htmlFor="CategoriaTitle">Categorias</label>
               <div className="form-row">
-                <MuestraCategorias
-                  seleccionar={v => this.seleccionarCategoria(v)}
-                  padre={this}
-                />
+              {
+               this.mostrarMuestraCategoria()
+              }
                 <div className="col">
                   <button
                     type="button"
