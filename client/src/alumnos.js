@@ -11,6 +11,7 @@ class ListarAlumnos extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            alumnoActual: null,
             cupo: null,
             listaDeAlumnos:[],
             infoDeAlumno: false,
@@ -41,9 +42,8 @@ class ListarAlumnos extends React.Component {
     render() {
         let panelDeAbajo = null
         if (this.state.mostrarPanelDeAbajo) {
-            panelDeAbajo = (<infoPersona.InfoPersona  />)
-            // panelDeAbajo = (<infoPersona.InfoPersona data={{ nombre: "Juan", apellido: "Pavon" }} />)
-            // panelDeAbajo = (<infoPersona.InfoPersona data={ this.state.alumnoActual } />)
+            // acá le paso el Alumno a la pantalla de InfoPersona
+            panelDeAbajo = (<infoPersona.InfoPersona data={this.state.alumnoActual} />)
         }
         return (
             <div>
@@ -120,9 +120,7 @@ class ListarAlumnos extends React.Component {
         )
     }
     mostrarDatosAlumno(unAlumno) {
-        console.log(unAlumno);
-        console.log(this);
-        this.setState({ mostrarPanelDeAbajo: true })
+        this.setState({ mostrarPanelDeAbajo: true, alumnoActual: unAlumno })
     }
 
     /** --- Encabezado de la Tabla --- */

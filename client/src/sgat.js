@@ -8,8 +8,6 @@ const listarAlumnos = require("./alumnos");
 const nuevoAlumno = require("./nuevoAlumno");
 const infoPersona = require("./componentesComunes/infoPersona");
 
-const logo = require("./images/logoGB_2.png");
-
 const pantallas = {
   muestraTalleres: 1,
   nuevoTaller: 2,
@@ -62,12 +60,6 @@ class Menu extends React.Component {
         <a className="navbar-brand bg-primary text-white " href="/">
           S. G. A. T.
         </a>
-        <img
-          src={logo}
-          size="mini"
-          style={{ width: "20", height: "20" }}
-          alt="SGAT"
-        />
         {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button> */}
@@ -144,9 +136,6 @@ class Menu extends React.Component {
             </li>
           </ul>
         </div>
-        <a className="navbar-brand bg-primary text-white " href="/">
-          Mun. Gral. Belgrano
-        </a>
       </nav>
     );
   }
