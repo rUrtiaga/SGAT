@@ -8,8 +8,6 @@ const listarAlumnos = require("./alumnos");
 const nuevoAlumno = require("./nuevoAlumno");
 const infoPersona = require("./componentesComunes/infoPersona");
 
-// const logo = require("./images/logoGB_2.png");
-
 const pantallas = {
   muestraTalleres: 1,
   nuevoTaller: 2,
