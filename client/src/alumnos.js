@@ -21,7 +21,12 @@ class ListarAlumnos extends React.Component {
     
     componentDidMount() { 
         this.getDataCurso()
-    }    
+    } 
+    
+    cerrarInfoPersona(){  
+        // A esta función la llamo desde el infoPersona para cerrar la pantalla 
+        this.setState({mostrarPanelDeAbajo: false})
+    }
     
     getDataCurso(){
         let self = this
@@ -43,7 +48,7 @@ class ListarAlumnos extends React.Component {
         let panelDeAbajo = null
         if (this.state.mostrarPanelDeAbajo) {
             // acá le paso el Alumno a la pantalla de InfoPersona
-            panelDeAbajo = (<infoPersona.InfoPersona data={this.state.alumnoActual} />)
+            panelDeAbajo = (<infoPersona.InfoPersona data={this.state.alumnoActual} screen={() => this.cerrarInfoPersona()} />)
         }
         return (
             <div>
@@ -51,11 +56,11 @@ class ListarAlumnos extends React.Component {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="card text-dark">
-                                <div className="align-self-center card-bg-info bg-primary text-white  ">  
-                                    <h3> Acá va el nombre del Curso </h3></div>
-                                <div className="card-body text-black">
+                                <div className="align-self-center  ">  
+                                    <h3> Listado de Alumnos </h3></div>
+                                {/* <div className="card-body text-black">
                                         <h4>Listado de Alumnos</h4>
-                                </div>
+                                </div> */}
                                 <div className="card-body text-dark">
                                     <div className="row">
                                         <div className="col-md-12">
@@ -116,7 +121,7 @@ class ListarAlumnos extends React.Component {
     /** --- Link para Info del Alumno ---  */
     linkInfoAlumno(alumno) {
         return (
-            <a href="/" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno._apellido}</a>
+            <a href="#" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno._apellido}</a>
         )
     }
     mostrarDatosAlumno(unAlumno) {

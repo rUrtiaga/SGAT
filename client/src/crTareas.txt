@@ -1,9 +1,0 @@
-
-Objetivo: que funcione la pantalla de alumnos de un curso
-- corregir el info que se rompio
-------------------------------------------
-- Corregir vista
-- Boton Cerrar vista
-
-- Analizar Fecha que viene del SERVER
-
