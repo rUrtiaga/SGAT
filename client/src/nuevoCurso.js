@@ -4,13 +4,6 @@ const axios = require("axios");
 const { Selector } = require("./componentesComunes/selector.jsx");
 const { InputPersona } = require("./componentesComunes/inputPersona.jsx");
 
-const style3 = {
-  marginTop: 10
-};
-const style = {
-  marginTop: 20
-};
-
 class NuevoCurso extends React.Component {
   constructor(props) {
     super(props);
@@ -126,7 +119,7 @@ class NuevoCurso extends React.Component {
   mostrarProfesores() {
     if (!(this.state.profesoresId.length === 0)) {
       return (
-        <div className="card mb-2" style={style}>
+        <div className="card mb-2 mt-2">
           <p>Profesores:</p>
           <h5>{this.state.profesores.map(p => p._apellido + " ")}</h5>
         </div>
@@ -153,7 +146,7 @@ class NuevoCurso extends React.Component {
   datosCursoSeleccionado() {
     return (
       <div>
-        <div className="card mb-8" style={style3}>
+        <div className="card mb-8 mt-2">
           <div className="form-group">
             <div className="col-md-6">
               <h5>Usted esta a punto de crear el siguiente Curso:</h5>
@@ -183,7 +176,7 @@ class NuevoCurso extends React.Component {
               </p>
               {this.mostrarProfesores()}
             </div>
-            <div className="row justify-content-center" style={style3}>
+            <div className="row justify-content-center mt-2">
               <div className="col-md-2">
                 <button
                   className="btn btn-danger"
@@ -214,7 +207,7 @@ class NuevoCurso extends React.Component {
           padre={this}
           callbackNuevoCurso={c => this.seleccionarCategoria(c)}
         />
-        <div className="card mb-3" style={style3}>
+        <div className="card mb-3 mt-2">
           <div className="form-group">
             <div className="col-md-1">
               <label htmlFor="cupo">Cupo:</label>
@@ -272,7 +265,7 @@ class NuevoCurso extends React.Component {
 
             {this.mostrarProfesores()}
           </div>
-          <div className="row justify-content-end" style={style3}>
+          <div className="row justify-content-end mt-2">
             <div className="col-md-2">
               <button
                 className="btn btn-danger"

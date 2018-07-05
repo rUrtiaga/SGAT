@@ -10,9 +10,6 @@ const {
   NuevaSubCategoria
 } = require("./componentesComunes/nuevaSubCategoria.jsx");
 
-const style = {
-  marginTop: 20
-};
 
 /*CREAR TALLER*/
 class CrearTaller extends React.Component {
@@ -48,10 +45,6 @@ class CrearTaller extends React.Component {
       agregaSubCategoria: !this.state.agregaSubCategoria
     });
   }
-  ocultarDivNuevaSubCategoria() {
-    this.setState({ disabled: true }); // no funca
-    this.setState({ agregaSubCategoria: false });
-  }
 
   /*PANEL PARA CREAR CATEGORIA */
   nuevaCategoria() {
@@ -72,59 +65,12 @@ class CrearTaller extends React.Component {
     this.setState({subCategorias: [... this.state.subCategorias, unaSubCategoria]})
   }
 
-
   cancelarCreacion() {
-    //this.setState({ error: false});
+    this.setState({ error: false});
     this.setState({ nombre: "" });
     this.setState({ categoria: "" });
     this.setState({ subCategorias: [] });
   }
-
-  nuevoNivel() {
-    if (this.state.agregaNivel) {
-      return (
-        <div id="nuevoNivelDiv">
-          <div className="form-group">
-            <label htmlFor="nombreNivel">Nombre del Nuevo Nivel</label>
-            <input
-              type="text"
-              className="form-control"
-              id="nombreNivel"
-              value={this.state.nombre}
-              onChange={event =>
-                this.setState({ 
-                  nombreNivel: event.target.value,
-                  error: false})
-              }
-            />
-          </div>
-          <div className="row justify-content-end">
-            <div className="col" />
-            <div className="col-md-2">
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={() => this.ocultarDivNuevoNivel()}
-              >
-                Cancelar
-              </button>
-            </div>
-            <div className="col-md-2">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => this.ocultarDivNuevoNivel()}
-              >
-                Guardar
-              </button>
-            </div>
-          </div>
-        </div>
-      );
-    }
-  }
-
-  
 
   guardarTaller() {
     const self = this;
@@ -141,15 +87,13 @@ class CrearTaller extends React.Component {
       
       })
       .then(this.cancelarCreacion());
-      
     }
-
   }
 
   mostrarSubCategoriasAgregadas(){
     if(!(this.state.subCategorias.length === 0)){
       return (
-        <div className="card mb-2" style={style}>
+        <div className="card mb-2 mt-2" >
         <p>SubCategorias Agregadas:</p>
         <h4>{this.state.subCategorias.map( subC => subC + " ")}</h4>
         </div>
@@ -200,7 +144,7 @@ seleccionarCategoria(valor) {
     if (this.state.error){
       console.log(this.state.error)
     return (
-      <div class="alert alert-danger" style={style}>
+      <div class="alert alert-danger mt-2">
         <strong>ERROR!</strong> DEBE COMPLETAR SI O SI TODOS LOS CAMPOS!
        </div>
     )
@@ -253,10 +197,7 @@ seleccionarCategoria(valor) {
               this.nuevaSubCategoria()}
 
               <div
-                className="row justify-content-start"
-                style={{
-                  marginTop: 10
-                }}
+                className="row justify-content-start mt-2"
               >
                 
                 <div className="col-md-2">
