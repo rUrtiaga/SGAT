@@ -8,8 +8,6 @@ const listarAlumnos = require("./alumnos");
 const nuevoAlumno = require("./nuevoAlumno");
 const infoPersona = require("./componentesComunes/infoPersona");
 
-const logo = require("./images/logoMuni.png");
-
 const pantallas = {
   muestraTalleres: 1,
   nuevoTaller: 2,
@@ -138,17 +136,6 @@ class Menu extends React.Component {
             </li>
           </ul>
         </div>
-        <a className="navbar-brand bg-primary text-white " href="/">
-          <img
-            src={logo}
-            size="mini"
-            style={{ width: "20", height: "20" }}
-            alt="SGAT"
-          />
-        </a>
-        <a className="navbar-brand bg-primary text-white " href="/">
-          Mun. Gral. Belgrano
-        </a>
       </nav>
     );
   }
