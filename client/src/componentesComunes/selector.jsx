@@ -37,8 +37,8 @@ class Selector extends React.Component {
 
   render() {
     return (
-      <div className="mt-3 mb-3">
-        <div>
+      <div className="row mt-3 mb-3">
+        <div className="col-md-4">
           <h6 className="ml-3">Categoría</h6>
           <MuestraCategorias
             seleccionar={v => this.seleccionMuestraCategorias(v)}
@@ -47,8 +47,8 @@ class Selector extends React.Component {
         </div>
 
         {this.state.categoria ? (
-          <div>
-            <h6 className="ml-3 mt-2">Taller</h6>
+          <div className="col-md-4">
+            <h6 className="ml-3">Taller</h6>
             <MuestraTalleres
               select={this.state.categoria}
               seleccionar={v => this.seleccionMuestraTalleres(v)}
@@ -57,8 +57,8 @@ class Selector extends React.Component {
           </div>
         ) : null}
         {this.state.taller ? (
-          <div>
-            <h6 className="ml-3 mt-2">Tipo de curso</h6>
+          <div className="col-md-4">
+            <h6 className="ml-3">Tipo de curso</h6>
             <MuestraSubCategorias
               categoria={this.state.categoria}
               select={this.state.taller}
@@ -68,7 +68,7 @@ class Selector extends React.Component {
           </div>
         ) : null}
         {this.state.subCategoria && !this.props.callbackNuevoCurso ? (
-          <div>
+          <div className="col-md-12">
             <h6 className="ml-3 mt-2">Cursos</h6>
             <MuestraCursos
               select={this.state.subCategoria}
