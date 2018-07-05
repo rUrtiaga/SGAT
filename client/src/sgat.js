@@ -8,7 +8,7 @@ const listarAlumnos = require("./alumnos");
 const nuevoAlumno = require("./nuevoAlumno");
 const infoPersona = require("./componentesComunes/infoPersona");
 
-const logo = require("./images/logoGB_2.png");
+// const logo = require("./images/logoGB_2.png");
 
 const pantallas = {
   muestraTalleres: 1,
@@ -24,7 +24,6 @@ class Menu extends React.Component {
   constructor(props) {
     super(props);
     this.state = { pantallaActual: pantallas.muestraTalleres };
-    this._cursoActual = null;
     this._ultimaAccion = null;
   }
 
@@ -62,20 +61,19 @@ class Menu extends React.Component {
         <a className="navbar-brand bg-primary text-white " href="/">
           S. G. A. T.
         </a>
-        <img
-          src={logo}
-          size="mini"
-          style={{ width: "20", height: "20" }}
-          alt="SGAT"
-        />
-        {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button> */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
-            {/* <li className="nav-item ">
-                        <a className="nav-link">Inicio<span className="sr-only"></span></a>
-                    </li> */}
             <li className="nav-item active">
               <a
                 className="nav-link"
@@ -144,9 +142,6 @@ class Menu extends React.Component {
             </li>
           </ul>
         </div>
-        <a className="navbar-brand bg-primary text-white " href="/">
-          Mun. Gral. Belgrano
-        </a>
       </nav>
     );
   }

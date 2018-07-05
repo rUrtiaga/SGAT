@@ -2,6 +2,7 @@ const React = require("react");
 const axios = require("axios");
 const { InputPersona } = require("./componentesComunes/inputPersona.jsx");
 const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
+const { ModalSGAT } = require("./componentesComunes/modal.jsx");
 
 const { Selector } = require("./componentesComunes/selector.jsx");
 
@@ -14,6 +15,7 @@ class NuevoAlumno extends React.Component {
       inputPersonaOculto: true,
       curso: null
     };
+    this.mostrarAceptarAlumno = () => this.state.persona && this.state.curso;
   }
 
   render() {
@@ -21,38 +23,43 @@ class NuevoAlumno extends React.Component {
       <div className="container">
         <h3 className="mt-4 mb-4">Nueva Inscripción</h3>
 
-        {this.state.curso ? (
-          <p>
-            {" "}
-            CURSO - {this.state.curso._taller._nombre}{" "}
-            {this.state.curso._taller._subCategoria}
-          </p>
-        ) : (
+        {this.state.selectorCursoOculto ? null: (
           <Selector padre={this} onSelect={c => this.selectCurso(c)} />
         )}
-        {this.state.persona ? (
+        {this.state.inputPersonaOculto ? null :(
+          <React.Fragment>
           <p>
-            {" "}
-            {"D.N.I: " +
-              this.state.persona._dni +
-              ", Nombre: " +
-              this.state.persona._nombre +
-              " " +
-              this.state.persona._apellido}{" "}
+          {" "}
+          CURSO - {this.state.curso._taller._nombre}{" "}
+          {this.state.curso._taller._subCategoria}
           </p>
-        ) : this.state.curso ? (
           <InputPersona
-            persona={{}}
-            // onCancel={() => this.cancelPersona()}
+            persona={this.state.persona || {}}
+            onCancel={() => this.cancelPersona()}
             onAccept={p => this.acceptPersona(p)}
             padre={this}
           />
-        ) : null}
-        {this.state.persona && this.state.curso ? (
-          <AceptarYCancelar
-            cancelar={() => this.cancel()}
-            aceptar={() => this.aceptarAlumno()}
-          />
+          </React.Fragment>
+        )}
+        {this.mostrarAceptarAlumno() ? (
+          <React.Fragment>
+            <p className="mb-3">
+              {" "}
+              ¿Desea agregar al curso {this.state.curso._taller._nombre}{" "}
+              {this.state.curso._taller._subCategoria} el alumno llamado 
+              {this.state.persona._nombre +
+                " " +
+                this.state.persona._apellido}{" "}
+              con {"D.N.I: " + this.state.persona._dni} ?{" "}
+            </p>
+
+            <AceptarYCancelar
+              acceptText={"Si"}
+              cancelText={"No"}
+              cancelar={() => this.cancel()}
+              aceptar={() => this.aceptarAlumno()}
+            />
+          </React.Fragment>
         ) : null}
       </div>
     );
@@ -61,7 +68,7 @@ class NuevoAlumno extends React.Component {
   //selecciono y me guardo el id del curso
   selectCurso(curso) {
     this.setState({
-      curso
+      curso,selectorCursoOculto: !this.state.selectorCursoOculto, inputPersonaOculto: !this.state.inputPersonaOculto
     });
   }
 
@@ -70,23 +77,31 @@ class NuevoAlumno extends React.Component {
     this.limpiar();
   }
 
+  cancelPersona() {
+    this.setState({
+      inputPersonaOculto: true, selectorCursoOculto: false
+    });
+  }
+
   acceptPersona(persona) {
     this.setState({
-      persona
+      persona,inputPersonaOculto:!this.state.inputPersonaOculto
     });
   }
 
   limpiar() {
-    this.setState({ curso: null, persona: null });
+    this.setState({ curso: null, persona: null , inputPersonaOculto:true, selectorCursoOculto:false });
   }
 
   aceptarAlumno() {
+    let self = this
     axios
       .put("/api/cursos/" + this.state.curso._id + "/alumnos", {
         _idPersona: this.state.persona._id
       })
       .then(function(response) {
         console.log(response);
+        self.limpiar()
       })
       .catch(function(error) {
         console.log(error);

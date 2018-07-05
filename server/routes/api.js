@@ -137,7 +137,7 @@ router
 router.get("/personas/:id", function(req, res, next) {
   service
     .fetchPersona(req.params.id)
-    .then(p => res.send(p))
+    .then(p => res.json(p))
     .catch(e => next(e));
 });
 

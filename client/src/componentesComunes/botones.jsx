@@ -7,19 +7,19 @@ class AceptarYCancelar extends React.Component {
         <div className="col-md-2">
           <button
             id="cancelar"
-            className="btn btn-danger"
+            className="btn btn-danger col-12"
             onClick={() => this.props.cancelar()}
           >
-            Cancelar
+            {this.props.cancelText}
           </button>
         </div>
         <div className="col-md-2">
           <button
             id="aceptar"
-            className="btn btn-primary"
+            className="btn btn-primary col-12"
             onClick={() => this.props.aceptar()}
           >
-            Aceptar
+            {this.props.acceptText}
           </button>
         </div>
       </div>
