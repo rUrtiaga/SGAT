@@ -17,8 +17,7 @@ class CrearTaller extends React.Component {
       subCategorias: [],
       agregaSubCategoria: false,
       agregaCategoria: false,
-      disabled: false,
-      muestraCategorias:true
+      disabled: false
     };
   }
 
@@ -51,14 +50,11 @@ class CrearTaller extends React.Component {
   nuevaSubCategoria() {
     if (this.state.agregaSubCategoria) {
       return (
-        <NuevaSubCategoria padre={this} updateCategorias={this.renderizarSelect} />
+        <NuevaSubCategoria padre={this}  />
       );
     }
   }
-
-  renderizarSelect(){
-    //
-  }  
+  
   agregarSubCategoria(unaSubCategoria) {  
     this.setState({subCategorias: [... this.state.subCategorias, unaSubCategoria]})
   }
