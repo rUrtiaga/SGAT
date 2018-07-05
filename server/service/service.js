@@ -94,6 +94,12 @@ class Service {
     });
   }
 
+  fetchCursosCompletos() {
+    return this.doOperationOnConnection(db => {
+      return store.fetchCursosCompletos(db);
+    });
+  }
+
   fetchCursos() {
     return this.doOperationOnConnection(db => {
       return store.fetchCursos(db);

@@ -119,6 +119,21 @@ class Store {
       .toArray();
   }
 
+
+  fetchCursosCompletos(db) {
+    return db
+      .collection("cursos")
+      .aggregate([{
+        $lookup: {
+          from:"personas",
+          localField:"_profesores",
+          foreignField:"_id",
+          as:"_profesores"
+        }
+      }])
+      .toArray();
+  }
+
   fetchCursos(db) {
     return db
       .collection("cursos")
