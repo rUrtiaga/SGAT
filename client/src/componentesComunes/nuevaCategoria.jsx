@@ -44,7 +44,6 @@ class NuevaCategoria extends React.Component {
     }
 
     agregarCategoria() {
-        console.log(this.state.categorias)
         const self = this
         axios
             .post('api/categorias', {categoria: self.state.nombreCategoria})
