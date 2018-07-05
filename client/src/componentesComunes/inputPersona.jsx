@@ -1,6 +1,7 @@
 const React = require("react");
 const axios = require("axios");
 const { AceptarYCancelar } = require("./botones.jsx");
+// const { ModalSGAT } = require("./modal.jsx");
 
 class InputPersona extends React.Component {
   constructor(props) {
@@ -20,12 +21,14 @@ class InputPersona extends React.Component {
     };
   }
 
-  handleChange(event,callback) {
+  handleChange(event) {
     try {
       // this.validate(event.target.name,event.target.value)
-      this.setState({
-        [event.target.name]: event.target.value
-      }, callback);
+      this.setState(
+        {
+          [event.target.name]: event.target.value
+        }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -34,7 +37,7 @@ class InputPersona extends React.Component {
   handleDNI(event) {
     this.limpiar();
     this.handleChange(event);
-    if(event.target.value.length > this.minCaracteres){
+    if (event.target.value.length > this.minCaracteres) {
       this.request(event.target.value);
     }
   }
@@ -67,11 +70,11 @@ class InputPersona extends React.Component {
     });
   }
 
-  toDateUI(isoDate){
-    return isoDate.slice(0,isoDate.indexOf('T'))
+  toDateUI(isoDate) {
+    return isoDate.slice(0, isoDate.indexOf("T"));
   }
   //esto no va, pero lo dejo por que es algo similar a lo que se va a validar
-  // validate(nameEvent,value){ 
+  // validate(nameEvent,value){
   //     switch (nameEvent) {
   //         case 'dni':
   //             if(value > 100000000){
@@ -91,11 +94,16 @@ class InputPersona extends React.Component {
     return (
       <React.Fragment>
         <div className="form-group">
+        <h4 className="mt-4 mb-4" htmlFor="contact">
+            Datos de la Persona
+          </h4>
           <div className="form-row">
-            <div className="col">
+            <div className="col-12 col-md-6">
               <label htmlFor="name">D.N.I.</label>
               <input
-                type="text"
+                type="number"
+                min="3000000"
+                max="99999999"
                 className="form-control"
                 name="dni"
                 placeholder="D.N.I."
@@ -106,7 +114,7 @@ class InputPersona extends React.Component {
                 Ingrese el DNI sin puntos.
               </small>
             </div>
-            <div className="col">
+            <div className="col-12 col-md-6">
               <label>Fecha de Nacimiento</label>
 
               <input
@@ -123,7 +131,7 @@ class InputPersona extends React.Component {
 
         <div className="form-group">
           <div className="form-row">
-            <div className="col">
+            <div className="col-12 col-md-6">
               <label htmlFor="name">Nombre</label>
               <input
                 type="text"
@@ -134,7 +142,7 @@ class InputPersona extends React.Component {
                 onChange={event => this.handleChange(event)}
               />
             </div>
-            <div className="col">
+            <div className="col-12 col-md-6">
               <label htmlFor="lastname">Apellido</label>
               <input
                 type="text"
@@ -149,9 +157,9 @@ class InputPersona extends React.Component {
         </div>
 
         <div className="form-group">
-          <h4 className="mt-4 mb-4" htmlFor="contact">
+          <h5 className="mt-4 mb-4" htmlFor="contact">
             Contacto
-          </h4>
+          </h5>
 
           <div className="form-group">
             <label htmlFor="direc">Dirección</label>
@@ -165,7 +173,7 @@ class InputPersona extends React.Component {
             />
           </div>
           <div className="form-row">
-            <div className="col">
+            <div className="col-12 col-md-6">
               <label htmlFor="pPhone">Telefono Principal</label>
               <input
                 type="number"
@@ -176,7 +184,7 @@ class InputPersona extends React.Component {
                 onChange={event => this.handleChange(event)}
               />
             </div>
-            <div className="col">
+            <div className="col-12 col-md-6">
               <label htmlFor="sPhone">Secundario</label>
               <input
                 type="number"
@@ -212,8 +220,43 @@ class InputPersona extends React.Component {
             onChange={event => this.handleChange(event)}
           />
         </div>
-        <AceptarYCancelar
-          aceptar={() => this.aceptarPersona()}
+        {/* <div className="row">
+          <div className="col-12 col-md-2 mb-2">
+            <button
+              id="aceptar"
+              className="btn btn-secondary"
+              onClick={() => this.limpiar()}
+            >
+              Limpiar
+            </button>
+          </div> */}
+          {/* <div className="col-12 col-md mb-2">
+            <div className="row justify-content-end">
+              <div className="col-6 col-md-2">
+                <ModalSGAT
+                  className={"cancelModal"}
+                  color={"danger"}
+                  buttonLabel={"Cancelar"}
+                  title={"Cancelar Persona"}
+                  body={"¿Desea cancelar la persona actual?"}
+                  onAccept={() => this.cancel()}
+                />
+              </div>
+              <div className="col-6 col-md-2">
+                <ModalSGAT
+                  className={"aceptarModal"}
+                  color={"primary"}
+                  buttonLabel={"Aceptar"}
+                  title={"Aceptar Persona"}
+                  body={"¿Desea modificar o agregar la persona actual?"}
+                  onAccept={() => this.aceptarPersona()}
+                />
+              </div>
+            </div>
+          </div>
+        </div> */}
+        <AceptarYCancelar acceptText={"Aceptar"} cancelText={"Cancelar"}
+          aceptar={() => this.aceptarPersona()} 
           cancelar={() => this.cancel()}
         />
       </React.Fragment>
@@ -256,24 +299,21 @@ class InputPersona extends React.Component {
       _comentario: this.state.comentario
     };
     if (!this.state.id) {
-      axios
+      return axios
         .post("/api/personas", persona)
         .then(function(response) {
-          if (self.props.onAccept) {
             persona._id = response.data.insertedIds[0];
             self.props.onAccept(persona);
-          }
+          
         })
         .catch(function(error) {
           console.log(error);
         });
     } else {
-      if (self.props.onAccept) {
-        persona._id = this.state.id;
-        self.props.onAccept(persona);
-      }
+      persona._id = this.state.id;
+      self.props.onAccept(persona);
     }
-    return persona;
+    // return persona;
   }
 }
 
