@@ -3,13 +3,13 @@ const React = require('react')
 class InfoPersona extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            
-        }
         this.screen = this.props.screen     // con esto seteo la pantalla padre
-        this.alum = this.props.data
     }
 
+    alum(){
+        return this.props.data
+    }
+    
     render(){
         return(
             <div className="col-md-12">
@@ -19,6 +19,7 @@ class InfoPersona extends React.Component {
             </div>
         )
     }  
+    
     recuadroInfoAlumno() {
         const anchoLabel = 6
         return (
@@ -32,17 +33,17 @@ class InfoPersona extends React.Component {
                     }}>
                         <div className="row">
                             <div className="card-body ">
-                            {this.datoEnFila("Apellido  : ", this.alum._apellido, anchoLabel)}
-                            {this.datoEnFila("D.N.I. :  ", this.alum._dni, anchoLabel)}
-                            {this.datoEnFila("Teléfono Ppal. :  ", this.alum._telPrincipal, anchoLabel)}
-                            {this.datoEnFila("Fecha Nac. :  ", this.alum._fechaNac.substring(0,10), anchoLabel)}
-                            {this.datoEnFila("Mail :  ", this.alum._mail, anchoLabel)}
+                            {this.datoEnFila("Apellido  : ", this.alum()._apellido, anchoLabel)}
+                            {this.datoEnFila("D.N.I. :  ", this.alum()._dni, anchoLabel)}
+                            {this.datoEnFila("Teléfono Ppal. :  ", this.alum()._telPrincipal, anchoLabel)}
+                            {this.datoEnFila("Fecha Nac. :  ", this.alum()._fechaNac.substring(0,10), anchoLabel)}
+                            {this.datoEnFila("Mail :  ", this.alum()._mail, anchoLabel)}
                             </div>
                             <div className="card-body ">
-                            {this.datoEnFila("Nombre :  ", this.alum._nombre, anchoLabel)}
-                            {this.datoEnFila("Dirección. :  ", this.alum._direccion, anchoLabel)}
-                            {this.datoEnFila("Teléfono Sec. :  ", this.alum._telSecundario, anchoLabel)}
-                            {this.datoEnFila("Comentarios :  ", this.alum._comentario, anchoLabel)}
+                            {this.datoEnFila("Nombre :  ", this.alum()._nombre, anchoLabel)}
+                            {this.datoEnFila("Dirección. :  ", this.alum()._direccion, anchoLabel)}
+                            {this.datoEnFila("Teléfono Sec. :  ", this.alum()._telSecundario, anchoLabel)}
+                            {this.datoEnFila("Comentarios :  ", this.alum()._comentario, anchoLabel)}
                             </div>
                         </div>    
                     </div>
@@ -51,6 +52,7 @@ class InfoPersona extends React.Component {
             </div>
         )
     }
+    
     datoEnFila(label, valor, anchoLabel = 4) {
         return (
             <div className="row" style={{ marginBottom: "6px" }}>
@@ -59,6 +61,7 @@ class InfoPersona extends React.Component {
             </div>
         )
     }
+    
     botonCerrar() {
         return (
             <button className="btn btn-danger btn-xs" onClick={this.screen}>  
@@ -66,7 +69,6 @@ class InfoPersona extends React.Component {
             </button>
         )
     }
-    
 }
 
 exports.InfoPersona = InfoPersona

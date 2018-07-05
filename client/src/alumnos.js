@@ -13,35 +13,35 @@ class ListarAlumnos extends React.Component {
         this.state = {
             alumnoActual: null,
             cupo: null,
-            listaDeAlumnos:[],
+            listaDeAlumnos: [],
             infoDeAlumno: false,
             mostrarPanelDeAbajo: false
         }
     }
-    
-    componentDidMount() { 
+
+    componentDidMount() {
         this.getDataCurso()
-    } 
-    
-    cerrarInfoPersona(){  
-        // A esta función la llamo desde el infoPersona para cerrar la pantalla 
-        this.setState({mostrarPanelDeAbajo: false})
     }
-    
-    getDataCurso(){
+
+    cerrarInfoPersona() {
+        // A esta función la llamo desde el infoPersona para cerrar la pantalla 
+        this.setState({ mostrarPanelDeAbajo: false })
+    }
+
+    getDataCurso() {
         let self = this
-        return axios.get('/api/cursos/' + this.props.idCurso )
-        .then(function(response){
-            const json = response.data
-            
-            self.setState({
-                listaDeAlumnos: json[0]._alumnos,
-                cupo: json[0]._cupo
+        return axios.get('/api/cursos/' + this.props.idCurso)
+            .then(function (response) {
+                const json = response.data
+
+                self.setState({
+                    listaDeAlumnos: json[0]._alumnos,
+                    cupo: json[0]._cupo
+                })
             })
-        })
-        .catch(function (error) {
-            console.log(error)
-        })
+            .catch(function (error) {
+                console.log(error)
+            })
     }
 
     render() {
@@ -50,17 +50,15 @@ class ListarAlumnos extends React.Component {
             // acá le paso el Alumno a la pantalla de InfoPersona
             panelDeAbajo = (<infoPersona.InfoPersona data={this.state.alumnoActual} screen={() => this.cerrarInfoPersona()} />)
         }
+
         return (
             <div>
                 <div className="m-4 container-fluid recuadroPantalla">
                     <div className="row">
                         <div className="col-md-12">
                             <div className="card text-dark">
-                                <div className="align-self-center  ">  
+                                <div className="align-self-center  ">
                                     <h3> Listado de Alumnos </h3></div>
-                                {/* <div className="card-body text-black">
-                                        <h4>Listado de Alumnos</h4>
-                                </div> */}
                                 <div className="card-body text-dark">
                                     <div className="row">
                                         <div className="col-md-12">
@@ -71,15 +69,15 @@ class ListarAlumnos extends React.Component {
                                     {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success")}
                                 </div>
                                 <h4> Alumnos Registrados {this.state.listaDeAlumnos.length} de {this.state.cupo}</h4>
-                            </div>    
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         )
-    }   
-    
-    imprimirAlumnos() { 
+    }
+
+    imprimirAlumnos() {
     }
 
     /*Tabla info de Alumno */
@@ -94,13 +92,13 @@ class ListarAlumnos extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.listaDeAlumnos.map( alum => this.infoAlumnos(alum))
+                    {this.state.listaDeAlumnos.map(alum => this.infoAlumnos(alum))
                     }
                 </tbody>
             </table>
         )
     }
-    
+
     /*Acá completo la tabla con la info de Alumno */
     // dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario
     infoAlumnos(alumno) {
@@ -111,8 +109,8 @@ class ListarAlumnos extends React.Component {
                 <td>{alumno._nombre}</td>
                 <td>{alumno._telPrincipal}</td>
                 <td>{alumno._mail}</td>
-                <td>{this.botonDetalle(alumno)} 
-                {this.botonEliminar(alumno)}</td>
+                <td>{this.botonDetalle(alumno)}
+                    {this.botonEliminar(alumno)}</td>
             </tr>
         )
         return rowDatosAlumno
@@ -172,7 +170,7 @@ class ListarAlumnos extends React.Component {
                 {label}
             </button>
         )
-    }  
-}    
+    }
+}
 
 module.exports.ListarAlumnos = ListarAlumnos
