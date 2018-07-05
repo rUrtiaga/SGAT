@@ -189,12 +189,11 @@ class Curso {
     this._tallerID = ObjectID(dataCurso._tallerID);
     this._comentario = dataCurso._comentario;
     this._cupo = dataCurso._cupo;
-    this._profesores = dataCurso._profesores; //hacer map para q convierta los strings en ObjectID
+    this._profesores = dataCurso._profesores.map(p => new ObjectID(p)); 
     this._anio = new Date().getFullYear();
   }
 
   
-
   /**
    * STATIC
    *

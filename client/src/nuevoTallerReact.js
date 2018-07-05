@@ -23,7 +23,6 @@ class CrearTaller extends React.Component {
     this.state = {
       categoria:"",
       subCategorias: [],
-      indice: 0,
       agregaSubCategoria: false,
       agregaCategoria: false,
       error:false,
@@ -69,13 +68,8 @@ class CrearTaller extends React.Component {
     }
   }
 
-  agregarSubCategoria(unaSubCategoria) {
-    var valores = this.state.subCategorias;
-    valores[this.state.indice] = unaSubCategoria
-      this.setState({ subCategorias: valores });
-    this.setState({
-      indice: this.state.indice + 1
-    });
+  agregarSubCategoria(unaSubCategoria) {  
+    this.setState({subCategorias: [... this.state.subCategorias, unaSubCategoria]})
   }
 
 
