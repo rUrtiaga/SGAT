@@ -8,6 +8,16 @@ const { service } = require("../service/service.js");
  * Cursos
  */
 
+
+router
+  .route("/cursosCompletos")
+  .get(function(req,res,next){
+    service
+      .fetchCursosCompletos()
+      .then(cursos => res.send(cursos))
+      .catch(e => next(e));
+  })
+
 router
   .route("/cursos")
   .post(function(req, res, next) {

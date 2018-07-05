@@ -21,7 +21,8 @@ const pantallas = {
 class Menu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { pantallaActual: pantallas.muestraTalleres };
+    this.state = { pantallaActual: pantallas.muestraTalleres,
+    cursoId: "5b297a332c495f18c331f41f" };
     this._ultimaAccion = null;
   }
 
@@ -170,7 +171,7 @@ class Menu extends React.Component {
             <div>
               {this.menuBarra()}
               <listarAlumnos.ListarAlumnos
-                idCurso={"5b297a332c495f18c331f41f"}
+                idCurso={this.state.cursoId} //"5b297a332c495f18c331f41f"
                 rootComponent={this}
               />
             </div>
