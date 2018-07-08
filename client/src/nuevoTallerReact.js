@@ -54,7 +54,7 @@ class CrearTaller extends React.Component {
       );
     }
   }
-  
+
   agregarSubCategoria(unaSubCategoria) {  
     this.setState({subCategorias: [... this.state.subCategorias, unaSubCategoria]})
   }
@@ -147,7 +147,7 @@ validar(){
                     className="btn btn-primary"
                     onClick={() => this.mostrarDivNuevaCateg()}
                   >
-                    Nueva Categoria
+                    Agregar Nueva Categoria
                   </button>
                 </div>
               </div>
@@ -156,11 +156,12 @@ validar(){
               this.nuevaCategoria()}
 
               <div className="form-group">
-                <label htmlFor="nombreTaller">Nombre del Nuevo Taller</label>
+                <label htmlFor="nombreTaller">Nombre</label>
                 <input
                   type="text"
                   className="form-control"
                   id="nombreTaller"
+                  placeholder="introduzca el nombre del Taller"
                   value={this.state.nombre}
                   onChange={event =>
                     this.setState({ nombre: event.target.value })

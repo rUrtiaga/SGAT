@@ -212,9 +212,12 @@ class NuevoCurso extends React.Component {
             <div className="col-md-1">
               <label htmlFor="cupo">Cupo:</label>
               <input
-                type="text"
+                type="number"
+                min="1"
+                max="999"
                 className="form-control"
                 id="cupo"
+                placeholder="000"
                 value={this.state.cupo}
                 onChange={event => this.setState({ cupo: event.target.value })}
               />
@@ -223,8 +226,10 @@ class NuevoCurso extends React.Component {
               <label htmlFor="cupo">Dia:</label>
               <input
                 type="text"
+                max="15"
                 className="form-control"
                 id="cupo"
+                placeholder="Por Ej. Lunes"
                 value={this.state.dia}
                 onChange={event => this.setState({ dia: event.target.value })}
               />
@@ -233,8 +238,10 @@ class NuevoCurso extends React.Component {
               <label htmlFor="lugar">Lugar:</label>
               <input
                 type="text"
+                max="30"
                 className="form-control"
                 id="lugar"
+                placeholder="Por Ej. Casa de la Cultura"
                 value={this.state.lugar}
                 onChange={event => this.setState({ lugar: event.target.value })}
               />
@@ -242,9 +249,10 @@ class NuevoCurso extends React.Component {
             <div className="col-md-3">
               <label htmlFor="hora">Horario:</label>
               <input
-                type="text"
+                type="time"
                 className="form-control"
                 id="hora"
+                placeholder="00:00"
                 value={this.state.hora}
                 onChange={event => this.setState({ hora: event.target.value })}
               />
@@ -255,6 +263,7 @@ class NuevoCurso extends React.Component {
                 type="textarea"
                 className="form-control"
                 id="comentario"
+                placeholder="Agregue algún comentario"
                 row="3"
                 value={this.state.comentario}
                 onChange={event =>

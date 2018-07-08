@@ -17,6 +17,7 @@ class NuevaSubCategoria extends React.Component {
                         type="text"
                         className="form-control"
                         id="nombreNivel"
+                        placeholder="introduzca el nombre de la SubCategoria"
                         value={this.state.nombreSubCategoria}
                         onChange={(event) => this.setState({nombreSubCategoria: event.target.value})}/>
                 </div>
