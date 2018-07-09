@@ -1,6 +1,6 @@
 const React = require('react');
-const { Button, Modal, ModalHeader, ModalBody, ModalFooter,UncontrolledAlert } = require('reactstrap');
-/**
+const { Button, Modal, ModalHeader, ModalBody, ModalFooter } = require('reactstrap');
+/**,UncontrolledAlert
  * pasar className, onCancel, onAccept
  */
 class ModalSGAT extends React.Component {

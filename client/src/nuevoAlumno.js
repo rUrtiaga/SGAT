@@ -2,7 +2,6 @@ const React = require("react");
 const axios = require("axios");
 const { InputPersona } = require("./componentesComunes/inputPersona.jsx");
 const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
-const { ModalSGAT } = require("./componentesComunes/modal.jsx");
 
 const { Selector } = require("./componentesComunes/selector.jsx");
 

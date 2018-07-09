@@ -4,7 +4,8 @@ class AceptarYCancelar extends React.Component {
   render() {
     return (
       <div className="row justify-content-end">
-        <div className="col-md-2">
+        {this.props.children}
+        <div className="col-md-2 mt-2 mt-md-0">
           <button
             id="cancelar"
             className="btn btn-danger col-12"
