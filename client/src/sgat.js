@@ -22,7 +22,7 @@ class Menu extends React.Component {
   constructor(props) {
     super(props);
     this.state = { pantallaActual: pantallas.muestraTalleres,
-    cursoId: "5b297a332c495f18c331f41f" };
+    cursoId: "5b297a332c495f18c331f41f" }; //este esta para test
     this._ultimaAccion = null;
   }
 
@@ -99,19 +99,6 @@ class Menu extends React.Component {
                   onClick={() => this.mostrarNuevoAlumno()}
                 >
                   Nuevo Alumno
-                </a>
-                {/*TODO esto es temporal*/}
-                <a
-                  className="dropdown-item"
-                  onClick={() => this.mostrarListarAlumno()}
-                >
-                  Listar Alumnos temp
-                </a>
-                <a
-                  className="dropdown-item"
-                  onClick={() => this.mostrarDatosPersona()}
-                >
-                  Mostrar Info Persona temp
                 </a>
               </div>
             </li>

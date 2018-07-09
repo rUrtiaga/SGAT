@@ -20,7 +20,7 @@ class Curso extends React.Component {
       <div className="card-body">
         <div className="row">
           <div className="col-sm-9">
-            <h5 className="card-title ml-sm-2">
+            <h5 className="card-title ml-sm-2 mb-4">
               Prof/s: {this.nombresProfes()}
             </h5>
           </div>
