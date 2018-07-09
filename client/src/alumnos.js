@@ -115,22 +115,12 @@ class ListarAlumnos extends React.Component {
         )
         return rowDatosAlumno
     }
-
-    /** --- Link para Info del Alumno ---  */
-    linkInfoAlumno(alumno) {
-        return (
-            <a href="#" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno._apellido}</a>
-        )
-    }
-    mostrarDatosAlumno(unAlumno) {
-        this.setState({ mostrarPanelDeAbajo: true, alumnoActual: unAlumno })
-    }
-
+       
     /** --- Encabezado de la Tabla --- */
     encabezadoDeTabla(titulos) {
         return titulos.map((titulo, ix) => (<th key={ix}>{titulo}</th>))
     }
-
+    
     /** --- Filas de la Tabla --- */
     datoEnFila(label, valor, anchoLabel = 3) {
         return (
@@ -140,22 +130,18 @@ class ListarAlumnos extends React.Component {
             </div>
         )
     }
+    
+    /** --- Link para Info del Alumno ---  */
+    linkInfoAlumno(alumno) {
+        return (
+            <a href="#" onClick={() => this.mostrarDatosAlumno(alumno)}>{alumno._apellido}</a>
+        )
+    }
+    
+    mostrarDatosAlumno(unAlumno) {
+        this.setState({ mostrarPanelDeAbajo: true, alumnoActual: unAlumno })
+    }
 
-    /** ---   Botones   --- */
-    botonDetalle(alumno) {
-        return (
-            <button className="btn btn-info btn-xs ml-1 mr-2" onClick={() => this.mostrarDatosAlumno(alumno)}>
-                <span className="fa fa-info"> Info  </span>
-            </button>
-        )
-    }
-    botonEliminar(alumno) {
-        return (
-            <button className="btn btn-danger btn-xs" onClick={() => this.eliminarAlumno(alumno)}>
-                <span className="fa fa-close"> Eliminar </span>
-            </button>
-        )
-    }
     eliminarAlumno(alumno) {
         let codigo = this.state.listaDeAlumnos.filter((alu) => alu._dni !== alumno._dni);
         this.setState({
@@ -163,11 +149,30 @@ class ListarAlumnos extends React.Component {
         })
     }
 
+    /** ---   Botones   --- */
+    botonDetalle(alumno) {
+        return (
+            this.botonStandard("Info", () => this.mostrarDatosAlumno(alumno), "btn-info btn-xs", "fa-info")
+            // <button className="btn btn-info btn-xs ml-1 mr-2" onClick={() => this.mostrarDatosAlumno(alumno)}>
+            //     <span className="fa fa-info"> Info  </span>
+            // </button>
+        )
+    }
+    
+    botonEliminar(alumno) {
+        return (
+            this.botonStandard("Eliminar", () => this.eliminarAlumno(alumno), "btn-danger btn-xs", "fa-close") 
+            // <button className="btn btn-danger btn-xs" onClick={() => this.eliminarAlumno(alumno)}>
+            //     <span className="fa fa-close"> Eliminar </span>
+            // </button>
+        )
+    }
+
     // Botón -  parámetro con valor por defecto
-    botonStandard(label, accion, clasesAdicionales = "btn-info") {
+    botonStandard(label, accion, clasesAdicionales = "btn-info", glypIcon) {
         return (
             <button className={"btn " + clasesAdicionales} style={{ marginRight: "12px" }} onClick={accion}>
-                {label}
+                <span className={"fa " + glypIcon}> {label} </span>
             </button>
         )
     }
