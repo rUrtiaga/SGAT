@@ -132,7 +132,7 @@ validar(){
     return (
       <div className="container">
         <form>
-          <h3>Nuevo Taller</h3>
+          <h3 className="mt-4 mb-4">Nuevo Taller</h3>
 
           <div className="form-row">
             <div className="col">
