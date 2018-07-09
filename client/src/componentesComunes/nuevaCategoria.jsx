@@ -11,15 +11,16 @@ class NuevaCategoria extends React.Component {
 
     render() {
         return (
-            <div className='col'>
 
+            <div className="card mt-sm-2 ">
                 <div id="nuevaCategoriaDiv">
-                    <div className="form-group">
+                    <div className="form-group-sm-4">
                         <label htmlFor="nombreCategoria">Nombre de la nueva Categoria</label>
                         <input
                             type="text"
                             className="form-control"
                             id="nombreCategoria"
+                            placeholder="introduzca El Nombre de la Categoria"
                             value={this.state.nombreCategoria}
                             onChange={(event) => this.setState({ nombreCategoria: event.target.value })} />
                     </div>
