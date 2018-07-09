@@ -3,6 +3,7 @@ const axios = require("axios");
 
 const { Selector } = require("./componentesComunes/selector.jsx");
 const { InputPersona } = require("./componentesComunes/inputPersona.jsx");
+const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
 
 class NuevoCurso extends React.Component {
   constructor(props) {
@@ -202,119 +203,109 @@ class NuevoCurso extends React.Component {
 
   inputCurso() {
     return (
-      <div>
-        <Selector
-          padre={this}
-          callbackNuevoCurso={c => this.seleccionarCategoria(c)}
-        />
-        <div className="card mb-3 mt-2">
-          <div className="form-group">
-            <div className="col-md-1">
-              <label htmlFor="cupo">Cupo:</label>
-              <input
-                type="number"
-                min="1"
-                max="999"
-                className="form-control"
-                id="cupo"
-                placeholder="000"
-                value={this.state.cupo}
-                onChange={event => this.setState({ cupo: event.target.value })}
-              />
-            </div>
-            <div className="col-md-3">
-              <label htmlFor="cupo">Dia:</label>
-              <input
-                type="text"
-                max="15"
-                className="form-control"
-                id="cupo"
-                placeholder="Por Ej. Lunes"
-                value={this.state.dia}
-                onChange={event => this.setState({ dia: event.target.value })}
-              />
-            </div>
-            <div className="col-md-3">
-              <label htmlFor="lugar">Lugar:</label>
-              <input
-                type="text"
-                max="30"
-                className="form-control"
-                id="lugar"
-                placeholder="Por Ej. Casa de la Cultura"
-                value={this.state.lugar}
-                onChange={event => this.setState({ lugar: event.target.value })}
-              />
-            </div>
-            <div className="col-md-3">
-              <label htmlFor="hora">Horario:</label>
-              <input
-                type="time"
-                className="form-control"
-                id="hora"
-                placeholder="00:00"
-                value={this.state.hora}
-                onChange={event => this.setState({ hora: event.target.value })}
-              />
-            </div>
-            <div className="col">
-              <label htmlFor="comentario">Comentario:</label>
-              <input
-                type="textarea"
-                className="form-control"
-                id="comentario"
-                placeholder="Agregue algún comentario"
-                row="3"
-                value={this.state.comentario}
-                onChange={event =>
-                  this.setState({ comentario: event.target.value })
-                }
-              />
-            </div>
-
-            {this.mostrarProfesores()}
+      <React.Fragment>
+        <div className="form-group">
+          <Selector
+            padre={this}
+            callbackNuevoCurso={c => this.seleccionarCategoria(c)}
+          />
+        </div>
+        <div className="form-group form-row">
+          <div className="col-md-4">
+            <label htmlFor="cupo">Cupo:</label>
+            <input
+              type="number"
+              min="1"
+              max="999"
+              className="form-control"
+              id="cupo"
+              placeholder="000"
+              value={this.state.cupo}
+              onChange={event => this.setState({ cupo: event.target.value })}
+            />
           </div>
-          <div className="row justify-content-end mt-2">
-            <div className="col-md-2">
-              <button
-                className="btn btn-danger"
-                onClick={() => this.agregarDocente()}
-              >
-                Agregar Docente
-              </button>
-            </div>
-            <div className="col-md-2">
-              <button
-                className="btn btn-danger"
-                onClick={() => this.cancelarAgregado()}
-              >
-                Cancelar
-              </button>
-            </div>
-            <div className="col-md-2">
-              <button
-                className="btn btn-primary"
-                onClick={() => this.confirmar()}
-              >
-                Guardar Curso
-              </button>
-            </div>
+
+          <div className="col-md-8">
+            <label htmlFor="lugar">Lugar:</label>
+            <input
+              type="text"
+              max="30"
+              className="form-control"
+              id="lugar"
+              placeholder="Por Ej. Casa de la Cultura"
+              value={this.state.lugar}
+              onChange={event => this.setState({ lugar: event.target.value })}
+            />
           </div>
         </div>
-      </div>
+        <div className="form-group form-row">
+          <div className="col-md-6">
+            <label htmlFor="cupo">Dia:</label>
+            <input
+              type="text"
+              max="15"
+              className="form-control"
+              id="cupo"
+              placeholder="Por Ej. Lunes"
+              value={this.state.dia}
+              onChange={event => this.setState({ dia: event.target.value })}
+            />
+          </div>
+          <div className="col-md-6">
+            <label htmlFor="hora">Horario:</label>
+            <input
+              type="time"
+              className="form-control"
+              id="hora"
+              placeholder="00:00"
+              value={this.state.hora}
+              onChange={event => this.setState({ hora: event.target.value })}
+            />
+          </div>
+        </div>
+
+        <div className="form-group form-row">
+          <div className="col">
+            <label htmlFor="comentario">Comentario:</label>
+            <input
+              type="textarea"
+              className="form-control"
+              id="comentario"
+              placeholder="Agregue algún comentario"
+              row="3"
+              value={this.state.comentario}
+              onChange={event =>
+                this.setState({ comentario: event.target.value })
+              }
+            />
+          </div>
+        </div>
+
+        {this.mostrarProfesores()}
+        
+        <AceptarYCancelar
+          acceptText={"Guardar Curso"}
+          cancelText={"Cancelar"}
+          cancelar={() => this.cancelarAgregado()}
+          aceptar={() => this.confirmar()}
+        >
+          <div className="col col-md-2">
+            <button
+              className="btn btn-danger col-12"
+              onClick={() => this.agregarDocente()}
+            >
+              Agregar Docente
+            </button>
+          </div>
+        </AceptarYCancelar>
+      </React.Fragment>
     );
   }
 
   render() {
     return (
-      <div>
-        <div className="m-4 container-fluid recuadroPantalla">
-          <div className="card">
-            <div className="card-header bg-primary text-white">
-              <h3>Nuevo Curso</h3>
-            </div>
-          </div>
-        </div>
+      <div className="container">
+        <h3 className="mt-4 mb-4">Nuevo Curso</h3>
 
         {this.inputOConfirmacion()}
 
