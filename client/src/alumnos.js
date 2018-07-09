@@ -66,7 +66,7 @@ class ListarAlumnos extends React.Component {
                                         </div>
                                         {panelDeAbajo}
                                     </div>
-                                    {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success")}
+                                    {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success", "fa-print")}
                                 </div>
                                 <h4> Alumnos Registrados {this.state.listaDeAlumnos.length} de {this.state.cupo}</h4>
                             </div>
@@ -78,6 +78,7 @@ class ListarAlumnos extends React.Component {
     }
 
     imprimirAlumnos() {
+        window.print();
     }
 
     /*Tabla info de Alumno */
