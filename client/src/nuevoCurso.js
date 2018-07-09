@@ -33,7 +33,6 @@ class NuevoCurso extends React.Component {
     this.setState({ confirmacion: false });
   }
   guardarCurso() {
-    const self = this;
     const DHL = [
       {
         _dia: this.state.dia,
@@ -82,9 +81,7 @@ class NuevoCurso extends React.Component {
   agregarDocente() {
     this.setState({ inputPersonaOculto: true });
   }
-  acceptPersona() {
-    this.ocultarNuevaPersona();
-  }
+  
   ocultarNuevaPersona() {
     this.setState({ inputPersonaOculto: false });
   }
