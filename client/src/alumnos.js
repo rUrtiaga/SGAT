@@ -77,10 +77,6 @@ class ListarAlumnos extends React.Component {
         )
     }
 
-    imprimirAlumnos() {
-        window.print();
-    }
-
     /*Tabla info de Alumno */
     tblAlumnos() {
         return (
@@ -99,7 +95,7 @@ class ListarAlumnos extends React.Component {
             </table>
         )
     }
-
+    
     /*Acá completo la tabla con la info de Alumno */
     // dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario
     infoAlumnos(alumno) {
@@ -116,7 +112,7 @@ class ListarAlumnos extends React.Component {
         )
         return rowDatosAlumno
     }
-       
+    
     /** --- Encabezado de la Tabla --- */
     encabezadoDeTabla(titulos) {
         return titulos.map((titulo, ix) => (<th key={ix}>{titulo}</th>))
@@ -142,7 +138,7 @@ class ListarAlumnos extends React.Component {
     mostrarDatosAlumno(unAlumno) {
         this.setState({ mostrarPanelDeAbajo: true, alumnoActual: unAlumno })
     }
-
+    
     eliminarAlumno(alumno) {
         let codigo = this.state.listaDeAlumnos.filter((alu) => alu._dni !== alumno._dni);
         this.setState({
@@ -150,6 +146,44 @@ class ListarAlumnos extends React.Component {
         })
     }
 
+    imprimirAlumnos() {
+        <div className="ticket">
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>CANT</th>
+                        <th>PRODUCTO</th>
+                        <th>$$</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1.00</td>
+                        <td>CHEETOS VERDES 80 G</td>
+                        <td>$8.50</td>
+                    </tr>
+                    <tr>
+                        <td>2.00</td>
+                        <td>KINDER DELICE</td>
+                        <td>$10.00</td>
+                    </tr>
+                    <tr>
+                        <td>1.00</td>
+                        <td>COCA COLA 600 ML</td>
+                        <td>$10.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>TOTAL</td>
+                        <td>$28.50</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        window.print();
+    }
+    
     /** ---   Botones   --- */
     botonDetalle(alumno) {
         return (

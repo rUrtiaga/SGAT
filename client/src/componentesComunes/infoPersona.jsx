@@ -25,9 +25,9 @@ class InfoPersona extends React.Component {
         return (
             <div className="card text-dark">
                 <h5 className="card-header">Datos del Alumno : </h5>
-                <div className="card-body "> 
+                <div className="row "> 
                     <div className="align-self-center card-bg-info col-md-8" style={{
-                        marginTop: "10px",
+                        marginTop: "20px", marginLeft: "30px", marginBottom: "20px",
                         borderStyle: "solid", borderWidth: "2px", borderColor: "#e9ecef", borderRadius: "6px",
                         paddingTop: "6px", paddingBottom: "10px", paddingLeft: "40px", paddingRight: "20px"
                     }}>
@@ -46,11 +46,11 @@ class InfoPersona extends React.Component {
                             {this.datoEnFila("Mail :  ", this.alum()._mail, anchoLabel)}
                             </div>
                         </div>
-
-                        <div className="card-bg-info">
-                            { this.botonStandard("Cerrar", this.screen, "btn-danger btn-xs", "fa-arrow-circle-o-left") }
-                        </div>
                     </div>      
+                    <div className="card-bg-info" style={{
+                        marginTop: "20px", marginLeft: "30px", marginBottom: "20px"}}>
+                        { this.botonStandard("Cerrar", this.screen, "btn-danger btn-xs", "fa-arrow-circle-o-left") }
+                    </div>
                 </div>
             </div>
         )
