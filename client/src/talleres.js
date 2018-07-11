@@ -31,9 +31,14 @@ class Talleres extends React.Component {
   }
 
   seleccionarAlumnos(cursoId) {
-	console.log(cursoId);
-	
-    this.props.rootComponent.setState({ "cursoId":cursoId, pantallaActual: 4 }, function(){console.log(this.state.cursoId)});
+    this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 4 });
+  }
+
+  inscribirAlumno(cursoId) {
+    this.props.rootComponent.setState({
+      cursoId: cursoId,
+      pantallaActual: 5
+    });
   }
 
   render() {
@@ -44,7 +49,10 @@ class Talleres extends React.Component {
             key={curso._id}
             curso={curso}
             botones={
-              <Botones seleccionarAlumnos={() => this.seleccionarAlumnos(curso._id)} />
+              <Botones
+                seleccionarAlumnos={() => this.seleccionarAlumnos(curso._id)}
+                inscribirAlumno={() => this.inscribirAlumno(curso._id)}
+              />
             }
           />
         ))}
@@ -98,7 +106,12 @@ class Botones extends React.Component {
         >
           Alumnos
         </button>
-        <button className="btn btn-primary col-md-4">Inscribir</button>
+        <button
+          className="btn btn-primary col-md-4"
+          onClick={v => this.props.inscribirAlumno(v)}
+        >
+          Inscribir
+        </button>
       </div>
     );
   }
