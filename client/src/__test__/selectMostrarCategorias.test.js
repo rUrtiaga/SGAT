@@ -8,15 +8,29 @@ const mount = Enzyme.mount;
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const { selectCategorias } = require("../componentesComunes/selectMostrarcategorias.jsx");
+const { MuestraCategorias } = require("../componentesComunes/selectMostrarcategorias.jsx");
 
 var mock = new MockAdapter(axios);
 
-
-
 describe("React SeleccionarCategoria", () => {
-  it("Recupera 4 Categorias", () => {
+  it("Recupera 4 Categorias", done => {
     var mock = new MockAdapter(axios);
+
+    it("Recupera 0 Categorias", () => {
+        var mock = new MockAdapter(axios);
+    
+        mock.onGet('/api/categorias')
+            .reply(200, [ ]);
+            let categ = shallow(<MuestraCategorias />)
+
+            categ
+            .instance()
+            .request()
+            .then(()=> 
+                expect(categ.state().categorias.length).toEqual(0)
+            )
+    .catch((error) => console.log(error))
+})
 
     mock.onGet('/api/categorias')
         .reply(200, [
@@ -37,34 +51,20 @@ describe("React SeleccionarCategoria", () => {
               "_categoria": "Modas"
           }
       ]);
+    let categ = shallow(<MuestraCategorias />)
 
-    var categorias
-    new Promise((resolve, reject) => {
-        categorias = shallow(<selectCategorias />)
-        
+    categ
+    .instance()
+    .request()
+    .then(() => {
+        expect(categ.state().categorias.length).toEqual(4)
+        expect(categ.state().categorias.length).toEqual(5)
+        expect(categorias.state().categorias[3]._categoria).toEqual("Cultura General");
+        done();
     })
-    .then((categorias) => {
-        expect(categorias.state().categorias.length).toEqual(4);
-        expect(alumnos.state().categorias[3]._categoria).toEqual("Cultura General");
-        
-    })
-    .catch((error) => console.log(error))
+    .catch(e => console.log(e));
 })
 
-    it("Recupera 0 Categorias", () => {
-        var mock = new MockAdapter(axios);
-    
-        mock.onGet('/api/categorias')
-            .reply(200, [ ]);
-    
-        var categorias
-        new Promise((resolve, reject) => {
-            categorias = shallow(<selectCategorias />)
-            
-        })
-        .then((categorias) => {
-            expect(categorias.state().categorias.length).toEqual(0);
-        })
-    .catch((error) => console.log(error))
-})
+
+
   })
