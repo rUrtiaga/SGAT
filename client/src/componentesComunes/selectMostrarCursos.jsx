@@ -58,14 +58,12 @@ class MuestraCursos extends MuestraFromProps {
 class Botones extends React.Component {
   render() {
     return (
-      <div className="col-sm-3 text-right">
         <button
           className="btn btn-primary"
           onClick={v => this.props.seleccionar(v)}
         >
           Seleccionar
         </button>
-      </div>
     );
   }
 }

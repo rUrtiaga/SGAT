@@ -6,12 +6,30 @@ class Talleres extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listaDeCursos: []
+      listaDeCursos: [],
+      listaDeTalleres: []
     };
   }
 
   componentDidMount() {
+    this.getDataTalleres();
     this.getDataCursos();
+  }
+
+  getDataTalleres() {
+    let self = this;
+    return axios
+      .get("/api/talleres")
+      .then(function(response) {
+        const listTalleres = response.data;
+        self.setState({
+          listaDeTalleres: listTalleres
+        });
+        return Promise.resolve();
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
   getDataCursos() {
@@ -44,21 +62,45 @@ class Talleres extends React.Component {
   render() {
     return (
       <div className="container">
-        {this.state.listaDeCursos.map(curso => (
-          <Curso
-            key={curso._id}
-            curso={curso}
-            botones={
-              <Botones
-                seleccionarAlumnos={() => this.seleccionarAlumnos(curso._id)}
-                inscribirAlumno={() => this.inscribirAlumno(curso._id)}
-              />
-            }
-          />
-        ))}
+        {this.state.listaDeTalleres.map(tallerDesnormalizado => {
+          return (
+            <div className="card border-0">
+              <div className="card-body">
+                <h3 className="card-title">
+                  {" "}
+                  {tallerDesnormalizado._nombre +
+                    " " +
+                    tallerDesnormalizado._subCategoria}{" "}
+                </h3>
+                {this.desplegarCursosDeTaller(tallerDesnormalizado)}
+              </div>
+            </div>
+          );
+        })}
       </div>
     );
   }
+
+  desplegarCursosDeTaller(tdsn) {
+    return this.state.listaDeCursos
+      .filter(c => c._tallerID == tdsn._id)
+      .map(curso => (
+        <Curso
+          key={curso._id}
+          curso={curso}
+          botones={
+            <Botones
+              seleccionarAlumnos={() => this.seleccionarAlumnos(curso._id)}
+              inscribirAlumno={() => this.inscribirAlumno(curso._id)}
+            />
+          }
+        />
+      ));
+  }
+  /**
+   * 
+
+   */
   // tblTalleres(){
   // 	return(
   // 		<table className = "table table-striped" >
@@ -98,7 +140,7 @@ class Talleres extends React.Component {
 class Botones extends React.Component {
   render() {
     return (
-      <div className="col-md-3 text-right">
+      <React.Fragment>
         <button className="col-md-4 btn btn-primary">Espera</button>
         <button
           className="btn btn-primary col-md-4"
@@ -112,7 +154,7 @@ class Botones extends React.Component {
         >
           Inscribir
         </button>
-      </div>
+      </React.Fragment>
     );
   }
 }
