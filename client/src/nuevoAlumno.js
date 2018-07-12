@@ -17,27 +17,46 @@ class NuevoAlumno extends React.Component {
     this.mostrarAceptarAlumno = () => this.state.persona && this.state.curso;
   }
 
+  componentDidMount(){
+    this.borrarCursoIdEnPadre()
+    if (this.props.cursoId) {
+      this.fetchCurso(this.props.cursoId).then(c => this.selectCurso(c));
+    }
+  }
+  
+  borrarCursoIdEnPadre(){
+    this.props.rootComponent.state.cursoId = undefined
+  }
+
+  fetchCurso(idCurso) {
+    console.log(idCurso)
+    return axios
+      .get('/api/cursos/' + idCurso)
+      .then(lc => {console.log(lc.data) ;return lc.data[0]})
+      .catch(e => console.log(e));
+  }
+
   render() {
     return (
       <div className="container">
         <h3 className="mt-4 mb-4">Nueva Inscripción</h3>
 
-        {this.state.selectorCursoOculto ? null: (
+        {this.state.selectorCursoOculto ? null : (
           <Selector padre={this} onSelect={c => this.selectCurso(c)} />
         )}
-        {this.state.inputPersonaOculto ? null :(
+        {this.state.inputPersonaOculto ? null : (
           <React.Fragment>
-          <p>
-          {" "}
-          CURSO - {this.state.curso._taller._nombre}{" "}
-          {this.state.curso._taller._subCategoria}
-          </p>
-          <InputPersona
-            persona={this.state.persona || {}}
-            onCancel={() => this.cancelPersona()}
-            onAccept={p => this.acceptPersona(p)}
-            padre={this}
-          />
+            <p>
+              {" "}
+              CURSO - {this.state.curso._taller._nombre}{" "}
+              {this.state.curso._taller._subCategoria}
+            </p>
+            <InputPersona
+              persona={this.state.persona || {}}
+              onCancel={() => this.cancelPersona()}
+              onAccept={p => this.acceptPersona(p)}
+              padre={this}
+            />
           </React.Fragment>
         )}
         {this.mostrarAceptarAlumno() ? (
@@ -45,7 +64,7 @@ class NuevoAlumno extends React.Component {
             <p className="mb-3">
               {" "}
               ¿Desea agregar al curso {this.state.curso._taller._nombre}{" "}
-              {this.state.curso._taller._subCategoria} el alumno llamado 
+              {this.state.curso._taller._subCategoria} el alumno llamado
               {this.state.persona._nombre +
                 " " +
                 this.state.persona._apellido}{" "}
@@ -67,7 +86,9 @@ class NuevoAlumno extends React.Component {
   //selecciono y me guardo el id del curso
   selectCurso(curso) {
     this.setState({
-      curso,selectorCursoOculto: !this.state.selectorCursoOculto, inputPersonaOculto: !this.state.inputPersonaOculto
+      curso:curso,
+      selectorCursoOculto: !this.state.selectorCursoOculto,
+      inputPersonaOculto: !this.state.inputPersonaOculto
     });
   }
 
@@ -78,29 +99,36 @@ class NuevoAlumno extends React.Component {
 
   cancelPersona() {
     this.setState({
-      inputPersonaOculto: true, selectorCursoOculto: false
+      inputPersonaOculto: true,
+      selectorCursoOculto: false
     });
   }
 
   acceptPersona(persona) {
     this.setState({
-      persona,inputPersonaOculto:!this.state.inputPersonaOculto
+      persona,
+      inputPersonaOculto: !this.state.inputPersonaOculto
     });
   }
 
   limpiar() {
-    this.setState({ curso: null, persona: null , inputPersonaOculto:true, selectorCursoOculto:false });
+    this.setState({
+      curso: null,
+      persona: null,
+      inputPersonaOculto: true,
+      selectorCursoOculto: false
+    });
   }
 
   aceptarAlumno() {
-    let self = this
+    let self = this;
     axios
       .put("/api/cursos/" + this.state.curso._id + "/alumnos", {
         _idPersona: this.state.persona._id
       })
       .then(function(response) {
         console.log(response);
-        self.limpiar()
+        self.limpiar();
       })
       .catch(function(error) {
         console.log(error);

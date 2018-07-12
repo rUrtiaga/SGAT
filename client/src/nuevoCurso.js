@@ -286,7 +286,7 @@ class NuevoCurso extends React.Component {
           cancelar={() => this.cancelarAgregado()}
           aceptar={() => this.confirmar()}
         >
-          <div className="col col-md-2">
+          <div className="col col-md-3">
             <button
               className="btn btn-danger col-12"
               onClick={() => this.agregarDocente()}

@@ -16,36 +16,37 @@ class Curso extends React.Component {
   }
 
   render() {
-    return(<div className="card mt-sm-2 ">
-      <div className="card-body">
-        <div className="row">
-          <div className="col-sm-9">
-            <h5 className="card-title ml-sm-2 mb-4">
-              Prof/s: {this.nombresProfes()}
-            </h5>
+    return (
+      <div className="card mt-sm-2 ">
+        <div className="card-body">
+          <div className="row">
+            <div className="col-sm-7">
+              <h5 className="card-title ml-sm-2 mb-4">
+                Prof/s: {this.nombresProfes()}
+              </h5>
+            </div>
+            <div className="col-sm-5 text-right">{this.props.botones}</div>
           </div>
-          {this.props.botones}
-        </div>
-        {/* <p className="card-text ml-sm-4"> y si escribo aca que pasa</p> */}
-        <div className="container">
-          <DHL dhls={this.state.DHL} />
+          <div className="container">
+            <DHL dhls={this.state.DHL} />
+          </div>
         </div>
       </div>
-    </div>)
+    );
   }
 }
 
 class DHL extends React.Component {
-  constructor(props){
-    super(props)
-    this.i = 0
+  constructor(props) {
+    super(props);
+    this.i = 0;
   }
   render() {
     return (
       <div className="container">
         <table className="table table-sm text-center">
           <tbody>
-          {this.props.dhls.map(dhl => <FilaDHL dhl={dhl} key={this.i++} />)}
+            {this.props.dhls.map(dhl => <FilaDHL dhl={dhl} key={this.i++} />)}
           </tbody>
         </table>
       </div>
@@ -64,25 +65,5 @@ class FilaDHL extends React.Component {
     );
   }
 }
-
-// class Botones extends React.Component {
-//   render() {
-//     if (this.props.pantalla) {
-//       return (
-//         <div className="col-md-4 text-right">
-//           <button className="btn btn-primary">Espera</button>
-//           <button className="btn btn-primary">Alumnos</button>
-//           <button className="btn btn-primary">Inscribir</button>
-//         </div>
-//       );
-//     } else {
-//       return (
-//         <div className="col-sm-3 text-right">
-//           <button className="btn btn-primary">Seleccionar</button>
-//         </div>
-//       );
-//     }
-//   }
-// }
 
 exports.Curso = Curso;

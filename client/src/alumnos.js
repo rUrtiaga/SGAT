@@ -20,6 +20,7 @@ class ListarAlumnos extends React.Component {
     }
 
     componentDidMount() {
+        this.props.rootComponent.state.cursoId = undefined
         this.getDataCurso()
     }
 
