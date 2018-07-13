@@ -13,25 +13,26 @@ const { MuestraCategorias } = require("../componentesComunes/selectMostrarcatego
 var mock = new MockAdapter(axios);
 
 describe("React SeleccionarCategoria", () => {
-  it("Recupera 4 Categorias", done => {
-    var mock = new MockAdapter(axios);
-
-    it("Recupera 0 Categorias", () => {
+  
+    it("Recupera 0 Categorias", done => {
         var mock = new MockAdapter(axios);
     
         mock.onGet('/api/categorias')
             .reply(200, [ ]);
             let categ = shallow(<MuestraCategorias />)
-
             categ
             .instance()
             .request()
-            .then(()=> 
+            .then(()=> {
                 expect(categ.state().categorias.length).toEqual(0)
-            )
-    .catch((error) => console.log(error))
+                //expect(categ.state().categorias.length).toEqual(3) // falla
+                done()
+            })
+            .catch((error) => console.log(error))
 })
 
+it("Recupera 4 Categorias", done => {
+    var mock = new MockAdapter(axios);
     mock.onGet('/api/categorias')
         .reply(200, [
           {
@@ -57,10 +58,12 @@ describe("React SeleccionarCategoria", () => {
     .instance()
     .request()
     .then(() => {
+        console.log(categ.state().categorias)
         expect(categ.state().categorias.length).toEqual(4)
-        expect(categ.state().categorias.length).toEqual(5)
-        expect(categorias.state().categorias[3]._categoria).toEqual("Cultura General");
-        done();
+        //expect(categ.state().categorias.length).toEqual(5) // falla
+        expect(categ.state().categorias[2]).toEqual("Cultura General")
+       // expect(categ.state().categorias[2]).toEqual("Cultura Gral") // falla
+    done()
     })
     .catch(e => console.log(e));
 })
