@@ -9,13 +9,14 @@ const mount = Enzyme.mount;
 Enzyme.configure({ adapter: new Adapter() });
 
 const { MuestraCategorias } = require("../componentesComunes/selectMostrarcategorias.jsx");
+
 var mock = new MockAdapter(axios);
 
 describe("React SeleccionarCategoria", () => {
   
     it("Recupera 0 Categorias", done => {
         var mock = new MockAdapter(axios);
-
+    
         mock.onGet('/api/categorias')
             .reply(200, [ ]);
             let categ = shallow(<MuestraCategorias />)
@@ -57,13 +58,16 @@ it("Recupera 4 Categorias", done => {
     .instance()
     .request()
     .then(() => {
-        //console.log(categ.state().categorias)
+        console.log(categ.state().categorias)
         expect(categ.state().categorias.length).toEqual(4)
-        //expect(categ.state().categorias.length).toEqual(5) //falla
+        //expect(categ.state().categorias.length).toEqual(5) // falla
         expect(categ.state().categorias[2]).toEqual("Cultura General")
-        expect(categ.state().categorias[2]).toEqual("Cultura Gral") // falla
+       // expect(categ.state().categorias[2]).toEqual("Cultura Gral") // falla
     done()
     })
     .catch(e => console.log(e));
 })
-})
+
+
+
+  })
