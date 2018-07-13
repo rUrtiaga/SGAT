@@ -36,12 +36,12 @@ describe("React input Persona", () => {
         done();
       });
   });
-  it("fetch persona from api exitoso", () => {
+  it("fetch persona from api exitoso", done => {
     let input = shallow(<InputPersona persona={{}} />);
 
-    let data = { _dni: 122333, _nombre: "Foo", _apellido: "Roque" };
+    let data = { _dni: 122333, _nombre: "Foo", _apellido: "Roque", _fechaNac:"2017-06-04T00:00:00.000Z" };
     // / personas va a cambiar a query
-    mock.onGet("/api/personas/" + data._dni).reply(config => {
+    mock.onGet("/api/personas?dni="+data._dni).reply(config => {
       return [200, data];
     }); //200, data
 
@@ -49,42 +49,46 @@ describe("React input Persona", () => {
       .instance()
       .request(122333)
       .then(() => {
-        expect(input.state("dni")).toEqual(data._dni);
+        expect(input.state('dni')).toEqual(data._dni);
         expect(input.state("nombre")).toEqual(data._nombre);
-      });
+        done()
+      }).catch(e=>console.log(e));
   });
-  it("fetch persona from api no encontrado", () => {
-    let data = { _dni: 122333, _nombre: "Foo", _apellido: "Roque" };
-    mock.onGet("/api/personas/" + data._dni).reply(200, {data:{}});
+  it("fetch persona from api no encontrado", done => {
+   let data = { _dni: 122333, _nombre: "Foo", _apellido: "Roque" , _fechaNac:"2017-06-04T00:00:00.000Z"};
+    mock.onGet("/api/personas?dni=" + data._dni).reply(200, {'data':{}});
 
     Promise.resolve()
       .then(() => {
         return shallow(<InputPersona persona={data} />);
       })
       .then(Scomponent => {
+        Scomponent.instance().limpiar()
         Scomponent.instance()
           .request(data._dni)
           .then(() => {
-            expect(Scomponent.state("nombre")).toEqual(undefined);
+            expect(Scomponent.state("nombre")).toEqual("");
+            done()
           })
       }).catch(e=>console.log(e))
 
     // / personas va a cambiar a query
   });
-  it("post persona", () => {
-    let data = { _dni: 122333, _nombre: "Foo", _apellido: "Roque" };
+  it("post persona", done => {
+    let data = { _dni: 122333, _nombre: "Foo", _apellido: "Roque" , _fechaNac:"2017-06-04T00:00:00.000Z"};
     Promise.resolve()
       .then(() => {
-        let input = shallow(<InputPersona persona={data} />);
+        let input = shallow(<InputPersona persona={data} onAccept={(persona)=>expect(persona._id).toEqual("unid")} />);
         return input;
       })
       .then(i => {
         mock.onPost("/api/personas").reply(config => {
           let jsonData = JSON.parse(config.data);
           expect(jsonData._dni).toEqual(data._dni);
-          return [201, data];
+          return [201, {'insertedIds':["unid"]}];
         });
-        i.instance().aceptarPersona();
+        i.instance().aceptarPersona().then(()=>done())
+        
       });
   });
 });
