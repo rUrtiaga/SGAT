@@ -2,6 +2,7 @@ const React = require('react')
 const axios = require('axios')
 
 const infoPersona = require("./componentesComunes/infoPersona.jsx");
+const panelDeImpresion = require("./componentesComunes/PanelDeImpresion");
 
 /***********************************************
  Alumnos
@@ -15,7 +16,8 @@ class ListarAlumnos extends React.Component {
             cupo: null,
             listaDeAlumnos: [],
             infoDeAlumno: false,
-            mostrarPanelDeAbajo: false
+            mostrarPanelDeAbajo: false,
+            mostrarPanelDeImpresion: false
         }
     }
 
@@ -146,44 +148,10 @@ class ListarAlumnos extends React.Component {
         })
     }
 
-    imprimirAlumnos() {
-        <div className="ticket">
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th>CANT</th>
-                        <th>PRODUCTO</th>
-                        <th>$$</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1.00</td>
-                        <td>CHEETOS VERDES 80 G</td>
-                        <td>$8.50</td>
-                    </tr>
-                    <tr>
-                        <td>2.00</td>
-                        <td>KINDER DELICE</td>
-                        <td>$10.00</td>
-                    </tr>
-                    <tr>
-                        <td>1.00</td>
-                        <td>COCA COLA 600 ML</td>
-                        <td>$10.00</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>TOTAL</td>
-                        <td>$28.50</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-        window.print();
+    imprimirAlumnos() { 
+        window.print()
     }
-    
+
     /** ---   Botones   --- */
     botonDetalle(alumno) {
         return (
@@ -212,5 +180,6 @@ class ListarAlumnos extends React.Component {
         )
     }
 }
+
 
 module.exports.ListarAlumnos = ListarAlumnos
