@@ -2,7 +2,7 @@ const React = require('react')
 const axios = require('axios')
 
 const infoPersona = require("./componentesComunes/infoPersona.jsx");
-const panelDeImpresion = require("./componentesComunes/PanelDeImpresion");
+// const panelDeImpresion = require("./componentesComunes/PanelDeImpresion");
 
 /***********************************************
  Alumnos
@@ -17,7 +17,7 @@ class ListarAlumnos extends React.Component {
             listaDeAlumnos: [],
             infoDeAlumno: false,
             mostrarPanelDeAbajo: false,
-            mostrarPanelDeImpresion: false
+            // mostrarPanelDeImpresion: false
         }
     }
 
