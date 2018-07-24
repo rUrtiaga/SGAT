@@ -10,21 +10,21 @@ class MuestraCategorias extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.request()
-  }
+  // componentDidMount() {
+  //   this.request()
+  // }
 
-  request(){
-    const self = this;
-    return axios
-      .get("api/categorias")
-      .then(respuesta => {
-        let catSinId = respuesta.data.map(c=> c._categoria)
-        self.setState({ categorias: catSinId })
-        //self.props.padre({categorias: self.state.categorias})
-      })
-      //.then(()=>this.props.seleccionar(this.state.categorias[0]))
-  }
+  // request(){
+  //   const self = this;
+  //   return axios
+  //     .get("api/categorias")
+  //     .then(respuesta => {
+  //       let catSinId = respuesta.data.map(c=> c._categoria)
+  //       self.setState({ categorias: catSinId })
+  //       //self.props.padre({categorias: self.state.categorias})
+  //     })
+  //     //.then(()=>this.props.seleccionar(this.state.categorias[0]))
+  // }
 
   render() {
     return (
@@ -44,8 +44,8 @@ class MuestraCategorias extends React.Component {
   }
 
   desplegarCategorias() {
-    let categorias =  (this.props.categorias)? [...this.state.categorias,...this.props.categorias]: this.state.categorias
-    return categorias.map(c => (
+    // let categorias =    //(this.props.categorias)? [...this.state.categorias,...this.props.categorias]: this.state.categorias 
+    return this.props.categorias.map(c => (
       <option key={c} value={c}>
         {c}
       </option>
