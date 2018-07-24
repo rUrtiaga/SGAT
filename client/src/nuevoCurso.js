@@ -128,8 +128,8 @@ class NuevoCurso extends React.Component {
   seleccionarCategoria(valor) {
     this.setState({ tallerId: valor });
     const self = this;
-    axios.get("api/talleres/" + self.state.tallerId).then(respuesta => {
-      self.setState({ taller: respuesta.data });
+    axios.get("api/talleres/" + valor).then(respuesta => {
+      self.setState({ taller: respuesta.data })
     });
   }
 

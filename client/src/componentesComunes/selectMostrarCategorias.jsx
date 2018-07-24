@@ -23,8 +23,9 @@ class MuestraCategorias extends React.Component {
         self.setState({ categorias: catSinId })
         //self.props.padre({categorias: self.state.categorias})
       })
-      //.then(()=>this.props.seleccionar(this.state.categorias[0]))
+      .then(()=>this.props.seleccionar(this.state.categorias[0]))
   }
+
 
   render() {
     return (

@@ -134,32 +134,11 @@ validar(){
         <form>
           <h3 className="mt-4 mb-4">Nuevo Taller</h3>
 
-          <div className="form-row">
-            <div className="col">
-              <label htmlFor="CategoriaTitle">Categorias</label>
-              <div className="form-row">
-              {
-               this.mostrarMuestraCategoria()
-              }
-                <div className="col">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => this.mostrarDivNuevaCateg()}
-                  >
-                    Agregar Nueva Categoria
-                  </button>
-                </div>
-              </div>
-
-              {//agrega el componenete nueva categoria
-              this.nuevaCategoria()}
-
-              <div className="form-group">
+          <div className="form-group">
                 <label htmlFor="nombreTaller">Nombre</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control col-md-6 "
                   id="nombreTaller"
                   placeholder="introduzca el nombre del Taller"
                   value={this.state.nombre}
@@ -169,37 +148,57 @@ validar(){
                 />
               </div>
 
-              {//muestra panel de nuevo NIVEL
-              this.nuevaSubCategoria()}
-
-              <div
-                className="row justify-content-start mt-2"
-              >
-                
-                <div className="col-md-2">
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => this.cancelarCreacion()}
-                  >
-                    Cancelar
-                  </button>
-                </div>
-                <div className="col-md-2">
+          <div className="form-row" >
+            <div className="col">
+              <label htmlFor="CategoriaTitle">Categoria</label>
+              <div className="form-row mt-2 mb-2">
+              {
+               this.mostrarMuestraCategoria()
+              }
+                <div className="col">
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => this.guardarTaller()}
-                  >
-                    Guardar Taller
+                    icon="fa-plus"
+                    onClick={() => this.mostrarDivNuevaCateg()}
+                  > 
+                  <span className="fa fa-plus">  </span> 
                   </button>
                 </div>
               </div>
-            </div>
+
+              {//agrega el componenete nueva categoria
+              this.nuevaCategoria()}
+
+              
+
+              {//muestra panel de nuevo NIVEL
+              this.nuevaSubCategoria()}
+              {this.mostrarSubCategoriasAgregadas()}
+              <div className="form-row m-6">
+                
+                <div className="col-md-1">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => this.cancelarCreacion()}>
+                    <span className="fa fa-trash"> </span>
+                  </button>
+                </div>
+                <div className="col-md-s">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => this.guardarTaller()}>
+                    <span className="fa fa-save"> </span>
+                  </button>
+                </div>
+              </div>
+              </div>
           </div>
         </form>
          
-         {this.mostrarSubCategoriasAgregadas()}
+         
          {this.mostrarValidacion()}
      
       </div>
