@@ -2,6 +2,7 @@ const React = require('react')
 const axios = require('axios')
 
 const infoPersona = require("./componentesComunes/infoPersona.jsx");
+// const panelDeImpresion = require("./componentesComunes/PanelDeImpresion");
 
 /***********************************************
  Alumnos
@@ -15,7 +16,8 @@ class ListarAlumnos extends React.Component {
             cupo: null,
             listaDeAlumnos: [],
             infoDeAlumno: false,
-            mostrarPanelDeAbajo: false
+            mostrarPanelDeAbajo: false,
+            // mostrarPanelDeImpresion: false
         }
     }
 
@@ -67,7 +69,7 @@ class ListarAlumnos extends React.Component {
                                         </div>
                                         {panelDeAbajo}
                                     </div>
-                                    {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success")}
+                                    {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success", "fa-print")}
                                 </div>
                                 <h4> Alumnos Registrados {this.state.listaDeAlumnos.length} de {this.state.cupo}</h4>
                             </div>
@@ -76,9 +78,6 @@ class ListarAlumnos extends React.Component {
                 </div>
             </div>
         )
-    }
-
-    imprimirAlumnos() {
     }
 
     /*Tabla info de Alumno */
@@ -99,7 +98,7 @@ class ListarAlumnos extends React.Component {
             </table>
         )
     }
-
+    
     /*Acá completo la tabla con la info de Alumno */
     // dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario
     infoAlumnos(alumno) {
@@ -116,7 +115,7 @@ class ListarAlumnos extends React.Component {
         )
         return rowDatosAlumno
     }
-       
+    
     /** --- Encabezado de la Tabla --- */
     encabezadoDeTabla(titulos) {
         return titulos.map((titulo, ix) => (<th key={ix}>{titulo}</th>))
@@ -142,12 +141,16 @@ class ListarAlumnos extends React.Component {
     mostrarDatosAlumno(unAlumno) {
         this.setState({ mostrarPanelDeAbajo: true, alumnoActual: unAlumno })
     }
-
+    
     eliminarAlumno(alumno) {
         let codigo = this.state.listaDeAlumnos.filter((alu) => alu._dni !== alumno._dni);
         this.setState({
             listaDeAlumnos: codigo
         })
+    }
+
+    imprimirAlumnos() { 
+        window.print()
     }
 
     /** ---   Botones   --- */
@@ -178,5 +181,6 @@ class ListarAlumnos extends React.Component {
         )
     }
 }
+
 
 module.exports.ListarAlumnos = ListarAlumnos
