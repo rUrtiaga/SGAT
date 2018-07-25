@@ -1,6 +1,4 @@
-
 const React = require("react");
-const axios = require("axios");
 
 class MuestraCategorias extends React.Component {
   constructor(props) {
@@ -8,22 +6,6 @@ class MuestraCategorias extends React.Component {
     this.state = {
       categorias: []
     };
-  }
-
-  componentDidMount() {
-    this.request()
-  }
-
-  request(){
-    const self = this;
-    return axios
-      .get("api/categorias")
-      .then(respuesta => {
-        let catSinId = respuesta.data.map(c=> c._categoria)
-        self.setState({ categorias: catSinId })
-        //self.props.padre({categorias: self.state.categorias})
-      })
-      //.then(()=>this.props.seleccionar(this.state.categorias[0]))
   }
 
   render() {
@@ -44,8 +26,7 @@ class MuestraCategorias extends React.Component {
   }
 
   desplegarCategorias() {
-    let categorias =  (this.props.categorias)? [...this.state.categorias,...this.props.categorias]: this.state.categorias
-    return categorias.map(c => (
+    return this.props.categorias.map(c => (
       <option key={c} value={c}>
         {c}
       </option>

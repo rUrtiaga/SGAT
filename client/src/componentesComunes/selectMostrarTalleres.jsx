@@ -1,6 +1,4 @@
 const React = require("react");
-const axios = require("axios");
-const _ = require("lodash");
 
 /*Este componente requiere:
      request() que guarda lo que trae del servidor parseado en  "elementsOrError"
@@ -55,29 +53,28 @@ class MuestraFromProps extends React.Component {
   }
 }
 
-class MuestraTalleres extends MuestraFromProps {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  request() {
-    const self = this;
-    axios
-      .get("api/talleres?categoria=" + this.props.select)
-      .then(respuesta => {
-        let r = _.uniq(respuesta.data.map(o => o._nombre));
-        self.setState({ elementsOrError: r });
-      })
-      .then(() => this.props.seleccionar(this.state.elementsOrError[0]));
-  }
+class MuestraTalleres extends React.Component {
 
   manejarSeleccion(event) {
     this.props.seleccionar(event.target.value);
   }
 
+  render() {
+    return (
+      <div className="col">
+        <select
+          className="form-control"
+          onChange={this.manejarSeleccion.bind(this)}
+          id="Talleres"
+        >
+          {this.desplegar()}
+        </select>
+      </div>
+    );
+  }
+
   desplegar() {
-    return this.state.elementsOrError.map(c => (
+    return this.props.talleres.map(c => ( //elementsOrError
       <option key={c} value={c}>
         {c}
       </option>
