@@ -8,31 +8,34 @@ const { Selector } = require("./componentesComunes/selector.jsx");
 class NuevoAlumno extends React.Component {
   constructor(props) {
     super(props);
-    //la persona deberia ser un id
     this.state = {
-      selectorCursoOculto: false,
+      selectorCursoOculto: true,
       inputPersonaOculto: true,
       curso: null
     };
     this.mostrarAceptarAlumno = () => this.state.persona && this.state.curso;
   }
 
-  componentDidMount(){
-    this.borrarCursoIdEnPadre()
+  componentDidMount() {
+    this.borrarCursoIdEnPadre();
     if (this.props.cursoId) {
       this.fetchCurso(this.props.cursoId).then(c => this.selectCurso(c));
+    } else {
+      this.setState({selectorCursoOculto:false})
     }
   }
-  
-  borrarCursoIdEnPadre(){
-    this.props.rootComponent.state.cursoId = undefined
+
+  borrarCursoIdEnPadre() {
+    this.props.rootComponent.state.cursoId = undefined;
   }
 
   fetchCurso(idCurso) {
-    console.log(idCurso)
+    console.log(idCurso);
     return axios
-      .get('/api/cursos/' + idCurso)
-      .then(lc => {console.log(lc.data) ;return lc.data[0]})
+      .get("/api/cursos/" + idCurso)
+      .then(lc => {
+        return lc.data[0];
+      })
       .catch(e => console.log(e));
   }
 
@@ -41,9 +44,11 @@ class NuevoAlumno extends React.Component {
       <div className="container">
         <h3 className="mt-4 mb-4">Nueva Inscripción</h3>
 
-        {this.state.selectorCursoOculto ? null : (
+        {this.state.selectorCursoOculto  ? null : (
           <Selector padre={this} onSelect={c => this.selectCurso(c)} />
         )}
+        {console.log("curso" + this.state.curso)}
+
         {this.state.inputPersonaOculto ? null : (
           <React.Fragment>
             <p>
@@ -64,7 +69,7 @@ class NuevoAlumno extends React.Component {
             <p className="mb-3">
               {" "}
               ¿Desea agregar al curso {this.state.curso._taller._nombre}{" "}
-              {this.state.curso._taller._subCategoria} el alumno llamado
+              {this.state.curso._taller._subCategoria} el alumno llamado{" "}
               {this.state.persona._nombre +
                 " " +
                 this.state.persona._apellido}{" "}
@@ -86,8 +91,8 @@ class NuevoAlumno extends React.Component {
   //selecciono y me guardo el id del curso
   selectCurso(curso) {
     this.setState({
-      curso:curso,
-      selectorCursoOculto: !this.state.selectorCursoOculto,
+      curso: curso,
+      selectorCursoOculto: true,
       inputPersonaOculto: !this.state.inputPersonaOculto
     });
   }
