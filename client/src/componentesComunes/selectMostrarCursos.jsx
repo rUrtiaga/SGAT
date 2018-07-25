@@ -23,14 +23,6 @@ class MuestraCursos extends MuestraFromProps {
     this.props.seleccionar(value);
   }
 
-  //la key y el value deben ser remplazadas por id
-  //   desplegar() {
-  //     return this.state.elementsOrError.map(c => (
-  //       <option key={c._nombre} value={c._nombre}>
-  //         {c._nombre}
-  //       </option>
-  //     ));
-  //   }
   render() {
     if (this.state.elementsOrError === null) {
       return null;
@@ -50,11 +42,6 @@ class MuestraCursos extends MuestraFromProps {
   }
 }
 
-/* <div className="col-md-4 text-right">
-<button className="btn btn-primary">Espera</button>
-<button className="btn btn-primary">Alumnos</button>
-<button className="btn btn-primary">Inscribir</button>
-</div> */
 class Botones extends React.Component {
   render() {
     return (

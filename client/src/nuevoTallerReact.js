@@ -131,14 +131,14 @@ validar(){
   }
 
   requestCategorias(){
-    const self = this;
     return axios
       .get("api/categorias")
       .then(respuesta => {
         let catSinId = respuesta.data.map(c=> c._categoria)
-        self.setState({ categorias: catSinId })
+        this.setState({ categorias: catSinId })
       })
       .then(()=>this.seleccionarCategoria(this.state.categorias[0]))
+      .catch(e=> console.log(e))
   }
 
 
