@@ -1,35 +1,28 @@
 const React = require("react");
-const axios = require("axios");
-const { MuestraFromProps } = require("./selectMostrarTalleres.jsx");
 
-class MuestraSubCategorias extends MuestraFromProps {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  request() {
-    const self = this;
-    axios
-      .get(
-        "api/talleres?categoria=" +
-          this.props.categoria +
-          "&taller=" +
-          this.props.select
-      )
-      .then(respuesta => {
-        self.setState({ elementsOrError: respuesta.data });
-      })
-      .then(() => this.props.seleccionar(this.state.elementsOrError[0]._id));
-  }
+class MuestraSubCategorias extends React.Component {
 
   manejarSeleccion(event) {
     this.props.seleccionar(event.target.value);
   }
 
+  render() {
+    return (
+      <div className="col">
+        <select
+          className="form-control"
+          onChange={this.manejarSeleccion.bind(this)}
+          id="subCategorias"
+        >
+          {this.desplegar()}
+        </select>
+      </div>
+    );
+  }
+
   //la key y el value deben ser remplazadas por id
   desplegar() {
-    return this.state.elementsOrError.map(c => (
+    return this.props.subCategorias.map(c => (
       <option key={c._id} value={c._id}>
         {c._subCategoria}
       </option>

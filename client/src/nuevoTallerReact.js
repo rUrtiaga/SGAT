@@ -12,13 +12,17 @@ class CrearTaller extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      categorias: "",
-      categoria:"",
+      categorias: [],
+      // categoria: "",
       subCategorias: [],
       agregaSubCategoria: false,
       agregaCategoria: false,
       disabled: false
     };
+  }
+
+  componentDidMount(){
+    this.requestCategorias()
   }
 
   componentWillMount() {
@@ -125,7 +129,18 @@ validar(){
         />
       )
   }
-  
+
+  requestCategorias(){
+    return axios
+      .get("api/categorias")
+      .then(respuesta => {
+        let catSinId = respuesta.data.map(c=> c._categoria)
+        this.setState({ categorias: catSinId })
+      })
+      .then(()=>this.seleccionarCategoria(this.state.categorias[0]))
+      .catch(e=> console.log(e))
+  }
+
 
   render() {
     console.log(this.state.error)
