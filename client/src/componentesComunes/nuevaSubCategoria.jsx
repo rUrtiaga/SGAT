@@ -10,9 +10,11 @@ class NuevaSubCategoria extends React.Component {
 
     render() {
         return (
-            <div id="nuevoNivelDiv">
-                <div className="form-group">
+            <div className="form-row mb-2 mt-2">
+                 <div className="col-md-12">
                     <label htmlFor="nombreNivel">Nombre de la Nueva Sub-Categoria</label>
+                 </div>
+                 <div className="col-md-6">
                     <input
                         type="text"
                         className="form-control"
@@ -20,26 +22,24 @@ class NuevaSubCategoria extends React.Component {
                         placeholder="introduzca el nombre de la SubCategoria"
                         value={this.state.nombreSubCategoria}
                         onChange={(event) => this.setState({nombreSubCategoria: event.target.value})}/>
-                </div>
-                <div className="row justify-content-end">
-                    <div className="col"></div>
-                    
-                    <div className="col-md-2">
-                        <button
+                </div>           
+                <div className="col-md-1">
+                    <button
                             type="button"
                             className="btn btn-primary"
-                            onClick={() => this.agregarSubCategoria()}>Agregar Sub-Categoria</button>
-
-                    </div>
-
-                    <div className="col-md-2">
+                            onClick={() => this.agregarSubCategoria()}>
+                           <span className="fa fa-plus">  </span>
+                            </button>
+                </div>
+                <div className="col-md-1">
                         <button
                             type="button"
                             className="btn btn-danger"
-                            onClick={() => this.cancelarAgregado()}>Borrar Sub-Categorias</button>
+                            onClick={() => this.cancelarAgregado()}>
+                            <span className="fa fa-minus">  </span>
+                            </button>
                     </div>
                 </div>
-            </div>
         )
     }
 
@@ -55,7 +55,9 @@ class NuevaSubCategoria extends React.Component {
 
     cancelarAgregado() {
         this.setState({nombreSubCategoria: ""})
-        this.props.padre.setState({subCategorias: ""})
+        let subC = this.props.padre.state.subCategorias
+        subC.splice(subC.length-1,1)
+        this.props.padre.setState({subCategorias: subC})
     }
 }
 

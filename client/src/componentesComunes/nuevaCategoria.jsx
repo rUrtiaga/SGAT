@@ -12,10 +12,12 @@ class NuevaCategoria extends React.Component {
     render() {
         return (
 
-            <div className="card mt-sm-2 ">
-                <div id="nuevaCategoriaDiv">
-                    <div className="form-group-sm-4">
-                        <label htmlFor="nombreCategoria">Nombre de la nueva Categoria</label>
+            <div className="card mt-sm-2 mt-2 mb-2">
+                <div className="form-row m-2">
+                        <div className="col-md-12">
+                            <label htmlFor="nombreCategoria">Nombre de la nueva Categoria</label>
+                        </div>
+                        <div className="col-md-8">
                         <input
                             type="text"
                             className="form-control"
@@ -23,24 +25,28 @@ class NuevaCategoria extends React.Component {
                             placeholder="introduzca El Nombre de la Categoria"
                             value={this.state.nombreCategoria}
                             onChange={(event) => this.setState({ nombreCategoria: event.target.value })} />
-                    </div>
-                    <div className="row justify-content-end">
-                        <div className="col"></div>
-                        <div className="col-md-2">
-                            <button
-                                type="button"
-                                className="btn btn-danger"
-                                onClick={() => this.cancelarAgregado()}>Cancelar</button>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-md-1">
                             <button
                                 type="button"
                                 className="btn btn-primary"
-                                onClick={() => this.agregarCategoria()}>Guardar</button>
+                                onClick={() => this.agregarCategoria()}>
+                                <span className="fa fa-save"> </span>
+                                </button>
+                        </div>
+
+                        <div className="col-md-1">
+                            <button
+                                type="button"
+                                className="btn btn-danger"
+                                onClick={() => this.cancelarAgregado()}>
+                                <span className="fa fa-undo"> </span>
+                                </button>
                         </div>
                     </div>
+  
                 </div>
-            </div>
+           
         )
     }
 

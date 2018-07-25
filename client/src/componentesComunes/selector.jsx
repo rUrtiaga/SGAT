@@ -76,6 +76,7 @@ class Selector extends React.Component {
     this.props.onSelect(valor);
     this.setState({ curso: valor });
   }
+  
 
   render() {
     return (
