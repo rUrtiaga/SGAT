@@ -12,6 +12,7 @@ class NuevoCurso extends React.Component {
       profesores: [],
       profesoresId: [],
       listaDHL: [],
+      DhlString: [],
       tallerId: "",
       taller: "",
       cupo: "",
@@ -22,7 +23,8 @@ class NuevoCurso extends React.Component {
 
       confirmacion: false,
       inputCurso: false,
-      inputPersonaOculto: false
+      inputPersonaOculto: false,
+      borrarDHL:true
     };
   }
 
@@ -42,13 +44,28 @@ class NuevoCurso extends React.Component {
     }
     this.setState({ 
       listaDHL: [...this.state.listaDHL, varDHL] ,
+      DhlString: [...this.state.DhlString,
+                 (this.state.dia + " a las " + this.state.hora + " en " + this.state.lugar)],   
       dia:"",
       hora:"",
       lugar:"",
+      borrarDHL: false
     });
-
+    
+    
   }
-
+  borrarDHL(){
+    var coleccion = this.state.listaDHL
+    var colString = this.state.DhlString
+    coleccion.splice(coleccion.length-1,1)
+    colString.splice(colString.length-1,1)
+    this.setState({listaDHL: coleccion})
+    this.setState({DhlString: colString})
+      
+    if (coleccion.length === 0){
+        this.setState({borrarDHL: true })
+    }
+  }
   guardarCurso() {
 
     const curso = {
@@ -136,6 +153,16 @@ class NuevoCurso extends React.Component {
     }
   }
 
+  mostrarDhl() {
+    if (!(this.state.DhlString.length === 0)) {
+      return (
+       
+          <p>{this.state.DhlString.map(d => d + " / ")}</p>
+        
+      );
+    }
+  }
+
   seleccionarCategoria(valor) {
     this.setState({ tallerId: valor });
     const self = this;
@@ -171,18 +198,7 @@ class NuevoCurso extends React.Component {
                 {" "}
                 SubCategoria: <b>{this.state.taller._subCategoria}</b>
               </p>
-              <p>
-                {" "}
-                Dia: <b>{this.state.dia}</b>
-              </p>
-              <p>
-                {" "}
-                Hora: <b>{this.state.hora}</b>
-              </p>
-              <p>
-                {" "}
-                Lugar: <b>{this.state.lugar}</b>
-              </p>
+              {this.mostrarDhl}
               {this.mostrarProfesores()}
             </div>
             <div className="row justify-content-center mt-2">
@@ -270,16 +286,28 @@ class NuevoCurso extends React.Component {
               onChange={event => this.setState({ hora: event.target.value })}
             />
           </div>
-          <div className="col-md-2 mt-4">
-            <button
-              className="btn btn-success col-3"
-              onClick={() => this.guardarDHL(this.state.dia,this.state.hora,this.state.lugar)}
-            >
-                <span className="fa fa-plus"> </span> 
-            </button>
+          <div className="col-md-1 mt-4">
+              <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={() => this.guardarDHL(this.state.dia,this.state.hora,this.state.lugar)}>
+                  <span className="fa fa-plus">  </span>
+              </button>
           </div>
+           <div className="col-md-1 mt-4">
+              <button
+                  type="button"
+                  className="btn btn-danger"
+                  disabled = {this.state.borrarDHL}
+                  onClick={() => this.borrarDHL()}>
+                  <span className="fa fa-minus">  </span>
+              </button>
+            </div>
         </div>
+        {this.mostrarDhl()}
+          
         <div className="form-group form-row">
+        
           <div className="col">
             <label htmlFor="comentario">Comentario:</label>
             <input
