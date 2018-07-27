@@ -249,6 +249,8 @@ class NuevoCurso extends React.Component {
             />
           </div>
         </div>
+        <div className= "card mt-sm-2">
+        <div className="card-body">
         <div className="form-group form-row">
           <div className="col-md-4">
             <label htmlFor="lugar">Lugar:</label>
@@ -305,7 +307,9 @@ class NuevoCurso extends React.Component {
             </div>
         </div>
         {this.mostrarDhl()}
-          
+        </div>
+        
+        </div>   
         <div className="form-group form-row">
         
           <div className="col">
