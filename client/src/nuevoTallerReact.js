@@ -175,7 +175,7 @@ validar(){
                 <div className="col">
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-success"
                     disabled = {this.state.agregadoUnico}
                     icon="fa-plus"
                     onClick={() => this.mostrarDivNuevaCateg()}
@@ -193,24 +193,23 @@ validar(){
               {//muestra panel de nuevo NIVEL
               this.nuevaSubCategoria()}
               {this.mostrarSubCategoriasAgregadas()}
-              <div className="form-row m-6">
+              <div className="form-row">
                 
-                <div className="col-md-1">
                   <button
                     type="button"
-                    className="btn btn-danger"
+                    className="col-md-2 m-2 btn btn-danger "
                     onClick={() => this.cancelarCreacion()}>
-                    <span className="fa fa-trash"> </span>
+                    <span className="fa fa-trash"></span>
                   </button>
-                </div>
-                <div className="col-md-s">
+               
+                
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="col-md-2 m-2 btn btn-primary "
                     onClick={() => this.guardarTaller()}>
                     <span className="fa fa-save"> </span>
                   </button>
-                </div>
+                
               </div>
               </div>
           </div>

@@ -26,7 +26,7 @@ class NuevaSubCategoria extends React.Component {
                 <div className="col-md-1">
                     <button
                             type="button"
-                            className="btn btn-primary"
+                            className="btn btn-success"
                             onClick={() => this.agregarSubCategoria()}>
                            <span className="fa fa-plus">  </span>
                             </button>

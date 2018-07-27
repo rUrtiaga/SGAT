@@ -11,6 +11,7 @@ class NuevoCurso extends React.Component {
     this.state = {
       profesores: [],
       profesoresId: [],
+      listaDHL: [],
       tallerId: "",
       taller: "",
       cupo: "",
@@ -32,20 +33,30 @@ class NuevoCurso extends React.Component {
   volver() {
     this.setState({ confirmacion: false });
   }
+
+  guardarDHL(dia, hora, lugar) {
+    var varDHL = {
+      _dia: dia,
+      _horario: hora,
+      _lugar: lugar
+    }
+    this.setState({ 
+      listaDHL: [...this.state.listaDHL, varDHL] ,
+      dia:"",
+      hora:"",
+      lugar:"",
+    });
+
+  }
+
   guardarCurso() {
-    const DHL = [
-      {
-        _dia: this.state.dia,
-        _horario: this.state.hora,
-        _lugar: this.state.lugar
-      }
-    ];
+
     const curso = {
       _alumnos: [],
       _alumnosBaja: [],
       _espera: [],
       _esperaBaja: [],
-      _diasHorariosLugares: DHL,
+      _diasHorariosLugares: this.state.listaDHL,
       _tallerID: this.state.tallerId,
       _comentario: this.state.comentario,
       _cupo: this.state.cupo,
@@ -53,11 +64,11 @@ class NuevoCurso extends React.Component {
     };
     axios
       .post("/api/cursos", curso)
-      .then(function(res) {
-        console.log("se agrego el CURSO " + DHL);
+      .then(function (res) {
+        console.log("se agrego el CURSO ");
       })
       .then(this.cancelarAgregado())
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
@@ -81,7 +92,7 @@ class NuevoCurso extends React.Component {
   agregarDocente() {
     this.setState({ inputPersonaOculto: true });
   }
-  
+
   ocultarNuevaPersona() {
     this.setState({ inputPersonaOculto: false });
   }
@@ -119,7 +130,7 @@ class NuevoCurso extends React.Component {
       return (
         <div className="card mb-2 mt-2">
           <p>Profesores:</p>
-          <h5>{this.state.profesores.map(p => p._apellido + " ")}</h5>
+          <h5>{this.state.profesores.map(p => p._apellido + ", " + p._nombre + " / ")}</h5>
         </div>
       );
     }
@@ -208,7 +219,7 @@ class NuevoCurso extends React.Component {
           />
         </div>
         <div className="form-group form-row">
-          <div className="col-md-4">
+          <div className="col-md-2">
             <label htmlFor="cupo">Cupo:</label>
             <input
               type="number"
@@ -221,8 +232,9 @@ class NuevoCurso extends React.Component {
               onChange={event => this.setState({ cupo: event.target.value })}
             />
           </div>
-
-          <div className="col-md-8">
+        </div>
+        <div className="form-group form-row">
+          <div className="col-md-4">
             <label htmlFor="lugar">Lugar:</label>
             <input
               type="text"
@@ -234,9 +246,8 @@ class NuevoCurso extends React.Component {
               onChange={event => this.setState({ lugar: event.target.value })}
             />
           </div>
-        </div>
-        <div className="form-group form-row">
-          <div className="col-md-6">
+
+          <div className="col-md-2">
             <label htmlFor="cupo">Dia:</label>
             <input
               type="text"
@@ -248,7 +259,7 @@ class NuevoCurso extends React.Component {
               onChange={event => this.setState({ dia: event.target.value })}
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-2">
             <label htmlFor="hora">Horario:</label>
             <input
               type="time"
@@ -259,8 +270,15 @@ class NuevoCurso extends React.Component {
               onChange={event => this.setState({ hora: event.target.value })}
             />
           </div>
+          <div className="col-md-2 mt-4">
+            <button
+              className="btn btn-success col-3"
+              onClick={() => this.guardarDHL(this.state.dia,this.state.hora,this.state.lugar)}
+            >
+                <span className="fa fa-plus"> </span> 
+            </button>
+          </div>
         </div>
-
         <div className="form-group form-row">
           <div className="col">
             <label htmlFor="comentario">Comentario:</label>
@@ -279,7 +297,7 @@ class NuevoCurso extends React.Component {
         </div>
 
         {this.mostrarProfesores()}
-        
+
         <AceptarYCancelar
           acceptText={"Guardar Curso"}
           cancelText={"Cancelar"}
@@ -288,7 +306,7 @@ class NuevoCurso extends React.Component {
         >
           <div className="col col-md-3">
             <button
-              className="btn btn-danger col-12"
+              className="btn btn-success col-12"
               onClick={() => this.agregarDocente()}
             >
               Agregar Docente
