@@ -17,7 +17,9 @@ class CrearTaller extends React.Component {
       subCategorias: [],
       agregaSubCategoria: false,
       agregaCategoria: false,
-      disabled: false
+      disabled: false,
+      agregadoUnico:false,
+      borrarSubCategorias:true
     };
   }
 
@@ -101,7 +103,7 @@ seleccionarCategoria(valor) {
 }
 
 validar(){
-    if((this.state.categoria == false) || (this.state.nombre == false) || (this.state.subCategorias == false))
+    if((this.state.categoria === false) || (this.state.nombre === false) || (this.state.subCategorias === false))
         {
           this.setState({ error: true})
         }
@@ -150,7 +152,7 @@ validar(){
           <h3 className="mt-4 mb-4">Nuevo Taller</h3>
 
           <div className="form-group">
-                <label htmlFor="nombreTaller">Nombre</label>
+                <label htmlFor="nombreTaller">Nombre</label>  
                 <input
                   type="text"
                   className="form-control col-md-6 "
@@ -174,6 +176,7 @@ validar(){
                   <button
                     type="button"
                     className="btn btn-primary"
+                    disabled = {this.state.agregadoUnico}
                     icon="fa-plus"
                     onClick={() => this.mostrarDivNuevaCateg()}
                   > 

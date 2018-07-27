@@ -35,6 +35,7 @@ class NuevaSubCategoria extends React.Component {
                         <button
                             type="button"
                             className="btn btn-danger"
+                            disabled = {this.props.padre.state.borrarSubCategorias}
                             onClick={() => this.cancelarAgregado()}>
                             <span className="fa fa-minus">  </span>
                             </button>
@@ -44,11 +45,11 @@ class NuevaSubCategoria extends React.Component {
     }
 
     agregarSubCategoria() {
-        this
-            .props
-            .padre
-            .agregarSubCategoria(this.state.nombreSubCategoria)
-            this.props.padre.setState({error: false})
+        this.props.padre.agregarSubCategoria(this.state.nombreSubCategoria)
+        this.props.padre.setState({
+            error: false,
+            borrarSubCategorias: false
+        })
         this.setState({nombreSubCategoria: ""})
         
     }   
@@ -58,6 +59,9 @@ class NuevaSubCategoria extends React.Component {
         let subC = this.props.padre.state.subCategorias
         subC.splice(subC.length-1,1)
         this.props.padre.setState({subCategorias: subC})
+        if (subC.length === 0){
+            this.props.padre.setState({borrarSubCategorias: true })
+        }
     }
 }
 
