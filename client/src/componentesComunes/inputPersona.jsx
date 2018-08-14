@@ -1,3 +1,5 @@
+const { withAlert } = require('react-alert');
+
 const React = require("react");
 const axios = require("axios");
 const { AceptarYCancelar } = require("./botones.jsx");
@@ -304,9 +306,10 @@ class InputPersona extends React.Component {
         .then(function(response) {
             persona._id = response.data.insertedIds[0];
             self.props.onAccept(persona);
-          
+            self.props.alert.success('Se agregó correctamente');
         })
         .catch(function(error) {
+          self.props.alert.error('Falló el agregar');
           console.log(error);
         });
     } else {
@@ -317,4 +320,4 @@ class InputPersona extends React.Component {
   }
 }
 
-exports.InputPersona = InputPersona;
+exports.InputPersona = withAlert(InputPersona);
