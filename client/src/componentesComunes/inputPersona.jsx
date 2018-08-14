@@ -221,42 +221,7 @@ class InputPersona extends React.Component {
             value={this.state.comentario}
             onChange={event => this.handleChange(event)}
           />
-        </div>
-        {/* <div className="row">
-          <div className="col-12 col-md-2 mb-2">
-            <button
-              id="aceptar"
-              className="btn btn-secondary"
-              onClick={() => this.limpiar()}
-            >
-              Limpiar
-            </button>
-          </div> */}
-          {/* <div className="col-12 col-md mb-2">
-            <div className="row justify-content-end">
-              <div className="col-6 col-md-2">
-                <ModalSGAT
-                  className={"cancelModal"}
-                  color={"danger"}
-                  buttonLabel={"Cancelar"}
-                  title={"Cancelar Persona"}
-                  body={"¿Desea cancelar la persona actual?"}
-                  onAccept={() => this.cancel()}
-                />
-              </div>
-              <div className="col-6 col-md-2">
-                <ModalSGAT
-                  className={"aceptarModal"}
-                  color={"primary"}
-                  buttonLabel={"Aceptar"}
-                  title={"Aceptar Persona"}
-                  body={"¿Desea modificar o agregar la persona actual?"}
-                  onAccept={() => this.aceptarPersona()}
-                />
-              </div>
-            </div>
-          </div>
-        </div> */}
+        </div> 
         <AceptarYCancelar acceptText={"Aceptar"} cancelText={"Cancelar"}
           aceptar={() => this.aceptarPersona()} 
           cancelar={() => this.cancel()}
@@ -316,7 +281,6 @@ class InputPersona extends React.Component {
       persona._id = this.state.id;
       self.props.onAccept(persona);
     }
-    // return persona;
   }
 }
 
