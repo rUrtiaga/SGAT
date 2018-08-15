@@ -1,5 +1,3 @@
-const { withAlert } = require('react-alert');
-
 const React = require("react");
 const axios = require("axios");
 const { AceptarYCancelar } = require("./botones.jsx");
@@ -220,11 +218,13 @@ class InputPersona extends React.Component {
             value={this.state.comentario}
             onChange={event => this.handleChange(event)}
           />
-        </div> 
+        </div>
+        
         <AceptarYCancelar acceptText={"Aceptar"} cancelText={"Cancelar"}
-          aceptar={() => this.aceptarPersona()} 
+          aceptar={(alert) => this.aceptarPersona(alert)} 
           cancelar={() => this.cancel()}
         />
+        )}
       </React.Fragment>
     );
   }
@@ -251,7 +251,7 @@ class InputPersona extends React.Component {
     });
   }
 
-  aceptarPersona() {
+  aceptarPersona(alert) {
     let self = this;
     const persona = {
       _dni: parseInt(this.state.dni, 10),
@@ -270,10 +270,10 @@ class InputPersona extends React.Component {
         .then(function(response) {
             persona._id = response.data.insertedIds[0];
             self.props.onAccept(persona);
-            self.props.alert.success('Se creó correctamente ' + persona._apellido + ' '+ persona._nombre);
+            alert.success('Se creó correctamente ' + persona._apellido + ' '+ persona._nombre);
         })
         .catch(function(error) {
-          self.props.alert.error('Falló al crear ' + persona._apellido + ' '+ persona._nombre);
+          alert.error('Falló al crear ' + persona._apellido + ' '+ persona._nombre);
           console.log(error);
         });
     } else {
@@ -283,4 +283,4 @@ class InputPersona extends React.Component {
   }
 }
 
-exports.InputPersona = withAlert(InputPersona);
+exports.InputPersona = InputPersona;
