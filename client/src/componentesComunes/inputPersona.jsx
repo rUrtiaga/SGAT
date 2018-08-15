@@ -3,7 +3,6 @@ const { withAlert } = require('react-alert');
 const React = require("react");
 const axios = require("axios");
 const { AceptarYCancelar } = require("./botones.jsx");
-// const { ModalSGAT } = require("./modal.jsx");
 
 class InputPersona extends React.Component {
   constructor(props) {
@@ -271,10 +270,10 @@ class InputPersona extends React.Component {
         .then(function(response) {
             persona._id = response.data.insertedIds[0];
             self.props.onAccept(persona);
-            self.props.alert.success('Se agregó correctamente');
+            self.props.alert.success('Se creó correctamente ' + persona._apellido + ' '+ persona._nombre);
         })
         .catch(function(error) {
-          self.props.alert.error('Falló el agregar');
+          self.props.alert.error('Falló al crear ' + persona._apellido + ' '+ persona._nombre);
           console.log(error);
         });
     } else {

@@ -31,13 +31,13 @@ const options = {
   //     // options contains all alert given options
   //     // message is the alert message...
   //     // close is a function that closes the alert
-  //     const { style, options, message, close } = this.props
+  //     const {  options, message, close } = this.props
    
   //     return (
-  //       <div style={style}>
-  //         {options.type === 'info' && '!'}
-  //         {options.type === 'success' && ':)'}
-  //         {options.type === 'error' && ':('}
+  //       <div class={"alert alert-"+ options.type} role="alert">
+  //         {options.type === 'info' && ''}
+  //         {options.type === 'success' && '=D' }
+  //         {options.type === 'error' && ''}
   //         {message}
   //         <button onClick={close}>X</button>
   //       </div>
