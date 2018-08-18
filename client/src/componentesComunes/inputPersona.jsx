@@ -1,7 +1,6 @@
 const React = require("react");
 const axios = require("axios");
 const { AceptarYCancelar } = require("./botones.jsx");
-// const { ModalSGAT } = require("./modal.jsx");
 
 class InputPersona extends React.Component {
   constructor(props) {
@@ -220,45 +219,12 @@ class InputPersona extends React.Component {
             onChange={event => this.handleChange(event)}
           />
         </div>
-        {/* <div className="row">
-          <div className="col-12 col-md-2 mb-2">
-            <button
-              id="aceptar"
-              className="btn btn-secondary"
-              onClick={() => this.limpiar()}
-            >
-              Limpiar
-            </button>
-          </div> */}
-          {/* <div className="col-12 col-md mb-2">
-            <div className="row justify-content-end">
-              <div className="col-6 col-md-2">
-                <ModalSGAT
-                  className={"cancelModal"}
-                  color={"danger"}
-                  buttonLabel={"Cancelar"}
-                  title={"Cancelar Persona"}
-                  body={"¿Desea cancelar la persona actual?"}
-                  onAccept={() => this.cancel()}
-                />
-              </div>
-              <div className="col-6 col-md-2">
-                <ModalSGAT
-                  className={"aceptarModal"}
-                  color={"primary"}
-                  buttonLabel={"Aceptar"}
-                  title={"Aceptar Persona"}
-                  body={"¿Desea modificar o agregar la persona actual?"}
-                  onAccept={() => this.aceptarPersona()}
-                />
-              </div>
-            </div>
-          </div>
-        </div> */}
+        
         <AceptarYCancelar acceptText={"Aceptar"} cancelText={"Cancelar"}
-          aceptar={() => this.aceptarPersona()} 
+          aceptar={(alert) => this.aceptarPersona(alert)} 
           cancelar={() => this.cancel()}
         />
+        )}
       </React.Fragment>
     );
   }
@@ -285,7 +251,7 @@ class InputPersona extends React.Component {
     });
   }
 
-  aceptarPersona() {
+  aceptarPersona(alert) {
     let self = this;
     const persona = {
       _dni: parseInt(this.state.dni, 10),
@@ -304,16 +270,16 @@ class InputPersona extends React.Component {
         .then(function(response) {
             persona._id = response.data.insertedIds[0];
             self.props.onAccept(persona);
-          
+            alert.success('Se creó correctamente ' + persona._apellido + ' '+ persona._nombre);
         })
         .catch(function(error) {
+          alert.error('Falló al crear ' + persona._apellido + ' '+ persona._nombre);
           console.log(error);
         });
     } else {
       persona._id = this.state.id;
       self.props.onAccept(persona);
     }
-    // return persona;
   }
 }
 
