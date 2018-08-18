@@ -63,7 +63,9 @@ class NuevaCategoria extends React.Component {
             
         this.props.padre.setState({ 
             agregaCategoria: false,
+            agregadoUnico:true,
             categorias: [...this.props.padre.state.categorias, self.state.nombreCategoria]
+            
         })
         
     }
