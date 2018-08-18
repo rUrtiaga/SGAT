@@ -11,6 +11,19 @@ Enzyme.configure({ adapter: new Adapter() });
 const { InputPersona } = require("../componentesComunes/inputPersona.jsx");
 
 var mock = new MockAdapter(axios);
+class FakeAlert {
+  success(m){
+    return true
+  }
+  error(m){
+    return true
+  }
+  show(m){
+    return true
+  }
+}
+
+var fakeAlert = new FakeAlert()
 
 describe("React input Persona", () => {
   it("persona inicializado en vacio", done => {
@@ -87,8 +100,7 @@ describe("React input Persona", () => {
           expect(jsonData._dni).toEqual(data._dni);
           return [201, {'insertedIds':["unid"]}];
         });
-        i.instance().aceptarPersona().then(()=>done())
-        
+        i.instance().aceptarPersona(fakeAlert).then(()=>done())
       });
   });
 });

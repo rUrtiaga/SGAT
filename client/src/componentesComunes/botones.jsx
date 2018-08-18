@@ -1,4 +1,5 @@
 const React = require("react");
+const { Alert } = require('react-alert');
 
 class AceptarYCancelar extends React.Component {
   render() {
@@ -15,13 +16,17 @@ class AceptarYCancelar extends React.Component {
           </button>
         </div>
         <div className="col-md-2">
-          <button
-            id="aceptar"
-            className="btn btn-primary col-12"
-            onClick={() => this.props.aceptar()}
-          >
-            {this.props.acceptText}
-          </button>
+          <Alert>
+            {alert => (
+              <button
+                id="aceptar"
+                className="btn btn-primary col-12"
+                onClick={() => this.props.aceptar(alert)}
+              >
+                {this.props.acceptText}
+              </button>
+            )}
+          </Alert>
         </div>
       </div>
     );

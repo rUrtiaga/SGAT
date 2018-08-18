@@ -18,7 +18,6 @@ El S.G.A.T. (Sistema de gestion y administracion de talleres) está pensado para
 
 * [Trello](https://trello.com/b/YrwmqoNK/talleres)
 
-====
 
 ## Ejecución 
 #### 🐋 Docker
@@ -37,3 +36,8 @@ $ cd sgat
 $ npm run instalar
 $ npm run dev
 ```
+
+
+#### Librerias externas
+
+[React-alert](https://www.npmjs.com/package/react-alert) - notificaciones
