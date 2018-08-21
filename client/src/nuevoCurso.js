@@ -1,6 +1,8 @@
 const React = require("react");
 const axios = require("axios");
 
+const { Alert } = require('react-alert');
+
 const { Selector } = require("./componentesComunes/selector.jsx");
 const { InputPersona } = require("./componentesComunes/inputPersona.jsx");
 const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
@@ -66,7 +68,7 @@ class NuevoCurso extends React.Component {
         this.setState({borrarDHL: true })
     }
   }
-  guardarCurso() {
+  guardarCurso(alert) {
 
     const curso = {
       _alumnos: [],
@@ -83,10 +85,12 @@ class NuevoCurso extends React.Component {
       .post("/api/cursos", curso)
       .then(function (res) {
         console.log("se agrego el CURSO ");
+        alert.success('Se creó correctamente el nuevo CURSO');
       })
       .then(this.cancelarAgregado())
       .catch(function (error) {
         console.log(error);
+        alert.error('Fallo al crear el nuevo CURSO');
       });
   }
 
@@ -201,24 +205,15 @@ class NuevoCurso extends React.Component {
               {this.mostrarDhl}
               {this.mostrarProfesores()}
             </div>
-            <div className="row justify-content-center mt-2">
-              <div className="col-md-2">
-                <button
-                  className="btn btn-danger"
-                  onClick={() => this.volver()}
-                >
-                  Volver
-                </button>
-              </div>
-              <div className="col-md-2">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => this.guardarCurso()}
-                >
-                  Confirmar
-                </button>
-              </div>
-            </div>
+  
+              <AceptarYCancelar
+                acceptText={"Aceptar"}
+                cancelText={"Volver"}
+                cancelar={() => this.volver()}
+                aceptar={(alert) => this.guardarCurso(alert)}
+              >
+            </AceptarYCancelar>    
+                
           </div>
         </div>
       </div>

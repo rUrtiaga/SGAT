@@ -6,6 +6,8 @@ const {MuestraCategorias} = require("./componentesComunes/selectMostrarCategoria
 const { NuevaCategoria } = require("./componentesComunes/nuevaCategoria.jsx");
 const {NuevaSubCategoria} = require("./componentesComunes/nuevaSubCategoria.jsx");
 
+const { Alert } = require('react-alert');
+
 
 /*CREAR TALLER*/
 class CrearTaller extends React.Component {
