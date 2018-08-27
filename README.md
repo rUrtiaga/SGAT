@@ -1,4 +1,4 @@
-# SGAT
+# SGAT [![Build Status](https://travis-ci.org/rUrtiaga/SGAT.svg?branch=master)](https://travis-ci.org/rUrtiaga/SGAT)
 
 [GitHub](https://github.com/rUrtiaga/SGAT/)
 
@@ -41,3 +41,6 @@ $ npm run dev
 #### Librerias externas
 
 [React-alert](https://www.npmjs.com/package/react-alert) - notificaciones
+
+
+
