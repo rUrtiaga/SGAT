@@ -33,8 +33,8 @@ Debe tener un daemon mongodb en el puerto por defecto
 ```
 $ git clone <repository>
 $ cd sgat
-$ npm run instalar
-$ npm run dev
+$ npm install
+$ npm start
 ```
 
 
