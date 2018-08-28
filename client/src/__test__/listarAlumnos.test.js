@@ -34,7 +34,8 @@ describe("React Listar Alumnos", () => {
             expect(alumnos.state().listaDeAlumnos[0]._nombre).toEqual("Armando");
             expect(alumnos.state().cupo).toEqual(10);
         })
-        .catch((error) => console.log(error))
+        .catch((error) => //console.log(error) 
+        true )
     })
 
     it("Recupera un Curso con dos Alumnos", () => {
@@ -61,7 +62,8 @@ describe("React Listar Alumnos", () => {
             expect(alumnos.listaDeAlumnos.map(x => x._dni)).toContain(345678);
             expect(alumnos.cupo).toEqual(12);
         })
-        .catch((error) => console.log(error))
+        .catch((error) => //console.log(error)
+        true)
     })
 
 })

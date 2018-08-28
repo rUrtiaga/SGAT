@@ -1,4 +1,4 @@
-# SGAT
+# SGAT [![Build Status](https://travis-ci.org/rUrtiaga/SGAT.svg?branch=master)](https://travis-ci.org/rUrtiaga/SGAT)
 
 [GitHub](https://github.com/rUrtiaga/SGAT/)
 
@@ -33,11 +33,14 @@ Debe tener un daemon mongodb en el puerto por defecto
 ```
 $ git clone <repository>
 $ cd sgat
-$ npm run instalar
-$ npm run dev
+$ npm install
+$ npm start
 ```
 
 
 #### Librerias externas
 
 [React-alert](https://www.npmjs.com/package/react-alert) - notificaciones
+
+
+
