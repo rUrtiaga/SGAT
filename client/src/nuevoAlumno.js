@@ -80,7 +80,7 @@ class NuevoAlumno extends React.Component {
               acceptText={"Si"}
               cancelText={"No"}
               cancelar={() => this.cancel()}
-              aceptar={() => this.aceptarAlumno()}
+              aceptar={alert => this.aceptarAlumno(alert)}
             />
           </React.Fragment>
         ) : null}
@@ -125,7 +125,7 @@ class NuevoAlumno extends React.Component {
     });
   }
 
-  aceptarAlumno() {
+  aceptarAlumno(alert) {
     let self = this;
     axios
       .put("/api/cursos/" + this.state.curso._id + "/alumnos", {
@@ -136,6 +136,7 @@ class NuevoAlumno extends React.Component {
         self.limpiar();
       })
       .catch(function(error) {
+        alert.error(error.response.data.message)
         console.log(error);
       });
   }
