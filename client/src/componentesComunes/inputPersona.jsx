@@ -2,6 +2,7 @@ const React = require("react");
 const axios = require("axios");
 const { AceptarYCancelar } = require("./botones.jsx");
 const { Input } = require("../componentesComunes/Input.jsx");
+const {validate} = require('../validateRegex.js')
 
 class InputPersona extends React.Component {
   constructor(props) {
@@ -27,35 +28,34 @@ class InputPersona extends React.Component {
 
     switch (fieldName) {
       case "mail":
-        let emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        let emailValid = validate.email(value)
         fieldValidationErrors.mail = emailValid
           ? undefined
           : "Correo no valido, ingreselo sin espacios y respetando la convension";
         break;
       case "dni":
-        let dniValid = value.match(/^\d{7,8}$/i);
+        let dniValid = validate.dni(value);
         fieldValidationErrors.dni = dniValid
           ? undefined
           : "D.N.I. no valido, ingrese el dni sin puntos, comas o espacios";
         break;
       case "nombre":
-        fieldValidationErrors.nombre = !value.match(/[0-9]/i)
+        fieldValidationErrors.nombre = validate.sinNumeros(value)
           ? undefined
           : "nombre no valido";
         break;
       case "apellido":
-        fieldValidationErrors.apellido = !value.match(/[0-9]/i)
+        fieldValidationErrors.apellido = validate.sinNumeros(value)
           ? undefined
           : "apellido no valido";
         break;
       case "telPrincipal":
-        fieldValidationErrors.telPrincipal = !value.match(/[A-z]/i)
+        fieldValidationErrors.telPrincipal = validate.soloNumeros(value)
           ? undefined
           : "telefono no valido";
         break;
       case "telSecundario":
-        fieldValidationErrors.telSecundario =
-          value.match(/^\d+$/i) || value == ""
+        fieldValidationErrors.telSecundario = validate.soloNumeros(value)
             ? undefined
             : "telefono no valido";
         break;
