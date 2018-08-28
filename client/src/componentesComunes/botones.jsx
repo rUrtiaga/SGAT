@@ -19,9 +19,10 @@ class AceptarYCancelar extends React.Component {
           <Alert>
             {alert => (
               <button
-                id="aceptar"
-                className="btn btn-primary col-12"
-                onClick={() => this.props.aceptar(alert)}
+              id="aceptar"
+              className="btn btn-primary col-12"
+              onClick={() => this.props.aceptar(alert)}
+               disabled={this.props.disabled}
               >
                 {this.props.acceptText}
               </button>
