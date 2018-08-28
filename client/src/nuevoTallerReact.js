@@ -21,7 +21,10 @@ class CrearTaller extends React.Component {
       agregaCategoria: false,
       disabled: false,
       agregadoUnico:false,
-      borrarSubCategorias:true
+      borrarSubCategorias:true,
+
+      confirmacion:false,
+      inputTaller: false
     };
   }
 

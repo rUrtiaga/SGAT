@@ -15,13 +15,15 @@ class NuevoCurso extends React.Component {
       profesoresId: [],
       listaDHL: [],
       DhlString: [],
+      dias:["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"],
       tallerId: "",
       taller: "",
       cupo: "",
-      dia: "",
+      dia: "Lunes",
       hora: "",
       lugar: "",
       comentario: "",
+     
 
       confirmacion: false,
       inputCurso: false,
@@ -220,6 +222,20 @@ class NuevoCurso extends React.Component {
     );
   }
 
+  manejarSeleccion(event) {
+    this.setState({ dia: event.target.value })
+  }
+
+  desplegarDias() {
+    return this.state.dias.map(c => (
+      <option key={c} value={c}>
+        {c}
+      </option>
+    )
+    
+    );
+  }
+
   inputCurso() {
     return (
       <React.Fragment>
@@ -262,7 +278,14 @@ class NuevoCurso extends React.Component {
 
           <div className="col-md-2">
             <label htmlFor="cupo">Dia:</label>
-            <input
+            <select
+                className="form-control"
+                onChange={this.manejarSeleccion.bind(this)}
+                id="dias">
+                {this.desplegarDias()}
+            </select>
+
+            {/* <input
               type="text"
               max="15"
               className="form-control"
@@ -270,7 +293,7 @@ class NuevoCurso extends React.Component {
               placeholder="Por Ej. Lunes"
               value={this.state.dia}
               onChange={event => this.setState({ dia: event.target.value })}
-            />
+            /> */}
           </div>
           <div className="col-md-2">
             <label htmlFor="hora">Horario:</label>
