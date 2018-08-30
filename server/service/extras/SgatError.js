@@ -1,7 +1,8 @@
 class SgatError extends Error {
-  constructor(m, n) {
+  constructor(m, numeroStatus, listElementos) {
     super(m);
-    this.status = n;
+    this.status = numeroStatus;
+    this.objectForClient = {message:this.message,listElementos}
   }
 }
 
