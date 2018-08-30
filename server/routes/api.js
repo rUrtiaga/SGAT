@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { store } = require("../service/Store.js");
 const { service } = require("../service/service.js");
-const  {validator}  = require("../service/stringValidator.js")
+const { validator }  = require("../service/validator.js")
 
 /**
  * Cursos
