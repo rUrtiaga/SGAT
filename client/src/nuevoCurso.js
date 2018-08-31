@@ -123,6 +123,17 @@ class NuevoCurso extends React.Component {
     this.ocultarNuevaPersona();
   }
 
+  acceptPersona(persona) {
+    this.agregarProfesor(persona);
+  }
+
+  agregarProfesor(persona) {
+    this.setState({ profesores: [...this.state.profesores, persona] });
+    this.setState(
+      { profesoresId: [...this.state.profesoresId, persona._id] },
+      () => this.ocultarNuevaPersona()
+    );
+  }
   nuevaPersona() {
     if (this.state.inputPersonaOculto) {
       return (
@@ -135,17 +146,6 @@ class NuevoCurso extends React.Component {
         />
       );
     }
-  }
-  acceptPersona(persona) {
-    this.agregarProfesor(persona);
-  }
-
-  agregarProfesor(persona) {
-    this.setState({ profesores: [...this.state.profesores, persona] });
-    this.setState(
-      { profesoresId: [...this.state.profesoresId, persona._id] },
-      () => this.ocultarNuevaPersona()
-    );
   }
 
   mostrarProfesores() {
@@ -285,15 +285,6 @@ class NuevoCurso extends React.Component {
                 {this.desplegarDias()}
             </select>
 
-            {/* <input
-              type="text"
-              max="15"
-              className="form-control"
-              id="cupo"
-              placeholder="Por Ej. Lunes"
-              value={this.state.dia}
-              onChange={event => this.setState({ dia: event.target.value })}
-            /> */}
           </div>
           <div className="col-md-2">
             <label htmlFor="hora">Horario:</label>

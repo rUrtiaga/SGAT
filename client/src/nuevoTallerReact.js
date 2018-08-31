@@ -1,11 +1,9 @@
 const React = require("react");
 const axios = require("axios");
-
-
 const {MuestraCategorias} = require("./componentesComunes/selectMostrarCategorias.jsx");
 const { NuevaCategoria } = require("./componentesComunes/nuevaCategoria.jsx");
 const {NuevaSubCategoria} = require("./componentesComunes/nuevaSubCategoria.jsx");
-
+const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
 const { Alert } = require('react-alert');
 
 
@@ -14,6 +12,7 @@ class CrearTaller extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      nombre: "",
       categorias: [],
       // categoria: "",
       subCategorias: [],
@@ -22,6 +21,8 @@ class CrearTaller extends React.Component {
       disabled: false,
       agregadoUnico:false,
       borrarSubCategorias:true,
+
+      errorValidar: false,
 
       confirmacion:false,
       inputTaller: false
@@ -70,29 +71,32 @@ class CrearTaller extends React.Component {
     this.setState({subCategorias: [... this.state.subCategorias, unaSubCategoria]})
   }
 
-  cancelarCreacion() {
+  cancelarAgregado() {
     this.setState({ nombre: "" });
     this.setState({ categoria: "" });
     this.setState({ subCategorias: [] });
   }
 
-  guardarTaller() {
-    const self = this;
-    const taller = {
-      _categoria: self.state.categoria,
-      _nombre: self.state.nombre,
-      _subCategorias: self.state.subCategorias
-    };
+  seleccionarCategoria(valor) {
+    this.setState({ categoria: valor });
+  }
+
+  confirmar(alert) {
     this.validar()
-    if ((!this.state.error)){
-      axios.post("api/talleres ",taller)
-      .then(function(res) {
-        console.log("se agrego el taller " + self.state.nombre);
-      })
-      .then(this.cancelarCreacion());
+    if (this.state.error === true){
+      this.mostrarError(alert)
+    }
+    else{
+      this.setState({ confirmacion: !this.state.confirmacion });
     }
   }
 
+  volver() {
+    this.setState({ confirmacion: false });
+  }
+
+ 
+//Muestra Div con las sub-categorias agregadas hasta el momento
   mostrarSubCategoriasAgregadas(){
     if(!(this.state.subCategorias.length === 0)){
       return (
@@ -103,29 +107,20 @@ class CrearTaller extends React.Component {
     )
   }
 }
-seleccionarCategoria(valor) {
-  this.setState({ categoria: valor });
-}
+
 
 validar(){
-    if((this.state.categoria === false) || (this.state.nombre === false) || (this.state.subCategorias === false))
+    if((this.state.categoria == false) || (this.state.nombre == false) || (this.state.subCategorias == false))
         {
-          this.setState({ error: true})
+          this.setState({ errorValidar: true})
+          console.log("entro al if")
         }
     else{
-      this.setState({ error: false})
+      this.setState({ errorValidar: false})
     }
+  
   }
 
-  mostrarValidacion(){
-    if (this.state.error){
-    return (
-      <div class="alert alert-danger mt-2">
-        <strong>ERROR!</strong> DEBE COMPLETAR SI O SI TODOS LOS CAMPOS!
-       </div>
-    )
-  }
-  }
 
   mostrarMuestraCategoria(){
       return (
@@ -148,9 +143,85 @@ validar(){
       .catch(e=> console.log(e))
   }
 
+  guardarTaller(alert) {
+    const self = this;
+    const taller = {
+      _categoria: self.state.categoria,
+      _nombre: self.state.nombre,
+      _subCategorias: self.state.subCategorias
+    };
+    this.validar()
+    if ((!this.state.errorValidar)){
+      axios
+      .post("api/talleres ",taller)
+      .then(function(res) {
+        console.log("se agrego el taller " + self.state.nombre);
+        alert.success('Se creó correctamente el TALLER ' + taller._nombre);
+        self.setState({confirmacion: false})
+      })
+      .then(this.cancelarAgregado())
+      .catch(function (error) {
+        console.log(error);
+        alert.error('Fallo al crear el nuevo TALLER');
+      });
+    }
+  }
 
-  render() {
-    console.log(this.state.error)
+  mostrarError(alert){
+    alert.error('ERROR - Campos Incompletos');
+  }
+
+  inputOConfirmacion() {
+    console.log(this.state.errorValidar)
+
+    if (this.state.confirmacion === false) {
+      return this.inputTaller();
+    } else {
+        if (this.state.errorValidar){
+          //this.mostrarError(alert) ME GUSTARIA MOSTRAR UN ALERT PERO NO ME SALIO COMO.... 
+          console.log("hubo un error, campos vacios")
+          this.setState({confirmacion: false})
+        }
+        else { return this.datosTallerACrear()};
+    }
+  }
+
+//Muestra div con los datos del taller que esta a punto de crear
+  datosTallerACrear() {
+    return (
+      <div>
+        <div className="card mb-8 mt-2">
+          <div className="form-group">
+            <div className="col-md-6">
+              <h5>Usted esta a punto de crear el siguiente Taller:</h5>
+              <p>
+                {" "}
+                Nombre: <b>{this.state.nombre}</b>
+              </p>
+              <p>
+                {" "}
+                Taller: <b>{this.state.categoria}</b>
+              </p>
+              {this.mostrarSubCategoriasAgregadas()}
+
+            </div>
+  
+              <AceptarYCancelar
+                acceptText={"Aceptar"}
+                cancelText={"Volver"}
+                cancelar={() => this.volver()}
+                aceptar={(alert) => this.guardarTaller(alert)}
+              >
+            </AceptarYCancelar>    
+                
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  //div con los campos a llenar para la creacion de un taller
+  inputTaller(){
     return (
       <div className="container">
         <form>
@@ -198,33 +269,28 @@ validar(){
               {//muestra panel de nuevo NIVEL
               this.nuevaSubCategoria()}
               {this.mostrarSubCategoriasAgregadas()}
-              <div className="form-row">
-                
-                  <button
-                    type="button"
-                    className="col-md-2 m-2 btn btn-danger "
-                    onClick={() => this.cancelarCreacion()}>
-                    <span className="fa fa-trash"></span>
-                  </button>
-               
-                
-                  <button
-                    type="button"
-                    className="col-md-2 m-2 btn btn-primary "
-                    onClick={() => this.guardarTaller()}>
-                    <span className="fa fa-save"> </span>
-                  </button>
-                
-              </div>
+              <AceptarYCancelar
+                  acceptText={"Guardar Taller"}
+                  cancelText={"Cancelar"}
+                  cancelar={() => this.cancelarAgregado()}
+                  aceptar={() => this.confirmar()}
+                >
+              </AceptarYCancelar>
               </div>
           </div>
         </form>
-         
-         
-         {this.mostrarValidacion()}
-     
+
       </div>
     );
+  }
+
+  render() {
+    return(
+          <div className="container">
+            <h3 className="mt-4 mb-4">Nuevo Taller</h3>
+            {this.inputOConfirmacion()}
+          </div>
+    )
   }
 }
 module.exports.CrearTaller = CrearTaller;
