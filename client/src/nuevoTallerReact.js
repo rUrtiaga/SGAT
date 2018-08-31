@@ -101,8 +101,11 @@ class CrearTaller extends React.Component {
       return (
         <div className="card mb-2 mt-2" >
         <p>SubCategorias Agregadas:</p>
-        <h4>{this.state.subCategorias.map( subC => subC + " ")}</h4>
-        </div>
+        <button type="button" class="btn btn-light">{this.state.subCategorias.map( subC => subC + " ")}</button>
+        {
+          //<h4>{this.state.subCategorias.map( subC => subC + " ")}</h4>
+        }
+          </div>
     )
   }
 }
@@ -112,7 +115,6 @@ validar(){
     if((this.state.categoria == false) || (this.state.nombre == false) || (this.state.subCategorias == false))
         {
           this.setState({ errorValidar: true})
-          console.log("entro al if")
         }
     else{
       this.setState({ errorValidar: false})
@@ -154,7 +156,6 @@ validar(){
       axios
       .post("api/talleres ",taller)
       .then(function(res) {
-        console.log("se agrego el taller " + self.state.nombre);
         alert.success('Se creó correctamente el TALLER ' + taller._nombre);
         self.setState({confirmacion: false})
       })

@@ -86,7 +86,6 @@ class NuevoCurso extends React.Component {
     axios
       .post("/api/cursos", curso)
       .then(function (res) {
-        console.log("se agrego el CURSO ");
         alert.success('Se creó correctamente el nuevo CURSO');
       })
       .then(this.cancelarAgregado())
