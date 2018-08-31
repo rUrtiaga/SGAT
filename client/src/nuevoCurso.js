@@ -18,7 +18,7 @@ class NuevoCurso extends React.Component {
       dias:["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"],
       tallerId: "",
       taller: "",
-      cupo: "",
+      cupo: "0",
       dia: "Lunes",
       hora: "",
       lugar: "",
