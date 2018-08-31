@@ -101,9 +101,9 @@ class CrearTaller extends React.Component {
       return (
         <div className="card mb-2 mt-2" >
         <p>SubCategorias Agregadas:</p>
-        <button type="button" class="btn btn-light">{this.state.subCategorias.map( subC => subC + " ")}</button>
+        <h4>{this.state.subCategorias.map( subC => subC + " ")}</h4>
         {
-          //<h4>{this.state.subCategorias.map( subC => subC + " ")}</h4>
+        //<button type="button" class="btn btn-light">{this.state.subCategorias.map( subC => subC + " ")}</button>
         }
           </div>
     )
