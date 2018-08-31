@@ -2,7 +2,7 @@ const React = require("react");
 const axios = require("axios");
 const { AceptarYCancelar } = require("./botones.jsx");
 const { Input } = require("../componentesComunes/Input.jsx");
-const {validate} = require('../validateRegex.js')
+const { validate } = require("../validateRegex.js");
 
 class InputPersona extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class InputPersona extends React.Component {
 
     switch (fieldName) {
       case "mail":
-        let emailValid = validate.email(value)
+        let emailValid = validate.email(value);
         fieldValidationErrors.mail = emailValid
           ? undefined
           : "Correo no valido, ingreselo sin espacios y respetando la convension";
@@ -56,8 +56,8 @@ class InputPersona extends React.Component {
         break;
       case "telSecundario":
         fieldValidationErrors.telSecundario = validate.soloNumeros(value)
-            ? undefined
-            : "telefono no valido";
+          ? undefined
+          : "telefono no valido";
         break;
       default:
         break;
@@ -324,10 +324,18 @@ class InputPersona extends React.Component {
           );
         })
         .catch(function(error) {
+          let listErrors = error.response.data.listElementos;
           alert.error(
             "Falló al crear " + persona._apellido + " " + persona._nombre
           );
-          console.log(error);
+          alert.error(
+            error.response.data.message
+          )
+          if (listErrors) {
+            listErrors.forEach(campoError => {
+              alert.error("Campo " + campoError + " no es valido.");
+            });
+          }
         });
     } else {
       persona._id = this.state.id;

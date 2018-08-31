@@ -2,3 +2,9 @@ language: node_js
 
 node_js:
     - "10"
+
+services: mongodb
+
+before_script:
+  - sleep 10
+  - mongo sgat --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'

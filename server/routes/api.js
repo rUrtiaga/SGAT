@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
-let { controller } = require("../service/controller.js");
 const { store } = require("../service/Store.js");
 const { service } = require("../service/service.js");
+const { validator }  = require("../service/validator.js")
 
 /**
  * Cursos
@@ -134,7 +134,7 @@ router
       .catch(e => next(e));
   })
   .post(function(req, res, next) {
-    //validacion de string y demas aca.
+    validator.validatePerson(req.body).catch(e=>next(e))
     return service
       .pushPersona(req.body)
       .then(data => res.status(201).send(data))
@@ -189,7 +189,7 @@ router
 router.use(function(e, req, res, next) {
   console.log(e);
   if (e.status) {
-    res.status(e.status).send({ message: e.message });
+    res.status(e.status).send(e.objectForClient);
   } else {
     res.status(500).send({ message: e.message });
   }
