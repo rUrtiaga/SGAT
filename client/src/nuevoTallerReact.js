@@ -7,6 +7,7 @@ const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
 const { Alert } = require('react-alert');
 
 
+
 /*CREAR TALLER*/
 class CrearTaller extends React.Component {
   constructor(props) {
@@ -21,9 +22,7 @@ class CrearTaller extends React.Component {
       disabled: false,
       agregadoUnico:false,
       borrarSubCategorias:true,
-
       errorValidar: false,
-
       confirmacion:false,
       inputTaller: false
     };
