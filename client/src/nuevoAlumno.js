@@ -133,6 +133,7 @@ class NuevoAlumno extends React.Component {
       })
       .then(function(response) {
         console.log(response);
+        alert.success("Se agregó el alumno a el curso")
         self.limpiar();
       })
       .catch(function(error) {
