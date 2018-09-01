@@ -235,8 +235,10 @@ validar(){
                   id="nombreTaller"
                   placeholder="introduzca el nombre del Taller"
                   value={this.state.nombre}
-                  onChange={event =>
+                  onChange={event => {
                     this.setState({ nombre: event.target.value })
+                    this.validar()
+                  }
                   }
                 />
               </div>
