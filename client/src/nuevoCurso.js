@@ -122,9 +122,6 @@ class NuevoCurso extends React.Component {
     this.ocultarNuevaPersona();
   }
 
-  acceptPersona(persona) {
-    this.agregarProfesor(persona);
-  }
 
   agregarProfesor(persona) {
     this.setState({ profesores: [...this.state.profesores, persona] });
@@ -141,7 +138,7 @@ class NuevoCurso extends React.Component {
           persona={{}}
           padre={this}
           onCancel={this.cancelarPersona.bind(this)}
-          onAccept={p => this.acceptPersona(p)}
+          onAccept={p => this.agregarProfesor(p)}
         />
       );
     }
@@ -204,7 +201,8 @@ class NuevoCurso extends React.Component {
                 SubCategoria: <b>{this.state.taller._subCategoria}</b>
               </p>
               {this.mostrarDhl}
-              {this.mostrarProfesores()}
+              {this.profesoresOAviso()}
+              {this.dhlOAviso()}
             </div>
   
               <AceptarYCancelar
@@ -233,6 +231,27 @@ class NuevoCurso extends React.Component {
     )
     
     );
+  }
+  profesoresOAviso(){
+    if(this.state.profesores.length === 0){
+      return (
+        <div class="alert alert-warning" role="alert">
+          Aviso!: no se ha asignado ningún Profesor.
+        </div>
+      )
+    }
+    else{return this.mostrarProfesores}  
+  }
+
+  dhlOAviso(){
+    if(this.state.DhlString.length === 0){
+      return (
+        <div class="alert alert-warning" role="alert">
+          Aviso!: no se ha asignado dia, horario y lugar.
+        </div>
+      )
+    }
+    else{return this.mostrarDhl}  
   }
 
   inputCurso() {

@@ -272,6 +272,7 @@ validar(){
               <AceptarYCancelar
                   acceptText={"Guardar Taller"}
                   cancelText={"Cancelar"}
+                  disabled={!this.state.errorValidar}
                   cancelar={() => this.cancelarAgregado()}
                   aceptar={() => this.confirmar()}
                 >
