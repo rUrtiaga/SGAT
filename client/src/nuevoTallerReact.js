@@ -290,7 +290,6 @@ validar(){
   render() {
     return(
           <div className="container">
-            <h3 className="mt-4 mb-4">Nuevo Taller</h3>
             {this.inputOConfirmacion()}
           </div>
     )
