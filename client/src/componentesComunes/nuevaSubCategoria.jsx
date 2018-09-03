@@ -51,6 +51,7 @@ class NuevaSubCategoria extends React.Component {
             borrarSubCategorias: false
         })
         this.setState({nombreSubCategoria: ""})
+        this.props.padre.validar()
         
     }   
 
