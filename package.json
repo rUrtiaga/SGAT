@@ -13,5 +13,12 @@
   },
   "dependencies": {
     "jest": "^23.5.0"
+  },
+  "engine":{
+    "name": "SGAT",
+    "version": "0.0.1",
+    "engines": {
+      "node": "10.9.0"
+    }
   }
 }
