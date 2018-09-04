@@ -15,7 +15,7 @@ import { Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
 
-axios.defaults.baseURL = process.env.PROXY_API || 'http://localhost:3001'
+axios.defaults.baseURL = process.env.PROXY_API+":"+process.env.PORT || 'http://localhost:3001'
 
 // optional cofiguration de las notificaciones
 const options = {
