@@ -21,6 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "node ./src/forBuild/proxyApiGenerator.js",
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject"
@@ -39,8 +40,5 @@
     "lodash.defaultto": "^4.14.0",
     "lodash.range": "3.2.0",
     "lodash.sortby": "4.7.0"
-  },
-  "foBuilding":{
-    "homepage" : "../server/public/"
   }
 }
