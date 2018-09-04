@@ -1,8 +1,26 @@
+// import { pdfPrinter }  from "pdfmake/build/pdfmake";
+// import { pdfFonts }  from "pdfmake/build/vfs_fonts";
+
 const React = require('react')
 const axios = require('axios')
 
+
 const infoPersona = require("./componentesComunes/infoPersona.jsx");
 // const panelDeImpresion = require("./componentesComunes/PanelDeImpresion");
+
+// const fonts = require('pdfmake/build/vfs_fonts');
+// const pdfPrinter = require('pdfmake/build/pdfmake');
+
+// const pdfDoc = require('pdfmake/build/pdfmake.js');
+// const fonts = require('pdfmake/build/vfs_fonts.js');
+
+// import pdfPrinter from "pdfmake/build/pdfmake";
+// import pdfFonts from "pdfmake/build/vfs_fonts";
+// pdfPrinter.vfs = pdfFonts.pdfPrinter.vfs;
+
+var pdfMake = require('pdfmake/build/pdfmake.js');
+var pdfFonts = require('pdfmake/build/vfs_fonts.js');
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 /***********************************************
  Alumnos
@@ -86,7 +104,7 @@ class ListarAlumnos extends React.Component {
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        {this.encabezadoDeTabla(["Doc. Nro.", "Apellido", "Nombre",
+                        {this.encabezadoDeTabla(["Printer. Nro.", "Apellido", "Nombre",
                             "Teléfono", "e-Mail"])
                         }
                     </tr>
@@ -150,8 +168,45 @@ class ListarAlumnos extends React.Component {
     }
 
     imprimirAlumnos() { 
-        window.print()
+        var docDefinition = {
+            content: [
+                {
+                    headerRows: 1,
+                    style: 'tableExample',
+                    table: {
+                        body: [
+                            [{ text: 'Nombre ', style: 'tableHeader' },
+                            { text: 'Apellido ', style: 'tableHeader' },
+                            { text: 'Doc. Nro.: ', style: 'tableHeader' }],
+                            [
+                                'Juan',
+                                'Perez',
+                                '12345'
+                            ],
+                            [
+                                'Diego',
+                                'Lopez',
+                                '234567'
+                            ],
+                            [
+                                'Ana',
+                                'Catao',
+                                '345678'
+                            ]
+                        ]
+                    },
+                    layout: {
+                        fillColor: function (i, node) {
+                            return (i % 2 === 0) ? '#CCCCCC' : null;
+                        }
+                    }
+                },
+            ]
+        };
+        pdfMake.createPdf(docDefinition).open();
+        
     }
+    
 
     /** ---   Botones   --- */
     botonDetalle(alumno) {
@@ -175,7 +230,7 @@ class ListarAlumnos extends React.Component {
     // Botón -  parámetro con valor por defecto
     botonStandard(label, accion, clasesAdicionales = "btn-info", glypIcon) {
         return (
-            <button className={"btn " + clasesAdicionales} style={{ marginRight: "12px" }} onClick={accion}>
+            <button className={"btn d-print-none " + clasesAdicionales} style={{ marginRight: "12px" }} onClick={accion}>
                 <span className={"fa " + glypIcon}> {label} </span>
             </button>
         )
