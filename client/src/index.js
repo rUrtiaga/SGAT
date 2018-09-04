@@ -8,7 +8,7 @@ import '../node_modules/jquery/dist/jquery.js'
 import '../node_modules/bootstrap/dist/js/bootstrap'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import '../node_modules/font-awesome/css/font-awesome.min.css'; 
-const process = require("process");
+import process from 'process';
 
 //Para las notificaciones
 import { Provider as AlertProvider } from 'react-alert';
