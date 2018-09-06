@@ -1,26 +1,13 @@
-// import { pdfPrinter }  from "pdfmake/build/pdfmake";
-// import { pdfFonts }  from "pdfmake/build/vfs_fonts";
-
 const React = require('react')
 const axios = require('axios')
 
-
 const infoPersona = require("./componentesComunes/infoPersona.jsx");
-// const panelDeImpresion = require("./componentesComunes/PanelDeImpresion");
-
-// const fonts = require('pdfmake/build/vfs_fonts');
-// const pdfPrinter = require('pdfmake/build/pdfmake');
-
-// const pdfDoc = require('pdfmake/build/pdfmake.js');
-// const fonts = require('pdfmake/build/vfs_fonts.js');
-
-// import pdfPrinter from "pdfmake/build/pdfmake";
-// import pdfFonts from "pdfmake/build/vfs_fonts";
-// pdfPrinter.vfs = pdfFonts.pdfPrinter.vfs;
 
 var pdfMake = require('pdfmake/build/pdfmake.js');
 var pdfFonts = require('pdfmake/build/vfs_fonts.js');
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+var mesActual = new Date().getMonth;
 
 /***********************************************
  Alumnos
@@ -171,29 +158,30 @@ class ListarAlumnos extends React.Component {
         var docDefinition = {
             content: [
                 {
-                    headerRows: 1,
-                    style: 'tableExample',
+                  style: 'tableExample',
                     table: {
+                        widths: [80, 80, 60, 60, 50],
+                        headerRows: 2,
                         body: [
-                            [{ text: 'Nombre ', style: 'tableHeader' },
-                            { text: 'Apellido ', style: 'tableHeader' },
-                            { text: 'Doc. Nro.: ', style: 'tableHeader' }],
-                            [
-                                'Juan',
-                                'Perez',
-                                '12345'
+                            [{ text: 'Apellido', style: 'tableHeader', colSpan: 1, alignment: 'center' }, 
+                             { text: 'Nombre', style: 'tableHeader', colSpan: 1, alignment: 'center'},
+                             { text: 'Doc. Nro.:', style: 'tableHeader', colspan: 1, alignment: 'center' },
+                             { text: 'Doc. 2ro.:', style: 'tableHeader', colspan: 1, alignment: 'center' },
+                             { text: 'Doc. 3ro.:', style: 'tableHeader', colspan: 1, alignment: 'center' }
                             ],
                             [
-                                'Diego',
-                                'Lopez',
-                                '234567'
+                                { text: ' ', style: 'tableHeader', alignment: 'center' }, 
+                                { text: ' ', style: 'tableHeader', alignment: 'center' },
+                                { text: ' ', style: 'tableHeader', alignment: 'center' },
+                                { text: ' ', style: 'tableHeader', alignment: 'center' },
+                                { text: ' ', style: 'tableHeader', alignment: 'center' }
                             ],
-                            [
-                                'Ana',
-                                'Catao',
-                                '345678'
-                            ]
-                        ]
+                            ['Sample value 1', 
+                            'Sample value 2', 
+                            'Sample value 11', 
+                            'Sample value 12',
+                            'Sample value 3']
+				        ] 
                     },
                     layout: {
                         fillColor: function (i, node) {
@@ -203,6 +191,7 @@ class ListarAlumnos extends React.Component {
                 },
             ]
         };
+        
         pdfMake.createPdf(docDefinition).open();
         
     }
