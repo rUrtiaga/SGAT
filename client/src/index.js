@@ -8,14 +8,15 @@ import '../node_modules/jquery/dist/jquery.js'
 import '../node_modules/bootstrap/dist/js/bootstrap'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import '../node_modules/font-awesome/css/font-awesome.min.css'; 
+import proxyApi from './forBuild/proxyApi.js'
 
 
 //Para las notificaciones
 import { Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
-
-axios.defaults.baseURL = process.env.PROXY_API || 'http://localhost:3001'
+console.log(proxyApi)
+axios.defaults.baseURL = proxyApi
 
 // optional cofiguration de las notificaciones
 const options = {
