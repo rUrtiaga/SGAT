@@ -110,8 +110,8 @@ class CrearTaller extends React.Component {
 
 
 validar(){
-  return (!((this.state.nombre) && (this.state.subCategoria)))
-  }
+  return (!((this.state.nombre) && (this.state.subCategorias.length > 0)))  
+}
 
   mostrarMuestraCategoria(){
       return (
@@ -171,14 +171,14 @@ validar(){
   }
 
   subCategoriasOAviso(){
-    if(this.state.subCategorias.length === 0){
+    if(this.state.subCategorias.length == 0){
       return (
         <div class="alert alert-danger" role="alert">
           ERROR!: no se ha asignado ningúna SubCategoria.
         </div>
       )
     }
-    else{return this.mostrarSubCategoriasAgregadas} 
+    else{return this.mostrarSubCategoriasAgregadas()} 
   }
 
 //Muestra div con los datos del taller que esta a punto de crear
@@ -231,8 +231,8 @@ validar(){
                   placeholder="introduzca el nombre del Taller"
                   value={this.state.nombre}
                   onChange={event => {
-                    this.setState({ nombre: event.target.value })
-                    this.setState({ errorValidar:this.validar()})
+                    this.setState({ nombre: event.target.value,
+                                    errorValidar: this.validar() })
                   }
                   }
                 />
@@ -269,7 +269,7 @@ validar(){
               <AceptarYCancelar
                   acceptText={"Guardar Taller"}
                   cancelText={"Cancelar"}
-                  disabled={!this.state.errorValidar}
+                  disabled={this.validar()}
                   cancelar={() => this.cancelarAgregado()}
                   aceptar={() => this.confirmar()}
                 >
