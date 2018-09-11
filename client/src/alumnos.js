@@ -155,39 +155,42 @@ class ListarAlumnos extends React.Component {
     }
 
     imprimirAlumnos() { 
+        console.log(this.state.listaDeAlumnos);
+        
+        var cuerpo = [];
+        var titulos = ['Apellido', 'Nombre', 'Tel. Principal', 'Asistencia'];
+
+        var lAlumnos = this.state.listaDeAlumnos;
+
+        cuerpo.push(titulos);
+
+        console.log("cuerpo" +" :  " + cuerpo);
+
+            lAlumnos.map(alum => {
+                var fila = []
+                fila.push(alum._apellido);
+                fila.push(alum._nombre);
+                fila.push(alum._telPrincipal);
+                fila.push('');
+                cuerpo.push(fila);
+            });
+
+        console.log(cuerpo);
+            
         var docDefinition = {
+            pageOrientation: 'landscape',
             content: [
                 {
-                  style: 'tableExample',
                     table: {
-                        widths: [80, 80, 60, 60, 50],
-                        headerRows: 2,
-                        body: [
-                            [{ text: 'Apellido', style: 'tableHeader', colSpan: 1, alignment: 'center' }, 
-                             { text: 'Nombre', style: 'tableHeader', colSpan: 1, alignment: 'center'},
-                             { text: 'Doc. Nro.:', style: 'tableHeader', colspan: 1, alignment: 'center' },
-                             { text: 'Doc. 2ro.:', style: 'tableHeader', colspan: 1, alignment: 'center' },
-                             { text: 'Doc. 3ro.:', style: 'tableHeader', colspan: 1, alignment: 'center' }
-                            ],
-                            [
-                                { text: ' ', style: 'tableHeader', alignment: 'center' }, 
-                                { text: ' ', style: 'tableHeader', alignment: 'center' },
-                                { text: ' ', style: 'tableHeader', alignment: 'center' },
-                                { text: ' ', style: 'tableHeader', alignment: 'center' },
-                                { text: ' ', style: 'tableHeader', alignment: 'center' }
-                            ],
-                            ['Sample value 1', 
-                            'Sample value 2', 
-                            'Sample value 11', 
-                            'Sample value 12',
-                            'Sample value 3']
-				        ] 
+                        headerRows: 1,
+                        widths: [100, 100, 80, '*'],
+                        body: cuerpo
                     },
-                    layout: {
-                        fillColor: function (i, node) {
-                            return (i % 2 === 0) ? '#CCCCCC' : null;
-                        }
-                    }
+                    // layout: {
+                    //     fillColor: function (i, node) {
+                    //         return (i % 2 === 0) ? '#CCCCCC' : null;
+                    //     }
+                    // }
                 },
             ]
         };
