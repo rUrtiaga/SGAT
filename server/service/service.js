@@ -152,6 +152,7 @@ class Service {
    *  Personas
    */
 
+
   fetchPersonaDNI(dni) {
     return this.doOperationOnConnection(db => {
       return store.fetchPersonaDNI(db, dni).then(p => {
@@ -191,6 +192,13 @@ class Service {
     });
   }
 
+  //ESTA FUNCION ES SOLO PARA TEST.
+  deleteByID(id){
+    return this.doOperationOnConnection(db => {
+      return store.deleteByID(db,id)
+    })
+  }
+
   isFreeDNI(db, dni) {
     return store.fetchPersonaDNI(db, dni).then(value => {
       if (value == null) {
@@ -225,6 +233,7 @@ class Service {
   pushCategoria(db, categoria) {
     return store.pushCategoria(db, categoria);
   }
+
 }
 
 let service = new Service();

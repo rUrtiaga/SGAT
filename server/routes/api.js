@@ -2,21 +2,18 @@ var express = require("express");
 var router = express.Router();
 const { store } = require("../service/Store.js");
 const { service } = require("../service/service.js");
-const { validator }  = require("../service/validator.js")
+const { validator } = require("../service/validator.js");
 
 /**
  * Cursos
  */
 
-
-router
-  .route("/cursosCompletos")
-  .get(function(req,res,next){
-    service
-      .fetchCursosCompletos()
-      .then(cursos => res.send(cursos))
-      .catch(e => next(e));
-  })
+router.route("/cursosCompletos").get(function(req, res, next) {
+  service
+    .fetchCursosCompletos()
+    .then(cursos => res.send(cursos))
+    .catch(e => next(e));
+});
 
 router
   .route("/cursos")
@@ -27,15 +24,16 @@ router
       .catch(e => next(e));
   })
   .get(function(req, res, next) {
-    if(req.query.tallerID){
-      next()
-      return
+    if (req.query.tallerID) {
+      next();
+      return;
     }
     service
       .fetchCursos()
       .then(cursos => res.send(cursos))
       .catch(e => next(e));
-  }).get(function(req,res,next){
+  })
+  .get(function(req, res, next) {
     service
       .fetchCursosTallerID(req.query.tallerID)
       .then(cursos => res.send(cursos))
@@ -52,7 +50,7 @@ router.get("/cursos/:id", function(req, res, next) {
 router.put("/cursos/:id/alumnos", function(req, res, next) {
   service
     .putAlumnoCurso(req.params.id, req.body._idPersona)
-    .then(() => res.send('OK'))
+    .then(() => res.send("OK"))
     .catch(e => next(e));
 });
 
@@ -134,7 +132,7 @@ router
       .catch(e => next(e));
   })
   .post(function(req, res, next) {
-    validator.validatePerson(req.body).catch(e=>next(e))
+    validator.validatePerson(req.body).catch(e => next(e));
     return service
       .pushPersona(req.body)
       .then(data => res.status(201).send(data))
@@ -144,12 +142,19 @@ router
     //TODO
   });
 
-router.get("/personas/:id", function(req, res, next) {
-  service
-    .fetchPersona(req.params.id)
+router
+  .route("/personas/:id")
+  .get(function(req, res, next) {
+    service
+      .fetchPersona(req.params.id)
+      .then(p => res.json(p))
+      .catch(e => next(e));
+  })
+  .delete(function(req, res, next) {
+    return service.deleteByID(req.params.id)
     .then(p => res.json(p))
-    .catch(e => next(e));
-});
+    .catch(e => next(e));;
+  });
 
 /* CATEGORIAS .*/
 //Este get usa el fetch autosuficiente de STORE
