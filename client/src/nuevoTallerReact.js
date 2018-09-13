@@ -81,13 +81,7 @@ class CrearTaller extends React.Component {
   }
 
   confirmar(alert) {
-    this.validar()
-    if (this.state.error === true){
-      this.mostrarError(alert)
-    }
-    else{
-      this.setState({ confirmacion: !this.state.confirmacion });
-    }
+      this.setState({ confirmacion: true });
   }
 
   volver() {
@@ -102,9 +96,6 @@ class CrearTaller extends React.Component {
         <div className="card mb-2 mt-2" >
         <p>SubCategorias Agregadas:</p>
         <h4>{this.state.subCategorias.map( subC => subC + " ")}</h4>
-        {
-        //<button type="button" class="btn btn-light">{this.state.subCategorias.map( subC => subC + " ")}</button>
-        }
           </div>
     )
   }
@@ -112,16 +103,8 @@ class CrearTaller extends React.Component {
 
 
 validar(){
-    if((this.state.categoria == false) || (this.state.nombre == false) || (this.state.subCategorias == false))
-        {
-          this.setState({ errorValidar: true})
-        }
-    else{
-      this.setState({ errorValidar: false})
-    }
-  
-  }
-
+  return (!((this.state.nombre) && (this.state.subCategorias.length > 0)))  
+}
 
   mostrarMuestraCategoria(){
       return (
@@ -151,7 +134,7 @@ validar(){
       _nombre: self.state.nombre,
       _subCategorias: self.state.subCategorias
     };
-    this.validar()
+    this.setState({ errorValidar:this.validar()})
     if ((!this.state.errorValidar)){
       axios
       .post("api/talleres ",taller)
@@ -172,18 +155,23 @@ validar(){
   }
 
   inputOConfirmacion() {
-    console.log(this.state.errorValidar)
+    if (!this.state.confirmacion) {
+      return this.inputTaller()
+    } 
+    else {
+      return this.datosTallerACrear()
+    };
+  }
 
-    if (this.state.confirmacion === false) {
-      return this.inputTaller();
-    } else {
-        if (this.state.errorValidar){
-          //this.mostrarError(alert) ME GUSTARIA MOSTRAR UN ALERT PERO NO ME SALIO COMO.... 
-          console.log("hubo un error, campos vacios")
-          this.setState({confirmacion: false})
-        }
-        else { return this.datosTallerACrear()};
+  subCategoriasOAviso(){
+    if(this.state.subCategorias.length === 0){
+      return (
+        <div class="alert alert-danger" role="alert">
+          ERROR!: no se ha asignado ningúna SubCategoria.
+        </div>
+      )
     }
+    else{return this.mostrarSubCategoriasAgregadas()} 
   }
 
 //Muestra div con los datos del taller que esta a punto de crear
@@ -202,7 +190,7 @@ validar(){
                 {" "}
                 Taller: <b>{this.state.categoria}</b>
               </p>
-              {this.mostrarSubCategoriasAgregadas()}
+              {this.subCategoriasOAviso()}
 
             </div>
   
@@ -236,8 +224,8 @@ validar(){
                   placeholder="introduzca el nombre del Taller"
                   value={this.state.nombre}
                   onChange={event => {
-                    this.setState({ nombre: event.target.value })
-                    this.validar()
+                    this.setState({ nombre: event.target.value,
+                                    errorValidar: this.validar() })
                   }
                   }
                 />
@@ -274,7 +262,7 @@ validar(){
               <AceptarYCancelar
                   acceptText={"Guardar Taller"}
                   cancelText={"Cancelar"}
-                  disabled={!this.state.errorValidar}
+                  disabled={this.validar()}
                   cancelar={() => this.cancelarAgregado()}
                   aceptar={() => this.confirmar()}
                 >
