@@ -91,7 +91,7 @@ class ListarAlumnos extends React.Component {
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        {this.encabezadoDeTabla(["Printer. Nro.", "Apellido", "Nombre",
+                        {this.encabezadoDeTabla(["D.N.I. Nro.", "Apellido", "Nombre",
                             "Teléfono", "e-Mail"])
                         }
                     </tr>
@@ -152,6 +152,7 @@ class ListarAlumnos extends React.Component {
         this.setState({
             listaDeAlumnos: codigo
         })
+        
     }
 
     imprimirAlumnos() { 
@@ -217,7 +218,7 @@ class ListarAlumnos extends React.Component {
     // Botón -  parámetro con valor por defecto
     botonStandard(label, accion, clasesAdicionales = "btn-info", glypIcon) {
         return (
-            <button className={"btn d-print-none " + clasesAdicionales} style={{ marginRight: "12px" }} onClick={accion}>
+            <button className={"btn " + clasesAdicionales} style={{ marginRight: "12px" }} onClick={accion}>
                 <span className={"fa " + glypIcon}> {label} </span>
             </button>
         )
