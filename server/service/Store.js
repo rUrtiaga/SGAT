@@ -44,7 +44,7 @@ class Store {
       db
         .collection("talleres")
         .find({ _categoria: cat })
-        //este agregate era por que pense que tenia que devolver la lista sola podria ser otra consulta 
+        //este agregate era por que pense que tenia que devolver la lista sola podria ser otra consulta
         // .aggregate([
         //   { $match: { _categoria: cat } },
         //   { $group: { _id: "$_nombre" }},
@@ -64,7 +64,7 @@ class Store {
     return this.fetchID(db, "talleres", id);
   }
 
-  fetchCursoRaw(db,id){
+  fetchCursoRaw(db, id) {
     return this.fetchID(db, "cursos", id);
   }
 
@@ -119,18 +119,19 @@ class Store {
       .toArray();
   }
 
-
   fetchCursosCompletos(db) {
     return db
       .collection("cursos")
-      .aggregate([{
-        $lookup: {
-          from:"personas",
-          localField:"_profesores",
-          foreignField:"_id",
-          as:"_profesores"
+      .aggregate([
+        {
+          $lookup: {
+            from: "personas",
+            localField: "_profesores",
+            foreignField: "_id",
+            as: "_profesores"
+          }
         }
-      }])
+      ])
       .toArray();
   }
 
@@ -142,41 +143,43 @@ class Store {
   }
 
   fetchCursosTaller(db, idTaller) {
-    return db
-      .collection("cursos")
-      // .find({ _tallerID: ObjectID(idTaller) })
-      .aggregate([
-        {
-          $match: { _tallerID: ObjectID(idTaller) }
-        },
-        {
-          $lookup: {
-            from: "personas",
-            localField: "_profesores",
-            foreignField: "_id",
-            as: "_profesores"
-          }
-        },
-        {
-          $lookup: {
-            from: "talleres",
-            localField: "_tallerID",
-            foreignField: "_id",
-            as: "_taller"
-          }
-        },
-        {
-          $addFields: {
-            _taller: {
-              $ifNull: [
-                { $arrayElemAt: ["$_taller", 0] },
-                { message: "Problema en taller" }
-              ]
+    return (
+      db
+        .collection("cursos")
+        // .find({ _tallerID: ObjectID(idTaller) })
+        .aggregate([
+          {
+            $match: { _tallerID: ObjectID(idTaller) }
+          },
+          {
+            $lookup: {
+              from: "personas",
+              localField: "_profesores",
+              foreignField: "_id",
+              as: "_profesores"
+            }
+          },
+          {
+            $lookup: {
+              from: "talleres",
+              localField: "_tallerID",
+              foreignField: "_id",
+              as: "_taller"
+            }
+          },
+          {
+            $addFields: {
+              _taller: {
+                $ifNull: [
+                  { $arrayElemAt: ["$_taller", 0] },
+                  { message: "Problema en taller" }
+                ]
+              }
             }
           }
-        }
-      ])
-      .toArray();
+        ])
+        .toArray()
+    );
   }
   pushCurso(db, curso) {
     return db.collection("cursos").insertMany([curso]);
@@ -228,6 +231,36 @@ class Store {
       .find({ categoria: categoria })
       .toArray();
   }
+
+  //ESTA FUNCION ES SOLO PARA TEST.
+  deleteByID(db, id) {
+    return db
+      .collections()
+      .then(collections => findCollection(collections, id))
+      .then(collection =>
+        collection.remove({ _id: ObjectID(id) })
+        .catch(e => {
+          console.log(e);
+          return Promise.reject(e);
+        })
+      ).catch(e => {console.log(e);Promise.reject(e)});
+  }
+}
+
+//Encuentra una coleccion (en una lista de colecciones mongoDB) que contiene un ID especifico, 
+function findCollection(collections, id) {
+  let findedC;
+  let promises = collections.map(collection => {
+   return collection.findOne({ _id: ObjectID(id) })
+    .then(value =>{
+      if(value){
+        findedC = collection
+      }
+      return Promise.resolve()
+    }).catch(e => 
+      {console.log(e);Promise.reject(e)})
+  });
+  return Promise.all(promises).then(()=>findedC).catch(e=>console.log(e))
 }
 
 let store = new Store();
