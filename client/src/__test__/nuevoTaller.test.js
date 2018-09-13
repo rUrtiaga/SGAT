@@ -1,6 +1,8 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:3001/";
+//axios.defaults.baseURL = "http://localhost:3001/";
+const proxyApi = require("../forBuild/proxyApi.js");
+axios.defaults.baseURL = proxyApi.default;
 
 describe("Nuevo Taller API", () => {
   it("guardar un taller", done => {

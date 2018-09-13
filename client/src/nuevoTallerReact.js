@@ -81,14 +81,7 @@ class CrearTaller extends React.Component {
   }
 
   confirmar(alert) {
-    
-    //this.validar()
-    //if (this.state.errorValidar){
-      //this.mostrarError(alert)
-    //}
-    //else{
       this.setState({ confirmacion: true });
-  //}
   }
 
   volver() {
