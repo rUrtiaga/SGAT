@@ -164,7 +164,7 @@ validar(){
   }
 
   subCategoriasOAviso(){
-    if(this.state.subCategorias.length == 0){
+    if(this.state.subCategorias.length === 0){
       return (
         <div class="alert alert-danger" role="alert">
           ERROR!: no se ha asignado ningúna SubCategoria.
