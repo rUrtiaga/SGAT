@@ -8,3 +8,7 @@ services: mongodb
 before_script:
   - sleep 10
   - mongo sgat --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
+
+script:
+  - npm run server &
+  - npm test
