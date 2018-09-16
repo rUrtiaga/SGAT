@@ -2,7 +2,10 @@ const React = require('react')
 const axios = require('axios')
 
 const infoPersona = require("./componentesComunes/infoPersona.jsx");
-// const panelDeImpresion = require("./componentesComunes/PanelDeImpresion");
+
+var pdfMake = require('pdfmake/build/pdfmake.js');
+var pdfFonts = require('pdfmake/build/vfs_fonts.js');
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 /***********************************************
  Alumnos
@@ -86,7 +89,7 @@ class ListarAlumnos extends React.Component {
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        {this.encabezadoDeTabla(["Doc. Nro.", "Apellido", "Nombre",
+                        {this.encabezadoDeTabla(["D.N.I. Nro.", "Apellido", "Nombre",
                             "Teléfono", "e-Mail"])
                         }
                     </tr>
@@ -147,28 +150,66 @@ class ListarAlumnos extends React.Component {
         this.setState({
             listaDeAlumnos: codigo
         })
+        
     }
 
     imprimirAlumnos() { 
-        window.print()
+        var cuerpo = [];
+        var titulosLinea = ['Apellido', 'Nombre', 'Tel. Principal', 'Observaciones', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14'];
+
+        var lAlumnos = this.state.listaDeAlumnos;
+
+        cuerpo.push(titulosLinea);
+
+            lAlumnos.map(alum => {
+                var fila = []
+                fila.push(alum._apellido);
+                fila.push(alum._nombre);
+                fila.push(alum._telPrincipal);
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                fila.push(' ');
+                
+                cuerpo.push(fila);           
+            });
+            
+        var docDefinition = {
+            pageOrientation: 'landscape',
+            content: [
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: [100, 100, 80, 100, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15],
+                        body: cuerpo
+                    },
+                },
+            ]
+        };
+        pdfMake.createPdf(docDefinition).open();   
     }
 
     /** ---   Botones   --- */
     botonDetalle(alumno) {
         return (
             this.botonStandard("Info", () => this.mostrarDatosAlumno(alumno), "btn-info btn-xs", "fa-info")
-            // <button className="btn btn-info btn-xs ml-1 mr-2" onClick={() => this.mostrarDatosAlumno(alumno)}>
-            //     <span className="fa fa-info"> Info  </span>
-            // </button>
         )
     }
     
     botonEliminar(alumno) {
         return (
             this.botonStandard("Eliminar", () => this.eliminarAlumno(alumno), "btn-danger btn-xs", "fa-close") 
-            // <button className="btn btn-danger btn-xs" onClick={() => this.eliminarAlumno(alumno)}>
-            //     <span className="fa fa-close"> Eliminar </span>
-            // </button>
         )
     }
 
