@@ -234,6 +234,11 @@ class Service {
     return store.pushCategoria(db, categoria);
   }
 
+  //Borrar DB
+  deleteDB(){
+    return this.doOperationOnConnection(db=> db.dropDatabase())
+  }
+
 }
 
 let service = new Service();
