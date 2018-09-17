@@ -18,7 +18,7 @@ El S.G.A.T. (Sistema de gestion y administracion de talleres) está pensado para
 
 #### Organizacion
 
-* [Trello](https://trello.com/b/YrwmqoNK/talleres)
+* [Trello](https://trello.com/b/9c0B1g0I/talleres-2)
 
 
 ## Ejecución 
