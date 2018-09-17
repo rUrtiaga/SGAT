@@ -205,7 +205,7 @@ class Service {
         return Promise.resolve();
       } else {
         return Promise.reject(
-          new SgatError("el dni " + dni + " ya se encuentra en el sistema", 400)
+          new SgatError("el dni " + dni + " ya se encuentra en el sistema", 409)
         );
       }
     });
