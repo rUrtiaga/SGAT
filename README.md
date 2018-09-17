@@ -14,6 +14,8 @@ El S.G.A.T. (Sistema de gestion y administracion de talleres) está pensado para
 * JS (ES6)
 * NodeJS
 
+* [Heroku](https://sgat-belg.herokuapp.com/) staging version 
+
 #### Organizacion
 
 * [Trello](https://trello.com/b/YrwmqoNK/talleres)
@@ -34,13 +36,14 @@ Debe tener un daemon mongodb en el puerto por defecto
 $ git clone <repository>
 $ cd sgat
 $ npm install
-$ npm start
+$ npm run dev
 ```
 
 
 #### Librerias externas
 
 [React-alert](https://www.npmjs.com/package/react-alert) - notificaciones
+[PDF-Make](https://www.npmjs.com/package/pdfmake) - impresion de pdfs
 
 
 
