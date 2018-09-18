@@ -217,15 +217,12 @@ class Store {
     return this.updateCurso(db, "_alumnos", idCurso, idPersona);
   }
 
-  actualizarCurso(db, idCurso, idPersona ){
-    return this.actualizarCursoBorraPersona(db, "_alumnosBaja", idCurso, idPersona)
-  }
-  actualizarCursoBorraPersona(db, property, idCurso, idPersona) {
+  agregarPersonaADadosBajaDeCurso(db, idCurso, idPersona) {
     return db
       .collection("cursos")
       .updateOne(
         { _id: ObjectID(idCurso) },
-        { $push: { [property]: ObjectID(idPersona) } }
+        { $push: { ["_alumnosBaja"]: ObjectID(idPersona) } }
       );
   }
 

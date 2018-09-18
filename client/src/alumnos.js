@@ -162,6 +162,7 @@ class ListarAlumnos extends React.Component {
         this.setState({
             listaDeAlumnos: codigo
         })
+        console.log(alumno._dni);
 
     }
 
