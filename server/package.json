@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "server": "node ./bin/www"
+    "inizialiceTestDB": "node ./service/extras/initializeDbforTest.js",
+    "server": "node ./bin/www",
+    "dDB": "node ./service/extras/dropDB.js"
   },
   "dependencies": {
     "babel-preset-env": "^1.7.0",
