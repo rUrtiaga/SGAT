@@ -8,7 +8,6 @@ axios.defaults.baseURL = proxyApi.default;
 
 describe("Nuevo Taller API", () => {
   let ids
-  let indice
 
   afterAll(() => { 
       return axios
@@ -16,8 +15,7 @@ describe("Nuevo Taller API", () => {
       .then(r => {
       })
       .catch(e => {
-        console.log(e);
-      })    
+      })   
   });
 
 
@@ -25,22 +23,36 @@ describe("Nuevo Taller API", () => {
     const taller = {
       _categoria: "Deportes",
       _nombre: "Futbol",
-      _subCategorias: ["inicial"]
+      _subCategorias: ["ninios"]
     };
-    indice = taller._subCategorias.length
     axios
       .post("api/talleres ", taller)
       .then(function(res) {
         expect(res.status).toBe(201);
-        console.log("Se creó correctamente el TALLER " + taller._nombre);
-        ids = res.data.insertedIds;
-        expect(res.status).toBe(201);
+        ids = res.data.insertedIds
         done();
       })
-
       .catch(function(error) {
-        console.log(error);
         fail(error);
       });
   });
-});
+
+  test("guardar un taller duplicado", done => {
+        const taller = {
+          _categoria: "Deportes",
+          _nombre: "futbol",
+          _subCategorias: ["ninios"]
+        };
+      axios
+      .post("api/talleres ", taller)
+      .then(function(res) {
+        done();
+      })
+      .catch(error => {
+        expect(error.response.status).toBe(409);
+        expect(error.response.data.message).toMatch("ya se encuentra un Taller con el nombre: " + taller._nombre)
+        done()
+      });
+  });
+
+}

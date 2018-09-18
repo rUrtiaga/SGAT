@@ -99,7 +99,7 @@
       } else {
         return Promise.reject(
           new SgatError(
-            "ya se encuentra una Taller con el nombre: '" + nombreTaller + "'", 409
+            "ya se encuentra un Taller con el nombre: " + nombreTaller, 409
           )
         );
       }
