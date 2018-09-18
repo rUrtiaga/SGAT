@@ -1,4 +1,6 @@
-const { MongoClient, ObjectID } = require("mongodb");
+const {
+  ObjectID
+} = require("mongodb");
 
 /* Tres cosas de carlos
  *  - no vale abrir mas de una conexion para cada llamada por API
@@ -21,7 +23,9 @@ class Store {
    * Funciones generales
    */
   fetchID(db, col, id) {
-    return db.collection(col).findOne({ _id: ObjectID(id) });
+    return db.collection(col).findOne({
+      _id: ObjectID(id)
+    });
   }
 
   /**
@@ -42,21 +46,26 @@ class Store {
   fetchTalleresCategoria(db, cat) {
     return (
       db
-        .collection("talleres")
-        .find({ _categoria: cat })
-        //este agregate era por que pense que tenia que devolver la lista sola podria ser otra consulta
-        // .aggregate([
-        //   { $match: { _categoria: cat } },
-        //   { $group: { _id: "$_nombre" }},
-        //   { $project: {_nombre: "$_id",_id : 0}}
-        // ])
-        .toArray()
+      .collection("talleres")
+      .find({
+        _categoria: cat
+      })
+      //este agregate era por que pense que tenia que devolver la lista sola podria ser otra consulta
+      // .aggregate([
+      //   { $match: { _categoria: cat } },
+      //   { $group: { _id: "$_nombre" }},
+      //   { $project: {_nombre: "$_id",_id : 0}}
+      // ])
+      .toArray()
     );
   }
   fetchTalleresCatYTaller(db, cat, taller) {
     return db
       .collection("talleres")
-      .find({ _categoria: cat, _nombre: taller })
+      .find({
+        _categoria: cat,
+        _nombre: taller
+      })
       .toArray();
   }
 
@@ -77,9 +86,10 @@ class Store {
   fetchCurso(db, id) {
     return db
       .collection("cursos")
-      .aggregate([
-        {
-          $match: { _id: ObjectID(id) }
+      .aggregate([{
+          $match: {
+            _id: ObjectID(id)
+          }
         },
         {
           $lookup: {
@@ -108,9 +118,12 @@ class Store {
         {
           $addFields: {
             _taller: {
-              $ifNull: [
-                { $arrayElemAt: ["$_taller", 0] },
-                { message: "Problema en taller" }
+              $ifNull: [{
+                  $arrayElemAt: ["$_taller", 0]
+                },
+                {
+                  message: "Problema en taller"
+                }
               ]
             }
           }
@@ -122,16 +135,14 @@ class Store {
   fetchCursosCompletos(db) {
     return db
       .collection("cursos")
-      .aggregate([
-        {
-          $lookup: {
-            from: "personas",
-            localField: "_profesores",
-            foreignField: "_id",
-            as: "_profesores"
-          }
+      .aggregate([{
+        $lookup: {
+          from: "personas",
+          localField: "_profesores",
+          foreignField: "_id",
+          as: "_profesores"
         }
-      ])
+      }])
       .toArray();
   }
 
@@ -145,40 +156,44 @@ class Store {
   fetchCursosTaller(db, idTaller) {
     return (
       db
-        .collection("cursos")
-        // .find({ _tallerID: ObjectID(idTaller) })
-        .aggregate([
-          {
-            $match: { _tallerID: ObjectID(idTaller) }
-          },
-          {
-            $lookup: {
-              from: "personas",
-              localField: "_profesores",
-              foreignField: "_id",
-              as: "_profesores"
-            }
-          },
-          {
-            $lookup: {
-              from: "talleres",
-              localField: "_tallerID",
-              foreignField: "_id",
-              as: "_taller"
-            }
-          },
-          {
-            $addFields: {
-              _taller: {
-                $ifNull: [
-                  { $arrayElemAt: ["$_taller", 0] },
-                  { message: "Problema en taller" }
-                ]
-              }
+      .collection("cursos")
+      // .find({ _tallerID: ObjectID(idTaller) })
+      .aggregate([{
+          $match: {
+            _tallerID: ObjectID(idTaller)
+          }
+        },
+        {
+          $lookup: {
+            from: "personas",
+            localField: "_profesores",
+            foreignField: "_id",
+            as: "_profesores"
+          }
+        },
+        {
+          $lookup: {
+            from: "talleres",
+            localField: "_tallerID",
+            foreignField: "_id",
+            as: "_taller"
+          }
+        },
+        {
+          $addFields: {
+            _taller: {
+              $ifNull: [{
+                  $arrayElemAt: ["$_taller", 0]
+                },
+                {
+                  message: "Problema en taller"
+                }
+              ]
             }
           }
-        ])
-        .toArray()
+        }
+      ])
+      .toArray()
     );
   }
   pushCurso(db, curso) {
@@ -188,10 +203,13 @@ class Store {
   updateCurso(db, property, idCurso, idPersona) {
     return db
       .collection("cursos")
-      .updateOne(
-        { _id: ObjectID(idCurso) },
-        { $push: { [property]: ObjectID(idPersona) } }
-      );
+      .updateOne({
+        _id: ObjectID(idCurso)
+      }, {
+        $push: {
+          [property]: ObjectID(idPersona)
+        }
+      });
   }
 
   updateCursoAlumno(db, idCurso, idPersona) {
@@ -203,7 +221,9 @@ class Store {
   }
 
   fetchPersonaDNI(db, dni) {
-    return db.collection("personas").findOne({ _dni: parseInt(dni) });
+    return db.collection("personas").findOne({
+      _dni: parseInt(dni)
+    });
   }
 
   fetchPersona(db, id) {
@@ -222,13 +242,17 @@ class Store {
   }
 
   pushCategoria(db, categoria) {
-    return db.collection("categorias").insertMany([{ _categoria: categoria }]);
+    return db.collection("categorias").insertMany([{
+      _categoria: categoria
+    }]);
   }
 
   existsCategoria(db, categoria) {
     return db
       .collection("categorias")
-      .find({ categoria: categoria })
+      .find({
+        categoria: categoria
+      })
       .toArray();
   }
 
@@ -238,12 +262,24 @@ class Store {
       .collections()
       .then(collections => findCollection(collections, id))
       .then(collection =>
-        collection.remove({ _id: ObjectID(id) })
+        collection.remove({
+          _id: ObjectID(id)
+        })
         .catch(e => {
           console.log(e);
           return Promise.reject(e);
         })
-      ).catch(e => {console.log(e);Promise.reject(e)});
+      ).catch(e => {
+        console.log(e);
+        Promise.reject(e)
+      });
+  }
+
+  pushInizializeDdTest(db, dbTestObject) {
+    return db.collection("personas").insertMany(dbTestObject.personas)
+      .then(() => db.collection("talleres").insertMany(dbTestObject.talleres))
+      .then(() => db.collection("cursos").insertMany(dbTestObject.cursos))
+      .then(() => db.collection("categorias").insertMany(dbTestObject.categorias))
   }
 }
 
@@ -251,16 +287,20 @@ class Store {
 function findCollection(collections, id) {
   let findedC;
   let promises = collections.map(collection => {
-   return collection.findOne({ _id: ObjectID(id) })
-    .then(value =>{
-      if(value){
-        findedC = collection
-      }
-      return Promise.resolve()
-    }).catch(e => 
-      {console.log(e);Promise.reject(e)})
+    return collection.findOne({
+        _id: ObjectID(id)
+      })
+      .then(value => {
+        if (value) {
+          findedC = collection
+        }
+        return Promise.resolve()
+      }).catch(e => {
+        console.log(e);
+        Promise.reject(e)
+      })
   });
-  return Promise.all(promises).then(()=>findedC).catch(e=>console.log(e))
+  return Promise.all(promises).then(() => findedC).catch(e => console.log(e))
 }
 
 let store = new Store();
