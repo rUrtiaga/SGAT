@@ -74,7 +74,37 @@
       return this.doOperationOnConnection(db => {
         return store.fetchTalleres(db);
       });
-    }
+  }
+  /**
+   * Talleres
+   */
+
+  pushTaller(dataTaller) {
+    let talleres = dataTaller._subCategorias.map(
+      subCat => new Taller(dataTaller, subCat)
+    );
+    let nombre = dataTaller._nombre
+
+    return this.doOperationOnConnection(db => {
+     return this.existTaller(db,nombre).then(() => 
+        store.pushTalleres(db, talleres)
+    );
+  })
+}
+
+  existTaller(db, nombreTaller) {
+    return store.existsTaller(db, nombreTaller).then(talls => {
+      if (talls.length == 0) {
+        return Promise.resolve();
+      } else {
+        return Promise.reject(
+          new SgatError(
+            "ya se encuentra una Taller con el nombre: '" + nombreTaller + "'", 409
+          )
+        );
+      }
+    });
+  }
 
     fetchTalleresCategoria(categoria) {
       return this.doOperationOnConnection(db => {

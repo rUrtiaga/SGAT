@@ -42,6 +42,12 @@ class Store {
       .find()
       .toArray();
   }
+  existsTaller(db, nombreTaller) {
+    return db
+      .collection("talleres")
+      .find({ _nombre: nombreTaller })
+      .toArray();
+  }
 
   fetchTalleresCategoria(db, cat) {
     return (
