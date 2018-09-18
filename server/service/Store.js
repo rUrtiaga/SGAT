@@ -196,6 +196,7 @@ class Store {
       .toArray()
     );
   }
+
   pushCurso(db, curso) {
     return db.collection("cursos").insertMany([curso]);
   }
@@ -211,9 +212,21 @@ class Store {
         }
       });
   }
-
+  
   updateCursoAlumno(db, idCurso, idPersona) {
     return this.updateCurso(db, "_alumnos", idCurso, idPersona);
+  }
+
+  actualizarCurso(db, idCurso, idPersona ){
+    return this.actualizarCursoBorraPersona(db, "_alumnosBaja", idCurso, idPersona)
+  }
+  actualizarCursoBorraPersona(db, property, idCurso, idPersona) {
+    return db
+      .collection("cursos")
+      .updateOne(
+        { _id: ObjectID(idCurso) },
+        { $push: { [property]: ObjectID(idPersona) } }
+      );
   }
 
   updateCursoProfesor(db, idCurso, idPersona) {

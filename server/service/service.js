@@ -148,13 +148,29 @@
       });
     }
 
-    /**
-     *  Personas
-     */
+  deleteAlumnoCurso(idCurso, idPersona){
+    return this.doOperationOnConnection(db => {
+      return store.fetchCurso(db, idCurso).then(dataCurso => {
+        return Curso.sePuedeBorrarAlumno(dataCurso, idPersona)
+        .then(() => store.actualizarCurso(db, idCurso, idPersona))
+        .catch(e => Promise.reject(e));
+      })
+    });  
+  }
 
+  /**
+   * Profesores
+   */
+  postProfesorCurso(idCurso, idPersona) {
+    return this.doOperationOnConnection(db => {
+      return store.updateCursoProfesor(db, idCurso, idPersona);
+    });
+  }
 
-    fetchPersonaDNI(dni) {
-      return this.doOperationOnConnection(db => {
+  /**
+   *  Personas
+   */
+
         return store.fetchPersonaDNI(db, dni).then(p => {
           if (p == null) {
             return Promise.resolve({});

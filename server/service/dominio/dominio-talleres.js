@@ -200,12 +200,22 @@ class Curso {
    */
   static estaRepetidoPersona(dataCurso, idPersona) {
     if (dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) || dataCurso._profesores.some(pOid=> pOid.toString() == idPersona)){
-      return Promise.reject(
-        new SgatError("Esta persona ya se encuentra en el curso", 409)
-      );
+        return Promise.reject(
+            new SgatError("Esta persona ya se encuentra en el curso", 409)
+       );
     }
     return Promise.resolve();
   }
+
+  // Función que revisa que el alumno este en la lista de alumnos, 
+  //   y no se encuentre en la lista de Alumnos de BAJA
+    static sePuedeBorrarAlumno(dataCurso, idPersona) {
+        if (dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) &&  
+            !dataCurso._alumnosBaja.some(pOid=> pOid.toString() == idPersona)){ 
+                return Promise.resolve()
+            };
+        return Promise.error ("No se puede eliminar el alumno", 400)
+    }
 
   addAlumno(alumno) {
     return this._alumnos.push(alumno.getDNI());

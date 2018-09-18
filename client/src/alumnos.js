@@ -2,6 +2,7 @@ const React = require('react')
 const axios = require('axios')
 
 const infoPersona = require("./componentesComunes/infoPersona.jsx");
+// const borraAlumno = require("./componentesComunes/eliminarAlumno.jsx");
 
 var pdfMake = require('pdfmake/build/pdfmake.js');
 var pdfFonts = require('pdfmake/build/vfs_fonts.js');
@@ -20,7 +21,6 @@ class ListarAlumnos extends React.Component {
             listaDeAlumnos: [],
             infoDeAlumno: false,
             mostrarPanelDeAbajo: false,
-            // mostrarPanelDeImpresion: false
         }
     }
 
@@ -46,7 +46,19 @@ class ListarAlumnos extends React.Component {
                 })
             })
             .catch(function (error) {
-                console.log(error)
+                console.log(error);
+            })
+    }
+
+    removeAlumno(alumno){
+        let self = this;
+        return axios.delete('/api/cursos/' + this.props.idCurso + '/alumnos/'+ this.props.alumno.id)
+            .then(function(response){
+                console.log(response.data)
+            })
+            .catch(function(error){
+                console.log(error);
+                
             })
     }
 
@@ -150,7 +162,7 @@ class ListarAlumnos extends React.Component {
         this.setState({
             listaDeAlumnos: codigo
         })
-        
+
     }
 
     imprimirAlumnos() { 
