@@ -4,7 +4,6 @@ const {
 const {
     ObjectID
 } = require("mongodb");
-const process = require("process");
 
 const testDBObject = {
     cursos: [{
