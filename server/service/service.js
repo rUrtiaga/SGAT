@@ -241,14 +241,15 @@
 
     isEmptyDB() {
       return this.doOperationOnConnection(db => {
-        return db.admin().listDatabases()
-          .then(queryDBstatus => !queryDBstatus.databases.some(databaseObj => databaseObj.name == dbName))
-      })
+        return db.listCollections({}, {
+          nameOnly: true
+        }).toArray().then(list => list.length === 0)
+       })
 
     }
 
     initializeForTest(testDBObject) {
-      return this.doOperationOnConnection(db => store.pushInizializeDdTest(db,testDBObject))
+      return this.doOperationOnConnection(db => store.pushInizializeDdTest(db, testDBObject))
     }
   }
 

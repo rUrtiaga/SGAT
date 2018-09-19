@@ -4,7 +4,7 @@ const {
 const {
     ObjectID
 } = require("mongodb");
-
+const process = require("process");
 
 const testDBObject = {
     cursos: [{
@@ -177,11 +177,15 @@ const testDBObject = {
 function inizialice(params) {
     service.isEmptyDB().then(value => {
         if (value) {
-            return service.initializeForTest(testDBObject).then(() => console.log('base de datos inicializada'))
+            return inizialiceQuery();
         } else {
             console.log('no se pudo inicializar la base de datos, si quiere hacerlo borrela.')
         }
     }).catch(e => console.log(e))
+}
+
+function inizialiceQuery() {
+    return service.initializeForTest(testDBObject).then(() => console.log('base de datos inicializada'));
 }
 
 
