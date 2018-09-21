@@ -211,6 +211,18 @@ class Store {
         }
       });
   }
+  //solo para test
+  removeAlumno(db, idCurso, idPersona) {
+    return db
+      .collection("cursos")
+      .updateOne({
+        _id: ObjectID(idCurso)
+      }, {
+        $pull: {
+          _alumnos: ObjectID(idPersona)
+        }
+      });
+  } 
 
   updateCursoAlumno(db, idCurso, idPersona) {
     return this.updateCurso(db, "_alumnos", idCurso, idPersona);
