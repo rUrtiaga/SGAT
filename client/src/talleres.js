@@ -141,15 +141,15 @@ class Botones extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <button className="col-md-4 btn btn-primary">Espera</button>
+        <button className="col-md-3 btn btn-primary mr-1 mb-1">Espera</button>
         <button
-          className="btn btn-primary col-md-4"
+          className="btn btn-primary col-md-3 mr-1 mb-1"
           onClick={v => this.props.seleccionarAlumnos(v)}
         >
           Alumnos
         </button>
         <button
-          className="btn btn-primary col-md-4"
+          className="btn btn-primary col-md-3 mb-1"
           onClick={v => this.props.inscribirAlumno(v)}
         >
           Inscribir

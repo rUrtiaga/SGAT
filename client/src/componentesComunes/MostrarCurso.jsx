@@ -12,7 +12,10 @@ class Curso extends React.Component {
   }
 
   nombresProfes() {
-    return this.state.profesores.map(p => p._nombre + " " + p._apellido + ", ");
+    return this.state.profesores.map(p => p._nombre + " " + p._apellido).join(", ");
+  }
+  pluralProfesores(){
+    return (this.state.profesores.length > 1)?"es":null
   }
 
   render() {
@@ -22,7 +25,7 @@ class Curso extends React.Component {
           <div className="row">
             <div className="col-sm-7">
               <h5 className="card-title ml-sm-2 mb-4">
-                Prof/s: {this.nombresProfes()}
+                Profesor{this.pluralProfesores()}: {this.nombresProfes()}
               </h5>
             </div>
             <div className="col-sm-5 text-right">{this.props.botones}</div>
