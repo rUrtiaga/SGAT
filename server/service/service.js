@@ -129,13 +129,6 @@
      * Alumnos
      */
 
-    deleteAlumnoCurso(idCurso, idAlumno) {
-      return this.doOperationOnConnection(db => {
-        return store.removeAlumno(db, idCurso, idAlumno)
-      });
-    }
-
-
     putAlumnoCurso(idCurso, idPersona) {
       return this.doOperationOnConnection(db => {
         return store.fetchCursoRaw(db, idCurso).then(dataCurso => {

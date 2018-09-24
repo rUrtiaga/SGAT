@@ -188,17 +188,6 @@ router
   });
 
 
-/*
-//Solo para borrar en test
-*/
-
-router.delete("/delete/cursos/:id/alumnos/:idp", function(req, res, next) {
-  service
-    .deleteAlumnoCurso(req.params.id, req.params.idp)
-    .then(() => res.send("OK"))
-    .catch(e => next(e));
-});
-
 /* Manejador de errores
     --debe ir al final del archivo--
 */
