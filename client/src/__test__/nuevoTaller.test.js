@@ -7,15 +7,21 @@ axios.defaults.baseURL = proxyApi.default;
 
 
 describe("Nuevo Taller API", () => {
-  let ids
+  let ids = []
 
-  afterAll(() => { 
-      return axios
-      .delete("api/talleres/" + ids[0])
-      .then(r => {
-      })
-      .catch(e => {
-      })   
+  afterEach(() => { 
+    if (ids.length != 0){
+      for (let index = 0; index < ids.length; index++) {
+        const id = ids[index];
+        return axios
+        .delete("api/talleres/" + id)
+        .then(r => {
+        })
+        .catch(e => {
+        }) 
+      }
+
+    }  
   });
 
 
@@ -41,7 +47,7 @@ describe("Nuevo Taller API", () => {
         const taller = {
           _categoria: "Deportes",
           _nombre: "futbol",
-          _subCategorias: ["ninios"]
+          _subCategorias: ["uno","dos"]
         };
       axios
       .post("api/talleres ", taller)
