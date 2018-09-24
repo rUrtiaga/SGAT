@@ -4,38 +4,44 @@ import axios from "axios";
 const proxyApi = require("../forBuild/proxyApi.js");
 axios.defaults.baseURL = proxyApi.default;
 
+async function borradoids(ides, cant){
 
+  // MODIFICAR POR LA NUEVA VERSION
+  let responses = []
+  try {
+    for (let index = 0; index < cant; index++) {
+      responses.push(await axios.delete("api/talleres/" + ides[index]))
+    }
+  } catch (error) {  
+  }
+  return responses
+
+}
 
 describe("Nuevo Taller API", () => {
-  let ids = []
+  let ids
+  let idsCant = 0
 
   afterEach(() => { 
-    if (ids.length != 0){
-      for (let index = 0; index < ids.length; index++) {
-        const id = ids[index];
-        return axios
-        .delete("api/talleres/" + id)
-        .then(r => {
-        })
-        .catch(e => {
-        }) 
-      }
-
-    }  
-  });
-
+    console.log(idsCant)
+    if (idsCant > 0){
+      borradoids(ids, idsCant)
+      idsCant = 0
+    }
+    })  
 
   test("guardar un taller", done => {
     const taller = {
       _categoria: "Deportes",
       _nombre: "Futbol",
-      _subCategorias: ["ninios"]
+      _subCategorias: ["ninios","adultos","otros"]
     };
     axios
       .post("api/talleres ", taller)
       .then(function(res) {
         expect(res.status).toBe(201);
         ids = res.data.insertedIds
+        idsCant = res.data.insertedCount;
         done();
       })
       .catch(function(error) {
@@ -46,7 +52,7 @@ describe("Nuevo Taller API", () => {
   test("guardar un taller duplicado", done => {
         const taller = {
           _categoria: "Deportes",
-          _nombre: "futbol",
+          _nombre: "Tenis",
           _subCategorias: ["uno","dos"]
         };
       axios
