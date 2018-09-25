@@ -50,14 +50,14 @@ class ListarAlumnos extends React.Component {
             })
     }
 
-    removeAlumno(alumno){
+    removeAlumno(alumnoId){
         let self = this;
-        return axios.delete('/api/cursos/' + this.props.idCurso + '/alumnos/'+ this.props.alumno.id)
+        return axios.delete('/api/cursos/' + this.props.idCurso + '/alumnos/'+ alumnoId)
             .then(function(response){
-                console.log(response.data)
+                console.log("Respuesta: ", response.data)
             })
             .catch(function(error){
-                console.log(error);
+                console.log("Error: ", error);
                 
             })
     }
@@ -162,8 +162,8 @@ class ListarAlumnos extends React.Component {
         this.setState({
             listaDeAlumnos: codigo
         })
-        console.log(alumno._dni);
-
+        console.log(alumno._id);
+        this.removeAlumno(alumno._id)
     }
 
     imprimirAlumnos() { 

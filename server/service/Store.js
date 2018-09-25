@@ -46,17 +46,17 @@ class Store {
   fetchTalleresCategoria(db, cat) {
     return (
       db
-      .collection("talleres")
-      .find({
-        _categoria: cat
-      })
-      //este agregate era por que pense que tenia que devolver la lista sola podria ser otra consulta
-      // .aggregate([
-      //   { $match: { _categoria: cat } },
-      //   { $group: { _id: "$_nombre" }},
-      //   { $project: {_nombre: "$_id",_id : 0}}
-      // ])
-      .toArray()
+        .collection("talleres")
+        .find({
+          _categoria: cat
+        })
+        //este agregate era por que pense que tenia que devolver la lista sola podria ser otra consulta
+        // .aggregate([
+        //   { $match: { _categoria: cat } },
+        //   { $group: { _id: "$_nombre" }},
+        //   { $project: {_nombre: "$_id",_id : 0}}
+        // ])
+        .toArray()
     );
   }
   fetchTalleresCatYTaller(db, cat, taller) {
@@ -86,7 +86,8 @@ class Store {
   fetchCurso(db, id) {
     return db
       .collection("cursos")
-      .aggregate([{
+      .aggregate([
+        {
           $match: {
             _id: ObjectID(id)
           }
@@ -118,7 +119,8 @@ class Store {
         {
           $addFields: {
             _taller: {
-              $ifNull: [{
+              $ifNull: [
+                {
                   $arrayElemAt: ["$_taller", 0]
                 },
                 {
@@ -132,17 +134,42 @@ class Store {
       .toArray();
   }
 
+  //-----------------------------------------------------------------------------------
+  fetchUnCurso(db, id) {
+    return db
+      .collection("cursos")
+      .aggregate([
+        {
+          $match: {
+            _id: ObjectID(id)
+          }
+        },
+        {
+          $lookup: {
+            from: "personas",
+            localField: "_alumnos",
+            foreignField: "_id",
+            as: "_alumnos"
+          }
+        }
+      ]).toArray();
+  }      
+  //-----------------------------------------------------------------------------------
+
+
   fetchCursosCompletos(db) {
     return db
       .collection("cursos")
-      .aggregate([{
-        $lookup: {
-          from: "personas",
-          localField: "_profesores",
-          foreignField: "_id",
-          as: "_profesores"
+      .aggregate([
+        {
+          $lookup: {
+            from: "personas",
+            localField: "_profesores",
+            foreignField: "_id",
+            as: "_profesores"
+          }
         }
-      }])
+      ])
       .toArray();
   }
 
@@ -156,44 +183,46 @@ class Store {
   fetchCursosTaller(db, idTaller) {
     return (
       db
-      .collection("cursos")
-      // .find({ _tallerID: ObjectID(idTaller) })
-      .aggregate([{
-          $match: {
-            _tallerID: ObjectID(idTaller)
-          }
-        },
-        {
-          $lookup: {
-            from: "personas",
-            localField: "_profesores",
-            foreignField: "_id",
-            as: "_profesores"
-          }
-        },
-        {
-          $lookup: {
-            from: "talleres",
-            localField: "_tallerID",
-            foreignField: "_id",
-            as: "_taller"
-          }
-        },
-        {
-          $addFields: {
-            _taller: {
-              $ifNull: [{
-                  $arrayElemAt: ["$_taller", 0]
-                },
-                {
-                  message: "Problema en taller"
-                }
-              ]
+        .collection("cursos")
+        // .find({ _tallerID: ObjectID(idTaller) })
+        .aggregate([
+          {
+            $match: {
+              _tallerID: ObjectID(idTaller)
+            }
+          },
+          {
+            $lookup: {
+              from: "personas",
+              localField: "_profesores",
+              foreignField: "_id",
+              as: "_profesores"
+            }
+          },
+          {
+            $lookup: {
+              from: "talleres",
+              localField: "_tallerID",
+              foreignField: "_id",
+              as: "_taller"
+            }
+          },
+          {
+            $addFields: {
+              _taller: {
+                $ifNull: [
+                  {
+                    $arrayElemAt: ["$_taller", 0]
+                  },
+                  {
+                    message: "Problema en taller"
+                  }
+                ]
+              }
             }
           }
-        }
-      ])
-      .toArray()
+        ])
+        .toArray()
     );
   }
 
@@ -202,17 +231,18 @@ class Store {
   }
 
   updateCurso(db, property, idCurso, idPersona) {
-    return db
-      .collection("cursos")
-      .updateOne({
+    return db.collection("cursos").updateOne(
+      {
         _id: ObjectID(idCurso)
-      }, {
+      },
+      {
         $push: {
           [property]: ObjectID(idPersona)
         }
-      });
+      }
+    );
   }
-  
+
   updateCursoAlumno(db, idCurso, idPersona) {
     return this.updateCurso(db, "_alumnos", idCurso, idPersona);
   }
@@ -252,9 +282,11 @@ class Store {
   }
 
   pushCategoria(db, categoria) {
-    return db.collection("categorias").insertMany([{
-      _categoria: categoria
-    }]);
+    return db.collection("categorias").insertMany([
+      {
+        _categoria: categoria
+      }
+    ]);
   }
 
   existsCategoria(db, categoria) {
@@ -267,10 +299,14 @@ class Store {
   }
 
   pushInizializeDdTest(db, dbTestObject) {
-    return db.collection("personas").insertMany(dbTestObject.personas)
+    return db
+      .collection("personas")
+      .insertMany(dbTestObject.personas)
       .then(() => db.collection("talleres").insertMany(dbTestObject.talleres))
       .then(() => db.collection("cursos").insertMany(dbTestObject.cursos))
-      .then(() => db.collection("categorias").insertMany(dbTestObject.categorias))
+      .then(() =>
+        db.collection("categorias").insertMany(dbTestObject.categorias)
+      );
   }
 }
 
