@@ -4,15 +4,16 @@ import axios from "axios";
 const proxyApi = require("../forBuild/proxyApi.js");
 axios.defaults.baseURL = proxyApi.default;
 
-async function borradoids(ides, cant){
+async function borradoIds(ides, cant){
 
   // MODIFICAR POR LA NUEVA VERSION
   let responses = []
   try {
     for (let index = 0; index < cant; index++) {
-      responses.push(await axios.delete("api/talleres/" + ides[index]))
+      await axios.delete("api/talleres/" + ides[index])
     }
   } catch (error) {  
+    console.log(error)
   }
   return responses
 

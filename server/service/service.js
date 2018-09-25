@@ -93,8 +93,8 @@
 }
 
   existTaller(db, nombreTaller) {
-    return store.existsTaller(db, nombreTaller).then(talls => {
-      if (talls.length == 0) {
+    return store.existsTaller(db, nombreTaller).then(talleres => {
+      if (talleres.length == 0) {
         return Promise.resolve();
       } else {
         return Promise.reject(

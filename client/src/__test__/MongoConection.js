@@ -45,6 +45,12 @@ class Mongo {
             return removeAlumno(db,idCurso,idPersona)
         })    
     }
+    deleteVariosIds(ids){
+        return this.doOperationOnConnection(db => {
+            // HACER FOR PARA BORRAR VARIOS IDS.
+            return deleteByID(db, id)
+        })
+    }
 
 }
 
