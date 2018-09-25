@@ -1,7 +1,11 @@
 const axios = require("axios");
 const proxyApi = require("../forBuild/proxyApi.js");
+const {
+  mongo
+} = require("./MongoConection.js");
 
 axios.defaults.baseURL = proxyApi.default;
+
 
 describe("API Persona  ", () => {
 
@@ -10,20 +14,17 @@ describe("API Persona  ", () => {
 
     //Despues de unos test, borro la persona
     afterAll(done => {
-      return axios
-        .delete("/api/personas/" + id)
-        .then(r => {
-          expect(r.status).toBe(200);
-          done();
-        })
-        .catch(e => {
-          console.log(e);
+      return mongo.deleteID(id).then(r => {
+        expect(r.result).toEqual({
+          "n": 1,
+          "ok": 1
         });
+        done()
+      }).catch(e => console.log(e))
     });
 
 
     test("PUSH persona", done => {
-      // expect.assertions(1);
       return axios
         .post("/api/personas", {
           _dni: 99999999,
@@ -83,7 +84,6 @@ describe("API Persona  ", () => {
     });
 
     test("PUSH persona - fallido mismo dni", done => {
-      // expect.assertions(1);
       return axios
         .post("/api/personas", {
           _dni: 99999999,
@@ -252,7 +252,7 @@ describe("API Persona  ", () => {
           })
       })
       test("no ISO date", done => {
-        let a= new Date('2015-12-31').toDateString()
+        let a = new Date('2015-12-31').toDateString()
         return axios
           .post("/api/personas", {
             _dni: 99999999,

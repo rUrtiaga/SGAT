@@ -79,6 +79,25 @@ function deleteByID(db, id) {
         });
 }
 
+//Encuentra una coleccion (en una lista de colecciones mongoDB) que contiene un ID especifico, 
+function findCollection(collections, id) {
+  let findedC;
+  let promises = collections.map(collection => {
+    return collection.findOne({
+        _id: ObjectID(id)
+      })
+      .then(value => {
+        if (value) {
+          findedC = collection
+        }
+        return Promise.resolve()
+      }).catch(e => {
+        console.log(e);
+        Promise.reject(e)
+      })
+  });
+  return Promise.all(promises).then(() => findedC).catch(e => console.log(e))
+}
 
 let mongo = new Mongo();
 

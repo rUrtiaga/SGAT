@@ -150,11 +150,6 @@ router
       .then(p => res.json(p))
       .catch(e => next(e));
   })
-  .delete(function(req, res, next) {
-    return service.deleteByID(req.params.id)
-    .then(p => res.json(p))
-    .catch(e => next(e));;
-  });
 
 /* CATEGORIAS .*/
 //Este get usa el fetch autosuficiente de STORE

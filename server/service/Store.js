@@ -256,25 +256,6 @@ class Store {
       .toArray();
   }
 
-  //ESTA FUNCION ES SOLO PARA TEST.
-  deleteByID(db, id) {
-    return db
-      .collections()
-      .then(collections => findCollection(collections, id))
-      .then(collection =>
-        collection.remove({
-          _id: ObjectID(id)
-        })
-        .catch(e => {
-          console.log(e);
-          return Promise.reject(e);
-        })
-      ).catch(e => {
-        console.log(e);
-        Promise.reject(e)
-      });
-  }
-
   pushInizializeDdTest(db, dbTestObject) {
     return db.collection("personas").insertMany(dbTestObject.personas)
       .then(() => db.collection("talleres").insertMany(dbTestObject.talleres))
@@ -283,25 +264,6 @@ class Store {
   }
 }
 
-//Encuentra una coleccion (en una lista de colecciones mongoDB) que contiene un ID especifico, 
-function findCollection(collections, id) {
-  let findedC;
-  let promises = collections.map(collection => {
-    return collection.findOne({
-        _id: ObjectID(id)
-      })
-      .then(value => {
-        if (value) {
-          findedC = collection
-        }
-        return Promise.resolve()
-      }).catch(e => {
-        console.log(e);
-        Promise.reject(e)
-      })
-  });
-  return Promise.all(promises).then(() => findedC).catch(e => console.log(e))
-}
 
 let store = new Store();
 
