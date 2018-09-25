@@ -192,13 +192,6 @@
       });
     }
 
-    //ESTA FUNCION ES SOLO PARA TEST.
-    deleteByID(id) {
-      return this.doOperationOnConnection(db => {
-        return store.deleteByID(db, id)
-      })
-    }
-
     isFreeDNI(db, dni) {
       return store.fetchPersonaDNI(db, dni).then(value => {
         if (value == null) {
