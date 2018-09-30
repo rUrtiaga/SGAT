@@ -10,15 +10,15 @@ class InputPersona extends React.Component {
     this._persona = this.props.persona;
     this.minCaracteres = 6;
     this.state = {
-      dni: this._persona._dni,
-      nombre: this._persona._nombre,
-      fechaNac: this._persona._fechaNac,
-      apellido: this._persona._apellido,
-      direccion: this._persona._direccion,
-      telPrincipal: this._persona._telPrincipal,
-      telSecundario: this._persona._telSecundario,
-      mail: this._persona._mail,
-      comentario: this._persona._comentario,
+      dni: this._persona._dni || "",
+      nombre: this._persona._nombre || "",
+      fechaNac: this._persona._fechaNac || "",
+      apellido: this._persona._apellido || "",
+      direccion: this._persona._direccion || "",
+      telPrincipal: this._persona._telPrincipal || "",
+      telSecundario: this._persona._telSecundario || "",
+      mail: this._persona._mail || "",
+      comentario: this._persona._comentario || "",
       formErrors: {}
     };
   }
@@ -189,6 +189,7 @@ class InputPersona extends React.Component {
               htmlFor="name"
               type="text"
               name="nombre"
+              placeholder="introduzca el Nombre"
               value={this.state.nombre}
               onChange={event => this.handleChange(event)}
               errorMsg={this.state.formErrors.nombre}
@@ -198,7 +199,7 @@ class InputPersona extends React.Component {
               label="Apellido"
               type="text"
               name="apellido"
-              placeholder="introduzca Apellido"
+              placeholder="introduzca el Apellido"
               value={this.state.apellido}
               onChange={event => this.handleChange(event)}
               errorMsg={this.state.formErrors.apellido}
@@ -211,15 +212,17 @@ class InputPersona extends React.Component {
           </h5>
 
           <Input
+            divClass="form-group"
             label="Dirección"
             type="text"
             name="direccion"
-            placeholder="ingrese dirección"
+            placeholder="ingrese la dirección"
             value={this.state.direccion}
             onChange={event => this.handleChange(event)}
             errorMsg={this.state.formErrors.direccion}
           />
-          <div className="form-row">
+          
+          <div className="form-group form-row">
             <Input
               divClass="col-12 col-md-6"
               label="Teléfono Principal"
@@ -243,6 +246,7 @@ class InputPersona extends React.Component {
           </div>
         </div>
         <Input
+          divClass="form-group"
           label="Correo electrónico"
           htmlFor="mail"
           type="email"
@@ -297,7 +301,7 @@ class InputPersona extends React.Component {
   fecha(resta) {
     let fecha = new Date();
     let anioRestado = fecha.getFullYear() - resta;
-    return anioRestado + "-" + "01" + "-" + "01";
+    return anioRestado + "-01-01";
   }
 
   aceptarPersona(alert) {
