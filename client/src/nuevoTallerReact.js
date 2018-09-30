@@ -145,7 +145,7 @@ validar(){
       .then(this.cancelarAgregado())
       .catch(function (error) {
         console.log(error);
-        alert.error('Fallo al crear el nuevo TALLER');
+        alert.error("ERROR - " + error.response.data.message);
       });
     }
   }

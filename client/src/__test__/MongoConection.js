@@ -45,7 +45,6 @@ class Mongo {
             return removeAlumno(db,idCurso,idPersona)
         })    
     }
-
 }
 
 function removeAlumno(db, idCurso, idPersona) {
@@ -66,7 +65,7 @@ function deleteByID(db, id) {
         .collections()
         .then(collections => findCollection(collections, id))
         .then(collection =>
-            collection.remove({
+            collection.deleteOne({
                 _id: ObjectID(id)
             })
             .catch(e => {
@@ -78,6 +77,7 @@ function deleteByID(db, id) {
             Promise.reject(e)
         });
 }
+
 
 //Encuentra una coleccion (en una lista de colecciones mongoDB) que contiene un ID especifico, 
 function findCollection(collections, id) {
