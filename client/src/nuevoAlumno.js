@@ -47,7 +47,6 @@ class NuevoAlumno extends React.Component {
         {this.state.selectorCursoOculto  ? null : (
           <Selector padre={this} onSelect={c => this.selectCurso(c)} />
         )}
-        {console.log("curso" + this.state.curso)}
 
         {this.state.inputPersonaOculto ? null : (
           <React.Fragment>
