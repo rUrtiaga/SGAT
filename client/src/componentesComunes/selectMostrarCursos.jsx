@@ -46,7 +46,7 @@ class Botones extends React.Component {
   render() {
     return (
         <button
-          className="btn btn-primary"
+          className="btn btn-primary col-12 col-md-4"
           onClick={v => this.props.seleccionar(v)}
         >
           Seleccionar

@@ -46,7 +46,7 @@ class Selector extends React.Component {
   talleresDeCategoria(categoriaStr) {
     return _.uniq(
       this.state.talleresFull
-        .filter(tfull => tfull._categoria == categoriaStr)
+        .filter(tfull => tfull._categoria === categoriaStr)
         .map(tf => tf._nombre)
     );
   }
@@ -62,7 +62,7 @@ class Selector extends React.Component {
 
   subcategoriasDeTaller(tallerStr){
     return  this.state.talleresFull
-    .filter(tfull => tfull._categoria == this.state.categoria && tfull._nombre == tallerStr)
+    .filter(tfull => tfull._categoria === this.state.categoria && tfull._nombre === tallerStr)
   }
 
   seleccionSubCategoria(valor) {
