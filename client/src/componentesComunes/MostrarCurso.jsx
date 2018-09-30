@@ -12,27 +12,28 @@ class Curso extends React.Component {
   }
 
   nombresProfes() {
-    return this.state.profesores.map(p => p._nombre + " " + p._apellido).join(", ");
+    return this.state.profesores
+      .map(p => p._nombre + " " + p._apellido)
+      .join(", ");
   }
-  pluralProfesores(){
-    return (this.state.profesores.length > 1)?"es":null
+  pluralProfesores() {
+    return this.state.profesores.length > 1 ? "es" : null;
   }
 
   render() {
     return (
-      <div className="card mt-sm-2 ">
+      <div className="card mt-sm-2 mt-2">
         <div className="card-body">
           <div className="row">
-            <div className="col-sm-7">
+            <div className="col-sm-6">
               <h5 className="card-title ml-sm-2 mb-4">
-                Profesor{this.pluralProfesores()}: {this.nombresProfes()}
+                Profesor
+                {this.pluralProfesores()}: {this.nombresProfes()}
               </h5>
             </div>
-            <div className="col-sm-5 text-right">{this.props.botones}</div>
+            <div className="col-sm-6 text-right">{this.props.botones}</div>
           </div>
-          <div className="container">
-            <DHL dhls={this.state.DHL} />
-          </div>
+          <DHL dhls={this.state.DHL} />
         </div>
       </div>
     );
@@ -46,13 +47,13 @@ class DHL extends React.Component {
   }
   render() {
     return (
-      <div className="container">
-        <table className="table table-sm text-center">
-          <tbody>
-            {this.props.dhls.map(dhl => <FilaDHL dhl={dhl} key={this.i++} />)}
-          </tbody>
-        </table>
-      </div>
+      <table className="table table-sm text-center mb-0">
+        <tbody>
+          {this.props.dhls.map(dhl => (
+            <FilaDHL dhl={dhl} key={this.i++} />
+          ))}
+        </tbody>
+      </table>
     );
   }
 }
