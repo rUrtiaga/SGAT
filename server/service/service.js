@@ -60,15 +60,15 @@
      * Talleres
      */
 
-    pushTaller(dataTaller) {
-      let talleres = dataTaller._subCategorias.map(
-        subCat => new Taller(dataTaller, subCat)
-      );
-      return this.doOperationOnConnection(db => {
-        // store.pushCategoria(dataTaller._categoria)
-        return store.pushTalleres(db, talleres);
-      });
-    }
+    // pushTaller(dataTaller) {
+    //   let talleres = dataTaller._subCategorias.map(
+    //     subCat => new Taller(dataTaller, subCat)
+    //   );
+    //   return this.doOperationOnConnection(db => {
+    //     // store.pushCategoria(dataTaller._categoria)
+    //     return store.pushTalleres(db, talleres);
+    //   });
+    // }
 
     fetchTalleres() {
       return this.doOperationOnConnection(db => {
@@ -85,12 +85,33 @@
     );
     let nombre = dataTaller._nombre
 
-    return this.doOperationOnConnection(db => {
-     return this.existTaller(db,nombre).then(() => 
-        store.pushTalleres(db, talleres)
-    );
-  })
+    if(!this.validarBlancos(dataTaller)){
+          return this.doOperationOnConnection(db => {
+            return this.existTaller(db,nombre).then(() => 
+              store.pushTalleres(db, talleres)
+          );
+        })
+    }
+
+    else{
+      return Promise.reject(
+        new SgatError(
+          "El Taller tiene datos incompletos", 409
+        )
+      );
+    }
+
+
 }
+
+validarBlancos(dataTaller){
+  if (dataTaller._nombre === "" || dataTaller._categoria === ""){
+    console.log("true")
+    return true
+  }
+  else return false
+}
+
 
   existTaller(db, nombreTaller) {
     return store.existsTaller(db, nombreTaller).then(talleres => {
@@ -105,6 +126,8 @@
       }
     });
   }
+
+
 
     fetchTalleresCategoria(categoria) {
       return this.doOperationOnConnection(db => {
@@ -144,9 +167,32 @@
 
     pushCurso(dataCurso) {
       let curso = new Curso(dataCurso);
+      
+      if(!this.validarCurso(dataCurso)){
+        return this.doOperationOnConnection(db => {
+          return store.pushCurso(db, curso);
+        });
+      }
+      else{
+        return Promise.reject(
+           new SgatError(
+              "El Cupo del curso no puede ser NEGATIVO", 409
+            )
+            
+          );
+      }
+      
+      
+      
+      
       return this.doOperationOnConnection(db => {
         return store.pushCurso(db, curso);
       });
+    }
+    
+    
+    validarCurso(dataCurso){
+      return (dataCurso._cupo < 0)
     }
 
     fetchCursosTaller(idTaller) {
@@ -213,8 +259,7 @@
           if (p == null) {
             return Promise.reject(
               new SgatError(
-                "no se encuentra la persona con id: '" + id + "'",
-                404
+                "no se encuentra la persona con id: '" + id + "'", 404
               )
             );
           } else {

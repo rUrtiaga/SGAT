@@ -91,7 +91,7 @@ class NuevoCurso extends React.Component {
       .then(this.cancelarAgregado())
       .catch(function (error) {
         console.log(error);
-        alert.error('Fallo al crear el nuevo CURSO');
+        alert.error("ERROR - " + error.response.data.message);
       });
   }
 
