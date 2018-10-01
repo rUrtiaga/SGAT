@@ -68,4 +68,23 @@ describe("Nuevo Taller API", () => {
         done();
       });
   });
+
+  test("guardar un taller con blancos", done => {
+    const taller = {
+      _categoria: "",
+      _nombre: "",
+      _subCategorias: ["uno", "dos"]
+    };
+    axios
+      .post("api/talleres ", taller)
+      .then(function(res) {
+        done();
+      })
+      .catch(error => {
+        expect(error.response.status).toBe(409);
+        expect(error.response.data.message).toMatch(
+          "El Taller tiene datos incompletos");
+        done();
+      });
+  });
 });
