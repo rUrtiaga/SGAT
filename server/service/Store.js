@@ -144,13 +144,29 @@ class Store {
   fetchCursosCompletos(db) {
     return db
       .collection("cursos")
-      .aggregate([
-        {
+      .aggregate([{
           $lookup: {
             from: "personas",
             localField: "_profesores",
             foreignField: "_id",
             as: "_profesores"
+          }
+        },
+        {
+          $addFields: {
+            _hayCupo: {
+              $gt: [{
+                  $toInt: "$_cupo"
+                },
+                {
+                  $subtract: [{
+                    $size: "$_alumnos"
+                  }, {
+                    $size: "$_alumnosBaja"
+                  }]
+                }
+              ]
+            }
           }
         }
       ])
@@ -167,42 +183,52 @@ class Store {
   fetchCursosTaller(db, idTaller) {
     return (
       db
-        .collection("cursos")
-        // .find({ _tallerID: ObjectID(idTaller) })
-        .aggregate([
-          {
-            $match: {
-              _tallerID: ObjectID(idTaller)
-            }
-          },
-          {
-            $lookup: {
-              from: "personas",
-              localField: "_profesores",
-              foreignField: "_id",
-              as: "_profesores"
-            }
-          },
-          {
-            $lookup: {
-              from: "talleres",
-              localField: "_tallerID",
-              foreignField: "_id",
-              as: "_taller"
-            }
-          },
-          {
-            $addFields: {
-              _taller: {
-                $ifNull: [
-                  {
-                    $arrayElemAt: ["$_taller", 0]
-                  },
-                  {
-                    message: "Problema en taller"
-                  }
-                ]
-              }
+      .collection("cursos")
+      // .find({ _tallerID: ObjectID(idTaller) })
+      .aggregate([{
+          $match: {
+            _tallerID: ObjectID(idTaller)
+          }
+        },
+        {
+          $lookup: {
+            from: "personas",
+            localField: "_profesores",
+            foreignField: "_id",
+            as: "_profesores"
+          }
+        },
+        {
+          $lookup: {
+            from: "talleres",
+            localField: "_tallerID",
+            foreignField: "_id",
+            as: "_taller"
+          }
+        },
+        {
+          $addFields: {
+            _taller: {
+              $ifNull: [{
+                  $arrayElemAt: ["$_taller", 0]
+                },
+                {
+                  message: "Problema en taller"
+                }
+              ]
+            },
+            _hayCupo: {
+              $gt: [{
+                  $toInt: "$_cupo"
+                },
+                {
+                  $subtract: [{
+                    $size: "$_alumnos"
+                  }, {
+                    $size: "$_alumnosBaja"
+                  }]
+                }
+              ]
             }
           }
         ])

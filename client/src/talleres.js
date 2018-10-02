@@ -44,7 +44,7 @@ class ListaCategorias extends React.Component {
     return (
       <React.Fragment>
         <h5 className="text-center">Categorias</h5>
-        <ul className="nav flex-column  nav-pills">
+        <ul className="nav flex-column  nav-pills border rounded">
           {this.props.categorias.map(c => (
             <NavItem
               categoria={c}
