@@ -35,22 +35,21 @@ class Service {
     let db = null;
 
     return MongoClient.connect(
-      dbServerURL,
-      {
+      dbServerURL, {
         useNewUrlParser: true
       }
     )
-      .then(function(conn) {
+      .then(function (conn) {
         dbConnection = conn; //Guardo la conneccion en la variable externa al promise
         db = dbConnection.db(dbName);
 
         return operation(db);
       })
-      .then(function(data) {
+      .then(function (data) {
         dbConnection.close();
         return Promise.resolve(data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         if (dbConnection) {
           dbConnection.close();
         }
@@ -76,6 +75,36 @@ class Service {
       return store.fetchTalleres(db);
     });
   }
+  /**
+   * Talleres
+   */
+
+  pushTaller(dataTaller) {
+    let talleres = dataTaller._subCategorias.map(
+      subCat => new Taller(dataTaller, subCat)
+    );
+    let nombre = dataTaller._nombre
+
+    return this.doOperationOnConnection(db => {
+      return this.existTaller(db, nombre).then(() =>
+        store.pushTalleres(db, talleres)
+      );
+    })
+  }
+
+  existTaller(db, nombreTaller) {
+    return store.existsTaller(db, nombreTaller).then(talleres => {
+      if (talleres.length == 0) {
+        return Promise.resolve();
+      } else {
+        return Promise.reject(
+          new SgatError(
+            "ya se encuentra un Taller con el nombre: " + nombreTaller, 409
+          )
+        );
+      }
+    });
+  }
 
   fetchTalleresCategoria(categoria) {
     return this.doOperationOnConnection(db => {
@@ -95,6 +124,10 @@ class Service {
     });
   }
 
+  fetchUnCurso(db, id) {
+    return db.collection("cursos").findOne({ _id: ObjectID(id) });
+  }
+  
   fetchCursosCompletos() {
     return this.doOperationOnConnection(db => {
       return store.fetchCursosCompletos(db);
@@ -109,8 +142,7 @@ class Service {
 
   fetchCurso(id) {
     return this.doOperationOnConnection(db => {
-      let r1 = store.fetchCurso(db, id);       
-      return r1
+      return store.fetchCurso(db, id);
     });
   }
 
@@ -141,11 +173,10 @@ class Service {
     });
   }
 
-
   deleteAlumnoCurso(idCurso, idPersona) {
     return this.doOperationOnConnection(db => {
       return store.fetchUnCurso(db, idCurso).then(dataCurso => {
-        if (Curso.sePuedeBorrarAlumno(dataCurso, idPersona)) {        
+        if (Curso.sePuedeBorrarAlumno(dataCurso, idPersona)) {
           return store.updateUnCursoAlumno(db, idCurso, idPersona)
         } else {
           Promise.reject(new SgatError("No se puede eliminar el alumno", 404));
@@ -166,6 +197,7 @@ class Service {
   /**
    *  Personas
    */
+
 
   fetchPersonaDNI(dni) {
     return this.doOperationOnConnection(db => {
@@ -243,27 +275,20 @@ class Service {
 
   //Borrar DB
   deleteDB() {
-    return this.doOperationOnConnection(db => db.dropDatabase());
+    return this.doOperationOnConnection(db => db.dropDatabase())
   }
 
   isEmptyDB() {
     return this.doOperationOnConnection(db => {
-      return db
-        .listCollections(
-          {},
-          {
-            nameOnly: true
-          }
-        )
-        .toArray()
-        .then(list => list.length === 0);
-    });
+      return db.listCollections({}, {
+        nameOnly: true
+      }).toArray().then(list => list.length === 0)
+    })
+
   }
 
   initializeForTest(testDBObject) {
-    return this.doOperationOnConnection(db =>
-      store.pushInizializeDdTest(db, testDBObject)
-    );
+    return this.doOperationOnConnection(db => store.pushInizializeDdTest(db, testDBObject))
   }
 }
 
