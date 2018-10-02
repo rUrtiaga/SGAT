@@ -3,26 +3,36 @@ const React = require("react");
 class Curso extends React.Component {
   constructor(props) {
     super(props);
+    let { curso } = this.props;
     this.state = {
-      cupo: this.props.curso._cupo,
-      DHL: this.props.curso._diasHorariosLugares,
-      profesores: this.props.curso._profesores,
-      anio: this.props.curso._anio
+      cupo: curso._cupo,
+      DHL: curso._diasHorariosLugares,
+      profesores: curso._profesores,
+      hayCupo: curso._hayCupo,
+      anio: curso._anio
     };
   }
 
   nombresProfes() {
-    return this.state.profesores
-      .map(p => p._nombre + " " + p._apellido)
-      .join(", ");
+    if (this.state.profesores.length) {
+      return this.state.profesores
+        .map(p => p._nombre + " " + p._apellido)
+        .join(", ");
+    } else {
+      return "Sin asignar";
+    }
   }
   pluralProfesores() {
     return this.state.profesores.length > 1 ? "es" : null;
   }
 
+  cursoLleno() {
+    return this.state.hayCupo ? "" : "text-white bg-danger";
+  }
+
   render() {
     return (
-      <div className="card mt-sm-2 mt-2">
+      <div className={"card mt-sm-2 mt-2 " + this.cursoLleno()}>
         <div className="card-body">
           <div className="row">
             <div className="col-sm-6">
