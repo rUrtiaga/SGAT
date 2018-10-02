@@ -109,7 +109,8 @@ class Service {
 
   fetchCurso(id) {
     return this.doOperationOnConnection(db => {
-      return store.fetchCurso(db, id);
+      let r1 = store.fetchCurso(db, id);       
+      return r1
     });
   }
 
@@ -140,23 +141,18 @@ class Service {
     });
   }
 
-  //-----------------------------------------------------------------------------------
+
   deleteAlumnoCurso(idCurso, idPersona) {
     return this.doOperationOnConnection(db => {
       return store.fetchUnCurso(db, idCurso).then(dataCurso => {
-        console.log("Service: id -> ", idCurso);
-        console.log("service: Curso  ", dataCurso);
-        // hasta acá me trae un id de un curso y
-        // y el curso completo
-        
-        return Curso.estaRepetidoPersona(dataCurso, idPersona)
-          .then(() => store.updateCursoAlumno(db, idCurso, idPersona))
-          .catch(e => Promise.reject(e));
-      });
+        if (Curso.sePuedeBorrarAlumno(dataCurso, idPersona)) {        
+          return store.updateUnCursoAlumno(db, idCurso, idPersona)
+        } else {
+          Promise.reject(new SgatError("No se puede eliminar el alumno", 404));
+        }
+      })
     });
   }
-
-  //-----------------------------------------------------------------------------------
 
   /**
    * Profesores

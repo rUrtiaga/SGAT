@@ -1,6 +1,4 @@
-const {
-  ObjectID
-} = require("mongodb");
+const { ObjectID } = require("mongodb");
 
 /* Tres cosas de carlos
  *  - no vale abrir mas de una conexion para cada llamada por API
@@ -95,14 +93,6 @@ class Store {
         {
           $lookup: {
             from: "personas",
-            localField: "_alumnos",
-            foreignField: "_id",
-            as: "_alumnos"
-          }
-        },
-        {
-          $lookup: {
-            from: "personas",
             localField: "_profesores",
             foreignField: "_id",
             as: "_profesores"
@@ -127,21 +117,10 @@ class Store {
                   message: "Problema en taller"
                 }
               ]
+            },
+            _alumnos: {
+              $setDifference: ["$_alumnos", "$_alumnosBaja"]
             }
-          }
-        }
-      ])
-      .toArray();
-  }
-
-  //-----------------------------------------------------------------------------------
-  fetchUnCurso(db, id) {
-    return db
-      .collection("cursos")
-      .aggregate([
-        {
-          $match: {
-            _id: ObjectID(id)
           }
         },
         {
@@ -152,10 +131,15 @@ class Store {
             as: "_alumnos"
           }
         }
-      ]).toArray();
-  }      
-  //-----------------------------------------------------------------------------------
+      ])
+      .toArray();
+  }
 
+  
+  fetchUnCurso(db, id) {
+    return db.collection("cursos").findOne({ _id: ObjectID(id) });
+  }
+  
 
   fetchCursosCompletos(db) {
     return db
@@ -247,6 +231,20 @@ class Store {
     return this.updateCurso(db, "_alumnos", idCurso, idPersona);
   }
 
+  updateUnCursoAlumno(db, idCurso, idPersona) {
+    return db.collection("cursos").updateOne(
+      {
+        _id: ObjectID(idCurso),
+        _alumnos: ObjectID(idPersona)
+      },
+      {
+        $addToSet: {
+          _alumnosBaja: ObjectID(idPersona)
+        }
+      }
+    );
+  }
+
   agregarPersonaADadosBajaDeCurso(db, idCurso, idPersona) {
     return db
       .collection("cursos")
@@ -309,7 +307,6 @@ class Store {
       );
   }
 }
-
 
 let store = new Store();
 

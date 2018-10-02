@@ -189,33 +189,35 @@ class Curso {
     this._tallerID = ObjectID(dataCurso._tallerID);
     this._comentario = dataCurso._comentario;
     this._cupo = dataCurso._cupo;
-    this._profesores = dataCurso._profesores.map(p => new ObjectID(p)); 
+    this._profesores = dataCurso._profesores.map(p => new ObjectID(p));
     this._anio = new Date().getFullYear();
   }
 
-  
   /**
    * STATIC
    *
    */
   static estaRepetidoPersona(dataCurso, idPersona) {
-    if (dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) || dataCurso._profesores.some(pOid=> pOid.toString() == idPersona)){
-        return Promise.reject(
-            new SgatError("Esta persona ya se encuentra en el curso", 409)
-       );
+    if (
+      dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) ||
+      dataCurso._profesores.some(pOid => pOid.toString() == idPersona)
+    ) {
+      return Promise.reject(
+        new SgatError("Esta persona ya se encuentra en el curso", 409)
+      );
     }
     return Promise.resolve();
   }
 
-  // Función que revisa que el alumno este en la lista de alumnos, 
+  // Función que revisa que el alumno este en la lista de alumnos,
   //   y no se encuentre en la lista de Alumnos de BAJA
-    static sePuedeBorrarAlumno(dataCurso, idPersona) {
-        if (dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) &&  
-            !dataCurso._alumnosBaja.some(pOid=> pOid.toString() == idPersona)){ 
-                return Promise.resolve()
-            };
-        return Promise.error ("No se puede eliminar el alumno", 400)
-    }
+  static sePuedeBorrarAlumno(dataCurso, idPersona) {
+    let enAlumnos = dataCurso._alumnos.some(pOid => pOid.toString() === idPersona);
+    let enAlumnosBaja =  !dataCurso._alumnosBaja.some(pOid => pOid.toString() === idPersona);
+    
+    return enAlumnos && enAlumnosBaja;        
+
+  }
 
   addAlumno(alumno) {
     return this._alumnos.push(alumno.getDNI());

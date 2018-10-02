@@ -38,6 +38,7 @@ class ListarAlumnos extends React.Component {
         let self = this
         return axios.get('/api/cursos/' + this.props.idCurso)
             .then(function (response) {
+                
                 const json = response.data
 
                 self.setState({

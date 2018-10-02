@@ -40,12 +40,14 @@ router
       .catch(e => next(e));
   });
 
+  //---------------------------------------------------------
 router.get("/cursos/:id", function(req, res, next) {
   service
     .fetchCurso(req.params.id)
     .then(curso => res.send(curso))
     .catch(e => next(e));
 });
+//-----------------------------------------------------------
 
 router.put("/cursos/:id/alumnos", function(req, res, next) {
   service
@@ -54,18 +56,15 @@ router.put("/cursos/:id/alumnos", function(req, res, next) {
     .catch(e => next(e));
 });
 
-//-----------------------------------------------------------------------------------
+
 // Borro un Alumno de un curso
 router.delete("/cursos/:id/alumnos/:idAlum", function (req, res, next) {
-  console.log("Api - IDAlumno : ", req.params.idAlum);
   
   service
     .deleteAlumnoCurso(req.params.id, req.params.idAlum)
-    .then(() => res.send("OK"))
+    .then(() => res.send("Respuesta Api OK"))
     .catch(e => next(e));
 });
-
-//-----------------------------------------------------------------------------------
 
 router.post("/cursos/:id/profesores", function(req, res, next) {
   service
