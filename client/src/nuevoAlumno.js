@@ -30,7 +30,6 @@ class NuevoAlumno extends React.Component {
   }
 
   fetchCurso(idCurso) {
-    console.log(idCurso);
     return axios
       .get("/api/cursos/" + idCurso)
       .then(lc => {
