@@ -86,7 +86,6 @@ router
       .catch(e => next(e));
   })
   .get(function(req, res, next) {
-    console.log(req.query.categoria);
     if (req.query.categoria) {
       next();
       return;
@@ -113,12 +112,19 @@ router
       .catch(e => next(e));
   });
 
-router.get("/talleres/:id", function(req, res, next) {
+  router
+  .route("/talleres/:id")
+  .get(function(req, res, next) {
   service
     .fetchTaller(req.params.id)
     .then(t => res.send(t))
     .catch(e => next(e));
-});
+  })
+  .delete(function(req, res, next) {
+    return service.deleteByID(req.params.id)
+    .then(() => res.send('ok'))
+    .catch(e => next(e));
+  });
 
 //creo que deberia ir con un parametro
 router.get("/talleres/:id/cursos", function(req, res, next) {
