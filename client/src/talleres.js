@@ -126,6 +126,10 @@ class Talleres extends React.Component {
       });
   }
 
+  seleccionarListaDeEspera(cursoId){
+    this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 6 }); 
+  }
+
   seleccionarAlumnos(cursoId) {
     this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 4 });
   }
@@ -184,6 +188,8 @@ class Talleres extends React.Component {
           curso={curso}
           botones={
             <Botones
+              hayCupo = {curso._hayCupo}
+              seleccionarListaDeEspera={()=>this.seleccionarListaDeEspera(curso._id)}
               seleccionarAlumnos={() => this.seleccionarAlumnos(curso._id)}
               inscribirAlumno={() => this.inscribirAlumno(curso._id)}
             />
@@ -194,10 +200,24 @@ class Talleres extends React.Component {
 }
 
 class Botones extends React.Component {
+
+  botonListaDeEspera(){
+    let onClick = v=>this.props.seleccionarListaDeEspera(v)
+    let text = "Espera"
+    let className = "col-md-3 btn btn-primary mr-1 mb-1 "
+    if (this.props.hayCupo){
+      className += "disabled"
+      onClick = null
+      // PREGUNTAR si queda mejor que no esté el botón o que aparezca pero desabilidado
+      return null
+    }
+    return <button className={className} onClick={onClick}>{text}</button> 
+  }
+
   render() {
     return (
       <React.Fragment>
-        <button className="col-md-3 btn btn-primary mr-1 mb-1">Espera</button>
+        {this.botonListaDeEspera()}
         <button
           className="btn btn-primary col-md-4 mr-1 mb-1"
           onClick={v => this.props.seleccionarAlumnos(v)}
