@@ -40,14 +40,12 @@ router
       .catch(e => next(e));
   });
 
-  //---------------------------------------------------------
 router.get("/cursos/:id", function(req, res, next) {
   service
     .fetchCurso(req.params.id)
     .then(curso => res.send(curso))
     .catch(e => next(e));
 });
-//-----------------------------------------------------------
 
 router.put("/cursos/:id/alumnos", function(req, res, next) {
   service
@@ -62,7 +60,7 @@ router.delete("/cursos/:id/alumnos/:idAlum", function (req, res, next) {
   
   service
     .deleteAlumnoCurso(req.params.id, req.params.idAlum)
-    .then(() => res.send("Respuesta Api OK"))
+    .then(() => res.send(" Ok "))
     .catch(e => next(e));
 });
 

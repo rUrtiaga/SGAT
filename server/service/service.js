@@ -141,9 +141,6 @@
         return store.fetchCurso(db, id);
       });
     }
-	fetchUnCurso(db, id) {
-		return db.collection("cursos").findOne({ _id: ObjectID(id) });
-	}
 
     pushCurso(dataCurso) {
       let curso = new Curso(dataCurso);
@@ -174,9 +171,9 @@
 	
 	deleteAlumnoCurso(idCurso, idPersona) {
     return this.doOperationOnConnection(db => {
-      return store.fetchUnCurso(db, idCurso).then(dataCurso => {
+      return store.fetchCursoRaw(db, idCurso).then(dataCurso => {
         if (Curso.sePuedeBorrarAlumno(dataCurso, idPersona)) {
-          return store.updateUnCursoAlumno(db, idCurso, idPersona)
+          return store.updateCursoBajaAlumno(db, idCurso, idPersona)
         } else {
           Promise.reject(new SgatError("No se puede eliminar el alumno", 404));
         }

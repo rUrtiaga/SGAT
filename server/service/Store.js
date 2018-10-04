@@ -141,12 +141,6 @@ class Store {
       .toArray();
   }
 
-  
-  fetchUnCurso(db, id) {
-    return db.collection("cursos").findOne({ _id: ObjectID(id) });
-  }
-  
-
   fetchCursosCompletos(db) {
     return db
       .collection("cursos")
@@ -237,7 +231,7 @@ class Store {
     return this.updateCurso(db, "_alumnos", idCurso, idPersona);
   }
 
-  updateUnCursoAlumno(db, idCurso, idPersona) {
+  updateCursoBajaAlumno(db, idCurso, idPersona) {
     return db.collection("cursos").updateOne(
       {
         _id: ObjectID(idCurso),
@@ -249,15 +243,6 @@ class Store {
         }
       }
     );
-  }
-
-  agregarPersonaADadosBajaDeCurso(db, idCurso, idPersona) {
-    return db
-      .collection("cursos")
-      .updateOne(
-        { _id: ObjectID(idCurso) },
-        { $push: { ["_alumnosBaja"]: ObjectID(idPersona) } }
-      );
   }
 
   updateCursoProfesor(db, idCurso, idPersona) {

@@ -2,7 +2,6 @@ const React = require('react')
 const axios = require('axios')
 
 const infoPersona = require("./componentesComunes/infoPersona.jsx");
-// const borraAlumno = require("./componentesComunes/eliminarAlumno.jsx");
 
 var pdfMake = require('pdfmake/build/pdfmake.js');
 var pdfFonts = require('pdfmake/build/vfs_fonts.js');
@@ -163,7 +162,6 @@ class ListarAlumnos extends React.Component {
         this.setState({
             listaDeAlumnos: codigo
         })
-        console.log(alumno._id);
         this.removeAlumno(alumno._id)
     }
 
