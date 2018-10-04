@@ -54,6 +54,16 @@ router.put("/cursos/:id/alumnos", function(req, res, next) {
     .catch(e => next(e));
 });
 
+
+// Borro un Alumno de un curso
+router.delete("/cursos/:id/alumnos/:idAlum", function (req, res, next) {
+  
+  service
+    .deleteAlumnoCurso(req.params.id, req.params.idAlum)
+    .then(() => res.send(" Ok "))
+    .catch(e => next(e));
+});
+
 router.post("/cursos/:id/profesores", function(req, res, next) {
   service
     .postProfesorCurso(req.params.id, req.body._idPersona)
