@@ -69,30 +69,33 @@ class ListarAlumnos extends React.Component {
             panelDeAbajo = (<infoPersona.InfoPersona data={this.state.alumnoActual} screen={() => this.cerrarInfoPersona()} />)
         }
 
-        return (
-            <div>
-                <div className="m-4 container-fluid recuadroPantalla">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="card text-dark">
-                                <div className="align-self-center  ">
-                                    <h3> Listado de Alumnos </h3></div>
-                                <div className="card-body text-dark">
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            {this.tblAlumnos()}
-                                        </div>
-                                        {panelDeAbajo}
-                                    </div>
-                                    {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success", "fa-print")}
-                                </div>
-                                <h4> Alumnos Registrados {this.state.listaDeAlumnos.length} de {this.state.cupo}</h4>
-                            </div>
-                        </div>
+        return <div>
+            <div className="m-4 container-fluid recuadroPantalla">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="card text-dark">
+                    <div className="align-self-center  ">
+                      <h3> Listado de Alumnos </h3>
                     </div>
+                    <div className="card-body text-dark">
+                        <div className="row">
+                            <div className="col-md-12">
+                                {this.tblAlumnos()}
+                            </div>
+                            {panelDeAbajo}
+                        </div>
+                        {this.botonStandard("Volver", () => this.volver() , "btn-success", "fa-chevron-left")}
+                        {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success", "fa-print")}
+                    </div>
+                    <h4>
+                      {" "} 
+                      Alumnos Registrados {this.state.listaDeAlumnos.length} de {this.state.cupo}
+                    </h4>
+                  </div>
                 </div>
+              </div>
             </div>
-        )
+          </div>;
     }
 
     /*Tabla info de Alumno */
@@ -112,6 +115,9 @@ class ListarAlumnos extends React.Component {
                 </tbody>
             </table>
         )
+    }
+    volver(){
+        this.props.rootComponent.setState({pantallaActual: 1});
     }
     
     /*Acá completo la tabla con la info de Alumno */
