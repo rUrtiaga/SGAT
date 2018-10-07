@@ -231,6 +231,7 @@ class Store {
               ]
             }
           }
+        }
         ])
         .toArray()
     );
