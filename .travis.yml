@@ -11,5 +11,5 @@ before_script:
 
 script:
   - npm run server &
-  - npm run inizialiceTestDB
+  - npm run iDB
   - npm test
