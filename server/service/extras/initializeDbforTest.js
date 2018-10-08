@@ -69,6 +69,24 @@ const testDBObject = {
             ObjectID("5b983993756b0a1a73c656b9")
         ],
         "_anio": 2018
+    }, {
+        "_id": ObjectID("5bb2aece0e7b692ed22971cc"),
+        "_alumnos": [
+            ObjectID("5b983a07756b0a1a73c656bb"),
+            ObjectID("5b983aba756b0a1a73c656bc")],
+        "_alumnosBaja": [],
+        "_espera": [],
+        "_esperaBaja": [],
+        "_diasHorariosLugares": [{
+            "_dia": "Martes",
+            "_horario": "16:00",
+            "_lugar": "Teatro español"
+        }],
+        "_tallerID": ObjectID("5b983928756b0a1a73c656b8"),
+        "_comentario": "",
+        "_cupo": "2",
+        "_profesores": [],
+        "_anio": 2018
     }],
     personas: [{
             "_id": ObjectID("5b98384a756b0a1a73c656b2"),

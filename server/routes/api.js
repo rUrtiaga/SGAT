@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-const { store } = require("../service/Store.js");
 const { service } = require("../service/service.js");
 const { validator } = require("../service/validator.js");
 
@@ -51,6 +50,16 @@ router.put("/cursos/:id/alumnos", function(req, res, next) {
   service
     .putAlumnoCurso(req.params.id, req.body._idPersona)
     .then(() => res.send("OK"))
+    .catch(e => next(e));
+});
+
+
+// Borro un Alumno de un curso
+router.delete("/cursos/:id/alumnos/:idAlum", function (req, res, next) {
+  
+  service
+    .deleteAlumnoCurso(req.params.id, req.params.idAlum)
+    .then(() => res.send(" Ok "))
     .catch(e => next(e));
 });
 

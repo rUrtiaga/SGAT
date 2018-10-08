@@ -1,6 +1,4 @@
-const {
-  ObjectID
-} = require("mongodb");
+const { ObjectID } = require("mongodb");
 
 /* Tres cosas de carlos
  *  - no vale abrir mas de una conexion para cada llamada por API
@@ -52,17 +50,17 @@ class Store {
   fetchTalleresCategoria(db, cat) {
     return (
       db
-      .collection("talleres")
-      .find({
-        _categoria: cat
-      })
-      //este agregate era por que pense que tenia que devolver la lista sola podria ser otra consulta
-      // .aggregate([
-      //   { $match: { _categoria: cat } },
-      //   { $group: { _id: "$_nombre" }},
-      //   { $project: {_nombre: "$_id",_id : 0}}
-      // ])
-      .toArray()
+        .collection("talleres")
+        .find({
+          _categoria: cat
+        })
+        //este agregate era por que pense que tenia que devolver la lista sola podria ser otra consulta
+        // .aggregate([
+        //   { $match: { _categoria: cat } },
+        //   { $group: { _id: "$_nombre" }},
+        //   { $project: {_nombre: "$_id",_id : 0}}
+        // ])
+        .toArray()
     );
   }
   fetchTalleresCatYTaller(db, cat, taller) {
@@ -92,17 +90,10 @@ class Store {
   fetchCurso(db, id) {
     return db
       .collection("cursos")
-      .aggregate([{
+      .aggregate([
+        {
           $match: {
             _id: ObjectID(id)
-          }
-        },
-        {
-          $lookup: {
-            from: "personas",
-            localField: "_alumnos",
-            foreignField: "_id",
-            as: "_alumnos"
           }
         },
         {
@@ -124,14 +115,26 @@ class Store {
         {
           $addFields: {
             _taller: {
-              $ifNull: [{
+              $ifNull: [
+                {
                   $arrayElemAt: ["$_taller", 0]
                 },
                 {
                   message: "Problema en taller"
                 }
               ]
+            },
+            _alumnos: {
+              $setDifference: ["$_alumnos", "$_alumnosBaja"]
             }
+          }
+        },
+        {
+          $lookup: {
+            from: "personas",
+            localField: "_alumnos",
+            foreignField: "_id",
+            as: "_alumnos"
           }
         }
       ])
@@ -142,13 +145,31 @@ class Store {
     return db
       .collection("cursos")
       .aggregate([{
-        $lookup: {
-          from: "personas",
-          localField: "_profesores",
-          foreignField: "_id",
-          as: "_profesores"
+          $lookup: {
+            from: "personas",
+            localField: "_profesores",
+            foreignField: "_id",
+            as: "_profesores"
+          }
+        },
+        {
+          $addFields: {
+            _hayCupo: {
+              $gt: [{
+                  $toInt: "$_cupo"
+                },
+                {
+                  $subtract: [{
+                    $size: "$_alumnos"
+                  }, {
+                    $size: "$_alumnosBaja"
+                  }]
+                }
+              ]
+            }
+          }
         }
-      }])
+      ])
       .toArray();
   }
 
@@ -195,31 +216,60 @@ class Store {
                   message: "Problema en taller"
                 }
               ]
+            },
+            _hayCupo: {
+              $gt: [{
+                  $toInt: "$_cupo"
+                },
+                {
+                  $subtract: [{
+                    $size: "$_alumnos"
+                  }, {
+                    $size: "$_alumnosBaja"
+                  }]
+                }
+              ]
             }
           }
         }
-      ])
-      .toArray()
+        ])
+        .toArray()
     );
   }
+
   pushCurso(db, curso) {
     return db.collection("cursos").insertMany([curso]);
   }
 
   updateCurso(db, property, idCurso, idPersona) {
-    return db
-      .collection("cursos")
-      .updateOne({
+    return db.collection("cursos").updateOne(
+      {
         _id: ObjectID(idCurso)
-      }, {
+      },
+      {
         $push: {
           [property]: ObjectID(idPersona)
         }
-      });
+      }
+    );
   }
 
   updateCursoAlumno(db, idCurso, idPersona) {
     return this.updateCurso(db, "_alumnos", idCurso, idPersona);
+  }
+
+  updateCursoBajaAlumno(db, idCurso, idPersona) {
+    return db.collection("cursos").updateOne(
+      {
+        _id: ObjectID(idCurso),
+        _alumnos: ObjectID(idPersona)
+      },
+      {
+        $addToSet: {
+          _alumnosBaja: ObjectID(idPersona)
+        }
+      }
+    );
   }
 
   updateCursoProfesor(db, idCurso, idPersona) {
@@ -248,9 +298,11 @@ class Store {
   }
 
   pushCategoria(db, categoria) {
-    return db.collection("categorias").insertMany([{
-      _categoria: categoria
-    }]);
+    return db.collection("categorias").insertMany([
+      {
+        _categoria: categoria
+      }
+    ]);
   }
 
   existsCategoria(db, categoria) {
@@ -263,13 +315,16 @@ class Store {
   }
 
   pushInizializeDdTest(db, dbTestObject) {
-    return db.collection("personas").insertMany(dbTestObject.personas)
+    return db
+      .collection("personas")
+      .insertMany(dbTestObject.personas)
       .then(() => db.collection("talleres").insertMany(dbTestObject.talleres))
       .then(() => db.collection("cursos").insertMany(dbTestObject.cursos))
-      .then(() => db.collection("categorias").insertMany(dbTestObject.categorias))
+      .then(() =>
+        db.collection("categorias").insertMany(dbTestObject.categorias)
+      );
   }
 }
-
 
 let store = new Store();
 

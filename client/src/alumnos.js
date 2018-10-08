@@ -20,7 +20,6 @@ class ListarAlumnos extends React.Component {
             listaDeAlumnos: [],
             infoDeAlumno: false,
             mostrarPanelDeAbajo: false,
-            // mostrarPanelDeImpresion: false
         }
     }
 
@@ -38,6 +37,7 @@ class ListarAlumnos extends React.Component {
         let self = this
         return axios.get('/api/cursos/' + this.props.idCurso)
             .then(function (response) {
+                
                 const json = response.data
 
                 self.setState({
@@ -46,7 +46,19 @@ class ListarAlumnos extends React.Component {
                 })
             })
             .catch(function (error) {
-                console.log(error)
+                console.log(error);
+            })
+    }
+
+    removeAlumno(alumnoId){
+        let self = this;
+        return axios.delete('/api/cursos/' + this.props.idCurso + '/alumnos/'+ alumnoId)
+            .then(function(response){
+                console.log("Respuesta: ", response.data)
+            })
+            .catch(function(error){
+                console.log("Error: ", error);
+                
             })
     }
 
@@ -150,7 +162,7 @@ class ListarAlumnos extends React.Component {
         this.setState({
             listaDeAlumnos: codigo
         })
-        
+        this.removeAlumno(alumno._id)
     }
 
     imprimirAlumnos() { 

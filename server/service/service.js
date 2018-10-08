@@ -214,6 +214,18 @@ validarBlancos(dataTaller){
         });
       });
     }
+	
+	deleteAlumnoCurso(idCurso, idPersona) {
+    return this.doOperationOnConnection(db => {
+      return store.fetchCursoRaw(db, idCurso).then(dataCurso => {
+        if (Curso.sePuedeBorrarAlumno(dataCurso, idPersona)) {
+          return store.updateCursoBajaAlumno(db, idCurso, idPersona)
+        } else {
+          Promise.reject(new SgatError("No se puede eliminar el alumno", 404));
+        }
+		})
+	  });
+	}
 
     /**
      * Profesores

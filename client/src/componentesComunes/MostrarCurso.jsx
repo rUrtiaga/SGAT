@@ -3,33 +3,47 @@ const React = require("react");
 class Curso extends React.Component {
   constructor(props) {
     super(props);
+    let { curso } = this.props;
     this.state = {
-      cupo: this.props.curso._cupo,
-      DHL: this.props.curso._diasHorariosLugares,
-      profesores: this.props.curso._profesores,
-      anio: this.props.curso._anio
+      cupo: curso._cupo,
+      DHL: curso._diasHorariosLugares,
+      profesores: curso._profesores,
+      hayCupo: curso._hayCupo,
+      anio: curso._anio
     };
   }
 
   nombresProfes() {
-    return this.state.profesores.map(p => p._nombre + " " + p._apellido + ", ");
+    if (this.state.profesores.length) {
+      return this.state.profesores
+        .map(p => p._nombre + " " + p._apellido)
+        .join(", ");
+    } else {
+      return "Sin asignar";
+    }
+  }
+  pluralProfesores() {
+    return this.state.profesores.length > 1 ? "es" : null;
+  }
+
+  cursoLleno() {
+    return this.state.hayCupo ? "" : "text-white bg-danger";
   }
 
   render() {
     return (
-      <div className="card mt-sm-2 ">
+      <div className={"card mt-sm-2 mt-2 " + this.cursoLleno()}>
         <div className="card-body">
           <div className="row">
-            <div className="col-sm-7">
+            <div className="col-sm-6">
               <h5 className="card-title ml-sm-2 mb-4">
-                Prof/s: {this.nombresProfes()}
+                Profesor
+                {this.pluralProfesores()}: {this.nombresProfes()}
               </h5>
             </div>
-            <div className="col-sm-5 text-right">{this.props.botones}</div>
+            <div className="col-sm-6 text-right">{this.props.botones}</div>
           </div>
-          <div className="container">
-            <DHL dhls={this.state.DHL} />
-          </div>
+          <DHL dhls={this.state.DHL} />
         </div>
       </div>
     );
@@ -43,13 +57,13 @@ class DHL extends React.Component {
   }
   render() {
     return (
-      <div className="container">
-        <table className="table table-sm text-center">
-          <tbody>
-            {this.props.dhls.map(dhl => <FilaDHL dhl={dhl} key={this.i++} />)}
-          </tbody>
-        </table>
-      </div>
+      <table className="table table-sm text-center mb-0">
+        <tbody>
+          {this.props.dhls.map(dhl => (
+            <FilaDHL dhl={dhl} key={this.i++} />
+          ))}
+        </tbody>
+      </table>
     );
   }
 }

@@ -6,7 +6,6 @@ const nuevoCurso = require("./nuevoCurso");
 const muestraTalleres = require("./talleres");
 const listarAlumnos = require("./alumnos");
 const nuevoAlumno = require("./nuevoAlumno");
-const infoPersona = require("./componentesComunes/infoPersona");
 
 const pantallas = {
   muestraTalleres: 1,
@@ -14,7 +13,7 @@ const pantallas = {
   nuevoCurso: 3,
   listarAlumnos: 4,
   nuevoAlumno: 5,
-  infoPersona: 6
+  listaDeEspera: 6
 };
 
 /*MENU*/
@@ -45,8 +44,8 @@ class Menu extends React.Component {
     this.setState({ pantallaActual: pantallas.nuevoAlumno });
   }
 
-  mostrarDatosPersona() {
-    this.setState({ pantallaActual: pantallas.infoPersona });
+  listaDeEspera() {
+    this.setState({ pantallaActual: pantallas.listaDeEspera });
   }
   setUltimaAccion(accion) {
     this._accionAnterior = this._ultimaAccion;
@@ -181,12 +180,12 @@ class Menu extends React.Component {
                 </div>
               );
             } else {
-              if (this.state.pantallaActual === pantallas.infoPersona) {
-                this.setUltimaAccion(() => this.mostrarDatosPersona());
+              if (this.state.pantallaActual === pantallas.listaDeEspera) {
+                this.setUltimaAccion(() => this.listaDeEspera());
                 return (
                   <div>
                     {this.menuBarra()}
-                    <infoPersona.InfoPersona rootComponent={this} />
+                    <h4 className="m-sm-5 text-center"> En construcción disculpe =( </h4>
                   </div>
                 );
               }
