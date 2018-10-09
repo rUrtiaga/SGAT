@@ -130,6 +130,7 @@ class InputPersona extends React.Component {
 
   llenarPersona(persona) {
     this.setState({
+      persona: persona,
       id: persona._id,
       dni: persona._dni,
       nombre: persona._nombre,
@@ -221,7 +222,7 @@ class InputPersona extends React.Component {
             onChange={event => this.handleChange(event)}
             errorMsg={this.state.formErrors.direccion}
           />
-          
+
           <div className="form-group form-row">
             <Input
               divClass="col-12 col-md-6"
@@ -304,20 +305,28 @@ class InputPersona extends React.Component {
     return anioRestado + "-01-01";
   }
 
+  personaNueva() {
+    return !this.state.id;
+  }
+
+  personaModificada(persona) {
+    return !sameAtributesValues(persona, this.state.persona);
+  }
+
   aceptarPersona(alert) {
     let self = this;
     const persona = {
       _dni: parseInt(this.state.dni, 10),
       _nombre: this.state.nombre,
       _apellido: this.state.apellido,
-      _fechaNac: new Date(this.state.fechaNac),
+      _fechaNac: new Date(this.state.fechaNac).toISOString(),
       _direccion: this.state.direccion,
       _telPrincipal: this.state.telPrincipal,
       _telSecundario: this.state.telSecundario,
       _mail: this.state.mail,
       _comentario: this.state.comentario
     };
-    if (!this.state.id) {
+    if (this.personaNueva()) {
       return axios
         .post("/api/personas", persona)
         .then(function(response) {
@@ -332,9 +341,7 @@ class InputPersona extends React.Component {
           alert.error(
             "Falló al crear " + persona._apellido + " " + persona._nombre
           );
-          alert.error(
-            error.response.data.message
-          )
+          alert.error(error.response.data.message);
           if (listErrors) {
             listErrors.forEach(campoError => {
               alert.error("Campo " + campoError + " no es valido.");
@@ -343,9 +350,47 @@ class InputPersona extends React.Component {
         });
     } else {
       persona._id = this.state.id;
-      self.props.onAccept(persona);
+      if (this.personaModificada(persona)) {
+        axios
+          .put("/api/personas/" + persona._id)
+          .then(r => {
+            self.props.onAccept(persona);
+            alert.success(
+              "Se modificó correctamente " +
+                persona._apellido +
+                " " +
+                persona._nombre
+            );
+          })
+          .catch(e => {
+            console.log(e);
+            alert.error(
+              "Falló al modificar " + persona._apellido + " " + persona._nombre
+            );
+          });
+      } else {
+        self.props.onAccept(persona);
+      }
     }
   }
+}
+
+function sameAtributesValues(o1, o2) {
+  for (var p in o1) {
+    if (o1.hasOwnProperty(p)) {
+      if (o1[p] !== o2[p]) {
+        return false;
+      }
+    }
+  }
+  for (var p in o2) {
+    if (o2.hasOwnProperty(p)) {
+      if (o1[p] !== o2[p]) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 exports.InputPersona = InputPersona;
