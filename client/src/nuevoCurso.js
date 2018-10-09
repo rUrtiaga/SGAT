@@ -1,7 +1,6 @@
 const React = require("react");
 const axios = require("axios");
 
-const { Alert } = require('react-alert');
 
 const { Selector } = require("./componentesComunes/selector.jsx");
 const { InputPersona } = require("./componentesComunes/inputPersona.jsx");
