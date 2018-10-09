@@ -22,7 +22,6 @@ class MuestraSubCategoria extends React.Component {
   }
 
   mostrarSubCategoria() {
-    if (this.state.mostrarEditar === true) {
       return (
         <div className="form-row mb-2 mt-2">
           <div className="col-md-2">
@@ -56,20 +55,20 @@ class MuestraSubCategoria extends React.Component {
           </div>
         </div>
       );
-    }
-    return <div />;
   }
 
   render() {
     return (
       <div>
+        {(this.state.mostrarEditar === false)?
         <button
           className="btn btn-link"
           onClick={() => this.mostrarModificarSubCategoria()}
         >
           {this.state.nombreSubCategoria}
-        </button>
-        {this.mostrarSubCategoria()}
+        </button>:
+        this.mostrarSubCategoria()
+        }
       </div>
     );
   }
