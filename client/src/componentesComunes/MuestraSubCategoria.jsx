@@ -13,13 +13,10 @@ class MuestraSubCategoria extends React.Component {
     this.setState({ mostrarEditar: true });
   }
 
-  cancelar() {
+  guardar() {
     this.setState({ mostrarEditar: false });
   }
 
-  guardar() {
-    //this.props.aceptar()
-  }
 
   mostrarSubCategoria() {
       return (
@@ -41,16 +38,7 @@ class MuestraSubCategoria extends React.Component {
               className="btn btn-success"
               onClick={() => this.guardar()}
             >
-              <span className="fa fa-plus"> </span>
-            </button>
-          </div>
-          <div className="col-md-1">
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={() => this.cancelar()}
-            >
-              <span className="fa fa-minus"> </span>
+              <span className="fa fa-check"> </span>
             </button>
           </div>
         </div>
@@ -61,12 +49,22 @@ class MuestraSubCategoria extends React.Component {
     return (
       <div>
         {(this.state.mostrarEditar === false)?
+        <div> 
         <button
           className="btn btn-link"
           onClick={() => this.mostrarModificarSubCategoria()}
         >
           {this.state.nombreSubCategoria}
-        </button>:
+        </button>
+        <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => this.props.padre.quitarSubCategoria(this.state.nombreSubCategoria)}
+        >
+            <span className="fa fa-trash"> </span>
+        </button>
+        </div> 
+        :
         this.mostrarSubCategoria()
         }
       </div>
