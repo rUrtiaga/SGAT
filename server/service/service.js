@@ -74,58 +74,52 @@
       return this.doOperationOnConnection(db => {
         return store.fetchTalleres(db);
       });
-  }
-  /**
-   * Talleres
-   */
+    }
+    /**
+     * Talleres
+     */
 
-  pushTaller(dataTaller) {
-    let talleres = dataTaller._subCategorias.map(
-      subCat => new Taller(dataTaller, subCat)
-    );
-    let nombre = dataTaller._nombre
+    pushTaller(dataTaller) {
+      let talleres = dataTaller._subCategorias.map(
+        subCat => new Taller(dataTaller, subCat)
+      );
+      let nombre = dataTaller._nombre
 
-    if(!this.validarBlancos(dataTaller)){
-          return this.doOperationOnConnection(db => {
-            return this.existTaller(db,nombre).then(() => 
-              store.pushTalleres(db, talleres)
+      if (!this.validarBlancos(dataTaller)) {
+        return this.doOperationOnConnection(db => {
+          return this.existTaller(db, nombre).then(() =>
+            store.pushTalleres(db, talleres)
           );
         })
-    }
-
-    else{
-      return Promise.reject(
-        new SgatError(
-          "El Taller tiene datos incompletos", 409
-        )
-      );
-    }
-
-
-}
-
-validarBlancos(dataTaller){
-  if (dataTaller._nombre === "" || dataTaller._categoria === ""){
-    console.log("true")
-    return true
-  }
-  else return false
-}
-
-
-  existTaller(db, nombreTaller) {
-    return store.existsTaller(db, nombreTaller).then(talleres => {
-      if (talleres.length == 0) {
-        return Promise.resolve();
       } else {
         return Promise.reject(
           new SgatError(
-            "ya se encuentra un Taller con el nombre: " + nombreTaller, 409
+            "El Taller tiene datos incompletos", 409
           )
         );
       }
-    });
-  }
+
+
+    }
+
+    validarBlancos(dataTaller) {
+      return dataTaller._nombre === "" || dataTaller._categoria === ""
+    }
+
+
+    existTaller(db, nombreTaller) {
+      return store.existsTaller(db, nombreTaller).then(talleres => {
+        if (talleres.length == 0) {
+          return Promise.resolve();
+        } else {
+          return Promise.reject(
+            new SgatError(
+              "ya se encuentra un Taller con el nombre: " + nombreTaller, 409
+            )
+          );
+        }
+      });
+    }
 
 
 
@@ -167,31 +161,30 @@ validarBlancos(dataTaller){
 
     pushCurso(dataCurso) {
       let curso = new Curso(dataCurso);
-      
-      if(!this.validarCurso(dataCurso)){
+
+      if (!this.validarCurso(dataCurso)) {
         return this.doOperationOnConnection(db => {
           return store.pushCurso(db, curso);
         });
-      }
-      else{
+      } else {
         return Promise.reject(
-           new SgatError(
-              "El Cupo del curso no puede ser NEGATIVO", 409
-            )
-            
-          );
+          new SgatError(
+            "El Cupo del curso no puede ser NEGATIVO", 409
+          )
+
+        );
       }
-      
-      
-      
-      
+
+
+
+
       return this.doOperationOnConnection(db => {
         return store.pushCurso(db, curso);
       });
     }
-    
-    
-    validarCurso(dataCurso){
+
+
+    validarCurso(dataCurso) {
       return (dataCurso._cupo < 0)
     }
 
@@ -214,18 +207,18 @@ validarBlancos(dataTaller){
         });
       });
     }
-	
-	deleteAlumnoCurso(idCurso, idPersona) {
-    return this.doOperationOnConnection(db => {
-      return store.fetchCursoRaw(db, idCurso).then(dataCurso => {
-        if (Curso.sePuedeBorrarAlumno(dataCurso, idPersona)) {
-          return store.updateCursoBajaAlumno(db, idCurso, idPersona)
-        } else {
-          Promise.reject(new SgatError("No se puede eliminar el alumno", 404));
-        }
-		})
-	  });
-	}
+
+    deleteAlumnoCurso(idCurso, idPersona) {
+      return this.doOperationOnConnection(db => {
+        return store.fetchCursoRaw(db, idCurso).then(dataCurso => {
+          if (Curso.sePuedeBorrarAlumno(dataCurso, idPersona)) {
+            return store.updateCursoBajaAlumno(db, idCurso, idPersona)
+          } else {
+            Promise.reject(new SgatError("No se puede eliminar el alumno", 404));
+          }
+        })
+      });
+    }
 
     /**
      * Profesores
@@ -239,6 +232,12 @@ validarBlancos(dataTaller){
     /**
      *  Personas
      */
+
+    putPersona(persona){
+      return this.doOperationOnConnection(db =>{
+        return store.updatePersona(db,persona)
+      })
+    }
 
 
     fetchPersonaDNI(dni) {
@@ -324,7 +323,7 @@ validarBlancos(dataTaller){
         return db.listCollections({}, {
           nameOnly: true
         }).toArray().then(list => list.length === 0)
-       })
+      })
 
     }
 
