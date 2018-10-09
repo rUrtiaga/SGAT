@@ -5,7 +5,6 @@ const { NuevaCategoria } = require("./componentesComunes/nuevaCategoria.jsx");
 const {NuevaSubCategoria} = require("./componentesComunes/nuevaSubCategoria.jsx");
 const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
 const { MuestraSubCategoria } = require("./componentesComunes/MuestraSubCategoria.jsx");
-const { Alert } = require('react-alert');
 
 
 
@@ -171,7 +170,7 @@ validar(){
     } 
     else {
       return this.datosTallerACrear()
-    };
+    }
   }
 
   subCategoriasOAviso(){
