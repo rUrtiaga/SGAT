@@ -4,6 +4,7 @@ const {MuestraCategorias} = require("./componentesComunes/selectMostrarCategoria
 const { NuevaCategoria } = require("./componentesComunes/nuevaCategoria.jsx");
 const {NuevaSubCategoria} = require("./componentesComunes/nuevaSubCategoria.jsx");
 const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
+const { MuestraSubCategoria } = require("./componentesComunes/MuestraSubCategoria.jsx");
 const { Alert } = require('react-alert');
 
 
@@ -95,12 +96,22 @@ class CrearTaller extends React.Component {
       return (
         <div className="card mb-2 mt-2" >
         <p>SubCategorias Agregadas:</p>
-        <h4>{this.state.subCategorias.map( subC => subC + " ")}</h4>
-          </div>
+        
+        {this.state.subCategorias.map( subC => 
+          <MuestraSubCategoria
+              padre={this}
+              subcategoria={subC}
+              disabled={this.validar()}
+              aceptar={() => this.actualizarSubCategorias()} //hacer el setState para que actualice el array de subcategorias
+          >
+          </MuestraSubCategoria>
+
+          )}
+        </div>
+
     )
   }
 }
-
 
 validar(){
   return (!((this.state.nombre) && (this.state.subCategorias.length > 0)))  
