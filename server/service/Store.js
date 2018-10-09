@@ -290,9 +290,15 @@ class Store {
     return db.collection("personas").insertMany([persona]);
   }
 
+  updatePersona(db,persona) {
+    let id = persona._id
+    delete persona._id;
+    return db.collection("personas").updateOne({_id:ObjectID(id)},{$set: persona});
+  }
+
   fetchCategorias(db) {
     return db
-      .collection("categorias")
+      .collection("categorias") 
       .find()
       .toArray();
   }

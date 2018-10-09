@@ -352,7 +352,7 @@ class InputPersona extends React.Component {
       persona._id = this.state.id;
       if (this.personaModificada(persona)) {
         axios
-          .put("/api/personas/" + persona._id)
+          .put("/api/personas/" + persona._id, persona)
           .then(r => {
             self.props.onAccept(persona);
             alert.success(
