@@ -31,15 +31,6 @@ class NuevaSubCategoria extends React.Component {
                            <span className="fa fa-plus">  </span>
                             </button>
                 </div>
-                <div className="col-md-1">
-                        <button
-                            type="button"
-                            className="btn btn-danger"
-                            disabled = {this.props.padre.state.borrarSubCategorias}
-                            onClick={() => this.cancelarAgregado()}>
-                            <span className="fa fa-minus">  </span>
-                            </button>
-                    </div>
                 </div>
         )
     }
