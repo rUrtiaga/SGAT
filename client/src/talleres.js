@@ -24,9 +24,7 @@ class MostrarTalleres extends React.Component {
       )
       .map(tallerDesnormalizado => {
         return (
-          <div
-            key={tallerDesnormalizado._subCategoria}
-          >
+          <div key={tallerDesnormalizado._subCategoria}>
             <div className="card-body">
               <h5 className="card-title">
                 {tallerDesnormalizado._subCategoria}
@@ -72,7 +70,7 @@ class NavItem extends React.Component {
         >
           {this.props.categoria}
         </a>
-       </li>
+      </li>
     );
   }
 }
@@ -96,7 +94,9 @@ class Talleres extends React.Component {
     return axios
       .get("/api/talleres")
       .then(function(response) {
-        let listTalleres = response.data.filter(t=>listCursos.some(c=>c._tallerID === t._id));
+        let listTalleres = response.data.filter(t =>
+          listCursos.some(c => c._tallerID === t._id)
+        );
         let listCategorias = _.sortedUniq(listTalleres.map(t => t._categoria));
         self.setState({
           listaDeTalleres: listTalleres,
@@ -126,8 +126,8 @@ class Talleres extends React.Component {
       });
   }
 
-  seleccionarListaDeEspera(cursoId){
-    this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 6 }); 
+  seleccionarListaDeEspera(cursoId) {
+    this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 6 });
   }
 
   seleccionarAlumnos(cursoId) {
@@ -188,8 +188,10 @@ class Talleres extends React.Component {
           curso={curso}
           botones={
             <Botones
-              hayCupo = {curso._hayCupo}
-              seleccionarListaDeEspera={()=>this.seleccionarListaDeEspera(curso._id)}
+              hayCupo={curso._hayCupo}
+              seleccionarListaDeEspera={() =>
+                this.seleccionarListaDeEspera(curso._id)
+              }
               seleccionarAlumnos={() => this.seleccionarAlumnos(curso._id)}
               inscribirAlumno={() => this.inscribirAlumno(curso._id)}
             />
@@ -200,18 +202,18 @@ class Talleres extends React.Component {
 }
 
 class Botones extends React.Component {
-
-  botonListaDeEspera(){
-    let onClick = v=>this.props.seleccionarListaDeEspera(v)
-    let text = "Espera"
-    let className = "col-md-3 btn btn-primary mr-1 mb-1 "
-    if (this.props.hayCupo){
-      className += "disabled"
-      onClick = null
-      // PREGUNTAR si queda mejor que no esté el botón o que aparezca pero desabilidado
-      return null
+  botonListaDeEspera() {
+    let onClick = v => this.props.seleccionarListaDeEspera(v);
+    let text = "Espera";
+    let className = "col-md-3 btn btn-primary mr-1 mb-1 ";
+    if (this.props.hayCupo) {
+      return null;
     }
-    return <button className={className} onClick={onClick}>{text}</button> 
+    return (
+      <button className={className} onClick={onClick}>
+        {text}
+      </button>
+    );
   }
 
   render() {
