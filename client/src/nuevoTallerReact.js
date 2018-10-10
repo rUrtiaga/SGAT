@@ -102,7 +102,6 @@ class CrearTaller extends React.Component {
     let subc = [];
     subc = this.state.subCategorias.filter(i => i !== subcategoria);
     console.log(subc);
-    //this.setState({ subCategorias: subc });
     this.setState({ subCategorias: subc }); // no esta acualizando la coleccion en pantalla
   }
 
