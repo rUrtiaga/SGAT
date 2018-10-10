@@ -37,7 +37,9 @@ class CrearTaller extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({ disabled: false });
+    this.setState({
+      disabled: false
+    });
     this.mostrarDivNuevaSubCategoria();
   }
 
@@ -47,7 +49,9 @@ class CrearTaller extends React.Component {
     });
   }
   ocultarDivNuevaCateg() {
-    this.setState({ agregaCategoria: false });
+    this.setState({
+      agregaCategoria: false
+    });
   }
   mostrarDivNuevaSubCategoria() {
     this.setState({
@@ -78,21 +82,33 @@ class CrearTaller extends React.Component {
   }
 
   cancelarAgregado() {
-    this.setState({ nombre: "" });
-    this.setState({ categoria: "" });
-    this.setState({ subCategorias: [] });
+    this.setState({
+      nombre: ""
+    });
+    this.setState({
+      categoria: ""
+    });
+    this.setState({
+      subCategorias: []
+    });
   }
 
   seleccionarCategoria(valor) {
-    this.setState({ categoria: valor });
+    this.setState({
+      categoria: valor
+    });
   }
 
   confirmar(alert) {
-    this.setState({ confirmacion: true });
+    this.setState({
+      confirmacion: true
+    });
   }
 
   volver() {
-    this.setState({ confirmacion: false });
+    this.setState({
+      confirmacion: false
+    });
   }
 
   quitarSubCategoria(subcategoria) {
@@ -102,7 +118,9 @@ class CrearTaller extends React.Component {
     let subc = [];
     subc = this.state.subCategorias.filter(i => i !== subcategoria);
     console.log(subc);
-    this.setState({ subCategorias: subc }); // no esta acualizando la coleccion en pantalla
+    this.setState({
+      subCategorias: subc
+    }); // no esta acualizando la coleccion en pantalla
   }
 
   //Muestra Div con las sub-categorias agregadas hasta el momento
@@ -110,11 +128,15 @@ class CrearTaller extends React.Component {
     if (!(this.state.subCategorias.length === 0)) {
       return (
         <div className="card mb-2 mt-2">
-          <p>SubCategorias Agregadas:</p>
-
+          <p> SubCategorias Agregadas: </p>
           {this.state.subCategorias.map(subC => (
-            <MuestraSubCategoria padre={this} subcategoria={subC} />
-          ))}
+            <MuestraSubCategoria
+              key={subC}
+              padre={this}
+              subcategoria={subC}
+              quitarSubCategoria={s => this.quitarSubCategoria(s)}
+            />
+          ))}{" "}
         </div>
       );
     }
@@ -139,7 +161,9 @@ class CrearTaller extends React.Component {
       .get("api/categorias")
       .then(respuesta => {
         let catSinId = respuesta.data.map(c => c._categoria);
-        this.setState({ categorias: catSinId });
+        this.setState({
+          categorias: catSinId
+        });
       })
       .then(() => this.seleccionarCategoria(this.state.categorias[0]))
       .catch(e => console.log(e));
@@ -152,13 +176,17 @@ class CrearTaller extends React.Component {
       _nombre: self.state.nombre,
       _subCategorias: self.state.subCategorias
     };
-    this.setState({ errorValidar: this.validar() });
+    this.setState({
+      errorValidar: this.validar()
+    });
     if (!this.state.errorValidar) {
       axios
         .post("api/talleres ", taller)
         .then(function(res) {
           alert.success("Se creó correctamente el TALLER " + taller._nombre);
-          self.setState({ confirmacion: false });
+          self.setState({
+            confirmacion: false
+          });
         })
         .then(this.cancelarAgregado())
         .catch(function(error) {
@@ -184,7 +212,7 @@ class CrearTaller extends React.Component {
     if (this.state.subCategorias.length === 0) {
       return (
         <div class="alert alert-danger" role="alert">
-          ERROR!: no se ha asignado ningúna SubCategoria.
+          ERROR!: no se ha asignado ningúna SubCategoria.{" "}
         </div>
       );
     } else {
@@ -199,26 +227,25 @@ class CrearTaller extends React.Component {
         <div className="card mb-8 mt-2">
           <div className="form-group">
             <div className="col-md-6">
-              <h5>Usted esta a punto de crear el siguiente Taller:</h5>
+              <h5> Usted esta a punto de crear el siguiente Taller: </h5>{" "}
               <p>
                 {" "}
-                Nombre: <b>{this.state.nombre}</b>
-              </p>
+                Nombre: <b> {this.state.nombre} </b>{" "}
+              </p>{" "}
               <p>
                 {" "}
-                Taller: <b>{this.state.categoria}</b>
-              </p>
-              {this.subCategoriasOAviso()}
+                Taller: <b> {this.state.categoria} </b>{" "}
+              </p>{" "}
+              {this.subCategoriasOAviso()}{" "}
             </div>
-
             <AceptarYCancelar
               acceptText={"Aceptar"}
               cancelText={"Volver"}
               cancelar={() => this.volver()}
               aceptar={alert => this.guardarTaller(alert)}
-            />
-          </div>
-        </div>
+            />{" "}
+          </div>{" "}
+        </div>{" "}
       </div>
     );
   }
@@ -228,10 +255,9 @@ class CrearTaller extends React.Component {
     return (
       <div className="container">
         <form>
-          <h3 className="mt-4 mb-4">Nuevo Taller</h3>
-
+          <h3 className="mt-4 mb-4"> Nuevo Taller </h3>
           <div className="form-group">
-            <label htmlFor="nombreTaller">Nombre</label>
+            <label htmlFor="nombreTaller"> Nombre </label>{" "}
             <input
               type="text"
               className="form-control col-md-6 "
@@ -244,14 +270,14 @@ class CrearTaller extends React.Component {
                   errorValidar: this.validar()
                 });
               }}
-            />
+            />{" "}
           </div>
-
           <div className="form-row">
             <div className="col">
-              <label htmlFor="CategoriaTitle">Categoria</label>
+              <label htmlFor="CategoriaTitle"> Categoria </label>{" "}
               <div className="form-row mt-2 mb-2">
-                {this.mostrarMuestraCategoria()}
+                {" "}
+                {this.mostrarMuestraCategoria()}{" "}
                 <div className="col">
                   <button
                     type="button"
@@ -260,33 +286,31 @@ class CrearTaller extends React.Component {
                     icon="fa-plus"
                     onClick={() => this.mostrarDivNuevaCateg()}
                   >
-                    <span className="fa fa-plus"> </span>
-                  </button>
-                </div>
+                    <span className="fa fa-plus"> </span>{" "}
+                  </button>{" "}
+                </div>{" "}
               </div>
-
               {//agrega el componenete nueva categoria
               this.nuevaCategoria()}
-
               {//muestra panel de nuevo NIVEL
-              this.nuevaSubCategoria()}
-              {this.mostrarSubCategoriasAgregadas()}
+              this.nuevaSubCategoria()}{" "}
+              {this.mostrarSubCategoriasAgregadas()}{" "}
               <AceptarYCancelar
                 acceptText={"Guardar Taller"}
                 cancelText={"Cancelar"}
                 disabled={this.validar()}
                 cancelar={() => this.cancelarAgregado()}
                 aceptar={() => this.confirmar()}
-              />
-            </div>
-          </div>
-        </form>
+              />{" "}
+            </div>{" "}
+          </div>{" "}
+        </form>{" "}
       </div>
     );
   }
 
   render() {
-    return <div className="container">{this.inputOConfirmacion()}</div>;
+    return <div className="container"> {this.inputOConfirmacion()} </div>;
   }
 }
 module.exports.CrearTaller = CrearTaller;
