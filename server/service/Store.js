@@ -1,4 +1,6 @@
-const { ObjectID } = require("mongodb");
+const {
+  ObjectID
+} = require("mongodb");
 
 /* Tres cosas de carlos
  *  - no vale abrir mas de una conexion para cada llamada por API
@@ -43,24 +45,20 @@ class Store {
   existsTaller(db, nombreTaller) {
     return db
       .collection("talleres")
-      .find({ _nombre: nombreTaller })
+      .find({
+        _nombre: nombreTaller
+      })
       .toArray();
   }
 
   fetchTalleresCategoria(db, cat) {
     return (
       db
-        .collection("talleres")
-        .find({
-          _categoria: cat
-        })
-        //este agregate era por que pense que tenia que devolver la lista sola podria ser otra consulta
-        // .aggregate([
-        //   { $match: { _categoria: cat } },
-        //   { $group: { _id: "$_nombre" }},
-        //   { $project: {_nombre: "$_id",_id : 0}}
-        // ])
-        .toArray()
+      .collection("talleres")
+      .find({
+        _categoria: cat
+      })
+      .toArray()
     );
   }
   fetchTalleresCatYTaller(db, cat, taller) {
@@ -81,17 +79,11 @@ class Store {
     return this.fetchID(db, "cursos", id);
   }
 
-  // validatePersonInCurso(db,idCurso,idPersona){
-  //   this.fetchCursoRaw(db,idCurso).then((dataCurso)=>{
-
-  //   })
-  // }
 
   fetchCurso(db, id) {
     return db
       .collection("cursos")
-      .aggregate([
-        {
+      .aggregate([{
           $match: {
             _id: ObjectID(id)
           }
@@ -115,8 +107,7 @@ class Store {
         {
           $addFields: {
             _taller: {
-              $ifNull: [
-                {
+              $ifNull: [{
                   $arrayElemAt: ["$_taller", 0]
                 },
                 {
@@ -184,7 +175,6 @@ class Store {
     return (
       db
       .collection("cursos")
-      // .find({ _tallerID: ObjectID(idTaller) })
       .aggregate([{
           $match: {
             _tallerID: ObjectID(idTaller)
@@ -232,8 +222,8 @@ class Store {
             }
           }
         }
-        ])
-        .toArray()
+      ])
+      .toArray()
     );
   }
 
@@ -242,34 +232,40 @@ class Store {
   }
 
   updateCurso(db, property, idCurso, idPersona) {
-    return db.collection("cursos").updateOne(
-      {
-        _id: ObjectID(idCurso)
-      },
-      {
-        $push: {
-          [property]: ObjectID(idPersona)
-        }
+    return db.collection("cursos").updateOne({
+      _id: ObjectID(idCurso)
+    }, {
+      $push: {
+        [property]: ObjectID(idPersona)
       }
-    );
+    });
   }
 
   updateCursoAlumno(db, idCurso, idPersona) {
     return this.updateCurso(db, "_alumnos", idCurso, idPersona);
   }
 
-  updateCursoBajaAlumno(db, idCurso, idPersona) {
-    return db.collection("cursos").updateOne(
-      {
-        _id: ObjectID(idCurso),
-        _alumnos: ObjectID(idPersona)
-      },
-      {
-        $addToSet: {
+  updateCursoRemoveAlumnoBaja(db, idCurso, idPersona) {
+    return db
+      .collection("cursos")
+      .updateOne({
+        _id: ObjectID(idCurso)
+      }, {
+        $pull: {
           _alumnosBaja: ObjectID(idPersona)
         }
+      });
+  }
+
+  updateCursoBajaAlumno(db, idCurso, idPersona) {
+    return db.collection("cursos").updateOne({
+      _id: ObjectID(idCurso),
+      _alumnos: ObjectID(idPersona)
+    }, {
+      $addToSet: {
+        _alumnosBaja: ObjectID(idPersona)
       }
-    );
+    });
   }
 
   updateCursoProfesor(db, idCurso, idPersona) {
@@ -290,25 +286,27 @@ class Store {
     return db.collection("personas").insertMany([persona]);
   }
 
-  updatePersona(db,persona) {
+  updatePersona(db, persona) {
     let id = persona._id
     delete persona._id;
-    return db.collection("personas").updateOne({_id:ObjectID(id)},{$set: persona});
+    return db.collection("personas").updateOne({
+      _id: ObjectID(id)
+    }, {
+      $set: persona
+    });
   }
 
   fetchCategorias(db) {
     return db
-      .collection("categorias") 
+      .collection("categorias")
       .find()
       .toArray();
   }
 
   pushCategoria(db, categoria) {
-    return db.collection("categorias").insertMany([
-      {
-        _categoria: categoria
-      }
-    ]);
+    return db.collection("categorias").insertMany([{
+      _categoria: categoria
+    }]);
   }
 
   existsCategoria(db, categoria) {

@@ -1,8 +1,7 @@
   const {
     Taller,
     Persona,
-    Curso,
-    DiaHorarioLugar
+    Curso
   } = require("./dominio/dominio-talleres.js");
   const {
     store
@@ -202,7 +201,12 @@
       return this.doOperationOnConnection(db => {
         return store.fetchCursoRaw(db, idCurso).then(dataCurso => {
           return Curso.estaRepetidoPersona(dataCurso, idPersona)
-            .then(() => store.updateCursoAlumno(db, idCurso, idPersona))
+            .then(() => {
+              if (Curso.personaBorrada(dataCurso, idPersona)) {
+                return store.updateCursoRemoveAlumnoBaja(db, idCurso, idPersona)
+              }
+              return store.updateCursoAlumno(db, idCurso, idPersona)
+            })
             .catch(e => Promise.reject(e));
         });
       });
@@ -233,9 +237,9 @@
      *  Personas
      */
 
-    putPersona(persona){
-      return this.doOperationOnConnection(db =>{
-        return store.updatePersona(db,persona)
+    putPersona(persona) {
+      return this.doOperationOnConnection(db => {
+        return store.updatePersona(db, persona)
       })
     }
 
