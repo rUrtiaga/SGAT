@@ -34,13 +34,16 @@ class Selector extends React.Component {
   }
 
   seleccionMuestraCategorias(valor) {
-    this.setState({
-      talleres: this.talleresDeCategoria(valor),
-      categoria: valor,
-      taller: null,
-      subCategoria: null,
-      curso: null
-    },()=>this.seleccionMuestraTalleres(this.state.talleres[0]))
+    this.setState(
+      {
+        talleres: this.talleresDeCategoria(valor),
+        categoria: valor,
+        taller: null,
+        subCategoria: null,
+        curso: null
+      },
+      () => this.seleccionMuestraTalleres(this.state.talleres[0])
+    );
   }
 
   talleresDeCategoria(categoriaStr) {
@@ -52,17 +55,22 @@ class Selector extends React.Component {
   }
 
   seleccionMuestraTalleres(valor) {
-    this.setState({
-      subCategorias: this.subcategoriasDeTaller(valor),
-      taller: valor,
-      subCategoria: null,
-      curso: null
-    },()=>this.seleccionSubCategoria(this.state.subCategorias[0]._id));
+    this.setState(
+      {
+        subCategorias: this.subcategoriasDeTaller(valor),
+        taller: valor,
+        subCategoria: null,
+        curso: null
+      },
+      () => this.seleccionSubCategoria(this.state.subCategorias[0]._id)
+    );
   }
 
-  subcategoriasDeTaller(tallerStr){
-    return  this.state.talleresFull
-    .filter(tfull => tfull._categoria === this.state.categoria && tfull._nombre === tallerStr)
+  subcategoriasDeTaller(tallerStr) {
+    return this.state.talleresFull.filter(
+      tfull =>
+        tfull._categoria === this.state.categoria && tfull._nombre === tallerStr
+    );
   }
 
   seleccionSubCategoria(valor) {
@@ -76,7 +84,6 @@ class Selector extends React.Component {
     this.props.onSelect(valor);
     this.setState({ curso: valor });
   }
-  
 
   render() {
     return (
@@ -112,7 +119,7 @@ class Selector extends React.Component {
         ) : null}
         {this.state.subCategoria && !this.props.callbackNuevoCurso ? (
           <div className="col-md-12">
-            <h6 className="ml-3 mt-2">Cursos</h6>
+            <h6 className="ml-3 mt-2">Cursada/s</h6>
             <MuestraCursos
               select={this.state.subCategoria}
               seleccionar={v => this.seleccionCurso(v)}

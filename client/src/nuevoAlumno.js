@@ -21,7 +21,7 @@ class NuevoAlumno extends React.Component {
     if (this.props.cursoId) {
       this.fetchCurso(this.props.cursoId).then(c => this.selectCurso(c));
     } else {
-      this.setState({selectorCursoOculto:false})
+      this.setState({ selectorCursoOculto: false });
     }
   }
 
@@ -43,7 +43,7 @@ class NuevoAlumno extends React.Component {
       <div className="container">
         <h3 className="mt-4 mb-4">Nueva Inscripción</h3>
 
-        {this.state.selectorCursoOculto  ? null : (
+        {this.state.selectorCursoOculto ? null : (
           <Selector padre={this} onSelect={c => this.selectCurso(c)} />
         )}
 
@@ -51,7 +51,7 @@ class NuevoAlumno extends React.Component {
           <React.Fragment>
             <p>
               {" "}
-              CURSO - {this.state.curso._taller._nombre}{" "}
+              CURSADA - {this.state.curso._taller._nombre}{" "}
               {this.state.curso._taller._subCategoria}
             </p>
             <InputPersona
@@ -68,9 +68,7 @@ class NuevoAlumno extends React.Component {
               {" "}
               ¿Desea agregar al curso {this.state.curso._taller._nombre}{" "}
               {this.state.curso._taller._subCategoria} el alumno llamado{" "}
-              {this.state.persona._nombre +
-                " " +
-                this.state.persona._apellido}{" "}
+              {this.state.persona._nombre + " " + this.state.persona._apellido}{" "}
               con {"D.N.I: " + this.state.persona._dni} ?{" "}
             </p>
 
@@ -131,11 +129,11 @@ class NuevoAlumno extends React.Component {
       })
       .then(function(response) {
         console.log(response);
-        alert.success("Se agregó el alumno a el curso")
+        alert.success("Se agregó el alumno a el curso");
         self.limpiar();
       })
       .catch(function(error) {
-        alert.error(error.response.data.message)
+        alert.error(error.response.data.message);
         console.log(error);
       });
   }
