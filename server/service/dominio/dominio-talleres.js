@@ -1,6 +1,10 @@
-const { SgatError } = require("../extras/SgatError");
+const {
+  SgatError
+} = require("../extras/SgatError");
 
-const { ObjectID } = require("mongodb");
+const {
+  ObjectID
+} = require("mongodb");
 
 /********************
  * DOMINIO
@@ -197,9 +201,14 @@ class Curso {
    * STATIC
    *
    */
+  static personaBorrada(dataCurso, idPersona) {
+    return dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) && dataCurso._alumnosBaja.some(pOid => pOid.toString() == idPersona)
+  }
+
+
   static estaRepetidoPersona(dataCurso, idPersona) {
     if (
-      dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) ||
+      dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) && !dataCurso._alumnosBaja.some(pOid => pOid.toString() == idPersona) ||
       dataCurso._profesores.some(pOid => pOid.toString() == idPersona)
     ) {
       return Promise.reject(
@@ -213,9 +222,9 @@ class Curso {
   //   y no se encuentre en la lista de Alumnos de BAJA
   static sePuedeBorrarAlumno(dataCurso, idPersona) {
     let enAlumnos = dataCurso._alumnos.some(pOid => pOid.toString() === idPersona);
-    let enAlumnosBaja =  !dataCurso._alumnosBaja.some(pOid => pOid.toString() === idPersona);
-    
-    return enAlumnos && enAlumnosBaja;        
+    let enAlumnosBaja = !dataCurso._alumnosBaja.some(pOid => pOid.toString() === idPersona);
+
+    return enAlumnos && enAlumnosBaja;
 
   }
 
@@ -413,7 +422,7 @@ class DiaHorarioLugar {
 function toDHL(listJsonDHL) {
   return listJsonDHL.map(
     dhlJSON =>
-      new DiaHorarioLugar(dhlJSON._dia, dhlJSON._horario, dhlJSON._lugar)
+    new DiaHorarioLugar(dhlJSON._dia, dhlJSON._horario, dhlJSON._lugar)
   );
 }
 
@@ -426,7 +435,12 @@ function indiceDeLista(elemento, list) {
   return list.findIndex(elemento);
 }
 
-module.exports = { Taller, Persona, Curso, DiaHorarioLugar };
+module.exports = {
+  Taller,
+  Persona,
+  Curso,
+  DiaHorarioLugar
+};
 
 /*
 carlos hace que los objetos de negocio se puedan tranformar a json haciendo metodos como basicUIJSON (que te da un JSON adaptado par ala interfaz)
