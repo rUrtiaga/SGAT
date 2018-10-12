@@ -159,9 +159,10 @@ class InputPersona extends React.Component {
             <Input
               divClass="col-12 col-md-6"
               htmlFor="dni"
-              label="D.N.I."
+              label="D.N.I. *"
               type="number"
               name="dni"
+              placeholder="ingrese el D.N.I."
               value={this.state.dni}
               onChange={event => this.handleDNI(event)}
               errorMsg={this.state.formErrors.dni}
@@ -170,7 +171,7 @@ class InputPersona extends React.Component {
             />
             <Input
               divClass="col-12 col-md-6"
-              label="Fecha de Nacimiento"
+              label="Fecha de Nacimiento *"
               htmlFor="date"
               type="date"
               name="fechaNac"
@@ -186,7 +187,7 @@ class InputPersona extends React.Component {
           <div className="form-row">
             <Input
               divClass="col-12 col-md-6"
-              label="Nombre"
+              label="Nombre *"
               htmlFor="name"
               type="text"
               name="nombre"
@@ -197,7 +198,7 @@ class InputPersona extends React.Component {
             />
             <Input
               divClass="col-12 col-md-6"
-              label="Apellido"
+              label="Apellido *"
               type="text"
               name="apellido"
               placeholder="introduzca el Apellido"
@@ -226,7 +227,7 @@ class InputPersona extends React.Component {
           <div className="form-group form-row">
             <Input
               divClass="col-12 col-md-6"
-              label="Teléfono Principal"
+              label="Teléfono Principal *"
               type="number"
               name="telPrincipal"
               placeholder="formato: 0224345XXXX"
@@ -272,7 +273,9 @@ class InputPersona extends React.Component {
           disabled={!this.formValid()}
           aceptar={alert => this.aceptarPersona(alert)}
           cancelar={() => this.cancel()}
-        />
+        >
+          <span className="col-md-8">Los campos con * son requeridos</span>
+        </AceptarYCancelar>
       </React.Fragment>
     );
   }
@@ -376,14 +379,14 @@ class InputPersona extends React.Component {
 }
 
 function sameAtributesValues(o1, o2) {
-  for (var p in o1) {
+  for (let p in o1) {
     if (o1.hasOwnProperty(p)) {
       if (o1[p] !== o2[p]) {
         return false;
       }
     }
   }
-  for (var p in o2) {
+  for (let p in o2) {
     if (o2.hasOwnProperty(p)) {
       if (o1[p] !== o2[p]) {
         return false;
