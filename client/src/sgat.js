@@ -20,7 +20,7 @@ const pantallas = {
 class Menu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { pantallaActual: pantallas.muestraTalleres}; //este esta para test
+    this.state = { pantallaActual: pantallas.muestraTalleres };
     this._ultimaAccion = null;
   }
 
@@ -107,7 +107,7 @@ class Menu extends React.Component {
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Nuevo
+                Nuevo/a
               </a>
               <div className="dropdown-menu" aria-labelledby="#">
                 <a
@@ -120,7 +120,7 @@ class Menu extends React.Component {
                   className="dropdown-item"
                   onClick={() => this.mostrarNuevoCurso()}
                 >
-                  Curso
+                  Cursada
                 </a>
               </div>
             </li>
@@ -167,7 +167,10 @@ class Menu extends React.Component {
             return (
               <div>
                 {this.menuBarra()}
-                <nuevoAlumno.NuevoAlumno cursoId={this.state.cursoId} rootComponent={this} />
+                <nuevoAlumno.NuevoAlumno
+                  cursoId={this.state.cursoId}
+                  rootComponent={this}
+                />
               </div>
             );
           } else {
@@ -185,7 +188,10 @@ class Menu extends React.Component {
                 return (
                   <div>
                     {this.menuBarra()}
-                    <h4 className="m-sm-5 text-center"> En construcción disculpe =( </h4>
+                    <h4 className="m-sm-5 text-center">
+                      {" "}
+                      En construcción disculpe =({" "}
+                    </h4>
                   </div>
                 );
               }

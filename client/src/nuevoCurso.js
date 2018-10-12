@@ -1,7 +1,6 @@
 const React = require("react");
 const axios = require("axios");
 
-
 const { Selector } = require("./componentesComunes/selector.jsx");
 const { InputPersona } = require("./componentesComunes/inputPersona.jsx");
 const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
@@ -14,7 +13,15 @@ class NuevoCurso extends React.Component {
       profesoresId: [],
       listaDHL: [],
       DhlString: [],
-      dias:["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"],
+      dias: [
+        "Lunes",
+        "Martes",
+        "Miercoles",
+        "Jueves",
+        "Viernes",
+        "Sabado",
+        "Domingo"
+      ],
       tallerId: "",
       taller: "",
       cupo: "0",
@@ -22,12 +29,11 @@ class NuevoCurso extends React.Component {
       hora: "",
       lugar: "",
       comentario: "",
-     
 
       confirmacion: false,
       inputCurso: false,
       inputPersonaOculto: false,
-      borrarDHL:true
+      borrarDHL: true
     };
   }
 
@@ -44,33 +50,32 @@ class NuevoCurso extends React.Component {
       _dia: dia,
       _horario: hora,
       _lugar: lugar
-    }
-    this.setState({ 
-      listaDHL: [...this.state.listaDHL, varDHL] ,
-      DhlString: [...this.state.DhlString,
-                 (this.state.dia + " a las " + this.state.hora + " en " + this.state.lugar)],   
-      dia:"",
-      hora:"",
-      lugar:"",
+    };
+    this.setState({
+      listaDHL: [...this.state.listaDHL, varDHL],
+      DhlString: [
+        ...this.state.DhlString,
+        this.state.dia + " a las " + this.state.hora + " en " + this.state.lugar
+      ],
+      dia: "",
+      hora: "",
+      lugar: "",
       borrarDHL: false
     });
-    
-    
   }
-  borrarDHL(){
-    var coleccion = this.state.listaDHL
-    var colString = this.state.DhlString
-    coleccion.splice(coleccion.length-1,1)
-    colString.splice(colString.length-1,1)
-    this.setState({listaDHL: coleccion})
-    this.setState({DhlString: colString})
-      
-    if (coleccion.length === 0){
-        this.setState({borrarDHL: true })
+  borrarDHL() {
+    var coleccion = this.state.listaDHL;
+    var colString = this.state.DhlString;
+    coleccion.splice(coleccion.length - 1, 1);
+    colString.splice(colString.length - 1, 1);
+    this.setState({ listaDHL: coleccion });
+    this.setState({ DhlString: colString });
+
+    if (coleccion.length === 0) {
+      this.setState({ borrarDHL: true });
     }
   }
   guardarCurso(alert) {
-
     const curso = {
       _alumnos: [],
       _alumnosBaja: [],
@@ -84,11 +89,11 @@ class NuevoCurso extends React.Component {
     };
     axios
       .post("/api/cursos", curso)
-      .then(function (res) {
-        alert.success('Se creó correctamente el nuevo CURSO');
+      .then(function(res) {
+        alert.success("Se creó correctamente la nueva CURSADA");
       })
       .then(this.cancelarAgregado())
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
         alert.error("ERROR - " + error.response.data.message);
       });
@@ -121,7 +126,6 @@ class NuevoCurso extends React.Component {
     this.ocultarNuevaPersona();
   }
 
-
   agregarProfesor(persona) {
     this.setState({ profesores: [...this.state.profesores, persona] });
     this.setState(
@@ -148,7 +152,11 @@ class NuevoCurso extends React.Component {
       return (
         <div className="card mb-2 mt-2">
           <p>Profesores:</p>
-          <h5>{this.state.profesores.map(p => p._apellido + ", " + p._nombre + " / ")}</h5>
+          <h5>
+            {this.state.profesores.map(
+              p => p._apellido + ", " + p._nombre + " / "
+            )}
+          </h5>
         </div>
       );
     }
@@ -156,11 +164,7 @@ class NuevoCurso extends React.Component {
 
   mostrarDhl() {
     if (!(this.state.DhlString.length === 0)) {
-      return (
-       
-          <p>{this.state.DhlString.map(d => d + " / ")}</p>
-        
-      );
+      return <p>{this.state.DhlString.map(d => d + " / ")}</p>;
     }
   }
 
@@ -168,7 +172,7 @@ class NuevoCurso extends React.Component {
     this.setState({ tallerId: valor });
     const self = this;
     axios.get("api/talleres/" + valor).then(respuesta => {
-      self.setState({ taller: respuesta.data })
+      self.setState({ taller: respuesta.data });
     });
   }
 
@@ -186,7 +190,7 @@ class NuevoCurso extends React.Component {
         <div className="card mb-8 mt-2">
           <div className="form-group">
             <div className="col-md-6">
-              <h5>Usted esta a punto de crear el siguiente Curso:</h5>
+              <h5>Usted esta a punto de crear la siguiente Cursada:</h5>
               <p>
                 {" "}
                 Categoria: <b>{this.state.taller._categoria}</b>
@@ -203,15 +207,13 @@ class NuevoCurso extends React.Component {
               {this.profesoresOAviso()}
               {this.dhlOAviso()}
             </div>
-  
-              <AceptarYCancelar
-                acceptText={"Aceptar"}
-                cancelText={"Volver"}
-                cancelar={() => this.volver()}
-                aceptar={(alert) => this.guardarCurso(alert)}
-              >
-            </AceptarYCancelar>    
-                
+
+            <AceptarYCancelar
+              acceptText={"Aceptar"}
+              cancelText={"Volver"}
+              cancelar={() => this.volver()}
+              aceptar={alert => this.guardarCurso(alert)}
+            />
           </div>
         </div>
       </div>
@@ -219,7 +221,7 @@ class NuevoCurso extends React.Component {
   }
 
   manejarSeleccion(event) {
-    this.setState({ dia: event.target.value })
+    this.setState({ dia: event.target.value });
   }
 
   desplegarDias() {
@@ -227,30 +229,30 @@ class NuevoCurso extends React.Component {
       <option key={c} value={c}>
         {c}
       </option>
-    )
-    
-    );
+    ));
   }
-  profesoresOAviso(){
-    if(this.state.profesores.length === 0){
+  profesoresOAviso() {
+    if (this.state.profesores.length === 0) {
       return (
         <div class="alert alert-warning" role="alert">
           Aviso!: no se ha asignado ningún Profesor.
         </div>
-      )
+      );
+    } else {
+      return this.mostrarProfesores;
     }
-    else{return this.mostrarProfesores}  
   }
 
-  dhlOAviso(){
-    if(this.state.DhlString.length === 0){
+  dhlOAviso() {
+    if (this.state.DhlString.length === 0) {
       return (
         <div class="alert alert-warning" role="alert">
           Aviso!: no se ha asignado dia, horario y lugar.
         </div>
-      )
+      );
+    } else {
+      return this.mostrarDhl;
     }
-    else{return this.mostrarDhl}  
   }
 
   inputCurso() {
@@ -277,67 +279,77 @@ class NuevoCurso extends React.Component {
             />
           </div>
         </div>
-        <div className= "card mt-sm-2">
-        <div className="card-body">
-        <div className="form-group form-row">
-          <div className="col-md-4">
-            <label htmlFor="lugar">Lugar:</label>
-            <input
-              type="text"
-              max="30"
-              className="form-control"
-              id="lugar"
-              placeholder="Por Ej. Casa de la Cultura"
-              value={this.state.lugar}
-              onChange={event => this.setState({ lugar: event.target.value })}
-            />
-          </div>
+        <div className="card mt-sm-2">
+          <div className="card-body">
+            <div className="form-group form-row">
+              <div className="col-md-4">
+                <label htmlFor="lugar">Lugar:</label>
+                <input
+                  type="text"
+                  max="30"
+                  className="form-control"
+                  id="lugar"
+                  placeholder="Por Ej. Casa de la Cultura"
+                  value={this.state.lugar}
+                  onChange={event =>
+                    this.setState({ lugar: event.target.value })
+                  }
+                />
+              </div>
 
-          <div className="col-md-2">
-            <label htmlFor="cupo">Dia:</label>
-            <select
-                className="form-control"
-                onChange={this.manejarSeleccion.bind(this)}
-                id="dias">
-                {this.desplegarDias()}
-            </select>
-
-          </div>
-          <div className="col-md-2">
-            <label htmlFor="hora">Horario:</label>
-            <input
-              type="time"
-              className="form-control"
-              id="hora"
-              placeholder="00:00"
-              value={this.state.hora}
-              onChange={event => this.setState({ hora: event.target.value })}
-            />
-          </div>
-          <div className="col-md-1 mt-4">
-              <button
+              <div className="col-md-2">
+                <label htmlFor="cupo">Dia:</label>
+                <select
+                  className="form-control"
+                  onChange={this.manejarSeleccion.bind(this)}
+                  id="dias"
+                >
+                  {this.desplegarDias()}
+                </select>
+              </div>
+              <div className="col-md-2">
+                <label htmlFor="hora">Horario:</label>
+                <input
+                  type="time"
+                  className="form-control"
+                  id="hora"
+                  placeholder="00:00"
+                  value={this.state.hora}
+                  onChange={event =>
+                    this.setState({ hora: event.target.value })
+                  }
+                />
+              </div>
+              <div className="col-md-1 mt-4">
+                <button
                   type="button"
                   className="btn btn-success"
-                  onClick={() => this.guardarDHL(this.state.dia,this.state.hora,this.state.lugar)}>
-                  <span className="fa fa-plus">  </span>
-              </button>
-          </div>
-           <div className="col-md-1 mt-4">
-              <button
+                  onClick={() =>
+                    this.guardarDHL(
+                      this.state.dia,
+                      this.state.hora,
+                      this.state.lugar
+                    )
+                  }
+                >
+                  <span className="fa fa-plus"> </span>
+                </button>
+              </div>
+              <div className="col-md-1 mt-4">
+                <button
                   type="button"
                   className="btn btn-danger"
-                  disabled = {this.state.borrarDHL}
-                  onClick={() => this.borrarDHL()}>
-                  <span className="fa fa-minus">  </span>
-              </button>
+                  disabled={this.state.borrarDHL}
+                  onClick={() => this.borrarDHL()}
+                >
+                  <span className="fa fa-minus"> </span>
+                </button>
+              </div>
             </div>
+            {this.mostrarDhl()}
+          </div>
         </div>
-        {this.mostrarDhl()}
-        </div>
-        
-        </div>   
         <div className="form-group form-row">
-        
           <div className="col">
             <label htmlFor="comentario">Comentario:</label>
             <input
@@ -357,7 +369,7 @@ class NuevoCurso extends React.Component {
         {this.mostrarProfesores()}
 
         <AceptarYCancelar
-          acceptText={"Guardar Curso"}
+          acceptText={"Guardar Cursada"}
           cancelText={"Cancelar"}
           cancelar={() => this.cancelarAgregado()}
           aceptar={() => this.confirmar()}
@@ -378,7 +390,7 @@ class NuevoCurso extends React.Component {
   render() {
     return (
       <div className="container">
-        <h3 className="mt-4 mb-4">Nuevo Curso</h3>
+        <h3 className="mt-4 mb-4">Nueva Cursada</h3>
 
         {this.inputOConfirmacion()}
 
