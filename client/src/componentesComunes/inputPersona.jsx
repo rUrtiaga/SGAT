@@ -55,9 +55,10 @@ class InputPersona extends React.Component {
           : "telefono no valido";
         break;
       case "telSecundario":
-        fieldValidationErrors.telSecundario = validate.soloNumeros(value)
-          ? undefined
-          : "telefono no valido";
+        fieldValidationErrors.telSecundario =
+          validate.soloNumeros(value) || value === ""
+            ? undefined
+            : "telefono no valido";
         break;
       default:
         break;
@@ -87,8 +88,8 @@ class InputPersona extends React.Component {
       this.state.dni &&
       this.state.nombre &&
       this.state.apellido &&
-      this.state.mail &&
-      this.state.fechaNac
+      this.state.fechaNac &&
+      this.state.telPrincipal
     );
   }
 
