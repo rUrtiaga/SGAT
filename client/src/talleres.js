@@ -28,7 +28,15 @@ class MostrarTalleres extends React.Component {
             <div className="card-body">
               <h5 className="card-title">
                 {tallerDesnormalizado._subCategoria}
+                <button
+                  type="button"
+                  className="btn btn-link"
+                  onClick={() => this.props.irACrearTaller()}
+                >
+                  <span className="fa fa-pencil" />
+                </button>
               </h5>
+
               {this.props.desplegarCursosDeTaller(tallerDesnormalizado)}
             </div>
           </div>
@@ -140,6 +148,9 @@ class Talleres extends React.Component {
       pantallaActual: 5
     });
   }
+  cambiarACrearTaller() {
+    this.props.rootComponent.setState({ pantallaActual: 2 });
+  }
 
   render() {
     return (
@@ -160,6 +171,7 @@ class Talleres extends React.Component {
               listTalleres={this.state.listaDeTalleres}
               talleres={this.nombresTalleres()}
               desplegarCursosDeTaller={t => this.desplegarCursosDeTaller(t)}
+              irACrearTaller={() => this.cambiarACrearTaller()}
             />
           </div>
         </div>
