@@ -1,7 +1,6 @@
 const React = require("react");
 
 class MuestraSubCategorias extends React.Component {
-
   manejarSeleccion(event) {
     this.props.seleccionar(event.target.value);
   }
@@ -10,6 +9,7 @@ class MuestraSubCategorias extends React.Component {
     return (
       <div className="col">
         <select
+          value={this.props.subCategoriaSeleccionada}
           className="form-control"
           onChange={this.manejarSeleccion.bind(this)}
           id="subCategorias"
@@ -20,7 +20,6 @@ class MuestraSubCategorias extends React.Component {
     );
   }
 
-  //la key y el value deben ser remplazadas por id
   desplegar() {
     return this.props.subCategorias.map(c => (
       <option key={c._id} value={c._id}>

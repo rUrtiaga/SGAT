@@ -1,20 +1,15 @@
 const React = require("react");
 
 class MuestraCategorias extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categorias: []
-    };
-  }
-
   render() {
     return (
       <div className="col">
         <select
+          value={this.props.categoriaSeleccionada}
           className="form-control"
           onChange={this.manejarSeleccion.bind(this)}
-          id="categorias">
+          id="categorias"
+        >
           {this.desplegarCategorias()}
         </select>
       </div>
@@ -22,7 +17,7 @@ class MuestraCategorias extends React.Component {
   }
 
   manejarSeleccion(event) {
-    this.props.seleccionar(event.target.value) 
+    this.props.seleccionar(event.target.value);
   }
 
   desplegarCategorias() {
@@ -35,4 +30,3 @@ class MuestraCategorias extends React.Component {
 }
 
 exports.MuestraCategorias = MuestraCategorias;
-

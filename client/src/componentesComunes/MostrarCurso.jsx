@@ -34,6 +34,9 @@ class Curso extends React.Component {
     return (
       <div className={"card mt-sm-2 mt-2 " + this.cursoLleno()}>
         <div className="card-body">
+          <button className="btn" onClick={() => this.props.editarCurso()}>
+            Editar
+          </button>
           <div className="row">
             <div className="col-sm-6">
               <h5 className="card-title ml-sm-2 mb-4">

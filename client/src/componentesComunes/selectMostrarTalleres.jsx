@@ -54,7 +54,6 @@ class MuestraFromProps extends React.Component {
 }
 
 class MuestraTalleres extends React.Component {
-
   manejarSeleccion(event) {
     this.props.seleccionar(event.target.value);
   }
@@ -63,6 +62,7 @@ class MuestraTalleres extends React.Component {
     return (
       <div className="col">
         <select
+          value={this.props.tallerSeleccionado}
           className="form-control"
           onChange={this.manejarSeleccion.bind(this)}
           id="Talleres"
@@ -74,7 +74,7 @@ class MuestraTalleres extends React.Component {
   }
 
   desplegar() {
-    return this.props.talleres.map(c => ( //elementsOrError
+    return this.props.talleres.map(c => (
       <option key={c} value={c}>
         {c}
       </option>
