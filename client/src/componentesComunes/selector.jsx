@@ -9,8 +9,12 @@ const { MuestraCursos } = require("./selectMostrarCursos.jsx");
 class Selector extends React.Component {
   constructor(props) {
     super(props);
+    let subCategoriaId = this.props.subCategoriaId;
+
+    console.log(this.props.subCategoriaId);
     this.state = {
-      categorias: []
+      categorias: [],
+      subCategoriaId: subCategoriaId
     };
   }
 
@@ -20,17 +24,34 @@ class Selector extends React.Component {
 
   requestTalleres() {
     const self = this;
-    axios
+    return axios
       .get("api/talleres")
       .then(respuesta => {
         self.setState({ talleresFull: respuesta.data });
       })
       .then(() => {
         let categorias = _.uniq(self.state.talleresFull.map(o => o._categoria));
-        self.setState({ categorias });
+        return self.setState({ categorias });
       })
-      .then(() => this.seleccionMuestraCategorias(this.state.categorias[0]))
+      .then(() => {
+        if (this.state.subCategoriaId) {
+          let t = this.tallerConId(this.state.subCategoriaId);
+          this.setState({
+            talleres: this.talleresDeCategoria(t._categoria),
+            subCategorias: this.subcategoriasDeTaller(t._nombre, t._categoria),
+            categoria: t._categoria,
+            tallerName: t._nombre,
+            curso: null
+          });
+        } else {
+          this.seleccionMuestraCategorias(this.state.categorias[0]);
+        }
+      })
       .catch(e => console.log(e));
+  }
+
+  tallerConId(id) {
+    return this.state.talleresFull.find(t => t._id === id);
   }
 
   seleccionMuestraCategorias(valor) {
@@ -38,8 +59,8 @@ class Selector extends React.Component {
       {
         talleres: this.talleresDeCategoria(valor),
         categoria: valor,
-        taller: null,
-        subCategoria: null,
+        tallerName: null,
+        subCategoriaId: null,
         curso: null
       },
       () => this.seleccionMuestraTalleres(this.state.talleres[0])
@@ -58,25 +79,26 @@ class Selector extends React.Component {
     this.setState(
       {
         subCategorias: this.subcategoriasDeTaller(valor),
-        taller: valor,
-        subCategoria: null,
+        tallerName: valor,
+        subCategoriaId: null,
         curso: null
       },
-      () => this.seleccionSubCategoria(this.state.subCategorias[0]._id)
+      () => this.seleccionSubCategoriaId(this.state.subCategorias[0]._id)
     );
   }
 
-  subcategoriasDeTaller(tallerStr) {
+  subcategoriasDeTaller(tallerStr, categoria) {
     return this.state.talleresFull.filter(
       tfull =>
-        tfull._categoria === this.state.categoria && tfull._nombre === tallerStr
+        tfull._categoria === (this.state.categoria || categoria) &&
+        tfull._nombre === tallerStr
     );
   }
 
-  seleccionSubCategoria(valor) {
-    this.setState({ subCategoria: valor, curso: null });
+  seleccionSubCategoriaId(id) {
+    this.setState({ subCategoriaId: id, curso: null });
     if (this.props.callbackNuevoCurso) {
-      this.props.callbackNuevoCurso(valor);
+      this.props.callbackNuevoCurso(id);
     }
   }
 
@@ -91,6 +113,7 @@ class Selector extends React.Component {
         <div className="col-md-4">
           <h6 className="ml-3">Categoría</h6>
           <MuestraCategorias
+            categoriaSeleccionada={this.state.categoria}
             seleccionar={v => this.seleccionMuestraCategorias(v)}
             categorias={this.state.categorias}
             padre={this}
@@ -101,27 +124,29 @@ class Selector extends React.Component {
           <div className="col-md-4">
             <h6 className="ml-3">Taller</h6>
             <MuestraTalleres
+              tallerSeleccionado={this.state.tallerName}
               seleccionar={v => this.seleccionMuestraTalleres(v)}
               talleres={this.state.talleres}
               padre={this}
             />
           </div>
         ) : null}
-        {this.state.taller ? (
+        {this.state.tallerName ? (
           <div className="col-md-4">
             <h6 className="ml-3">Tipo de curso</h6>
             <MuestraSubCategorias
+              subCategoriaSeleccionada={this.state.subCategoriaId}
               subCategorias={this.state.subCategorias}
-              seleccionar={v => this.seleccionSubCategoria(v)}
+              seleccionar={v => this.seleccionSubCategoriaId(v)}
               padre={this}
             />
           </div>
         ) : null}
-        {this.state.subCategoria && !this.props.callbackNuevoCurso ? (
+        {this.state.subCategoriaId && !this.props.callbackNuevoCurso ? (
           <div className="col-md-12">
             <h6 className="ml-3 mt-2">Cursada/s</h6>
             <MuestraCursos
-              select={this.state.subCategoria}
+              select={this.state.subCategoriaId}
               seleccionar={v => this.seleccionCurso(v)}
               padre={this}
             />

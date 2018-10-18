@@ -1,7 +1,7 @@
 const React = require("react");
 const axios = require("axios");
 const _ = require("lodash");
-const { Curso } = require("./componentesComunes/MostrarCurso.jsx");
+const { Curso } = require("./componentesComunes/MostrarCurso");
 
 class MostrarTalleres extends React.Component {
   render() {
@@ -134,6 +134,10 @@ class Talleres extends React.Component {
       });
   }
 
+  editarCurso(curso) {
+    this.props.rootComponent.setState({ curso: curso, pantallaActual: 3 });
+  }
+
   seleccionarListaDeEspera(cursoId) {
     this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 6 });
   }
@@ -198,6 +202,7 @@ class Talleres extends React.Component {
         <Curso
           key={curso._id}
           curso={curso}
+          editarCurso={() => this.editarCurso(curso)}
           botones={
             <Botones
               hayCupo={curso._hayCupo}

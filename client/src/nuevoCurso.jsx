@@ -1,18 +1,18 @@
 const React = require("react");
 const axios = require("axios");
 
-const { Selector } = require("./componentesComunes/selector.jsx");
-const { InputPersona } = require("./componentesComunes/inputPersona.jsx");
-const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
+const { Selector } = require("./componentesComunes/selector");
+const { InputPersona } = require("./componentesComunes/inputPersona");
+const { AceptarYCancelar } = require("./componentesComunes/botones");
 
 class NuevoCurso extends React.Component {
   constructor(props) {
     super(props);
+    this.curso = this.props.curso || {};
     this.state = {
-      profesores: [],
-      profesoresId: [],
-      listaDHL: [],
-      DhlString: [],
+      profesores: this.curso._profesores || [],
+      profesoresId: this.idsProfesores(this.curso._profesores) || [],
+      listaDHL: this.curso._diasHorariosLugares || [],
       dias: [
         "Lunes",
         "Martes",
@@ -22,13 +22,13 @@ class NuevoCurso extends React.Component {
         "Sabado",
         "Domingo"
       ],
-      tallerId: "",
+      tallerId: this.curso._tallerID || "",
       taller: "",
-      cupo: "0",
+      cupo: this.curso._cupo || "",
       dia: "Lunes",
       hora: "",
       lugar: "",
-      comentario: "",
+      comentario: this.curso._comentario || "",
 
       confirmacion: false,
       inputCurso: false,
@@ -37,12 +37,29 @@ class NuevoCurso extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.borrarCursoEnPadre();
+    // this.seleccionarCategoria(this.state.tallerId);
+  }
+
+  borrarCursoEnPadre() {
+    this.props.rootComponent.state.curso = undefined;
+  }
+
+  idsProfesores(profesores) {
+    return profesores ? profesores.map(p => p._id) : undefined;
+  }
+
   confirmar() {
-    this.setState({ confirmacion: !this.state.confirmacion });
+    this.setState({
+      confirmacion: !this.state.confirmacion
+    });
   }
 
   volver() {
-    this.setState({ confirmacion: false });
+    this.setState({
+      confirmacion: false
+    });
   }
 
   guardarDHL(dia, hora, lugar) {
@@ -53,10 +70,6 @@ class NuevoCurso extends React.Component {
     };
     this.setState({
       listaDHL: [...this.state.listaDHL, varDHL],
-      DhlString: [
-        ...this.state.DhlString,
-        this.state.dia + " a las " + this.state.hora + " en " + this.state.lugar
-      ],
       dia: "",
       hora: "",
       lugar: "",
@@ -65,14 +78,14 @@ class NuevoCurso extends React.Component {
   }
   borrarDHL() {
     var coleccion = this.state.listaDHL;
-    var colString = this.state.DhlString;
     coleccion.splice(coleccion.length - 1, 1);
-    colString.splice(colString.length - 1, 1);
-    this.setState({ listaDHL: coleccion });
-    this.setState({ DhlString: colString });
-
+    this.setState({
+      listaDHL: coleccion
+    });
     if (coleccion.length === 0) {
-      this.setState({ borrarDHL: true });
+      this.setState({
+        borrarDHL: true
+      });
     }
   }
   guardarCurso(alert) {
@@ -116,20 +129,26 @@ class NuevoCurso extends React.Component {
     });
   }
   agregarDocente() {
-    this.setState({ inputPersonaOculto: true });
+    this.setState({
+      inputPersonaOculto: true
+    });
   }
 
   ocultarNuevaPersona() {
-    this.setState({ inputPersonaOculto: false });
+    this.setState({
+      inputPersonaOculto: false
+    });
   }
   cancelarPersona() {
     this.ocultarNuevaPersona();
   }
 
   agregarProfesor(persona) {
-    this.setState({ profesores: [...this.state.profesores, persona] });
     this.setState(
-      { profesoresId: [...this.state.profesoresId, persona._id] },
+      {
+        profesores: [...this.state.profesores, persona],
+        profesoresId: [...this.state.profesoresId, persona._id]
+      },
       () => this.ocultarNuevaPersona()
     );
   }
@@ -151,28 +170,35 @@ class NuevoCurso extends React.Component {
     if (!(this.state.profesoresId.length === 0)) {
       return (
         <div className="card mb-2 mt-2">
-          <p>Profesores:</p>
+          <p> Profesores: </p>{" "}
           <h5>
+            {" "}
             {this.state.profesores.map(
               p => p._apellido + ", " + p._nombre + " / "
-            )}
-          </h5>
+            )}{" "}
+          </h5>{" "}
         </div>
       );
     }
   }
 
   mostrarDhl() {
-    if (!(this.state.DhlString.length === 0)) {
-      return <p>{this.state.DhlString.map(d => d + " / ")}</p>;
+    if (this.state.listaDHL) {
+      return this.state.listaDHL
+        .map(dhl => dhl._dia + " a las " + dhl._horario + " en " + dhl._lugar)
+        .join(" / ");
     }
   }
 
   seleccionarCategoria(valor) {
-    this.setState({ tallerId: valor });
+    this.setState({
+      tallerId: valor
+    });
     const self = this;
     axios.get("api/talleres/" + valor).then(respuesta => {
-      self.setState({ taller: respuesta.data });
+      self.setState({
+        taller: respuesta.data
+      });
     });
   }
 
@@ -186,56 +212,54 @@ class NuevoCurso extends React.Component {
 
   datosCursoSeleccionado() {
     return (
-      <div>
-        <div className="card mb-8 mt-2">
-          <div className="form-group">
-            <div className="col-md-6">
-              <h5>Usted esta a punto de crear la siguiente Cursada:</h5>
-              <p>
-                {" "}
-                Categoria: <b>{this.state.taller._categoria}</b>
-              </p>
-              <p>
-                {" "}
-                Taller: <b>{this.state.taller._nombre}</b>
-              </p>
-              <p>
-                {" "}
-                SubCategoria: <b>{this.state.taller._subCategoria}</b>
-              </p>
-              {this.mostrarDhl}
-              {this.profesoresOAviso()}
-              {this.dhlOAviso()}
-            </div>
-
-            <AceptarYCancelar
-              acceptText={"Aceptar"}
-              cancelText={"Volver"}
-              cancelar={() => this.volver()}
-              aceptar={alert => this.guardarCurso(alert)}
-            />
+      <div className="card mb-8 mt-2">
+        <div className="form-group">
+          <div className="col-md-6">
+            <h5> Usted esta a punto de crear la siguiente Cursada: </h5>{" "}
+            <p>
+              {" "}
+              Categoria: <b> {this.state.taller._categoria} </b>{" "}
+            </p>{" "}
+            <p>
+              {" "}
+              Taller: <b> {this.state.taller._nombre} </b>{" "}
+            </p>{" "}
+            <p>
+              {" "}
+              SubCategoria: <b> {this.state.taller._subCategoria} </b>{" "}
+            </p>{" "}
+            {this.mostrarDhl} {this.profesoresOAviso()} {this.dhlOAviso()}{" "}
           </div>
-        </div>
+          <AceptarYCancelar
+            acceptText={"Aceptar"}
+            cancelText={"Volver"}
+            cancelar={() => this.volver()}
+            aceptar={alert => this.guardarCurso(alert)}
+          />{" "}
+        </div>{" "}
       </div>
     );
   }
 
   manejarSeleccion(event) {
-    this.setState({ dia: event.target.value });
+    this.setState({
+      dia: event.target.value
+    });
   }
 
   desplegarDias() {
     return this.state.dias.map(c => (
       <option key={c} value={c}>
-        {c}
+        {" "}
+        {c}{" "}
       </option>
     ));
   }
   profesoresOAviso() {
     if (this.state.profesores.length === 0) {
       return (
-        <div class="alert alert-warning" role="alert">
-          Aviso!: no se ha asignado ningún Profesor.
+        <div className="alert alert-warning" role="alert">
+          Aviso!: no se ha asignado ningún Profesor.{" "}
         </div>
       );
     } else {
@@ -244,10 +268,10 @@ class NuevoCurso extends React.Component {
   }
 
   dhlOAviso() {
-    if (this.state.DhlString.length === 0) {
+    if (this.state.listaDHL.length === 0) {
       return (
-        <div class="alert alert-warning" role="alert">
-          Aviso!: no se ha asignado dia, horario y lugar.
+        <div className="alert alert-warning" role="alert">
+          Aviso!: no se ha asignado dia, horario y lugar.{" "}
         </div>
       );
     } else {
@@ -261,12 +285,13 @@ class NuevoCurso extends React.Component {
         <div className="form-group">
           <Selector
             padre={this}
+            subCategoriaId={this.state.tallerId}
             callbackNuevoCurso={c => this.seleccionarCategoria(c)}
-          />
-        </div>
+          />{" "}
+        </div>{" "}
         <div className="form-group form-row">
           <div className="col-md-2">
-            <label htmlFor="cupo">Cupo:</label>
+            <label htmlFor="cupo"> Cupo: </label>{" "}
             <input
               type="number"
               min="1"
@@ -275,15 +300,19 @@ class NuevoCurso extends React.Component {
               id="cupo"
               placeholder="000"
               value={this.state.cupo}
-              onChange={event => this.setState({ cupo: event.target.value })}
-            />
-          </div>
-        </div>
+              onChange={event =>
+                this.setState({
+                  cupo: event.target.value
+                })
+              }
+            />{" "}
+          </div>{" "}
+        </div>{" "}
         <div className="card mt-sm-2">
           <div className="card-body">
             <div className="form-group form-row">
               <div className="col-md-4">
-                <label htmlFor="lugar">Lugar:</label>
+                <label htmlFor="lugar"> Lugar: </label>{" "}
                 <input
                   type="text"
                   max="30"
@@ -292,23 +321,24 @@ class NuevoCurso extends React.Component {
                   placeholder="Por Ej. Casa de la Cultura"
                   value={this.state.lugar}
                   onChange={event =>
-                    this.setState({ lugar: event.target.value })
+                    this.setState({
+                      lugar: event.target.value
+                    })
                   }
-                />
+                />{" "}
               </div>
-
               <div className="col-md-2">
-                <label htmlFor="cupo">Dia:</label>
+                <label htmlFor="cupo"> Dia: </label>{" "}
                 <select
                   className="form-control"
                   onChange={this.manejarSeleccion.bind(this)}
                   id="dias"
                 >
-                  {this.desplegarDias()}
-                </select>
-              </div>
+                  {this.desplegarDias()}{" "}
+                </select>{" "}
+              </div>{" "}
               <div className="col-md-2">
-                <label htmlFor="hora">Horario:</label>
+                <label htmlFor="hora"> Horario: </label>{" "}
                 <input
                   type="time"
                   className="form-control"
@@ -316,10 +346,12 @@ class NuevoCurso extends React.Component {
                   placeholder="00:00"
                   value={this.state.hora}
                   onChange={event =>
-                    this.setState({ hora: event.target.value })
+                    this.setState({
+                      hora: event.target.value
+                    })
                   }
-                />
-              </div>
+                />{" "}
+              </div>{" "}
               <div className="col-md-1 mt-4">
                 <button
                   type="button"
@@ -332,9 +364,9 @@ class NuevoCurso extends React.Component {
                     )
                   }
                 >
-                  <span className="fa fa-plus"> </span>
-                </button>
-              </div>
+                  <span className="fa fa-plus"> </span>{" "}
+                </button>{" "}
+              </div>{" "}
               <div className="col-md-1 mt-4">
                 <button
                   type="button"
@@ -342,16 +374,16 @@ class NuevoCurso extends React.Component {
                   disabled={this.state.borrarDHL}
                   onClick={() => this.borrarDHL()}
                 >
-                  <span className="fa fa-minus"> </span>
-                </button>
-              </div>
-            </div>
-            {this.mostrarDhl()}
-          </div>
-        </div>
+                  <span className="fa fa-minus"> </span>{" "}
+                </button>{" "}
+              </div>{" "}
+            </div>{" "}
+            {this.mostrarDhl()}{" "}
+          </div>{" "}
+        </div>{" "}
         <div className="form-group form-row">
           <div className="col">
-            <label htmlFor="comentario">Comentario:</label>
+            <label htmlFor="comentario"> Comentario: </label>{" "}
             <input
               type="textarea"
               className="form-control"
@@ -360,14 +392,14 @@ class NuevoCurso extends React.Component {
               row="3"
               value={this.state.comentario}
               onChange={event =>
-                this.setState({ comentario: event.target.value })
+                this.setState({
+                  comentario: event.target.value
+                })
               }
-            />
-          </div>
+            />{" "}
+          </div>{" "}
         </div>
-
         {this.mostrarProfesores()}
-
         <AceptarYCancelar
           acceptText={"Guardar Cursada"}
           cancelText={"Cancelar"}
@@ -379,10 +411,10 @@ class NuevoCurso extends React.Component {
               className="btn btn-success col-12"
               onClick={() => this.agregarDocente()}
             >
-              Agregar Docente
-            </button>
-          </div>
-        </AceptarYCancelar>
+              Agregar Docente{" "}
+            </button>{" "}
+          </div>{" "}
+        </AceptarYCancelar>{" "}
       </React.Fragment>
     );
   }
@@ -390,11 +422,9 @@ class NuevoCurso extends React.Component {
   render() {
     return (
       <div className="container">
-        <h3 className="mt-4 mb-4">Nueva Cursada</h3>
-
+        <h3 className="mt-4 mb-4"> Nueva Cursada </h3>
         {this.inputOConfirmacion()}
-
-        {this.nuevaPersona()}
+        {this.nuevaPersona()}{" "}
       </div>
     );
   }

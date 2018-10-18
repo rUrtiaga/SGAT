@@ -146,7 +146,10 @@ class Menu extends React.Component {
         return (
           <div>
             {this.menuBarra()}
-            <nuevoCurso.NuevoCurso rootComponent={this} />
+            <nuevoCurso.NuevoCurso
+              rootComponent={this}
+              curso={this.state.curso}
+            />
           </div>
         );
       } else {
