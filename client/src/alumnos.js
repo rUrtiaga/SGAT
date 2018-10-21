@@ -1,6 +1,8 @@
+
 const React = require("react");
 const axios = require("axios");
 
+const botonStandard = require ("./componentesComunes/btnStd.jsx");
 const infoPersona = require("./componentesComunes/infoPersona.jsx");
 const { Alert } = require("react-alert");
 
@@ -85,7 +87,7 @@ class ListarAlumnos extends React.Component {
             <div className="col-md-12">
               <div className="card text-dark">
                 <div className="align-self-center  ">
-                  <h3 />
+                  <h3>{this.state.cursoId}</h3>
                   <h3> Listado de Alumnos </h3>
                 </div>
                 <div className="card-body text-dark">
@@ -93,13 +95,13 @@ class ListarAlumnos extends React.Component {
                     <div className="col-md-12">{this.tblAlumnos()}</div>
                     {panelDeAbajo}
                   </div>
-                  {this.botonStandard(
+                  {botonStandard(
                     "Volver",
                     () => this.volver(),
                     "btn-success",
                     "fa-chevron-left"
                   )}
-                  {this.botonStandard(
+                  {botonStandard(
                     "Imprimir",
                     () => this.imprimirAlumnos(),
                     "btn-success",
@@ -290,7 +292,7 @@ class ListarAlumnos extends React.Component {
 
   /** ---   Botones   --- */
   botonDetalle(alumno) {
-    return this.botonStandard(
+    return botonStandard(
       "Info",
       () => this.mostrarDatosAlumno(alumno),
       "btn-info btn-xs",
@@ -299,30 +301,12 @@ class ListarAlumnos extends React.Component {
   }
 
   botonEliminar(alumno) {
-    return this.botonStandard(
+    return botonStandard(
       "Eliminar",
       alert => this.eliminarAlumno(alumno, alert),
       "btn-danger btn-xs",
       "fa-close"
     );
   }
-
-  // Botón -  parámetro con valor por defecto
-  botonStandard(label, accion, clasesAdicionales = "btn-info", glypIcon) {
-    return (
-      <Alert>
-        {alert => (
-          <button
-            className={"btn " + clasesAdicionales}
-            style={{ marginRight: "12px" }}
-            onClick={() => accion(alert)}
-          >
-            <span className={"fa " + glypIcon}> {label} </span>
-          </button>
-        )}
-      </Alert>
-    );
-  }
 }
-
 module.exports.ListarAlumnos = ListarAlumnos;
