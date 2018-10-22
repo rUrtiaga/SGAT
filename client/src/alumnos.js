@@ -1,8 +1,6 @@
-
 const React = require("react");
 const axios = require("axios");
 
-const botonStandard = require ("./componentesComunes/btnStd.jsx");
 const infoPersona = require("./componentesComunes/infoPersona.jsx");
 const { Alert } = require("react-alert");
 
@@ -21,6 +19,9 @@ class ListarAlumnos extends React.Component {
       alumnoActual: null,
       cupo: null,
       listaDeAlumnos: [],
+      nombreTaller: null,
+      categoriaTaller: null,
+      subCategoriaTaller: null,
       infoDeAlumno: false,
       mostrarPanelDeAbajo: false
     };
@@ -45,6 +46,9 @@ class ListarAlumnos extends React.Component {
 
         self.setState({
           listaDeAlumnos: json[0]._alumnos,
+          nombreTaller: json[0]._taller._nombre,
+          categoriaTaller:json[0]._taller._categoria,
+          subCategoriaTaller: json[0]._taller._subCategoria,
           cupo: json[0]._cupo
         });
       })
@@ -54,7 +58,7 @@ class ListarAlumnos extends React.Component {
   }
 
   removeAlumno(alumno, alert) {
-    let self = this;
+    // let self = this;
     let alumnoEliminar = alumno;
     return axios
       .delete("/api/cursos/" + this.props.idCurso + "/alumnos/" + alumno._id)
@@ -80,45 +84,42 @@ class ListarAlumnos extends React.Component {
       );
     }
 
-    return (
-      <div>
-        <div className="m-4 container-fluid recuadroPantalla">
+    return <div>
+        <div id="container" className="m-4 container-fluid recuadroPantalla">
           <div className="row">
-            <div className="col-md-12">
+            <div id="recuadro externo" className="col-md-11">
               <div className="card text-dark">
-                <div className="align-self-center  ">
-                  <h3>{this.state.cursoId}</h3>
-                  <h3> Listado de Alumnos </h3>
-                </div>
+                <div id="titulos" className="align-self-center  ">
+                  <h4> {this.state.categoriaTaller} </h4>
+                </div>  
+
+                <div className="row justify-content-center">
+                        <div id="subTitulos_0" className="align-self-center">
+                          <h5> {this.state.nombreTaller}{" - "} </h5>
+                        </div>
+                        <div id="subTitulos_2" className="align-self-center">  
+                          <h5> {" - "}{this.state.subCategoriaTaller} </h5>
+                        </div>
+                    </div>  
+               
+
                 <div className="card-body text-dark">
                   <div className="row">
                     <div className="col-md-12">{this.tblAlumnos()}</div>
                     {panelDeAbajo}
                   </div>
-                  {botonStandard(
-                    "Volver",
-                    () => this.volver(),
-                    "btn-success",
-                    "fa-chevron-left"
-                  )}
-                  {botonStandard(
-                    "Imprimir",
-                    () => this.imprimirAlumnos(),
-                    "btn-success",
-                    "fa-print"
-                  )}
+                  {this.botonStandard("Volver", () => this.volver(), "btn-success", "fa-chevron-left")}
+                  {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success", "fa-print")}
                 </div>
                 <h4>
                   {" "}
-                  Alumnos Registrados {this.state.listaDeAlumnos.length} de{" "}
-                  {this.state.cupo}
+                  Alumnos Registrados {this.state.listaDeAlumnos.length} de {this.state.cupo}
                 </h4>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
 
   /*Tabla info de Alumno */
@@ -184,11 +185,9 @@ class ListarAlumnos extends React.Component {
 
   /** --- Link para Info del Alumno ---  */
   linkInfoAlumno(alumno) {
-    return (
-      <a href="#" onClick={() => this.mostrarDatosAlumno(alumno)}>
+    return <button type="button" className="btn btn-link" onClick={() => this.mostrarDatosAlumno(alumno)}>
         {alumno._apellido}
-      </a>
-    );
+      </button>;
   }
 
   mostrarDatosAlumno(unAlumno) {
@@ -292,20 +291,36 @@ class ListarAlumnos extends React.Component {
 
   /** ---   Botones   --- */
   botonDetalle(alumno) {
-    return botonStandard(
+    return this.botonStandard(
       "Info",
       () => this.mostrarDatosAlumno(alumno),
       "btn-info btn-xs",
       "fa-info"
-    );
+    )
   }
 
   botonEliminar(alumno) {
-    return botonStandard(
+    return this.botonStandard(
       "Eliminar",
       alert => this.eliminarAlumno(alumno, alert),
       "btn-danger btn-xs",
       "fa-close"
+    );
+  }
+  // Botón -  parámetro con valor por defecto
+  botonStandard(label, accion, clasesAdicionales = "btn-info", glypIcon) {
+    return (
+      <Alert>
+        {alert => (
+          <button
+            className={"btn " + clasesAdicionales}
+            style={{ marginRight: "12px" }}
+            onClick={() => accion(alert)}
+          >
+            <span className={"fa " + glypIcon}> {label} </span>
+          </button>
+        )}
+      </Alert>
     );
   }
 }
