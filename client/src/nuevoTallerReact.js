@@ -16,10 +16,12 @@ const {
 class CrearTaller extends React.Component {
   constructor(props) {
     super(props);
+    this.editarTaller = this.props.taller || {};
+    console.log(this.editarTaller._categoria);
     this.state = {
-      nombre: "",
+      nombre: this.editarTaller._nombre || "",
       categorias: [],
-      // categoria: "",
+      categoria: this.editarTaller._categoria || "",
       subCategorias: [],
       agregaSubCategoria: false,
       agregaCategoria: false,
@@ -33,7 +35,12 @@ class CrearTaller extends React.Component {
   }
 
   componentDidMount() {
+    this.borrarTallerEnPadre;
     this.requestCategorias();
+  }
+
+  borrarTallerEnPadre() {
+    this.props.rootComponent.state.taller = undefined;
   }
 
   componentWillMount() {
