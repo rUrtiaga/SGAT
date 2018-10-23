@@ -20,7 +20,10 @@ const pantallas = {
 class Menu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { pantallaActual: pantallas.muestraTalleres };
+    this.state = { 
+      pantallaActual: pantallas.muestraTalleres,
+      categSeleccionada: ""
+    };
     this._ultimaAccion = null;
   }
 

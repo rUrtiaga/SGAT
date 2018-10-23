@@ -14,7 +14,7 @@ class MostrarTalleres extends React.Component {
           {this.desplegarSubcategorias(nombreTaller)}
         </div>
       );
-    });
+    });  
   }
 
   desplegarSubcategorias(nombreTaller) {
@@ -59,13 +59,13 @@ class ListaCategorias extends React.Component {
                 this.props.select(c);
               }}
               key={c}
-            />
-          ))}
+              />
+              ))}
         </ul>
+        {console.log("Lista Categorias.:  "+this.props.selected)}
       </React.Fragment>
     );
-  }
-  selectActive(cat) {}
+  }  
 }
 
 class NavItem extends React.Component {
@@ -89,7 +89,8 @@ class Talleres extends React.Component {
     this.state = {
       listaDeCursos: [],
       listaDeTalleres: [],
-      listaDeCategorias: []
+      listaDeCategorias: [],
+      categoriaSeleccionada: ""
     };
   }
 
@@ -106,11 +107,13 @@ class Talleres extends React.Component {
           listCursos.some(c => c._tallerID === t._id)
         );
         let listCategorias = _.sortedUniq(listTalleres.map(t => t._categoria));
+        let categoriaSeleccionada = self.props.rootComponent.state.categSeleccionada;
         self.setState({
           listaDeTalleres: listTalleres,
           listaDeCategorias: listCategorias,
-          selectedCategory: listCategorias ? listCategorias[0] : ""
-        });
+          selectedCategory: categoriaSeleccionada !=="" ? categoriaSeleccionada: (listCategorias ? listCategorias[0] : "")
+
+        });       
         return Promise.resolve();
       })
       .catch(function(error) {
@@ -177,7 +180,7 @@ class Talleres extends React.Component {
               desplegarCursosDeTaller={t => this.desplegarCursosDeTaller(t)}
               irACrearTaller={() => this.cambiarACrearTaller()}
             />
-          </div>
+          </div>    
         </div>
       </div>
     );
@@ -185,6 +188,7 @@ class Talleres extends React.Component {
 
   selecCategoria(cat) {
     this.setState({ selectedCategory: cat });
+    this.props.rootComponent.setState({categSeleccionada: cat})
   }
 
   nombresTalleres() {
