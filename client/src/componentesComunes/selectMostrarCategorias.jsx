@@ -24,7 +24,7 @@ class MuestraCategorias extends React.Component {
   }
 
   manejarSeleccion(event) {
-    this.props.seleccionar(event.target.value);
+    this.setState({ categ: this.props.seleccionar(event.target.value) });
   }
 
   seleccionarCategoriaInicial() {
