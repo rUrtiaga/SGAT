@@ -17,12 +17,15 @@ class CrearTaller extends React.Component {
   constructor(props) {
     super(props);
     this.editarTaller = this.props.taller || {};
-    console.log(this.editarTaller._categoria);
+
     this.state = {
       nombre: this.editarTaller._nombre || "",
-      categorias: [],
+
       categoria: this.editarTaller._categoria || "",
+
+      categorias: [],
       subCategorias: [],
+      subCategoriasConId: [],
       agregaSubCategoria: false,
       agregaCategoria: false,
       disabled: false,
