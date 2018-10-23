@@ -196,13 +196,16 @@ class ListarAlumnos extends React.Component {
   }
 
   eliminarAlumno(alumno, alert) {
-    let codigo = this.state.listaDeAlumnos.filter(
-      alu => alu._dni !== alumno._dni
-    );
-    this.setState({
-      listaDeAlumnos: codigo
-    });
-    this.removeAlumno(alumno, alert);
+   if(window.confirm("Esta seguro de borrar??"))
+   {
+      let codigo = this.state.listaDeAlumnos.filter(
+        alu => alu._dni !== alumno._dni
+      );
+      this.setState({
+        listaDeAlumnos: codigo
+      });
+      this.removeAlumno(alumno, alert);
+    }
   }
 
   imprimirAlumnos() {
