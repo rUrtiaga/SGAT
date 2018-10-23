@@ -1,7 +1,7 @@
 const React = require("react");
 const axios = require("axios");
 
-const infoPersona = require("./componentesComunes/infoPersona.jsx");
+const infoPersona = require("./componentesComunes/infoPersona");
 const { Alert } = require("react-alert");
 
 var pdfMake = require("pdfmake/build/pdfmake.js");
@@ -25,6 +25,7 @@ class ListarAlumnos extends React.Component {
       infoDeAlumno: false,
       mostrarPanelDeAbajo: false
     };
+
   }
 
   componentDidMount() {
@@ -324,4 +325,5 @@ class ListarAlumnos extends React.Component {
     );
   }
 }
+
 module.exports.ListarAlumnos = ListarAlumnos;
