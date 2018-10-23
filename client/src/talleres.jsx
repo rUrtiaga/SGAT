@@ -174,7 +174,6 @@ class Talleres extends React.Component {
       taller: taller,
       pantallaActual: 2
     });
-    console.log(this.props.categoria);
   }
 
   render() {

@@ -156,6 +156,7 @@ class CrearTaller extends React.Component {
   mostrarMuestraCategoria() {
     return (
       <MuestraCategorias
+        categoriaSeleccionada={this.state.categoria}
         seleccionar={v => this.seleccionarCategoria(v)}
         padre={this}
         categorias={this.state.categorias}
