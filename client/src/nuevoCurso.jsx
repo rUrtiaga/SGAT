@@ -4,6 +4,24 @@ const axios = require("axios");
 const { Selector } = require("./componentesComunes/selector");
 const { InputPersona } = require("./componentesComunes/inputPersona");
 const { AceptarYCancelar } = require("./componentesComunes/botones");
+const { DHLBar } = require("./componentesComunes/DHLBar");
+
+class DHLList extends React.Component {
+  render() {
+    return (
+      <div className="card mt-sm-2">
+        <div className="card-body">
+          {this.props.children}
+          <DHLBar
+            editar={true}
+            guardarDHL={this.props.guardarDHL}
+            // borrarDHL={this.props.borrarDHL}
+          />
+        </div>
+      </div>
+    );
+  }
+}
 
 class NuevoCurso extends React.Component {
   constructor(props) {
@@ -13,15 +31,6 @@ class NuevoCurso extends React.Component {
       profesores: this.curso._profesores || [],
       profesoresId: this.idsProfesores(this.curso._profesores) || [],
       listaDHL: this.curso._diasHorariosLugares || [],
-      dias: [
-        "Lunes",
-        "Martes",
-        "Miercoles",
-        "Jueves",
-        "Viernes",
-        "Sabado",
-        "Domingo"
-      ],
       tallerId: this.curso._tallerID || "",
       taller: "",
       cupo: this.curso._cupo || "",
@@ -63,7 +72,7 @@ class NuevoCurso extends React.Component {
   }
 
   guardarDHL(dia, hora, lugar) {
-    var varDHL = {
+    let varDHL = {
       _dia: dia,
       _horario: hora,
       _lugar: lugar
@@ -76,17 +85,19 @@ class NuevoCurso extends React.Component {
       borrarDHL: false
     });
   }
-  borrarDHL() {
-    var coleccion = this.state.listaDHL;
-    coleccion.splice(coleccion.length - 1, 1);
+  editarDHL(dhl, eDHL) {
+    let listDHL = this.state.listaDHL;
+    listDHL.splice(listDHL.indexOf(dhl), 1, eDHL);
     this.setState({
-      listaDHL: coleccion
+      listaDHL: listDHL
     });
-    if (coleccion.length === 0) {
-      this.setState({
-        borrarDHL: true
-      });
-    }
+  }
+  borrarDHL(dhl) {
+    let listDHL = this.state.listaDHL;
+    listDHL.splice(listDHL.indexOf(dhl), 1);
+    this.setState({
+      listaDHL: listDHL
+    });
   }
   guardarCurso(alert) {
     const curso = {
@@ -184,9 +195,17 @@ class NuevoCurso extends React.Component {
 
   mostrarDhl() {
     if (this.state.listaDHL) {
-      return this.state.listaDHL
-        .map(dhl => dhl._dia + " a las " + dhl._horario + " en " + dhl._lugar)
-        .join(" / ");
+      return this.state.listaDHL.map(dhl => (
+        <DHLBar
+          key={dhl._dia + dhl._horario + dhl._lugar + dhl._id}
+          dia={dhl._dia}
+          horario={dhl._horario}
+          lugar={dhl._lugar}
+          guardarDHL={(d, h, l) => this.guardarDHL(d, h, l)}
+          borrarDHL={() => this.borrarDHL(dhl)}
+          editarDHL={editadoDHL => this.editarDHL(dhl, editadoDHL)}
+        />
+      ));
     }
   }
 
@@ -241,20 +260,6 @@ class NuevoCurso extends React.Component {
     );
   }
 
-  manejarSeleccion(event) {
-    this.setState({
-      dia: event.target.value
-    });
-  }
-
-  desplegarDias() {
-    return this.state.dias.map(c => (
-      <option key={c} value={c}>
-        {" "}
-        {c}{" "}
-      </option>
-    ));
-  }
   profesoresOAviso() {
     if (this.state.profesores.length === 0) {
       return (
@@ -308,79 +313,9 @@ class NuevoCurso extends React.Component {
             />{" "}
           </div>{" "}
         </div>{" "}
-        <div className="card mt-sm-2">
-          <div className="card-body">
-            <div className="form-group form-row">
-              <div className="col-md-4">
-                <label htmlFor="lugar"> Lugar: </label>{" "}
-                <input
-                  type="text"
-                  max="30"
-                  className="form-control"
-                  id="lugar"
-                  placeholder="Por Ej. Casa de la Cultura"
-                  value={this.state.lugar}
-                  onChange={event =>
-                    this.setState({
-                      lugar: event.target.value
-                    })
-                  }
-                />{" "}
-              </div>
-              <div className="col-md-2">
-                <label htmlFor="cupo"> Dia: </label>{" "}
-                <select
-                  className="form-control"
-                  onChange={this.manejarSeleccion.bind(this)}
-                  id="dias"
-                >
-                  {this.desplegarDias()}{" "}
-                </select>{" "}
-              </div>{" "}
-              <div className="col-md-2">
-                <label htmlFor="hora"> Horario: </label>{" "}
-                <input
-                  type="time"
-                  className="form-control"
-                  id="hora"
-                  placeholder="00:00"
-                  value={this.state.hora}
-                  onChange={event =>
-                    this.setState({
-                      hora: event.target.value
-                    })
-                  }
-                />{" "}
-              </div>{" "}
-              <div className="col-md-1 mt-4">
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={() =>
-                    this.guardarDHL(
-                      this.state.dia,
-                      this.state.hora,
-                      this.state.lugar
-                    )
-                  }
-                >
-                  <span className="fa fa-plus"> </span>{" "}
-                </button>{" "}
-              </div>{" "}
-              <div className="col-md-1 mt-4">
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  disabled={this.state.borrarDHL}
-                  onClick={() => this.borrarDHL()}
-                >
-                  <span className="fa fa-minus"> </span>{" "}
-                </button>{" "}
-              </div>{" "}
-            </div>{" "}
-            {this.mostrarDhl()}{" "}
-          </div>{" "}
-        </div>{" "}
+        <DHLList guardarDHL={(d, h, l) => this.guardarDHL(d, h, l)}>
+          {this.mostrarDhl()}
+        </DHLList>
         <div className="form-group form-row">
           <div className="col">
             <label htmlFor="comentario"> Comentario: </label>{" "}
