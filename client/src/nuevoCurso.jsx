@@ -5,6 +5,9 @@ const { Selector } = require("./componentesComunes/selector");
 const { InputPersona } = require("./componentesComunes/inputPersona");
 const { AceptarYCancelar } = require("./componentesComunes/botones");
 const { DHLBar } = require("./componentesComunes/DHLBar");
+const {
+  MostrarPersona
+} = require("./componentesComunes/MostrarPesonaConCerrar");
 
 class DHLList extends React.Component {
   render() {
@@ -12,11 +15,7 @@ class DHLList extends React.Component {
       <div className="card mt-sm-2">
         <div className="card-body">
           {this.props.children}
-          <DHLBar
-            editar={true}
-            guardarDHL={this.props.guardarDHL}
-            // borrarDHL={this.props.borrarDHL}
-          />
+          <DHLBar editar={true} guardarDHL={this.props.guardarDHL} />
         </div>
       </div>
     );
@@ -48,7 +47,6 @@ class NuevoCurso extends React.Component {
 
   componentDidMount() {
     this.borrarCursoEnPadre();
-    // this.seleccionarCategoria(this.state.tallerId);
   }
 
   borrarCursoEnPadre() {
@@ -85,6 +83,7 @@ class NuevoCurso extends React.Component {
       borrarDHL: false
     });
   }
+
   editarDHL(dhl, eDHL) {
     let listDHL = this.state.listaDHL;
     listDHL.splice(listDHL.indexOf(dhl), 1, eDHL);
@@ -92,6 +91,7 @@ class NuevoCurso extends React.Component {
       listaDHL: listDHL
     });
   }
+
   borrarDHL(dhl) {
     let listDHL = this.state.listaDHL;
     listDHL.splice(listDHL.indexOf(dhl), 1);
@@ -99,6 +99,7 @@ class NuevoCurso extends React.Component {
       listaDHL: listDHL
     });
   }
+
   guardarCurso(alert) {
     const curso = {
       _alumnos: [],
@@ -139,6 +140,7 @@ class NuevoCurso extends React.Component {
       confirmacion: false
     });
   }
+
   agregarDocente() {
     this.setState({
       inputPersonaOculto: true
@@ -150,6 +152,7 @@ class NuevoCurso extends React.Component {
       inputPersonaOculto: false
     });
   }
+
   cancelarPersona() {
     this.ocultarNuevaPersona();
   }
@@ -163,6 +166,7 @@ class NuevoCurso extends React.Component {
       () => this.ocultarNuevaPersona()
     );
   }
+
   nuevaPersona() {
     if (this.state.inputPersonaOculto) {
       return (
@@ -177,17 +181,28 @@ class NuevoCurso extends React.Component {
     }
   }
 
+  borrarProfesor(persona) {
+    let listProfesores = this.state.profesores;
+    listProfesores.splice(listProfesores.indexOf(persona), 1);
+    this.setState({
+      profesores: listProfesores
+    });
+  }
+
   mostrarProfesores() {
     if (!(this.state.profesoresId.length === 0)) {
       return (
         <div className="card mb-2 mt-2">
           <p> Profesores: </p>{" "}
           <h5>
-            {" "}
-            {this.state.profesores.map(
-              p => p._apellido + ", " + p._nombre + " / "
-            )}{" "}
-          </h5>{" "}
+            {this.state.profesores.map(p => (
+              <MostrarPersona
+                key={p._dni}
+                persona={p}
+                delete={() => this.borrarProfesor(p)}
+              />
+            ))}
+          </h5>
         </div>
       );
     }

@@ -36,8 +36,6 @@ class DHLBar extends React.Component {
   }
 
   aceptarDHL() {
-    console.log(this.props.editarDHL);
-
     if (this.props.editarDHL) {
       this.props.editarDHL({
         _dia: this.state.dia,
