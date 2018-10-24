@@ -6,10 +6,15 @@
     "@types/node": "^10.9.4",
     "ajv": "^6.4.0",
     "axios": "^0.18.0",
+    "bootbox": "^4.4.0",
     "bootstrap": "^4.1.1",
     "express": "^4.16.3",
     "font-awesome": "^4.7.0",
     "jquery": "3.3.1",
+    "lodash": "^4.17.10",
+    "lodash.defaultto": "^4.14.0",
+    "lodash.range": "3.2.0",
+    "lodash.sortby": "4.7.0",
     "pdfmake": "^0.1.27",
     "popper.js": "^1.14.3",
     "prop-types": "^15.6.2",
@@ -19,11 +24,7 @@
     "react-dom": "^16.3.2",
     "react-scripts": "1.1.4",
     "react-transition-group": "^2.4.0",
-    "reactstrap": "^6.2.0",
-    "lodash": "^4.17.10",
-    "lodash.defaultto": "^4.14.0",
-    "lodash.range": "3.2.0",
-    "lodash.sortby": "4.7.0"
+    "reactstrap": "^6.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

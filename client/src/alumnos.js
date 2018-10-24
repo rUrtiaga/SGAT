@@ -4,6 +4,7 @@ const axios = require("axios");
 const infoPersona = require("./componentesComunes/infoPersona");
 const { Alert } = require("react-alert");
 
+var bootbox = require("bootbox");
 var pdfMake = require("pdfmake/build/pdfmake.js");
 var pdfFonts = require("pdfmake/build/vfs_fonts.js");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -25,7 +26,6 @@ class ListarAlumnos extends React.Component {
       infoDeAlumno: false,
       mostrarPanelDeAbajo: false
     };
-
   }
 
   componentDidMount() {
@@ -48,7 +48,7 @@ class ListarAlumnos extends React.Component {
         self.setState({
           listaDeAlumnos: json[0]._alumnos,
           nombreTaller: json[0]._taller._nombre,
-          categoriaTaller:json[0]._taller._categoria,
+          categoriaTaller: json[0]._taller._categoria,
           subCategoriaTaller: json[0]._taller._subCategoria,
           cupo: json[0]._cupo
         });
@@ -85,42 +85,62 @@ class ListarAlumnos extends React.Component {
       );
     }
 
-    return <div>
+    return (
+      <div>
         <div id="container" className="m-4 container-fluid recuadroPantalla">
           <div className="row">
             <div id="recuadro externo" className="col-md-11">
               <div className="card text-dark">
                 <div id="titulos" className="align-self-center  ">
                   <h4> {this.state.categoriaTaller} </h4>
-                </div>  
+                </div>
 
                 <div className="row justify-content-center">
-                        <div id="subTitulos_0" className="align-self-center">
-                          <h5> {this.state.nombreTaller}{" - "} </h5>
-                        </div>
-                        <div id="subTitulos_2" className="align-self-center">  
-                          <h5> {" - "}{this.state.subCategoriaTaller} </h5>
-                        </div>
-                    </div>  
-               
+                  <div id="subTitulos_0" className="align-self-center">
+                    <h5>
+                      {" "}
+                      {this.state.nombreTaller}
+                      {" - "}{" "}
+                    </h5>
+                  </div>
+                  <div id="subTitulos_2" className="align-self-center">
+                    <h5>
+                      {" "}
+                      {" - "}
+                      {this.state.subCategoriaTaller}{" "}
+                    </h5>
+                  </div>
+                </div>
 
                 <div className="card-body text-dark">
                   <div className="row">
                     <div className="col-md-12">{this.tblAlumnos()}</div>
                     {panelDeAbajo}
                   </div>
-                  {this.botonStandard("Volver", () => this.volver(), "btn-success", "fa-chevron-left")}
-                  {this.botonStandard("Imprimir", () => this.imprimirAlumnos(), "btn-success", "fa-print")}
+                  {this.botonStandard(
+                    "Volver",
+                    () => this.volver(),
+                    "btn-success",
+                    "fa-chevron-left"
+                  )}
+                  {this.botonStandard(
+                    "Imprimir",
+                    () => this.imprimirAlumnos(),
+                    "btn-success",
+                    "fa-print"
+                  )}
                 </div>
                 <h4>
                   {" "}
-                  Alumnos Registrados {this.state.listaDeAlumnos.length} de {this.state.cupo}
+                  Alumnos Registrados {this.state.listaDeAlumnos.length} de{" "}
+                  {this.state.cupo}
                 </h4>
               </div>
             </div>
           </div>
         </div>
-      </div>;
+      </div>
+    );
   }
 
   /*Tabla info de Alumno */
@@ -186,9 +206,15 @@ class ListarAlumnos extends React.Component {
 
   /** --- Link para Info del Alumno ---  */
   linkInfoAlumno(alumno) {
-    return <button type="button" className="btn btn-link" onClick={() => this.mostrarDatosAlumno(alumno)}>
+    return (
+      <button
+        type="button"
+        className="btn btn-link"
+        onClick={() => this.mostrarDatosAlumno(alumno)}
+      >
         {alumno._apellido}
-      </button>;
+      </button>
+    );
   }
 
   mostrarDatosAlumno(unAlumno) {
@@ -196,16 +222,30 @@ class ListarAlumnos extends React.Component {
   }
 
   eliminarAlumno(alumno, alert) {
-   if(window.confirm("Esta seguro de borrar??"))
-   {
-      let codigo = this.state.listaDeAlumnos.filter(
-        alu => alu._dni !== alumno._dni
-      );
-      this.setState({
-        listaDeAlumnos: codigo
-      });
-      this.removeAlumno(alumno, alert);
-    }
+    bootbox.confirm({
+      message: "Va a eliminar a " + alumno._apellido + "  esta seguro ? ",
+      buttons: {
+        confirm: {
+          label: "Si",
+          className: "btn-success"
+        },
+        cancel: {
+          label: "No",
+          className: "btn-danger"
+        }
+      },
+      callback: function(result) {
+        result ? ()=> this.confirmaEliminar(alumno, alert) : null;
+      }
+    });
+  }
+
+  confirmaEliminar(alumno, alert) {
+    let codigo = this.state.listaDeAlumnos.filter(
+      alu => alu._dni !== alumno._dni
+    );
+    this.setState({ listaDeAlumnos: codigo });
+    this.removeAlumno(alumno, alert);
   }
 
   imprimirAlumnos() {
@@ -300,7 +340,7 @@ class ListarAlumnos extends React.Component {
       () => this.mostrarDatosAlumno(alumno),
       "btn-info btn-xs",
       "fa-info"
-    )
+    );
   }
 
   botonEliminar(alumno) {
