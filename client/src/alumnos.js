@@ -222,6 +222,7 @@ class ListarAlumnos extends React.Component {
   }
 
   eliminarAlumno(alumno, alert) {
+    let self = this;
     bootbox.confirm({
       message: "Va a eliminar a " + alumno._apellido + "  esta seguro ? ",
       buttons: {
@@ -234,8 +235,8 @@ class ListarAlumnos extends React.Component {
           className: "btn-danger"
         }
       },
-      callback: function(result) {
-        result ? ()=> this.confirmaEliminar(alumno, alert) : null;
+      callback: function(result) {               
+        result ? self.confirmaEliminar(alumno, alert) : null;
       }
     });
   }
