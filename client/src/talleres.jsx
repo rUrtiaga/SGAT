@@ -62,7 +62,6 @@ class ListaCategorias extends React.Component {
               />
               ))}
         </ul>
-        {console.log("Lista Categorias.:  "+this.props.selected)}
       </React.Fragment>
     );
   }  
