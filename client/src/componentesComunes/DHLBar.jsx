@@ -89,7 +89,7 @@ class DHLBar extends React.Component {
               value={this.state.horario}
               onChange={event =>
                 this.setState({
-                  hora: event.target.value
+                  horario: event.target.value
                 })
               }
             />{" "}
