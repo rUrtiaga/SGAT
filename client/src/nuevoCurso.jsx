@@ -28,7 +28,6 @@ class NuevoCurso extends React.Component {
     this.curso = this.props.curso || {};
     this.state = {
       profesores: this.curso._profesores || [],
-      profesoresId: this.idsProfesores(this.curso._profesores) || [],
       listaDHL: this.curso._diasHorariosLugares || [],
       tallerId: this.curso._tallerID || "",
       taller: "",
@@ -54,7 +53,7 @@ class NuevoCurso extends React.Component {
   }
 
   idsProfesores(profesores) {
-    return profesores ? profesores.map(p => p._id) : undefined;
+    return profesores ? profesores.map(p => p._id) : [];
   }
 
   confirmar() {
@@ -102,33 +101,38 @@ class NuevoCurso extends React.Component {
 
   guardarCurso(alert) {
     const curso = {
-      _alumnos: [],
-      _alumnosBaja: [],
-      _espera: [],
-      _esperaBaja: [],
       _diasHorariosLugares: this.state.listaDHL,
       _tallerID: this.state.tallerId,
       _comentario: this.state.comentario,
       _cupo: this.state.cupo,
-      _profesores: this.state.profesoresId
+      _profesores: this.idsProfesores(this.state.profesores)
     };
-    axios
-      .post("/api/cursos", curso)
-      .then(function(res) {
-        alert.success("Se creó correctamente la nueva CURSADA");
-      })
-      .then(this.cancelarAgregado())
-      .catch(function(error) {
-        console.log(error);
-        alert.error("ERROR - " + error.response.data.message);
-      });
+    if (this.props.curso) {
+      axios
+        .put("/api/cursos/" + this.props.curso._id, curso)
+        .then(r => alert.success("Se modificó correctamente la cursada"))
+        .catch(function(error) {
+          console.log(error);
+          alert.error("No se pudo modificar esta cursada");
+        });
+    } else {
+      axios
+        .post("/api/cursos", curso)
+        .then(function(res) {
+          alert.success("Se creó correctamente la nueva CURSADA");
+        })
+        .then(this.cancelarAgregado())
+        .catch(function(error) {
+          console.log(error);
+          alert.error("ERROR - " + error.response.data.message);
+        });
+    }
   }
 
   cancelarAgregado() {
     this.setState({
       indice: 0,
       profesores: [],
-      profesoresId: [],
       tallerId: "",
       cupo: "",
       dia: "",
@@ -160,8 +164,7 @@ class NuevoCurso extends React.Component {
   agregarProfesor(persona) {
     this.setState(
       {
-        profesores: [...this.state.profesores, persona],
-        profesoresId: [...this.state.profesoresId, persona._id]
+        profesores: [...this.state.profesores, persona]
       },
       () => this.ocultarNuevaPersona()
     );
@@ -190,7 +193,7 @@ class NuevoCurso extends React.Component {
   }
 
   mostrarProfesores() {
-    if (!(this.state.profesoresId.length === 0)) {
+    if (!(this.state.profesores.length === 0)) {
       return (
         <div className="card mb-2 mt-2">
           <p> Profesores: </p>{" "}

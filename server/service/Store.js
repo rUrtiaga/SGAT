@@ -231,6 +231,20 @@ class Store {
     return db.collection("cursos").insertMany([curso]);
   }
 
+  editCurso(db, idCurso, newDataCurso) {
+    return db.collection("cursos").updateOne({
+      _id: ObjectID(idCurso)
+    }, {
+      $set: {
+        _diasHorariosLugares: newDataCurso._diasHorariosLugares,
+        _tallerID: newDataCurso._tallerID,
+        _comentario: newDataCurso._comentario,
+        _cupo: newDataCurso._cupo,
+        _profesores: newDataCurso._profesores.map(p => new ObjectID(p))
+      }
+    })
+  }
+
   updateCurso(db, property, idCurso, idPersona) {
     return db.collection("cursos").updateOne({
       _id: ObjectID(idCurso)
