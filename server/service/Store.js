@@ -237,7 +237,7 @@ class Store {
     }, {
       $set: {
         _diasHorariosLugares: newDataCurso._diasHorariosLugares,
-        _tallerID: newDataCurso._tallerID,
+        _tallerID: ObjectID(newDataCurso._tallerID),
         _comentario: newDataCurso._comentario,
         _cupo: newDataCurso._cupo,
         _profesores: newDataCurso._profesores.map(p => new ObjectID(p))
