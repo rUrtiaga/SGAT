@@ -140,6 +140,11 @@
       });
     }
 
+    /**
+     * Cursos
+     */
+
+
     fetchCursosCompletos() {
       return this.doOperationOnConnection(db => {
         return store.fetchCursosCompletos(db);
@@ -158,6 +163,12 @@
       });
     }
 
+    putCurso(idCurso, newDataCurso) {
+      return this.doOperationOnConnection(db => {
+        return store.editCurso(db, idCurso, newDataCurso)
+      })
+    }
+
     pushCurso(dataCurso) {
       let curso = new Curso(dataCurso);
 
@@ -173,10 +184,6 @@
 
         );
       }
-
-
-
-
       return this.doOperationOnConnection(db => {
         return store.pushCurso(db, curso);
       });

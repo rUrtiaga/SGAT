@@ -43,12 +43,18 @@ router
       .catch(e => next(e));
   });
 
-router.get("/cursos/:id", function (req, res, next) {
-  service
-    .fetchCurso(req.params.id)
-    .then(curso => res.send(curso))
-    .catch(e => next(e));
-});
+router.route("/cursos/:id")
+  .get(function (req, res, next) {
+    service
+      .fetchCurso(req.params.id)
+      .then(curso => res.send(curso))
+      .catch(e => next(e));
+  })
+  .put(function (req, res, next) {
+    service.putCurso(req.params.id, req.body)
+      .then(() => res.status(200).send())
+      .catch(e => next(e));
+  })
 
 router.put("/cursos/:id/alumnos", function (req, res, next) {
   service
