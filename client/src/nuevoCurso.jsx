@@ -46,6 +46,7 @@ class NuevoCurso extends React.Component {
 
   componentDidMount() {
     this.borrarCursoEnPadre();
+    this.seleccionarCategoria(this.state.tallerId);
   }
 
   borrarCursoEnPadre() {
@@ -252,7 +253,11 @@ class NuevoCurso extends React.Component {
       <div className="card mb-8 mt-2">
         <div className="form-group">
           <div className="col-md-6">
-            <h5> Usted esta a punto de crear la siguiente Cursada: </h5>{" "}
+            <h5>
+              {" "}
+              Usted esta a punto de {this.props.curso ? "editar" : "crear"} la
+              siguiente Cursada:{" "}
+            </h5>{" "}
             <p>
               {" "}
               Categoria: <b> {this.state.taller._categoria} </b>{" "}
