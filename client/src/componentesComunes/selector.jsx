@@ -9,12 +9,9 @@ const { MuestraCursos } = require("./selectMostrarCursos.jsx");
 class Selector extends React.Component {
   constructor(props) {
     super(props);
-    let subCategoriaId = this.props.subCategoriaId;
-
-    console.log(this.props.subCategoriaId);
     this.state = {
       categorias: [],
-      subCategoriaId: subCategoriaId
+      subCategoriaId: this.props.subCategoriaId
     };
   }
 
