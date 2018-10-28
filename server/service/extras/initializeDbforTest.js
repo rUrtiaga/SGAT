@@ -28,7 +28,7 @@ const testDBObject = {
         ],
         "_tallerID": ObjectID("5b9837e2756b0a1a73c656ae"),
         "_comentario": "",
-        "_cupo": "20",
+        "_cupo": 20,
         "_profesores": [
             ObjectID("5b98384a756b0a1a73c656b2")
         ],
@@ -46,7 +46,7 @@ const testDBObject = {
         }],
         "_tallerID": ObjectID("5b9837e2756b0a1a73c656b0"),
         "_comentario": "",
-        "_cupo": "10",
+        "_cupo": 10,
         "_profesores": [
             ObjectID("5b98384a756b0a1a73c656b2")
         ],
@@ -64,7 +64,7 @@ const testDBObject = {
         }],
         "_tallerID": ObjectID("5b983928756b0a1a73c656b8"),
         "_comentario": "",
-        "_cupo": "50",
+        "_cupo": 50,
         "_profesores": [
             ObjectID("5b983993756b0a1a73c656b9")
         ],
@@ -73,7 +73,8 @@ const testDBObject = {
         "_id": ObjectID("5bb2aece0e7b692ed22971cc"),
         "_alumnos": [
             ObjectID("5b983a07756b0a1a73c656bb"),
-            ObjectID("5b983aba756b0a1a73c656bc")],
+            ObjectID("5b983aba756b0a1a73c656bc")
+        ],
         "_alumnosBaja": [],
         "_espera": [],
         "_esperaBaja": [],
@@ -84,7 +85,7 @@ const testDBObject = {
         }],
         "_tallerID": ObjectID("5b983928756b0a1a73c656b8"),
         "_comentario": "",
-        "_cupo": "2",
+        "_cupo": 2,
         "_profesores": [],
         "_anio": 2018
     }],
