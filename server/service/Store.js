@@ -207,9 +207,8 @@ class Store {
               ]
             },
             _hayCupo: {
-              $gt: [{
-                  $toInt: "$_cupo"
-                },
+              $gt: [
+                "$_cupo",
                 {
                   $subtract: [{
                     $size: "$_alumnos"
