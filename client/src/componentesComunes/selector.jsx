@@ -56,8 +56,8 @@ class Selector extends React.Component {
       {
         talleres: this.talleresDeCategoria(valor),
         categoria: valor,
-        tallerName: null,
-        subCategoriaId: null,
+        tallerName: "",
+        subCategoriaId: "",
         curso: null
       },
       () => this.seleccionMuestraTalleres(this.state.talleres[0])
@@ -77,7 +77,7 @@ class Selector extends React.Component {
       {
         subCategorias: this.subcategoriasDeTaller(valor),
         tallerName: valor,
-        subCategoriaId: null,
+        subCategoriaId: "",
         curso: null
       },
       () => this.seleccionSubCategoriaId(this.state.subCategorias[0]._id)
