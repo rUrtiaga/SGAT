@@ -192,7 +192,7 @@ class Curso {
     this._diasHorariosLugares = toDHL(dataCurso._diasHorariosLugares); //coleccion de DiaHorarioLugar
     this._tallerID = ObjectID(dataCurso._tallerID);
     this._comentario = dataCurso._comentario;
-    this._cupo = dataCurso._cupo;
+    this._cupo = parseInt(dataCurso._cupo, 10);
     this._profesores = dataCurso._profesores.map(p => new ObjectID(p));
     this._anio = new Date().getFullYear();
   }

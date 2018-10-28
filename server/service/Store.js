@@ -146,9 +146,8 @@ class Store {
         {
           $addFields: {
             _hayCupo: {
-              $gt: [{
-                  $toInt: "$_cupo"
-                },
+              $gt: [
+                "$_cupo",
                 {
                   $subtract: [{
                     $size: "$_alumnos"
