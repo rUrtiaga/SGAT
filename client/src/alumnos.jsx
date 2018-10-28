@@ -222,20 +222,19 @@ class ListarAlumnos extends React.Component {
   eliminarAlumno(alumno, alert) {
     // este es el metodo que genera la ventana de confirmación y llama al metodo eliminar
     let self = this;
-    bootbox.confirm({
+    bootbox.dialog({
       message: "Va a eliminar a " + alumno._apellido + "  esta seguro ? ",
       buttons: {
-        confirm: {
-          label: "Si",
-          className: "btn-success"
-        },
         cancel: {
           label: "No",
-          className: "btn-danger"
+          className: "btn-danger",
+          callback: result => {}
+        },
+        confirm: {
+          label: "Si",
+          className: "btn-success",
+          callback: result => self.confirmaEliminar(alumno, alert)
         }
-      },
-      callback: function(result) {
-        result ? self.confirmaEliminar(alumno, alert) : null;
       }
     });
   }
@@ -297,7 +296,7 @@ class ListarAlumnos extends React.Component {
       fila.push(" ");
       fila.push(" ");
 
-      cuerpo.push(fila);
+      return cuerpo.push(fila);
     });
 
     var docDefinition = {
