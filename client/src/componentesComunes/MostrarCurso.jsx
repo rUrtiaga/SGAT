@@ -4,8 +4,8 @@ class Curso extends React.Component {
   constructor(props) {
     super(props);
     let { curso } = this.props;
+    console.log(curso);
     this.state = {
-      cupo: curso._cupo,
       DHL: curso._diasHorariosLugares,
       profesores: curso._profesores,
       hayCupo: curso._hayCupo,
