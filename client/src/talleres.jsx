@@ -255,7 +255,7 @@ class Botones extends React.Component {
       <React.Fragment>
         {this.botonListaDeEspera()}
         <button
-          className={"btn btn-primary col-md-4 mr-1 mb-1 " + this.disabled()}
+          className={"btn btn-primary col-md-3 mr-1 mb-1 " + this.disabled()}
           onClick={v =>
             this.hayAlumnos() ? this.props.seleccionarAlumnos(v) : null
           }

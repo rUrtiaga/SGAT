@@ -245,7 +245,7 @@ class Store {
         _diasHorariosLugares: newDataCurso._diasHorariosLugares,
         _tallerID: ObjectID(newDataCurso._tallerID),
         _comentario: newDataCurso._comentario,
-        _cupo: newDataCurso._cupo,
+        _cupo: parseInt(newDataCurso._cupo, 10),
         _profesores: newDataCurso._profesores.map(p => new ObjectID(p))
       }
     })
