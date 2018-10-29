@@ -183,15 +183,16 @@ class CrearTaller extends React.Component {
         }
       })
       .then(respuesta => {
-        console.log(respuesta);
-        // let catConId = respuesta.data.map(
-        //   () => (catConId._categoria = t._categoria),
-        //   (catConId._id = t._id)
-        // );
-        // this.setState({
-        //   subCategoriasConId: catConId
-        // });
+        let subcatConId = respuesta.data.map(s => {
+          return { _id: s._id, _subcategoria: s._subCategoria };
+        });
+        let subcategsinId = subcatConId.map(s => s._subcategoria);
+        this.setState({
+          subCategoriasConId: subcatConId,
+          subCategorias: this.state.subCategorias.concat(subcategsinId)
+        });
       })
+
       .catch(e => console.log(e));
   }
 

@@ -46,6 +46,66 @@ class Service {
         return Promise.reject(error);
       });
   }
+  /**
+   * Talleres
+   */
+
+  // pushTaller(dataTaller) {
+  //   let talleres = dataTaller._subCategorias.map(
+  //     subCat => new Taller(dataTaller, subCat)
+  //   );
+  //   return this.doOperationOnConnection(db => {
+  //     // store.pushCategoria(dataTaller._categoria)
+  //     return store.pushTalleres(db, talleres);
+  //   });
+  // }
+
+  fetchTalleres() {
+    return this.doOperationOnConnection(db => {
+      return store.fetchTalleres(db);
+    });
+  }
+  /**
+   * Talleres
+   */
+
+  pushTaller(dataTaller) {
+    let talleres = dataTaller._subCategorias.map(
+      subCat => new Taller(dataTaller, subCat)
+    );
+    let nombre = dataTaller._nombre;
+
+    if (!this.validarBlancos(dataTaller)) {
+      return this.doOperationOnConnection(db => {
+        return this.existTaller(db, nombre).then(() =>
+          store.pushTalleres(db, talleres)
+        );
+      });
+    } else {
+      return Promise.reject(
+        new SgatError("El Taller tiene datos incompletos", 409)
+      );
+    }
+  }
+
+  validarBlancos(dataTaller) {
+    return dataTaller._nombre === "" || dataTaller._categoria === "";
+  }
+
+  existTaller(db, nombreTaller) {
+    return store.existsTaller(db, nombreTaller).then(talleres => {
+      if (talleres.length == 0) {
+        return Promise.resolve();
+      } else {
+        return Promise.reject(
+          new SgatError(
+            "ya se encuentra un Taller con el nombre: " + nombreTaller,
+            409
+          )
+        );
+      }
+    });
+  }
 
   fetchTalleresCategoria(categoria) {
     return this.doOperationOnConnection(db => {
@@ -75,50 +135,6 @@ class Service {
     });
   }
 
-  pushTaller(dataTaller) {
-    let talleres = dataTaller._subCategorias.map(
-      subCat => new Taller(dataTaller, subCat)
-    );
-    let nombre = dataTaller._nombre;
-
-    if (!this.validarBlancos(dataTaller)) {
-      return this.doOperationOnConnection(db => {
-        return this.existTaller(db, nombre).then(() =>
-          store.pushTalleres(db, talleres)
-        );
-      });
-    } else {
-      return Promise.reject(
-        new SgatError("El Taller tiene datos incompletos", 409)
-      );
-    }
-  }
-
-  putCurso(idCurso, newDataCurso) {
-    return this.doOperationOnConnection(db => {
-      return store.editCurso(db, idCurso, newDataCurso);
-    });
-  }
-
-  validarBlancos(dataTaller) {
-    return dataTaller._nombre === "" || dataTaller._categoria === "";
-  }
-
-  existTaller(db, nombreTaller) {
-    return store.existsTaller(db, nombreTaller).then(talleres => {
-      if (talleres.length == 0) {
-        return Promise.resolve();
-      } else {
-        return Promise.reject(
-          new SgatError(
-            "ya se encuentra un Taller con el nombre: " + nombreTaller,
-            409
-          )
-        );
-      }
-    });
-  }
-
   fetchCursos() {
     return this.doOperationOnConnection(db => {
       return store.fetchCursos(db);
@@ -128,6 +144,12 @@ class Service {
   fetchCurso(id) {
     return this.doOperationOnConnection(db => {
       return store.fetchCurso(db, id);
+    });
+  }
+
+  putCurso(idCurso, newDataCurso) {
+    return this.doOperationOnConnection(db => {
+      return store.editCurso(db, idCurso, newDataCurso);
     });
   }
 
@@ -143,7 +165,6 @@ class Service {
         new SgatError("El Cupo del curso no puede ser NEGATIVO", 409)
       );
     }
-
     return this.doOperationOnConnection(db => {
       return store.pushCurso(db, curso);
     });
