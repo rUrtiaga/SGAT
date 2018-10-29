@@ -156,7 +156,15 @@ class Store {
                   }]
                 }
               ]
+            },
+            _cantAlumnos: {
+              $subtract: [{
+                $size: "$_alumnos"
+              }, {
+                $size: "$_alumnosBaja"
+              }]
             }
+
           }
         }
       ])
