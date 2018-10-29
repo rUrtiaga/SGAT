@@ -100,16 +100,16 @@ class Service {
 
   existTaller(db, nombreTaller) {
     return store.existsTaller(db, nombreTaller).then(talleres => {
-      if (talleres.length == 0) {
-        return Promise.resolve();
-      } else {
-        return Promise.reject(
-          new SgatError(
-            "ya se encuentra un Taller con el nombre: " + nombreTaller,
-            409
-          )
-        );
-      }
+      //if (talleres.length == 0) {     //COMENTADO XQ EL EDITAR TALLER CHOCA CON ESTO
+      return Promise.resolve();
+      // } else {
+      //   return Promise.reject(
+      //     new SgatError(
+      //       "ya se encuentra un Taller con el nombre: " + nombreTaller,
+      //       409
+      //     )
+      //   );
+      // }
     });
   }
 

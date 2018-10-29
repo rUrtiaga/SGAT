@@ -22,6 +22,7 @@ class CrearTaller extends React.Component {
       nombre: this.editarTaller._nombre || "",
 
       categoria: this.editarTaller._categoria || "",
+      tengoTallerAEditar: false,
 
       categorias: [],
       subCategorias: [],
@@ -41,7 +42,7 @@ class CrearTaller extends React.Component {
   componentDidMount() {
     this.borrarTallerEnPadre;
     this.requestCategorias();
-    if (this.editarTaller) {
+    if (this.state.nombre) {
       this.requestTalleres();
     }
   }
@@ -172,9 +173,6 @@ class CrearTaller extends React.Component {
   }
 
   requestTalleres() {
-    //probar si anda!
-    //axios.get('/users?name=Sherlock', {
-
     return axios
       .get("api/talleres", {
         params: {
@@ -214,26 +212,28 @@ class CrearTaller extends React.Component {
     const taller = {
       _categoria: self.state.categoria,
       _nombre: self.state.nombre,
-      _subCategorias: self.state.subCategorias
+      _subCategorias: self.state.subCategorias,
+      _subCategoriasConId: self.state.subCategoriasConId
     };
+    console.log(taller);
     this.setState({
       errorValidar: this.validar()
     });
-    if (!this.state.errorValidar) {
-      axios
-        .post("api/talleres ", taller)
-        .then(function(res) {
-          alert.success("Se creó correctamente el TALLER " + taller._nombre);
-          self.setState({
-            confirmacion: false
-          });
-        })
-        .then(this.cancelarAgregado())
-        .catch(function(error) {
-          console.log(error);
-          alert.error("ERROR - " + error.response.data.message);
+    //if (!this.state.errorValidar) { //COMENTADO XQ EL EDITAR TALLER CHOCA CON ESTO
+    axios
+      .post("api/talleres ", taller)
+      .then(function(res) {
+        alert.success("Se creó correctamente el TALLER " + taller._nombre);
+        self.setState({
+          confirmacion: false
         });
-    }
+      })
+      .then(this.cancelarAgregado())
+      .catch(function(error) {
+        console.log(error);
+        alert.error("ERROR - " + error.response.data.message);
+      });
+    //}
   }
 
   mostrarError(alert) {
