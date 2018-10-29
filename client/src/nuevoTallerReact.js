@@ -26,6 +26,7 @@ class CrearTaller extends React.Component {
       categorias: [],
       subCategorias: [],
       subCategoriasConId: [],
+
       agregaSubCategoria: false,
       agregaCategoria: false,
       disabled: false,
@@ -40,6 +41,9 @@ class CrearTaller extends React.Component {
   componentDidMount() {
     this.borrarTallerEnPadre;
     this.requestCategorias();
+    if (this.editarTaller) {
+      this.requestTalleres();
+    }
   }
 
   borrarTallerEnPadre() {
@@ -165,6 +169,30 @@ class CrearTaller extends React.Component {
         categorias={this.state.categorias}
       />
     );
+  }
+
+  requestTalleres() {
+    //probar si anda!
+    //axios.get('/users?name=Sherlock', {
+
+    return axios
+      .get("api/talleres", {
+        params: {
+          categoria: this.editarTaller._categoria,
+          taller: this.editarTaller._nombre
+        }
+      })
+      .then(respuesta => {
+        console.log(respuesta);
+        // let catConId = respuesta.data.map(
+        //   () => (catConId._categoria = t._categoria),
+        //   (catConId._id = t._id)
+        // );
+        // this.setState({
+        //   subCategoriasConId: catConId
+        // });
+      })
+      .catch(e => console.log(e));
   }
 
   requestCategorias() {
