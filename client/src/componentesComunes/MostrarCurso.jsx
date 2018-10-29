@@ -41,12 +41,7 @@ class Curso extends React.Component {
               </h5>
             </div>
             <div className="col-sm-6 text-right">
-              <button
-                className="btn btn-link"
-                onClick={() => this.props.editarCurso()}
-              >
-                <span className="fa fa-pencil" />
-              </button>
+              <EditButton editarCurso={this.props.editarCurso} />
               {this.props.botones}
             </div>
           </div>
@@ -54,6 +49,22 @@ class Curso extends React.Component {
         </div>
       </div>
     );
+  }
+}
+
+class EditButton extends React.Component {
+  render() {
+    if (this.props.editarCurso) {
+      return (
+        <button
+          className="btn btn-link"
+          onClick={() => this.props.editarCurso()}
+        >
+          <span className="fa fa-pencil" />
+        </button>
+      );
+    }
+    return null;
   }
 }
 
