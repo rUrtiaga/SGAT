@@ -127,7 +127,7 @@ class DHLBar extends React.Component {
                 {this.state.lugar || "Sin Definir"}
               </span>
             </div>
-            <div className="text-center" className="col-md-2">
+            <div className="col-md-2">
               <span htmlFor="cupo">{this.state.dia} </span>
             </div>
             <div className="col-md-2">
