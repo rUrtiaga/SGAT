@@ -1,17 +1,7 @@
-const {
-  Taller,
-  Persona,
-  Curso
-} = require("./dominio/dominio-talleres.js");
-const {
-  store
-} = require("./Store.js");
-const {
-  MongoClient
-} = require("mongodb");
-const {
-  SgatError
-} = require("./extras/SgatError.js");
+const { Taller, Persona, Curso } = require("./dominio/dominio-talleres.js");
+const { store } = require("./Store.js");
+const { MongoClient } = require("mongodb");
+const { SgatError } = require("./extras/SgatError.js");
 const process = require("process");
 
 //lo del process es para hacer la variable de sistema.
@@ -34,21 +24,22 @@ class Service {
     let db = null;
 
     return MongoClient.connect(
-        dbServerURL, {
-          useNewUrlParser: true
-        }
-      )
-      .then(function (conn) {
+      dbServerURL,
+      {
+        useNewUrlParser: true
+      }
+    )
+      .then(function(conn) {
         dbConnection = conn; //Guardo la conneccion en la variable externa al promise
         db = dbConnection.db(dbName);
 
         return operation(db);
       })
-      .then(function (data) {
+      .then(function(data) {
         dbConnection.close();
         return Promise.resolve(data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         if (dbConnection) {
           dbConnection.close();
         }
@@ -79,21 +70,13 @@ class Service {
     let talleres = dataTaller._subCategoriasConId.map(
       subCat => new Taller(dataTaller, subCat._subCategoria, subCat._id)
     );
-
-    let nombre = dataTaller._nombre;
-
-    //let talleresConId = talleres.filter(t => t.id);
-
-    let talleresSinId = [];
-    talleresSinId = talleres.filter(t => t._id == undefined);
-
     console.log(talleres);
-    console.log("talleres SIN ID" + talleresSinId);
+    let nombre = dataTaller._nombre;
 
     if (!this.validarBlancos(dataTaller)) {
       return this.doOperationOnConnection(db => {
         return this.existTaller(db, nombre).then(() =>
-          store.pushTalleres(db, talleres)
+          store.editTalleres(db, talleres)
         );
       });
     } else {
@@ -142,8 +125,8 @@ class Service {
 
   fetchTalleresQueContienenCursos() {
     return this.doOperationOnConnection(db => {
-      return store.fetchTalleresQueContienenCursos(db)
-    })
+      return store.fetchTalleresQueContienenCursos(db);
+    });
   }
 
   /**
@@ -333,9 +316,12 @@ class Service {
   isEmptyDB() {
     return this.doOperationOnConnection(db => {
       return db
-        .listCollections({}, {
-          nameOnly: true
-        })
+        .listCollections(
+          {},
+          {
+            nameOnly: true
+          }
+        )
         .toArray()
         .then(list => list.length === 0);
     });

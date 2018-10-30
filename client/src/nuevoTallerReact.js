@@ -209,8 +209,10 @@ class CrearTaller extends React.Component {
         this.setState({
           categorias: catSinId
         });
+        if (!this.editarTaller) {
+          this.seleccionarCategoria(this.state.categorias[0]);
+        }
       })
-      .then(() => this.seleccionarCategoria(this.state.categorias[0]))
       .catch(e => console.log(e));
   }
 
@@ -221,6 +223,7 @@ class CrearTaller extends React.Component {
       _nombre: self.state.nombre,
       _subCategoriasConId: self.state.subCategoriasConId
     };
+
     this.setState({
       errorValidar: this.validar()
     });
@@ -279,7 +282,7 @@ class CrearTaller extends React.Component {
               </p>{" "}
               <p>
                 {" "}
-                Taller: <b> {this.state.categoria} </b>{" "}
+                Categoria: <b> {this.state.categoria} </b>{" "}
               </p>{" "}
               {this.subCategoriasOAviso()}{" "}
             </div>

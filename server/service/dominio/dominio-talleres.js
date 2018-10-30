@@ -11,9 +11,8 @@ class Taller {
   // Forma de uso Taller('UnaCategoria','UnNombre') => Crea un taller subcategoria con nombre undefined
   // Taller('Artes Manuales','Ceramica','Indigena','Tradicional') => crea taller con dos subcategorias, pueden ser N
   constructor(dataTaller, subCategoria, id) {
-    console.log(id);
-    if (id !== undefined) {
-      this._id = objectId(id);
+    if (!id == "") {
+      this._id = id;
     }
     this._categoria = dataTaller._categoria;
     this._nombre = dataTaller._nombre;

@@ -34,6 +34,35 @@ class Store {
     return db.collection("talleres").insertMany(talleres);
   }
 
+  editTalleres(db, talleres) {
+    talleres.forEach(t => {
+      if (!t._id) {
+        this.pushTaller(db, t);
+      } else {
+        this.editTaller(db, t_id, t);
+      }
+    });
+  }
+
+  pushTaller(db, taller) {
+    return db.collection("talleres").insertMany([taller]);
+  }
+
+  editTaller(db, idTaller, newDataTaller) {
+    return db.collection("talleres").updateOne(
+      {
+        _id: ObjectID(idTaller)
+      },
+      {
+        $set: {
+          _categoria: newDataTaller._categoria,
+          _nombre: newDataTaller._nombre,
+          _subCategoria: newDataTaller._subCategoria
+        }
+      }
+    );
+  }
+
   fetchTalleres(db) {
     return db
       .collection("talleres")
@@ -72,31 +101,36 @@ class Store {
   }
 
   fetchTalleresQueContienenCursos(db) {
-    return db.collection("talleres").aggregate([
-
-      {
-        $lookup: {
-          from: "cursos",
-          localField: "_id",
-          foreignField: "_tallerID",
-          as: "_cursos"
-        }
-      },
-      {
-        $match: {
-          $expr: {
-            $gt: [{
-              $size: "$_cursos"
-            }, 0]
+    return db
+      .collection("talleres")
+      .aggregate([
+        {
+          $lookup: {
+            from: "cursos",
+            localField: "_id",
+            foreignField: "_tallerID",
+            as: "_cursos"
+          }
+        },
+        {
+          $match: {
+            $expr: {
+              $gt: [
+                {
+                  $size: "$_cursos"
+                },
+                0
+              ]
+            }
+          }
+        },
+        {
+          $project: {
+            _cursos: false
           }
         }
-      },
-      {
-        "$project": {
-          _cursos: false
-        }
-      }
-    ]).toArray()
+      ])
+      .toArray();
   }
 
   fetchCursoRaw(db, id) {
