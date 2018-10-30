@@ -89,10 +89,10 @@ class DHL extends React.Component {
 class FilaDHL extends React.Component {
   render() {
     return (
-      <tr>
-        <td>{this.props.dhl._dia}</td>
-        <td>{this.props.dhl._horario}</td>
-        <td>{this.props.dhl._lugar}</td>
+      <tr className="row">
+        <td className="col-sm-4">{this.props.dhl._lugar || "Sin definir"}</td>
+        <td className="col-sm-4">{this.props.dhl._dia}</td>
+        <td className="col-sm-4">{this.props.dhl._horario || "Sin definir"}</td>
       </tr>
     );
   }
