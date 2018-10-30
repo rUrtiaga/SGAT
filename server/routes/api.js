@@ -88,6 +88,12 @@ router
       .then(dataOK => res.status(201).send(dataOK))
       .catch(e => next(e));
   })
+  .put(function(req, res, next) {
+    service
+      .editTaller(req.body)
+      .then(dataOK => res.status(201).send(dataOK))
+      .catch(e => next(e));
+  })
   .get(function(req, res, next) {
     if (req.query.categoria) {
       next();
@@ -145,7 +151,7 @@ router.get("/talleres/:id/cursos", function(req, res, next) {
     .catch(e => next(e));
 });
 
-router.route("/TalleresQueContienenCursos").get(function (req, res, next) {
+router.route("/TalleresQueContienenCursos").get(function(req, res, next) {
   service
     .fetchTalleresQueContienenCursos()
     .then(talleres => res.send(talleres))

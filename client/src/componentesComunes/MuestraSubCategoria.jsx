@@ -4,8 +4,10 @@ class MuestraSubCategoria extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nombreSubCategoria: this.props.subcategoria,
-      mostrarEditar: false
+      nombreSubCategoria: this.props.subCategoria._subCategoria || "",
+      idSubCategoria: this.props.subCategoria._id || "",
+      mostrarEditar: false,
+      nombreNuevo: ""
     };
   }
 
@@ -15,6 +17,10 @@ class MuestraSubCategoria extends React.Component {
 
   guardar() {
     this.setState({ mostrarEditar: false });
+    // this.props.guardarSubCategoria(
+    //   this.state.idSubCategoria,
+    //   this.state.nombreSubCategoria
+    // );
   }
 
   mostrarSubCategoria() {
@@ -27,7 +33,10 @@ class MuestraSubCategoria extends React.Component {
             placeholder="SubCategoria"
             value={this.state.nombreSubCategoria}
             onChange={event =>
-              this.setState({ nombreSubCategoria: event.target.value })
+              this.setState({
+                nombreSubCategoria: event.target.value,
+                nombreEditado: event.target.value
+              })
             }
           />
         </div>
@@ -35,7 +44,14 @@ class MuestraSubCategoria extends React.Component {
           <button
             type="button"
             className="btn btn-success"
-            onClick={() => this.guardar()}
+            onClick={() => {
+              this.props.guardarSubC(
+                this.state.idSubCategoria,
+                this.state.nombreEditado
+              );
+              console.log(this.state.nombreEditado);
+              //this.guardar();
+            }}
           >
             <span className="fa fa-check"> </span>
           </button>
@@ -73,4 +89,4 @@ class MuestraSubCategoria extends React.Component {
   }
 }
 
-exports.MuestraSubCategoria = MuestraSubCategoria;
+module.exports.MuestraSubCategoria = MuestraSubCategoria;

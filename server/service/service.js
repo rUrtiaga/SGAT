@@ -68,7 +68,7 @@ class Service {
 
   pushTaller(dataTaller) {
     let talleres = dataTaller._subCategoriasConId.map(
-      subCat => new Taller(dataTaller, subCat._subCategoria, subCat._id)
+      subCat => new Taller(dataTaller, subCat._subCategoria)
     );
     console.log(talleres);
     let nombre = dataTaller._nombre;
@@ -76,7 +76,38 @@ class Service {
     if (!this.validarBlancos(dataTaller)) {
       return this.doOperationOnConnection(db => {
         return this.existTaller(db, nombre).then(() =>
-          store.editTalleres(db, talleres)
+          store.pushTalleres(db, talleres)
+        );
+      });
+    } else {
+      return Promise.reject(
+        new SgatError("El Taller tiene datos incompletos", 409)
+      );
+    }
+  }
+  editTaller(dataTaller) {
+    let talleres = dataTaller._subCategoriasConId.map(
+      subCat => new Taller(dataTaller, subCat._subCategoria, subCat._id)
+    );
+
+    let talleresConId = talleres.filter(t => !t._id == "");
+
+    let talleresSinId = talleres.filter(t => t._id == undefined);
+
+    console.log("TALLERES CON ID" + talleresConId);
+    console.log("TALLERES SIN ID" + talleresSinId);
+
+    let nombre = dataTaller._nombre;
+
+    if (!this.validarBlancos(dataTaller)) {
+      return this.doOperationOnConnection(db => {
+        return this.existTaller(db, nombre).then(() =>
+          store.pushTalleres(db, talleresSinId).then(() => {
+            talleresConId.forEach(
+              t => console.log(t),
+              store.editTalleres(db, t._id, t)
+            );
+          })
         );
       });
     } else {
