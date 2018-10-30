@@ -14,8 +14,19 @@ class DHLList extends React.Component {
     return (
       <div className="card mt-sm-2">
         <div className="card-body">
-          {this.props.children}
+          <div className="row">
+            <div className="col-md-7">
+              <label htmlFor="lugar"> Lugar: </label>
+            </div>
+            <div className="col-md-2">
+              <label htmlFor="cupo"> Dia: </label>
+            </div>
+            <div className="col-md-3">
+              <label htmlFor="hora"> Horario: </label>
+            </div>
+          </div>
           <DHLBar editar={true} guardarDHL={this.props.guardarDHL} />
+          {this.props.children}
         </div>
       </div>
     );
@@ -32,9 +43,6 @@ class NuevoCurso extends React.Component {
       tallerId: this.curso._tallerID || "",
       taller: "",
       cupo: this.curso._cupo || 10,
-      dia: "Lunes",
-      hora: "",
-      lugar: "",
       comentario: this.curso._comentario || "",
 
       confirmacion: false,
@@ -69,17 +77,10 @@ class NuevoCurso extends React.Component {
     });
   }
 
-  guardarDHL(dia, hora, lugar) {
-    let varDHL = {
-      _dia: dia,
-      _horario: hora,
-      _lugar: lugar
-    };
+  guardarDHL(dhl) {
+    console.log("DHL:", dhl);
     this.setState({
-      listaDHL: [...this.state.listaDHL, varDHL],
-      dia: "",
-      hora: "",
-      lugar: "",
+      listaDHL: [...this.state.listaDHL, dhl],
       borrarDHL: false
     });
   }
@@ -216,7 +217,7 @@ class NuevoCurso extends React.Component {
     if (this.state.listaDHL) {
       return this.state.listaDHL.map(dhl => (
         <DHLBar
-          key={dhl._dia + dhl._horario + dhl._lugar + dhl._id}
+          key={dhl._dia + dhl._horario + dhl._lugar + Math.random()}
           dia={dhl._dia}
           horario={dhl._horario}
           lugar={dhl._lugar}
