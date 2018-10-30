@@ -9,7 +9,24 @@ class MostrarTalleres extends React.Component {
       return (
         <div className="card mb-sm-3 mb-3" key={nombreTaller}>
           <div className="card-header">
-            <h4 className="card-title">{nombreTaller}</h4>
+            <h4 className="card-title">
+              {nombreTaller}
+
+              <button
+                type="button"
+                className="btn btn-link"
+                onClick={taller =>
+                  this.props.irACrearTaller(
+                    (taller = {
+                      _categoria: this.props.categoria,
+                      _nombre: nombreTaller
+                    })
+                  )
+                }
+              >
+                <span className="fa fa-pencil" />
+              </button>
+            </h4>
           </div>
           {this.desplegarSubcategorias(nombreTaller)}
         </div>
@@ -28,13 +45,6 @@ class MostrarTalleres extends React.Component {
             <div className="card-body">
               <h5 className="card-title">
                 {tallerDesnormalizado._subCategoria}
-                <button
-                  type="button"
-                  className="btn btn-link"
-                  onClick={() => this.props.irACrearTaller()}
-                >
-                  <span className="fa fa-pencil" />
-                </button>
               </h5>
 
               {this.props.desplegarCursosDeTaller(tallerDesnormalizado)}
@@ -159,8 +169,11 @@ class Talleres extends React.Component {
       pantallaActual: 5
     });
   }
-  cambiarACrearTaller() {
-    this.props.rootComponent.setState({ pantallaActual: 2 });
+  cambiarACrearTaller(taller) {
+    this.props.rootComponent.setState({
+      taller: taller,
+      pantallaActual: 2
+    });
   }
 
   render() {
@@ -182,7 +195,7 @@ class Talleres extends React.Component {
               listTalleres={this.state.listaDeTalleres}
               talleres={this.nombresTalleres()}
               desplegarCursosDeTaller={t => this.desplegarCursosDeTaller(t)}
-              irACrearTaller={() => this.cambiarACrearTaller()}
+              irACrearTaller={taller => this.cambiarACrearTaller(taller)}
             />
           </div>
         </div>
@@ -255,7 +268,7 @@ class Botones extends React.Component {
       <React.Fragment>
         {this.botonListaDeEspera()}
         <button
-          className={"btn btn-primary col-md-4 mr-1 mb-1 " + this.disabled()}
+          className={"btn btn-primary col-md-3 mr-1 mb-1 " + this.disabled()}
           onClick={v =>
             this.hayAlumnos() ? this.props.seleccionarAlumnos(v) : null
           }

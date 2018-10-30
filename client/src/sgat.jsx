@@ -140,7 +140,10 @@ class Menu extends React.Component {
       return (
         <div>
           {this.menuBarra()}
-          <nuevoTaller.CrearTaller rootComponent={this} />
+          <nuevoTaller.CrearTaller
+            rootComponent={this}
+            taller={this.state.taller}
+          />
         </div>
       );
     } else {

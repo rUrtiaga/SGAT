@@ -33,9 +33,6 @@ class Curso extends React.Component {
     return (
       <div className={"card mt-sm-2 mt-2 " + this.cursoLleno()}>
         <div className="card-body">
-          <button className="btn" onClick={() => this.props.editarCurso()}>
-            Editar
-          </button>
           <div className="row">
             <div className="col-sm-6">
               <h5 className="card-title ml-sm-2 mb-4">
@@ -43,12 +40,31 @@ class Curso extends React.Component {
                 {this.pluralProfesores()}: {this.nombresProfes()}
               </h5>
             </div>
-            <div className="col-sm-6 text-right">{this.props.botones}</div>
+            <div className="col-sm-6 text-right">
+              <EditButton editarCurso={this.props.editarCurso} />
+              {this.props.botones}
+            </div>
           </div>
           <DHL dhls={this.state.DHL} />
         </div>
       </div>
     );
+  }
+}
+
+class EditButton extends React.Component {
+  render() {
+    if (this.props.editarCurso) {
+      return (
+        <button
+          className="btn btn-link"
+          onClick={() => this.props.editarCurso()}
+        >
+          <span className="fa fa-pencil" />
+        </button>
+      );
+    }
+    return null;
   }
 }
 
