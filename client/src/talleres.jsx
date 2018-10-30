@@ -117,7 +117,7 @@ class Talleres extends React.Component {
         );
         let listCategorias = _.sortedUniq(listTalleres.map(t => t._categoria));
         let categoriaSeleccionada =
-          self.props.rootComponent.state.categSeleccionada;
+        self.props.categoriaSeleccionada;
         self.setState({
           listaDeTalleres: listTalleres,
           listaDeCategorias: listCategorias,
@@ -205,7 +205,9 @@ class Talleres extends React.Component {
 
   selecCategoria(cat) {
     this.setState({ selectedCategory: cat });
-    this.props.rootComponent.setState({ categSeleccionada: cat });
+    console.log(this.props.onChangeCategoria);
+    
+    this.props.onChangeCategoria(cat);
   }
 
   nombresTalleres() {

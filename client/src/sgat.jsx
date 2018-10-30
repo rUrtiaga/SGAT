@@ -20,7 +20,7 @@ const pantallas = {
 class Menu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       pantallaActual: pantallas.muestraTalleres,
       categSeleccionada: ""
     };
@@ -41,6 +41,10 @@ class Menu extends React.Component {
 
   mostrarListarAlumno() {
     this.setState({ pantallaActual: pantallas.listarAlumnos });
+  }
+
+  changeCategoria(categoria) {
+    this.setState({ categSeleccionada: categoria });
   }
 
   mostrarNuevoAlumno() {
@@ -188,7 +192,11 @@ class Menu extends React.Component {
               return (
                 <div>
                   {this.menuBarra()}
-                  <muestraTalleres.Talleres rootComponent={this} />
+                  <muestraTalleres.Talleres
+                    rootComponent={this}
+                    categoriaSeleccionada={this.state.categSeleccionada}
+                    onChangeCategoria={cat => this.changeCategoria(cat)}
+                  />
                 </div>
               );
             } else {
