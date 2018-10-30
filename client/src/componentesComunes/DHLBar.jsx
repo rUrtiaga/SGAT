@@ -14,17 +14,24 @@ class DHLBar extends React.Component {
         "Domingo"
       ],
       editar: this.props.editar || false,
-      dia: "" || this.props.dia,
-      horario: "" || this.props.horario,
-      lugar: "" || this.props.lugar
+      dia: this.props.dia || "Lunes",
+      horario: this.props.horario || "",
+      lugar: this.props.lugar || ""
     };
+  }
+
+  limpiar() {
+    this.setState({
+      dia: "Lunes",
+      horario: "",
+      lugar: ""
+    });
   }
 
   desplegarDias() {
     return this.state.dias.map(c => (
       <option key={c} value={c}>
-        {" "}
-        {c}{" "}
+        {c}
       </option>
     ));
   }
@@ -44,7 +51,12 @@ class DHLBar extends React.Component {
       });
       this.setState({ editar: false });
     } else {
-      this.props.guardarDHL(this.state.dia, this.state.hora, this.state.lugar);
+      this.props.guardarDHL({
+        _dia: this.state.dia,
+        _horario: this.state.horario,
+        _lugar: this.state.lugar
+      });
+      this.limpiar();
     }
   }
 
@@ -52,8 +64,7 @@ class DHLBar extends React.Component {
     if (this.state.editar) {
       return (
         <div className="form-group form-row">
-          <div className="col-md-4">
-            <label htmlFor="lugar"> Lugar: </label>{" "}
+          <div className="col-md-7">
             <input
               type="text"
               max="30"
@@ -69,7 +80,6 @@ class DHLBar extends React.Component {
             />{" "}
           </div>
           <div className="col-md-2">
-            <label htmlFor="cupo"> Dia: </label>{" "}
             <select
               className="form-control"
               value={this.state.dia}
@@ -79,8 +89,7 @@ class DHLBar extends React.Component {
               {this.desplegarDias()}{" "}
             </select>{" "}
           </div>{" "}
-          <div className="col-md-2">
-            <label htmlFor="hora"> Horario: </label>{" "}
+          <div className="col-10 col-md-2">
             <input
               type="time"
               className="form-control"
@@ -94,13 +103,17 @@ class DHLBar extends React.Component {
               }
             />{" "}
           </div>{" "}
-          <div className="col-md-1 mt-4">
+          <div className="col-1 col-md-1">
             <button
               type="button"
               className="btn btn-success"
               onClick={() => this.aceptarDHL()}
             >
-              <span className="fa fa-plus"> </span>{" "}
+              {this.props.editar ? (
+                <span className="fa fa-plus"> </span>
+              ) : (
+                <span className="fa fa-check"> </span>
+              )}
             </button>{" "}
           </div>{" "}
         </div>
@@ -108,24 +121,37 @@ class DHLBar extends React.Component {
     } else {
       return (
         <React.Fragment>
-          <button
-            type="button"
-            className="btn btn-link col-sm-11"
-            onClick={() => this.setState({ editar: true })}
-          >
-            {this.state.lugar +
-              " - " +
-              this.state.dia +
-              " - " +
-              this.state.horario}
-          </button>
-          <button
-            type="button"
-            className="btn btn-link col-sm-1"
-            onClick={() => this.props.borrarDHL()}
-          >
-            <span className="fa fa-minus"> </span>{" "}
-          </button>{" "}
+          <div className="row">
+            <div className="col-md-7">
+              <span className="text-center" htmlFor="lugar">
+                {this.state.lugar || "Sin Definir"}
+              </span>
+            </div>
+            <div className="text-center" className="col-md-2">
+              <span htmlFor="cupo">{this.state.dia} </span>
+            </div>
+            <div className="col-md-2">
+              <span className="text-center" htmlFor="hora">
+                {this.state.horario || "Sin Definir"}
+              </span>
+            </div>
+            <div className="col-sm-1">
+              <button
+                type="button"
+                className="btn btn-link col-md-6"
+                onClick={() => this.setState({ editar: true })}
+              >
+                <span className="fa fa-pencil"> </span>
+              </button>
+              <button
+                type="button"
+                className="btn btn-link col-md-6"
+                onClick={() => this.props.borrarDHL()}
+              >
+                <span className="fa fa-minus"> </span>
+              </button>
+            </div>
+          </div>
         </React.Fragment>
       );
     }
