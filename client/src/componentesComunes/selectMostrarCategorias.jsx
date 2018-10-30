@@ -27,11 +27,11 @@ class MuestraCategorias extends React.Component {
     this.setState({ categ: this.props.seleccionar(event.target.value) });
   }
 
-  seleccionarCategoriaInicial() {
-    this.setState({
-      categ: this.props.categoriaSeleccionada
-    });
-  }
+  // seleccionarCategoriaInicial() {
+  //   this.setState({
+  //     categ: this.props.categoriaSeleccionada
+  //   });
+  // }
 
   desplegarCategorias() {
     return this.props.categorias.map(c => (
