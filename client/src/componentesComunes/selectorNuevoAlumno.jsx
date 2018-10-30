@@ -3,14 +3,10 @@ const _ = require("lodash");
 const { Selector } = require("./selector");
 
 class SelectorNuevoAlumno extends Selector {
-  constructor(props) {
-    super(props);
-  }
-
   requestTalleres() {
     const self = this;
     return axios
-      .get("api/talleres")
+      .get("api/TalleresQueContienenCursos")
       .then(respuesta => {
         self.setState({ talleresFull: respuesta.data });
       })
