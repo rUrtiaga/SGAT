@@ -71,6 +71,34 @@ class Store {
     return this.fetchID(db, "talleres", id);
   }
 
+  fetchTalleresQueContienenCursos(db) {
+    return db.collection("talleres").aggregate([
+
+      {
+        $lookup: {
+          from: "cursos",
+          localField: "_id",
+          foreignField: "_tallerID",
+          as: "_cursos"
+        }
+      },
+      {
+        $match: {
+          $expr: {
+            $gt: [{
+              $size: "$_cursos"
+            }, 0]
+          }
+        }
+      },
+      {
+        "$project": {
+          _cursos: false
+        }
+      }
+    ]).toArray()
+  }
+
   fetchCursoRaw(db, id) {
     return this.fetchID(db, "cursos", id);
   }

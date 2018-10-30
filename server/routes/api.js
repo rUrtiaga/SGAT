@@ -145,6 +145,13 @@ router.get("/talleres/:id/cursos", function(req, res, next) {
     .catch(e => next(e));
 });
 
+router.route("/TalleresQueContienenCursos").get(function (req, res, next) {
+  service
+    .fetchTalleresQueContienenCursos()
+    .then(talleres => res.send(talleres))
+    .catch(e => next(e));
+});
+
 // router.get("/talleres/:id/subcategorias/:subid/cursos",function(req,res,next){
 //   service.fetchCursos(req.params)
 //   .then(cursos => res.send(cursos))
