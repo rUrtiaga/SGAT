@@ -250,81 +250,33 @@ class ListarAlumnos extends React.Component {
 
   imprimirAlumnos() {
     var cuerpo = [];
-    var titulosLinea = [
-      "Apellido",
-      "Nombre",
-      "Tel. Principal",
-      "Observaciones",
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "11",
-      "12",
-      "13",
-      "14"
-    ];
-
+    var titulosLinea1 = [ {text: "Apellido", bold: true}, {text: "Nombre", bold: true}, {text: "Tel. Principal", bold: true}, " Asistencias ",
+                           "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  " ];
+    var titulosLinea2 = [ "        ", "      ", "              ", "  ", "  ", "  ", "  ", "  ",
+                          "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "]
     var lAlumnos = this.state.listaDeAlumnos;
 
-    cuerpo.push(titulosLinea);
+    var tituloPpal = this.state.categoriaTaller ;
+    cuerpo.push(titulosLinea1); 
+    cuerpo.push(titulosLinea2);
 
     lAlumnos.map(alum => {
-      var fila = [];
-      fila.push(alum._apellido);
-      fila.push(alum._nombre);
-      fila.push(alum._telPrincipal);
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-
+    var fila = [];
+        fila.push(alum._apellido); fila.push(alum._nombre); fila.push(alum._telPrincipal); fila.push(" ");
+              fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" ");
+              fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" ");
+              fila.push(" "); fila.push(" ");
       return cuerpo.push(fila);
     });
 
     var docDefinition = {
       pageOrientation: "landscape",
       content: [
+        {text: tituloPpal, style: 'header', bold: true,  alignment: 'center', fontSize: 20},
         {
           table: {
-            headerRows: 1,
-            widths: [
-              100,
-              100,
-              80,
-              100,
-              15,
-              15,
-              15,
-              15,
-              15,
-              15,
-              15,
-              15,
-              15,
-              15,
-              15,
-              15,
-              15,
-              15
-            ],
+            headerRows: 2,
+            widths: [ 100, 100, 80, 100, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 ],
             body: cuerpo
           }
         }
