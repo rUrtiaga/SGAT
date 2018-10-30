@@ -141,6 +141,19 @@ class CrearTaller extends React.Component {
       subCategoriasConId: subc
     });
   }
+  guardarSubCategoria(id, name) {
+    console.log(name);
+    let subc = [];
+    subc = this.state.subCategoriasConId.map(function(s) {
+      if (s._id == id) {
+        s._id, (s._subCategoria = name);
+      }
+      return s;
+    });
+    this.setState({
+      subCategoriasConId: subc
+    });
+  }
 
   //Muestra Div con las sub-categorias agregadas hasta el momento
   mostrarSubCategoriasAgregadas() {
@@ -150,12 +163,13 @@ class CrearTaller extends React.Component {
           <p> SubCategorias Agregadas: </p>
           {this.state.subCategoriasConId.map(subC => (
             <MuestraSubCategoria
-              key={subC._subCategoria}
+              key={Math.random()}
               padre={this}
-              subcategoria={subC._subCategoria}
+              subCategoria={subC}
               quitarSubCategoria={s =>
                 this.quitarSubCategoria(subC._subCategoria)
               }
+              guardarSubC={(id, subc) => this.guardarSubCategoria(id, subc)}
             />
           ))}{" "}
         </div>
@@ -228,19 +242,36 @@ class CrearTaller extends React.Component {
       errorValidar: this.validar()
     });
     //if (!this.state.errorValidar) { //COMENTADO XQ EL EDITAR TALLER CHOCA CON ESTO
-    axios
-      .post("api/talleres ", taller)
-      .then(function(res) {
-        alert.success("Se creó correctamente el TALLER " + taller._nombre);
-        self.setState({
-          confirmacion: false
+
+    if (!this.editarTaller) {
+      axios
+        .post("api/talleres ", taller)
+        .then(function(res) {
+          alert.success("Se creó correctamente el TALLER " + taller._nombre);
+          self.setState({
+            confirmacion: false
+          });
+        })
+        .then(this.cancelarAgregado())
+        .catch(function(error) {
+          console.log(error);
+          alert.error("ERROR - " + error.response.data.message);
         });
-      })
-      .then(this.cancelarAgregado())
-      .catch(function(error) {
-        console.log(error);
-        alert.error("ERROR - " + error.response.data.message);
-      });
+    } else {
+      axios
+        .put("api/talleres ", taller)
+        .then(function(res) {
+          alert.success("Se creó correctamente el TALLER " + taller._nombre);
+          self.setState({
+            confirmacion: false
+          });
+        })
+        .then(this.cancelarAgregado())
+        .catch(function(error) {
+          console.log(error);
+          alert.error("ERROR - " + error.response.data.message);
+        });
+    }
     //}
   }
 

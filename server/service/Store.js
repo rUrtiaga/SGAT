@@ -35,17 +35,7 @@ class Store {
   }
 
   editTalleres(db, talleres) {
-    talleres.forEach(t => {
-      if (!t._id) {
-        this.pushTaller(db, t);
-      } else {
-        this.editTaller(db, t_id, t);
-      }
-    });
-  }
-
-  pushTaller(db, taller) {
-    return db.collection("talleres").insertMany([taller]);
+    return db.collection("talleres").updateMany(talleres);
   }
 
   editTaller(db, idTaller, newDataTaller) {
