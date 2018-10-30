@@ -3,7 +3,9 @@ const axios = require("axios");
 const { InputPersona } = require("./componentesComunes/inputPersona.jsx");
 const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
 
-const { Selector } = require("./componentesComunes/selector.jsx");
+const {
+  SelectorNuevoAlumno
+} = require("./componentesComunes/selectorNuevoAlumno");
 
 class NuevoAlumno extends React.Component {
   constructor(props) {
@@ -44,7 +46,10 @@ class NuevoAlumno extends React.Component {
         <h3 className="mt-4 mb-4">Nueva Inscripción</h3>
 
         {this.state.selectorCursoOculto ? null : (
-          <Selector padre={this} onSelect={c => this.selectCurso(c)} />
+          <SelectorNuevoAlumno
+            padre={this}
+            onSelect={c => this.selectCurso(c)}
+          />
         )}
 
         {this.state.inputPersonaOculto ? null : (
