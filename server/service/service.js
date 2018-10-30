@@ -76,10 +76,19 @@ class Service {
   }
 
   pushTaller(dataTaller) {
-    let talleres = dataTaller._subCategorias.map(
-      subCat => new Taller(dataTaller, subCat)
+    let talleres = dataTaller._subCategoriasConId.map(
+      subCat => new Taller(dataTaller, subCat._subCategoria, subCat._id)
     );
+
     let nombre = dataTaller._nombre;
+
+    //let talleresConId = talleres.filter(t => t.id);
+
+    let talleresSinId = [];
+    talleresSinId = talleres.filter(t => t._id == undefined);
+
+    console.log(talleres);
+    console.log("talleres SIN ID" + talleresSinId);
 
     if (!this.validarBlancos(dataTaller)) {
       return this.doOperationOnConnection(db => {

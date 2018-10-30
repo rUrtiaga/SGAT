@@ -1,10 +1,6 @@
-const {
-  SgatError
-} = require("../extras/SgatError");
+const { SgatError } = require("../extras/SgatError");
 
-const {
-  ObjectID
-} = require("mongodb");
+const { ObjectID } = require("mongodb");
 
 /********************
  * DOMINIO
@@ -14,7 +10,11 @@ const {
 class Taller {
   // Forma de uso Taller('UnaCategoria','UnNombre') => Crea un taller subcategoria con nombre undefined
   // Taller('Artes Manuales','Ceramica','Indigena','Tradicional') => crea taller con dos subcategorias, pueden ser N
-  constructor(dataTaller, subCategoria) {
+  constructor(dataTaller, subCategoria, id) {
+    console.log(id);
+    if (id !== undefined) {
+      this._id = objectId(id);
+    }
     this._categoria = dataTaller._categoria;
     this._nombre = dataTaller._nombre;
     this._subCategoria = subCategoria;
@@ -202,13 +202,16 @@ class Curso {
    *
    */
   static personaBorrada(dataCurso, idPersona) {
-    return dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) && dataCurso._alumnosBaja.some(pOid => pOid.toString() == idPersona)
+    return (
+      dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) &&
+      dataCurso._alumnosBaja.some(pOid => pOid.toString() == idPersona)
+    );
   }
-
 
   static estaRepetidoPersona(dataCurso, idPersona) {
     if (
-      dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) && !dataCurso._alumnosBaja.some(pOid => pOid.toString() == idPersona) ||
+      (dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) &&
+        !dataCurso._alumnosBaja.some(pOid => pOid.toString() == idPersona)) ||
       dataCurso._profesores.some(pOid => pOid.toString() == idPersona)
     ) {
       return Promise.reject(
@@ -221,11 +224,14 @@ class Curso {
   // Función que revisa que el alumno este en la lista de alumnos,
   //   y no se encuentre en la lista de Alumnos de BAJA
   static sePuedeBorrarAlumno(dataCurso, idPersona) {
-    let enAlumnos = dataCurso._alumnos.some(pOid => pOid.toString() === idPersona);
-    let enAlumnosBaja = !dataCurso._alumnosBaja.some(pOid => pOid.toString() === idPersona);
+    let enAlumnos = dataCurso._alumnos.some(
+      pOid => pOid.toString() === idPersona
+    );
+    let enAlumnosBaja = !dataCurso._alumnosBaja.some(
+      pOid => pOid.toString() === idPersona
+    );
 
     return enAlumnos && enAlumnosBaja;
-
   }
 
   addAlumno(alumno) {
@@ -422,7 +428,7 @@ class DiaHorarioLugar {
 function toDHL(listJsonDHL) {
   return listJsonDHL.map(
     dhlJSON =>
-    new DiaHorarioLugar(dhlJSON._dia, dhlJSON._horario, dhlJSON._lugar)
+      new DiaHorarioLugar(dhlJSON._dia, dhlJSON._horario, dhlJSON._lugar)
   );
 }
 
