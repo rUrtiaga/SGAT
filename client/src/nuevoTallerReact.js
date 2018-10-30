@@ -88,9 +88,14 @@ class CrearTaller extends React.Component {
   }
 
   agregarSubCategoria(unaSubCategoria) {
+    let subCategSinId = {
+      _id: "",
+      _subCategoria: unaSubCategoria
+    };
+
     this.setState(
       {
-        subCategorias: [...this.state.subCategorias, unaSubCategoria]
+        subCategoriasConId: [...this.state.subCategoriasConId, subCategSinId]
       },
       () => console.log(this.state.subCategorias)
     );
@@ -127,29 +132,30 @@ class CrearTaller extends React.Component {
   }
 
   quitarSubCategoria(subcategoria) {
-    let index = this.state.subCategorias.indexOf(subcategoria);
-    console.log(index + subcategoria);
-
+    //let index = this.state.subCategoriasConId.indexOf(s => s._subCategoria);
     let subc = [];
-    subc = this.state.subCategorias.filter(i => i !== subcategoria);
-    console.log(subc);
+    subc = this.state.subCategoriasConId.filter(
+      i => i._subCategoria !== subcategoria
+    );
     this.setState({
-      subCategorias: subc
-    }); // no esta acualizando la coleccion en pantalla
+      subCategoriasConId: subc
+    });
   }
 
   //Muestra Div con las sub-categorias agregadas hasta el momento
   mostrarSubCategoriasAgregadas() {
-    if (!(this.state.subCategorias.length === 0)) {
+    if (!(this.state.subCategoriasConId.length === 0)) {
       return (
         <div className="card mb-2 mt-2">
           <p> SubCategorias Agregadas: </p>
-          {this.state.subCategorias.map(subC => (
+          {this.state.subCategoriasConId.map(subC => (
             <MuestraSubCategoria
-              key={subC}
+              key={subC._subCategoria}
               padre={this}
-              subcategoria={subC}
-              quitarSubCategoria={s => this.quitarSubCategoria(s)}
+              subcategoria={subC._subCategoria}
+              quitarSubCategoria={s =>
+                this.quitarSubCategoria(subC._subCategoria)
+              }
             />
           ))}{" "}
         </div>
@@ -158,7 +164,7 @@ class CrearTaller extends React.Component {
   }
 
   validar() {
-    return !(this.state.nombre && this.state.subCategorias.length > 0);
+    return !(this.state.nombre && this.state.subCategoriasConId.length > 0);
   }
 
   mostrarMuestraCategoria() {
@@ -182,12 +188,13 @@ class CrearTaller extends React.Component {
       })
       .then(respuesta => {
         let subcatConId = respuesta.data.map(s => {
-          return { _id: s._id, _subcategoria: s._subCategoria };
+          return { _id: s._id, _subCategoria: s._subCategoria };
         });
-        let subcategsinId = subcatConId.map(s => s._subcategoria);
+        //let subcategsinId = subcatConId.map(s => s._subCategoria);
+
         this.setState({
-          subCategoriasConId: subcatConId,
-          subCategorias: this.state.subCategorias.concat(subcategsinId)
+          subCategoriasConId: this.state.subCategoriasConId.concat(subcatConId)
+          //subCategorias: this.state.subCategorias.concat(subcategsinId)
         });
       })
 
@@ -212,10 +219,8 @@ class CrearTaller extends React.Component {
     const taller = {
       _categoria: self.state.categoria,
       _nombre: self.state.nombre,
-      _subCategorias: self.state.subCategorias,
       _subCategoriasConId: self.state.subCategoriasConId
     };
-    console.log(taller);
     this.setState({
       errorValidar: this.validar()
     });
@@ -249,7 +254,7 @@ class CrearTaller extends React.Component {
   }
 
   subCategoriasOAviso() {
-    if (this.state.subCategorias.length === 0) {
+    if (this.state.subCategoriasConId.length === 0) {
       return (
         <div class="alert alert-danger" role="alert">
           ERROR!: no se ha asignado ningúna SubCategoria.{" "}
