@@ -101,13 +101,12 @@ class Service {
 
     if (!this.validarBlancos(dataTaller)) {
       return this.doOperationOnConnection(db => {
-        return this.existTaller(db, nombre).then(() =>
-          store.pushTalleres(db, talleresSinId).then(() => {
-            talleresConId.forEach(
-              t => console.log(t),
-              store.editTalleres(db, t._id, t)
-            );
-          })
+        return this.existTaller(db, nombre).then(
+          () =>
+            //store
+            //  .pushTalleres(db, talleresSinId)
+            //.then(() =>
+            store.editTalleres(db, talleresConId[0]) //)
         );
       });
     } else {

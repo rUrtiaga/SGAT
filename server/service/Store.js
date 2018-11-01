@@ -34,9 +34,28 @@ class Store {
     return db.collection("talleres").insertMany(talleres);
   }
 
-  editTalleres(db, talleres) {
-    return db.collection("talleres").updateMany(talleres);
+  editTalleres(db, taller) {
+    return db.collection("talleres").updateOne(
+      {
+        _id: ObjectID(taller.id)
+      },
+      {
+        $set: {
+          _categoria: taller._categoria,
+          _nombre: taller._nombre,
+          _subCategoria: taller._subCategoria
+        }
+      }
+    );
   }
+
+  //   db.talleres.updateOne(
+  //     { "_id" : ObjectId("5bd8c67e26c410159da7b302")},
+  //     { $set: {_categoria : "Artes Manuales",
+  //          _nombre : "Ceramica",
+  //           _subCategoria: "ringo91852"} },
+  //     { upsert: true }
+  //  );
 
   editTaller(db, idTaller, newDataTaller) {
     return db.collection("talleres").updateOne(
