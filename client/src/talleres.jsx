@@ -13,20 +13,29 @@ class MostrarTalleres extends React.Component {
             <h4 className="card-title">
               {nombreTaller}
 
-              <button
-                type="button"
+              <Link
+                // type="button"
                 className="btn btn-link"
-                onClick={taller =>
-                  this.props.irACrearTaller(
-                    (taller = {
+                to={{
+                  pathname: "/editarTaller/",
+                  state: {
+                    taller: {
                       _categoria: this.props.categoria,
                       _nombre: nombreTaller
-                    })
-                  )
-                }
+                    }
+                  }
+                }}
+                // onClick={taller =>
+                //   this.props.irACrearTaller(
+                //     (taller = {
+                //       _categoria: this.props.categoria,
+                //       _nombre: nombreTaller
+                //     })
+                //   )
+                // }
               >
                 <span className="fa fa-pencil" />
-              </button>
+              </Link>
             </h4>
           </div>
           {this.desplegarSubcategorias(nombreTaller)}
@@ -97,7 +106,6 @@ class NavItem extends React.Component {
 class Talleres extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     const params = props.match.params;
     this.state = {
       listaDeCursos: [],
@@ -155,9 +163,9 @@ class Talleres extends React.Component {
       });
   }
 
-  editarCurso(curso) {
-    this.props.rootComponent.setState({ curso: curso, pantallaActual: 3 });
-  }
+  // editarCurso(curso) {
+  //   this.props.rootComponent.setState({ curso: curso, pantallaActual: 3 });
+  // }
 
   // seleccionarListaDeEspera(cursoId) {
   //   this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 6 });
@@ -173,12 +181,12 @@ class Talleres extends React.Component {
   //     pantallaActual: 5
   //   });
   // }
-  cambiarACrearTaller(taller) {
-    this.props.rootComponent.setState({
-      taller: taller,
-      pantallaActual: 2
-    });
-  }
+  // cambiarACrearTaller(taller) {
+  //   this.props.rootComponent.setState({
+  //     taller: taller,
+  //     pantallaActual: 2
+  //   });
+  // }
 
   render() {
     return (
@@ -199,7 +207,7 @@ class Talleres extends React.Component {
               listTalleres={this.state.listaDeTalleres}
               talleres={this.nombresTalleres()}
               desplegarCursosDeTaller={t => this.desplegarCursosDeTaller(t)}
-              irACrearTaller={taller => this.cambiarACrearTaller(taller)}
+              // irACrearTaller={taller => this.cambiarACrearTaller(taller)}
             />
           </div>
         </div>
@@ -228,17 +236,12 @@ class Talleres extends React.Component {
         <Curso
           key={curso._id}
           curso={curso}
-          editarCurso={() => this.editarCurso(curso)}
           botones={
             <Botones
+              curso={curso}
               hayCupo={curso._hayCupo}
               cantAlumnos={curso._cantAlumnos}
               cursoId={curso._id}
-              // seleccionarListaDeEspera={() =>
-              //   this.seleccionarListaDeEspera(curso._id)
-              // }
-              // seleccionarAlumnos={() => this.seleccionarAlumnos(curso._id)}
-              // inscribirAlumno={() => this.inscribirAlumno(curso._id)}
             />
           }
         />
@@ -280,6 +283,7 @@ class Botones extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <EditButton curso={this.props.curso} />
         {this.botonListaDeEspera()}
         <Link
           className={"btn btn-primary col-md-3 mr-1 mb-1 " + this.disabled()}
@@ -298,4 +302,20 @@ class Botones extends React.Component {
   }
 }
 
+class EditButton extends React.Component {
+  render() {
+    return (
+      <Link
+        className="btn btn-link"
+        to={{
+          pathname: "/editarCursada",
+          hash: "#" + this.props.curso._id,
+          state: { curso: this.props.curso }
+        }}
+      >
+        <span className="fa fa-pencil" />
+      </Link>
+    );
+  }
+}
 module.exports.Talleres = Talleres;
