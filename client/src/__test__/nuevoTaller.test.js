@@ -4,28 +4,27 @@ const { mongo } = require("./MongoConection.js");
 const proxyApi = require("../forBuild/proxyApi.js");
 axios.defaults.baseURL = proxyApi.default;
 
- async function borradoIds(ides) {
-  for (let index = 0; index < ides.length ; index++) {
-    await mongo.deleteID(ides[index])
+async function borradoIds(ides) {
+  for (let index = 0; index < ides.length; index++) {
+    await mongo.deleteID(ides[index]);
   }
 }
 
-function pasarObjectAArray(object, cant){
-  var array = []
+function pasarObjectAArray(object, cant) {
+  var array = [];
   for (let index = 0; index < cant; index++) {
-    array.push(object[index])
+    array.push(object[index]);
   }
-  return array
-
+  return array;
 }
 
 describe("Nuevo Taller API", () => {
   let ids;
   let idsCant = 0;
 
-  afterEach( async () => {
+  afterEach(async () => {
     if (idsCant > 0) {
-       await borradoIds(pasarObjectAArray(ids,idsCant));
+      await borradoIds(pasarObjectAArray(ids, idsCant));
       idsCant = 0;
     }
   });
@@ -34,10 +33,19 @@ describe("Nuevo Taller API", () => {
     const taller = {
       _categoria: "Deportes",
       _nombre: "Futbol",
-      _subCategorias: ["ninios", "adultos", "otros"]
+      _subCategoriasConId: [
+        {
+          _id: "",
+          _subCategoria: "uno"
+        },
+        {
+          _id: "",
+          _subCategoria: "dos"
+        }
+      ]
     };
     axios
-      .post("api/talleres ", taller)
+      .post("api/talleres", taller)
       .then(function(res) {
         expect(res.status).toBe(201);
         ids = res.data.insertedIds;
@@ -53,10 +61,19 @@ describe("Nuevo Taller API", () => {
     const taller = {
       _categoria: "Deportes",
       _nombre: "Tenis",
-      _subCategorias: ["uno", "dos"]
+      _subCategoriasConId: [
+        {
+          _id: "",
+          _subCategoria: "uno"
+        },
+        {
+          _id: "",
+          _subCategoria: "dos"
+        }
+      ]
     };
     axios
-      .post("api/talleres ", taller)
+      .post("api/talleres", taller)
       .then(function(res) {
         done();
       })
@@ -73,17 +90,27 @@ describe("Nuevo Taller API", () => {
     const taller = {
       _categoria: "",
       _nombre: "",
-      _subCategorias: ["uno", "dos"]
+      _subCategoriasConId: [
+        {
+          _id: "",
+          _subCategoria: "uno"
+        },
+        {
+          _id: "",
+          _subCategoria: "dos"
+        }
+      ]
     };
     axios
-      .post("api/talleres ", taller)
+      .post("api/talleres", taller)
       .then(function(res) {
         done();
       })
       .catch(error => {
         expect(error.response.status).toBe(409);
         expect(error.response.data.message).toMatch(
-          "El Taller tiene datos incompletos");
+          "El Taller tiene datos incompletos"
+        );
         done();
       });
   });
