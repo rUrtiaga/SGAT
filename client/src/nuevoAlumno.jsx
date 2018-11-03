@@ -59,7 +59,6 @@ class NuevoAlumno extends React.Component {
             <InputPersona
               persona={this.state.persona || {}}
               onCancel={() => null}
-              // this.cancelPersona()
               onAccept={p => this.acceptPersona(p)}
               padre={this}
             />

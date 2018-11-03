@@ -33,7 +33,6 @@ class ListarAlumnos extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.rootComponent.state.cursoId = undefined;
     this.getDataCurso();
   }
 
@@ -121,12 +120,7 @@ class ListarAlumnos extends React.Component {
                   </div>
 
                   <BackButton {...this.props} />
-                  {/* {this.botonStandard(
-                    "Volver",
-                    () => this.volver(),
-                    "btn-success",
-                    "fa-chevron-left"
-                  )} */}
+
                   {this.botonStandard(
                     "Imprimir",
                     () => this.imprimirAlumnos(),
@@ -168,9 +162,6 @@ class ListarAlumnos extends React.Component {
       </table>
     );
   }
-  // volver() {
-  //   this.props.rootComponent.setState({ pantallaActual: 1 });
-  // }
 
   /*Acá completo la tabla con la info de Alumno */
   // dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario
