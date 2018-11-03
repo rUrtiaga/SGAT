@@ -14,7 +14,6 @@ class MostrarTalleres extends React.Component {
               {nombreTaller}
 
               <Link
-                // type="button"
                 className="btn btn-link"
                 to={{
                   pathname: "/editarTaller/",
@@ -25,14 +24,6 @@ class MostrarTalleres extends React.Component {
                     }
                   }
                 }}
-                // onClick={taller =>
-                //   this.props.irACrearTaller(
-                //     (taller = {
-                //       _categoria: this.props.categoria,
-                //       _nombre: nombreTaller
-                //     })
-                //   )
-                // }
               >
                 <span className="fa fa-pencil" />
               </Link>
@@ -163,31 +154,6 @@ class Talleres extends React.Component {
       });
   }
 
-  // editarCurso(curso) {
-  //   this.props.rootComponent.setState({ curso: curso, pantallaActual: 3 });
-  // }
-
-  // seleccionarListaDeEspera(cursoId) {
-  //   this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 6 });
-  // }
-
-  // seleccionarAlumnos(cursoId) {
-  //   this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 4 });
-  // }
-
-  // inscribirAlumno(cursoId) {
-  //   this.props.rootComponent.setState({
-  //     cursoId: cursoId,
-  //     pantallaActual: 5
-  //   });
-  // }
-  // cambiarACrearTaller(taller) {
-  //   this.props.rootComponent.setState({
-  //     taller: taller,
-  //     pantallaActual: 2
-  //   });
-  // }
-
   render() {
     return (
       <div className="container pt-4">
@@ -207,7 +173,6 @@ class Talleres extends React.Component {
               listTalleres={this.state.listaDeTalleres}
               talleres={this.nombresTalleres()}
               desplegarCursosDeTaller={t => this.desplegarCursosDeTaller(t)}
-              // irACrearTaller={taller => this.cambiarACrearTaller(taller)}
             />
           </div>
         </div>
@@ -217,8 +182,6 @@ class Talleres extends React.Component {
 
   selecCategoria(cat) {
     this.setState({ selectedCategory: cat });
-    // console.log(this.props.onChangeCategoria);
-    // this.props.onChangeCategoria(cat);
   }
 
   nombresTalleres() {
