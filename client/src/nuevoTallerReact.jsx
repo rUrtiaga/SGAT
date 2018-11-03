@@ -197,7 +197,6 @@ class CrearTaller extends React.Component {
             _subcategoria: s._subCategoria
           };
         });
-        //let subcategsinId = subcatConId.map(s => s._subCategoria);
 
         this.setState({
           subCategoriasConId: this.state.subCategoriasConId.concat(subcatConId)

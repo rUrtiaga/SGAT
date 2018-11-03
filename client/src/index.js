@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-// import { Sgat } from "./sgat";
 import axios from "axios";
 import registerServiceWorker from "./registerServiceWorker";
 import "../node_modules/jquery/dist/jquery.js";
