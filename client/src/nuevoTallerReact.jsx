@@ -16,12 +16,10 @@ const {
 class CrearTaller extends React.Component {
   constructor(props) {
     super(props);
-    this.editarTaller = this.props.taller || {};
-
     this.state = {
-      nombre: this.editarTaller._nombre || "",
+      nombre: "",
+      categoria: "",
 
-      categoria: this.editarTaller._categoria || "",
       tengoTallerAEditar: false,
 
       categorias: [],
@@ -387,5 +385,17 @@ class CrearTaller extends React.Component {
     return <div className="container"> {this.inputOConfirmacion()} </div>;
   }
 }
+class EditarTaller extends CrearTaller {
+  constructor(props) {
+    super(props);
+    this.editarTaller = this.props.location.state.taller || {};
+
+    this.state = {
+      nombre: this.editarTaller._nombre || "",
+      categoria: this.editarTaller._categoria || ""
+    };
+  }
+}
 
 module.exports.CrearTaller = CrearTaller;
+module.exports.EditarTaller = EditarTaller;
