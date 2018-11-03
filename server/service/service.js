@@ -105,11 +105,11 @@ class Service {
     if (!this.validarBlancos(dataTaller)) {
       return this.doOperationOnConnection(db => {
         return this.existTaller(db, nombre).then(
-          () =>
-            //store
-            //  .pushTalleres(db, talleresSinId)
-            //.then(() =>
-            store.editTalleres(db, talleresConId) //) // ASI LA IDEA ES QUE POR LO MENOS EDITE LOS TALLERES Q YA EXISTEN
+          () => store.pushTalleres(db, talleres) // esta linea deberia reemplazarce por las 3 siguientes
+
+          //() => store.pushTalleres(db, talleresSinId)
+          //.then(() =>
+          //store.editTalleres(db, talleresConId) //) // ASI LA IDEA ES QUE POR LO MENOS EDITE LOS TALLERES Q YA EXISTEN
         ); // LOS NUEVOS LOS ESTARIA OBVIANDO
       });
     } else {
