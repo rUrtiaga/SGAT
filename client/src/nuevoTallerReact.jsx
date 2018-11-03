@@ -138,7 +138,7 @@ class CrearTaller extends React.Component {
     console.log(name);
     let subc = [];
     subc = this.state.subCategoriasConId.map(function(s) {
-      if (s._id == id) {
+      if (s._id === id) {
         s._id, (s._subCategoria = name);
       }
       return s;
