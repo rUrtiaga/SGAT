@@ -1,10 +1,12 @@
 const React = require("react");
+const { Link } = require("react-router-dom");
 
 class Curso extends React.Component {
   constructor(props) {
     super(props);
     let { curso } = this.props;
     this.state = {
+      curso: curso,
       DHL: curso._diasHorariosLugares,
       profesores: curso._profesores,
       hayCupo: curso._hayCupo,
@@ -40,31 +42,12 @@ class Curso extends React.Component {
                 {this.pluralProfesores()}: {this.nombresProfes()}
               </h5>
             </div>
-            <div className="col-sm-6 text-right">
-              <EditButton editarCurso={this.props.editarCurso} />
-              {this.props.botones}
-            </div>
+            <div className="col-sm-6 text-right">{this.props.botones}</div>
           </div>
           <DHL dhls={this.state.DHL} />
         </div>
       </div>
     );
-  }
-}
-
-class EditButton extends React.Component {
-  render() {
-    if (this.props.editarCurso) {
-      return (
-        <button
-          className="btn btn-link"
-          onClick={() => this.props.editarCurso()}
-        >
-          <span className="fa fa-pencil" />
-        </button>
-      );
-    }
-    return null;
   }
 }
 

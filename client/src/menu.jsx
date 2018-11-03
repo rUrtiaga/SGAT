@@ -58,18 +58,12 @@ class Menu extends Component {
                 Nuevo/a
               </a>
               <div className="dropdown-menu" aria-labelledby="#">
-                <a
-                  className="dropdown-item"
-                  onClick={() => this.mostrarNuevoTaller()}
-                >
+                <Link className="dropdown-item" to="/nuevoTaller">
                   Taller
-                </a>
-                <a
-                  className="dropdown-item"
-                  onClick={() => this.mostrarNuevoCurso()}
-                >
+                </Link>
+                <Link className="dropdown-item" to="/nuevaCursada">
                   Cursada
-                </a>
+                </Link>
               </div>
             </li>
           </ul>

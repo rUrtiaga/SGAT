@@ -1,6 +1,7 @@
 const React = require("react");
 const axios = require("axios");
 
+const { BackButton } = require("./componentesComunes/botones");
 const infoPersona = require("./componentesComunes/infoPersona");
 const { Alert } = require("react-alert");
 
@@ -119,12 +120,13 @@ class ListarAlumnos extends React.Component {
                     {panelDeAbajo}
                   </div>
 
-                  {this.botonStandard(
+                  <BackButton {...this.props} />
+                  {/* {this.botonStandard(
                     "Volver",
                     () => this.volver(),
                     "btn-success",
                     "fa-chevron-left"
-                  )}
+                  )} */}
                   {this.botonStandard(
                     "Imprimir",
                     () => this.imprimirAlumnos(),
@@ -166,9 +168,9 @@ class ListarAlumnos extends React.Component {
       </table>
     );
   }
-  volver() {
-    this.props.rootComponent.setState({ pantallaActual: 1 });
-  }
+  // volver() {
+  //   this.props.rootComponent.setState({ pantallaActual: 1 });
+  // }
 
   /*Acá completo la tabla con la info de Alumno */
   // dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario

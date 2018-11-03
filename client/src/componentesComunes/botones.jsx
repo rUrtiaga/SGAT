@@ -34,4 +34,22 @@ class AceptarYCancelar extends React.Component {
   }
 }
 
+class BackButton extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <button
+        className={"btn btn-success mr-1"}
+        onClick={this.props.history.goBack}
+      >
+        Atrás
+      </button>
+    );
+  }
+}
+
+exports.BackButton = BackButton;
 exports.AceptarYCancelar = AceptarYCancelar;

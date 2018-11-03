@@ -36,29 +36,18 @@ class DHLList extends React.Component {
 class NuevoCurso extends React.Component {
   constructor(props) {
     super(props);
-    this.curso = this.props.curso || {};
     this.state = {
-      profesores: this.curso._profesores || [],
-      listaDHL: this.curso._diasHorariosLugares || [],
-      tallerId: this.curso._tallerID || "",
+      profesores: [],
+      listaDHL: [],
       taller: "",
-      cupo: this.curso._cupo || 10,
-      comentario: this.curso._comentario || "",
+      cupo: 10,
+      comentario: "",
 
       confirmacion: false,
       inputCurso: false,
       inputPersonaOculto: false,
       borrarDHL: true
     };
-  }
-
-  componentDidMount() {
-    this.borrarCursoEnPadre();
-    this.seleccionarCategoria(this.state.tallerId);
-  }
-
-  borrarCursoEnPadre() {
-    this.props.rootComponent.state.curso = undefined;
   }
 
   idsProfesores(profesores) {
@@ -388,5 +377,27 @@ class NuevoCurso extends React.Component {
     );
   }
 }
+class EditarCurso extends NuevoCurso {
+  constructor(props) {
+    super(props);
+    this.curso = this.props.location.state.curso || {};
+    this.state = {
+      profesores: this.curso._profesores || [],
+      listaDHL: this.curso._diasHorariosLugares || [],
+      taller: "",
+      cupo: this.curso._cupo || 10,
+      comentario: this.curso._comentario || "",
 
+      confirmacion: false,
+      inputCurso: false,
+      inputPersonaOculto: false,
+      borrarDHL: true
+    };
+  }
+
+  componentDidMount() {
+    this.seleccionarCategoria(this.curso.tallerID);
+  }
+}
 module.exports.NuevoCurso = NuevoCurso;
+module.exports.EditarCurso = EditarCurso;
