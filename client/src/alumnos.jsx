@@ -16,7 +16,10 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 class ListarAlumnos extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
+    const params = props.match.params;
     this.state = {
+      idCurso: params ? params.id : "",
       alumnoActual: null,
       cupo: null,
       listaDeAlumnos: [],
@@ -29,7 +32,7 @@ class ListarAlumnos extends React.Component {
   }
 
   componentDidMount() {
-    this.props.rootComponent.state.cursoId = undefined;
+    // this.props.rootComponent.state.cursoId = undefined;
     this.getDataCurso();
   }
 
@@ -41,7 +44,7 @@ class ListarAlumnos extends React.Component {
   getDataCurso() {
     let self = this;
     return axios
-      .get("/api/cursos/" + this.props.idCurso)
+      .get("/api/cursos/" + this.state.idCurso)
       .then(function(response) {
         const json = response.data;
 
@@ -61,7 +64,7 @@ class ListarAlumnos extends React.Component {
   removeAlumno(alumno, alert) {
     let alumnoEliminar = alumno;
     return axios
-      .delete("/api/cursos/" + this.props.idCurso + "/alumnos/" + alumno._id)
+      .delete("/api/cursos/" + this.state.idCurso + "/alumnos/" + alumno._id)
       .then(function(response) {
         alert.success("Se elimino el alumno :  " + alumnoEliminar._apellido);
       })
@@ -115,6 +118,7 @@ class ListarAlumnos extends React.Component {
                     <div className="col-md-12">{this.tblAlumnos()}</div>
                     {panelDeAbajo}
                   </div>
+
                   {this.botonStandard(
                     "Volver",
                     () => this.volver(),
@@ -250,33 +254,108 @@ class ListarAlumnos extends React.Component {
 
   imprimirAlumnos() {
     var cuerpo = [];
-    var titulosLinea1 = [ {text: "Apellido", bold: true}, {text: "Nombre", bold: true}, {text: "Tel. Principal", bold: true}, " Asistencias ",
-                           "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  " ];
-    var titulosLinea2 = [ "        ", "      ", "              ", "  ", "  ", "  ", "  ", "  ",
-                          "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "]
+    var titulosLinea1 = [
+      { text: "Apellido", bold: true },
+      { text: "Nombre", bold: true },
+      { text: "Tel. Principal", bold: true },
+      " Asistencias ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  "
+    ];
+    var titulosLinea2 = [
+      "        ",
+      "      ",
+      "              ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  ",
+      "  "
+    ];
     var lAlumnos = this.state.listaDeAlumnos;
 
-    var tituloPpal = this.state.categoriaTaller ;
-    cuerpo.push(titulosLinea1); 
+    var tituloPpal = this.state.categoriaTaller;
+    cuerpo.push(titulosLinea1);
     cuerpo.push(titulosLinea2);
 
     lAlumnos.map(alum => {
-    var fila = [];
-        fila.push(alum._apellido); fila.push(alum._nombre); fila.push(alum._telPrincipal); fila.push(" ");
-              fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" ");
-              fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" "); fila.push(" ");
-              fila.push(" "); fila.push(" ");
+      var fila = [];
+      fila.push(alum._apellido);
+      fila.push(alum._nombre);
+      fila.push(alum._telPrincipal);
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
+      fila.push(" ");
       return cuerpo.push(fila);
     });
 
     var docDefinition = {
       pageOrientation: "landscape",
       content: [
-        {text: tituloPpal, style: 'header', bold: true,  alignment: 'center', fontSize: 20},
+        {
+          text: tituloPpal,
+          style: "header",
+          bold: true,
+          alignment: "center",
+          fontSize: 20
+        },
         {
           table: {
             headerRows: 2,
-            widths: [ 100, 100, 80, 100, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 ],
+            widths: [
+              100,
+              100,
+              80,
+              100,
+              15,
+              15,
+              15,
+              15,
+              15,
+              15,
+              15,
+              15,
+              15,
+              15,
+              15,
+              15,
+              15,
+              15
+            ],
             body: cuerpo
           }
         }

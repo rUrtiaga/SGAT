@@ -88,14 +88,9 @@ class CrearTaller extends React.Component {
   }
 
   agregarSubCategoria(unaSubCategoria) {
-    let subCategSinId = {
-      _id: "",
-      _subCategoria: unaSubCategoria
-    };
-
     this.setState(
       {
-        subCategoriasConId: [...this.state.subCategoriasConId, subCategSinId]
+        subCategorias: [...this.state.subCategorias, unaSubCategoria]
       },
       () => console.log(this.state.subCategorias)
     );
@@ -157,19 +152,16 @@ class CrearTaller extends React.Component {
 
   //Muestra Div con las sub-categorias agregadas hasta el momento
   mostrarSubCategoriasAgregadas() {
-    if (!(this.state.subCategoriasConId.length === 0)) {
+    if (!(this.state.subCategorias.length === 0)) {
       return (
         <div className="card mb-2 mt-2">
-          <p> SubCategorias Agregadas: </p>
-          {this.state.subCategoriasConId.map(subC => (
+          <p> SubCategorias Agregadas: </p>{" "}
+          {this.state.subCategorias.map(subC => (
             <MuestraSubCategoria
-              key={Math.random()}
+              key={subC}
               padre={this}
-              subCategoria={subC}
-              quitarSubCategoria={s =>
-                this.quitarSubCategoria(subC._subCategoria)
-              }
-              guardarSubC={(id, subc) => this.guardarSubCategoria(id, subc)}
+              subcategoria={subC}
+              quitarSubCategoria={s => this.quitarSubCategoria(s)}
             />
           ))}{" "}
         </div>
@@ -202,7 +194,10 @@ class CrearTaller extends React.Component {
       })
       .then(respuesta => {
         let subcatConId = respuesta.data.map(s => {
-          return { _id: s._id, _subCategoria: s._subCategoria };
+          return {
+            _id: s._id,
+            _subcategoria: s._subCategoria
+          };
         });
         //let subcategsinId = subcatConId.map(s => s._subCategoria);
 
@@ -288,7 +283,7 @@ class CrearTaller extends React.Component {
   }
 
   subCategoriasOAviso() {
-    if (this.state.subCategoriasConId.length === 0) {
+    if (this.state.subCategorias.length === 0) {
       return (
         <div class="alert alert-danger" role="alert">
           ERROR!: no se ha asignado ningúna SubCategoria.{" "}
@@ -313,10 +308,10 @@ class CrearTaller extends React.Component {
               </p>{" "}
               <p>
                 {" "}
-                Categoria: <b> {this.state.categoria} </b>{" "}
+                Taller: <b> {this.state.categoria} </b>{" "}
               </p>{" "}
               {this.subCategoriasOAviso()}{" "}
-            </div>
+            </div>{" "}
             <AceptarYCancelar
               acceptText={"Aceptar"}
               cancelText={"Volver"}
@@ -334,7 +329,7 @@ class CrearTaller extends React.Component {
     return (
       <div className="container">
         <form>
-          <h3 className="mt-4 mb-4"> Nuevo Taller </h3>
+          <h3 className="mt-4 mb-4"> Nuevo Taller </h3>{" "}
           <div className="form-group">
             <label htmlFor="nombreTaller"> Nombre </label>{" "}
             <input
@@ -350,7 +345,7 @@ class CrearTaller extends React.Component {
                 });
               }}
             />{" "}
-          </div>
+          </div>{" "}
           <div className="form-row">
             <div className="col">
               <label htmlFor="CategoriaTitle"> Categoria </label>{" "}
@@ -368,9 +363,9 @@ class CrearTaller extends React.Component {
                     <span className="fa fa-plus"> </span>{" "}
                   </button>{" "}
                 </div>{" "}
-              </div>
+              </div>{" "}
               {//agrega el componenete nueva categoria
-              this.nuevaCategoria()}
+              this.nuevaCategoria()}{" "}
               {//muestra panel de nuevo NIVEL
               this.nuevaSubCategoria()}{" "}
               {this.mostrarSubCategoriasAgregadas()}{" "}
@@ -392,4 +387,5 @@ class CrearTaller extends React.Component {
     return <div className="container"> {this.inputOConfirmacion()} </div>;
   }
 }
+
 module.exports.CrearTaller = CrearTaller;

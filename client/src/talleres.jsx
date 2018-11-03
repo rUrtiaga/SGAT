@@ -1,3 +1,4 @@
+const { Link } = require("react-router-dom");
 const React = require("react");
 const axios = require("axios");
 const _ = require("lodash");
@@ -81,12 +82,13 @@ class NavItem extends React.Component {
   render() {
     return (
       <li className="nav-item">
-        <a
+        <Link
           className={"nav-link btn " + this.props.extraName}
           onClick={() => this.props.select()}
+          to={"/talleres/" + this.props.categoria}
         >
           {this.props.categoria}
-        </a>
+        </Link>
       </li>
     );
   }
@@ -95,11 +97,13 @@ class NavItem extends React.Component {
 class Talleres extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
+    const params = props.match.params;
     this.state = {
       listaDeCursos: [],
       listaDeTalleres: [],
       listaDeCategorias: [],
-      categoriaSeleccionada: ""
+      prevSelectedCategory: params ? params.categoria : ""
     };
   }
 
@@ -116,23 +120,23 @@ class Talleres extends React.Component {
           listCursos.some(c => c._tallerID === t._id)
         );
         let listCategorias = _.sortedUniq(listTalleres.map(t => t._categoria));
-        let categoriaSeleccionada =
-        self.props.categoriaSeleccionada;
         self.setState({
           listaDeTalleres: listTalleres,
           listaDeCategorias: listCategorias,
-          selectedCategory:
-            categoriaSeleccionada !== ""
-              ? categoriaSeleccionada
-              : listCategorias
-                ? listCategorias[0]
-                : ""
+          selectedCategory: self.categoriaParamOPrimeroDeLaLista(listCategorias)
         });
         return Promise.resolve();
       })
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  categoriaParamOPrimeroDeLaLista(listCategorias) {
+    return (
+      this.state.prevSelectedCategory ||
+      (listCategorias ? listCategorias[0] : "")
+    );
   }
 
   getDataCursos() {
@@ -155,20 +159,20 @@ class Talleres extends React.Component {
     this.props.rootComponent.setState({ curso: curso, pantallaActual: 3 });
   }
 
-  seleccionarListaDeEspera(cursoId) {
-    this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 6 });
-  }
+  // seleccionarListaDeEspera(cursoId) {
+  //   this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 6 });
+  // }
 
-  seleccionarAlumnos(cursoId) {
-    this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 4 });
-  }
+  // seleccionarAlumnos(cursoId) {
+  //   this.props.rootComponent.setState({ cursoId: cursoId, pantallaActual: 4 });
+  // }
 
-  inscribirAlumno(cursoId) {
-    this.props.rootComponent.setState({
-      cursoId: cursoId,
-      pantallaActual: 5
-    });
-  }
+  // inscribirAlumno(cursoId) {
+  //   this.props.rootComponent.setState({
+  //     cursoId: cursoId,
+  //     pantallaActual: 5
+  //   });
+  // }
   cambiarACrearTaller(taller) {
     this.props.rootComponent.setState({
       taller: taller,
@@ -205,9 +209,8 @@ class Talleres extends React.Component {
 
   selecCategoria(cat) {
     this.setState({ selectedCategory: cat });
-    console.log(this.props.onChangeCategoria);
-    
-    this.props.onChangeCategoria(cat);
+    // console.log(this.props.onChangeCategoria);
+    // this.props.onChangeCategoria(cat);
   }
 
   nombresTalleres() {
@@ -230,11 +233,12 @@ class Talleres extends React.Component {
             <Botones
               hayCupo={curso._hayCupo}
               cantAlumnos={curso._cantAlumnos}
-              seleccionarListaDeEspera={() =>
-                this.seleccionarListaDeEspera(curso._id)
-              }
-              seleccionarAlumnos={() => this.seleccionarAlumnos(curso._id)}
-              inscribirAlumno={() => this.inscribirAlumno(curso._id)}
+              cursoId={curso._id}
+              // seleccionarListaDeEspera={() =>
+              //   this.seleccionarListaDeEspera(curso._id)
+              // }
+              // seleccionarAlumnos={() => this.seleccionarAlumnos(curso._id)}
+              // inscribirAlumno={() => this.inscribirAlumno(curso._id)}
             />
           }
         />
@@ -250,8 +254,16 @@ class Botones extends React.Component {
     if (this.props.hayCupo) {
       return null;
     }
+
     return (
-      <button className={className} onClick={onClick}>
+      <button
+        className={className}
+        onClick={onClick}
+        // to={{
+        //   pathname: "/alumnos",
+        //   props: { cursoId: this.props.cursoId }
+        // }}
+      >
         {text}
       </button>
     );
@@ -269,20 +281,18 @@ class Botones extends React.Component {
     return (
       <React.Fragment>
         {this.botonListaDeEspera()}
-        <button
+        <Link
           className={"btn btn-primary col-md-3 mr-1 mb-1 " + this.disabled()}
-          onClick={v =>
-            this.hayAlumnos() ? this.props.seleccionarAlumnos(v) : null
-          }
+          to={"/alumnos/" + this.props.cursoId}
         >
           Alumnos
-        </button>
-        <button
+        </Link>
+        <Link
           className="btn btn-primary col-md-4 mb-1"
-          onClick={v => this.props.inscribirAlumno(v)}
+          to={"/agregarAlumno/" + this.props.cursoId}
         >
           Inscribir
-        </button>
+        </Link>
       </React.Fragment>
     );
   }

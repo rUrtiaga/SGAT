@@ -10,7 +10,9 @@ const {
 class NuevoAlumno extends React.Component {
   constructor(props) {
     super(props);
+    const params = props.match.params;
     this.state = {
+      cursoId: params ? params.cursoId : "",
       selectorCursoOculto: true,
       inputPersonaOculto: true,
       curso: null
@@ -19,16 +21,11 @@ class NuevoAlumno extends React.Component {
   }
 
   componentDidMount() {
-    this.borrarCursoIdEnPadre();
-    if (this.props.cursoId) {
-      this.fetchCurso(this.props.cursoId).then(c => this.selectCurso(c));
+    if (this.state.cursoId) {
+      this.fetchCurso(this.state.cursoId).then(c => this.selectCurso(c));
     } else {
       this.setState({ selectorCursoOculto: false });
     }
-  }
-
-  borrarCursoIdEnPadre() {
-    this.props.rootComponent.state.cursoId = undefined;
   }
 
   fetchCurso(idCurso) {
