@@ -86,13 +86,16 @@ class Service {
     }
   }
   editTaller(dataTaller) {
+    // RECIBO UN NOMBRE, UNA CATEGORIA Y UNA LISTA CON SUBCATEGORIAS DONDE TENGO QUE GENERAR
+    //TALLERES, NUEVOS (y guardarlos) Y A EDITAR (y actualizarlos)
+
     let talleres = dataTaller._subCategoriasConId.map(
       subCat => new Taller(dataTaller, subCat._subCategoria, subCat._id)
     );
 
-    let talleresConId = talleres.filter(t => !t._id == "");
+    let talleresConId = talleres.filter(t => !t._id == ""); // DEBERIA FILTRAR LOS TALLERES EXISTENTES CON ID
 
-    let talleresSinId = talleres.filter(t => t._id == undefined);
+    let talleresSinId = talleres.filter(t => t._id == undefined); // DEBERIA FILTRAR LOS TALLERES NUEVOS
 
     console.log("TALLERES CON ID" + talleresConId);
     console.log("TALLERES SIN ID" + talleresSinId);
@@ -106,8 +109,8 @@ class Service {
             //store
             //  .pushTalleres(db, talleresSinId)
             //.then(() =>
-            store.editTalleres(db, talleresConId[0]) //)
-        );
+            store.editTalleres(db, talleresConId) //) // ASI LA IDEA ES QUE POR LO MENOS EDITE LOS TALLERES Q YA EXISTEN
+        ); // LOS NUEVOS LOS ESTARIA OBVIANDO
       });
     } else {
       return Promise.reject(
