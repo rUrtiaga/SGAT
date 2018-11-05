@@ -128,8 +128,16 @@ class ListarAlumnos extends React.Component {
                   {this.botonStandard(
                     "Imprimir",
                     () => this.imprimirAlumnos(),
-                    "btn-success",
+                    "btn-success mr-3",
                     "fa-print"
+                  )}
+                  {this.botonStandard(
+                    "Inscribir",
+                    () => {
+                      console.log(this.props);
+                    },
+                    "btn-success mr-3",
+                    "fa fa-edit"
                   )}
                 </div>
                 <h4>
@@ -366,7 +374,7 @@ class ListarAlumnos extends React.Component {
     return this.botonStandard(
       "Info",
       () => this.mostrarDatosAlumno(alumno),
-      "btn-info btn-xs",
+      "btn-info mr-3",
       "fa-info"
     );
   }
@@ -375,18 +383,29 @@ class ListarAlumnos extends React.Component {
     return this.botonStandard(
       "Eliminar",
       alert => this.eliminarAlumno(alumno, alert),
-      "btn-danger btn-xs",
+      "btn-danger mr-3",
       "fa-close"
     );
   }
+
+  botonInscribir(alumno) {
+    return this.botonStandard(
+      "Info",
+      () => this.mostrarDatosAlumno(alumno),
+      // "btn-info btn-xs",
+      "btn-info mr-3",
+      "far fa-edit"
+    );
+  }
   // Botón -  parámetro con valor por defecto
-  botonStandard(label, accion, clasesAdicionales = "btn-info", glypIcon) {
+  // botonStandard(label, accion, clasesAdicionales = "btn-info mr-3", glypIcon) {
+  botonStandard(label, accion, clasesAdicionales, glypIcon) {
     return (
       <Alert>
         {alert => (
           <button
             className={"btn " + clasesAdicionales}
-            style={{ marginRight: "12px" }}
+            // style={{ marginRight: "12px" }}
             onClick={() => accion(alert)}
           >
             <span className={"fa " + glypIcon}> {label} </span>
