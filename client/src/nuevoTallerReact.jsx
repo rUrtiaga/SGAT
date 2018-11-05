@@ -12,6 +12,8 @@ const {
   MuestraSubCategoria
 } = require("./componentesComunes/MuestraSubCategoria.jsx");
 
+//  -- **COMPONENTE PARA CREAR UN TALLER!!!!!!!!!!** --
+
 /*CREAR TALLER*/
 class CrearTaller extends React.Component {
   constructor(props) {
@@ -22,8 +24,9 @@ class CrearTaller extends React.Component {
 
       tengoTallerAEditar: false,
 
+      mostrarSubcategorias: false,
+
       categorias: [],
-      subCategorias: [],
       subCategoriasConId: [],
 
       agregaSubCategoria: false,
@@ -40,9 +43,6 @@ class CrearTaller extends React.Component {
   componentDidMount() {
     this.borrarTallerEnPadre;
     this.requestCategorias();
-    if (this.state.nombre) {
-      this.requestTalleres();
-    }
   }
 
   borrarTallerEnPadre() {
@@ -88,9 +88,16 @@ class CrearTaller extends React.Component {
   agregarSubCategoria(unaSubCategoria) {
     this.setState(
       {
-        subCategorias: [...this.state.subCategorias, unaSubCategoria]
+        subCategoriasConId: [
+          ...this.state.subCategoriasConId,
+          {
+            _id: "",
+            _subCategoria: unaSubCategoria
+          }
+        ],
+        mostrarSubcategorias: true
       },
-      () => console.log(this.state.subCategorias)
+      () => console.log(this.state.subCategoriasConId)
     );
   }
 
@@ -102,7 +109,7 @@ class CrearTaller extends React.Component {
       categoria: ""
     });
     this.setState({
-      subCategorias: []
+      subCategoriasConId: []
     });
   }
 
@@ -150,15 +157,15 @@ class CrearTaller extends React.Component {
 
   //Muestra Div con las sub-categorias agregadas hasta el momento
   mostrarSubCategoriasAgregadas() {
-    if (!(this.state.subCategorias.length === 0)) {
+    if (this.state.mostrarSubcategorias) {
       return (
         <div className="card mb-2 mt-2">
           <p> SubCategorias Agregadas: </p>{" "}
-          {this.state.subCategorias.map(subC => (
+          {this.state.subCategoriasConId.map(subC => (
             <MuestraSubCategoria
               key={subC}
               padre={this}
-              subcategoria={subC}
+              subCategoria={subC}
               quitarSubCategoria={s => this.quitarSubCategoria(s)}
             />
           ))}{" "}
@@ -168,7 +175,7 @@ class CrearTaller extends React.Component {
   }
 
   validar() {
-    return !(this.state.nombre && this.state.subCategoriasConId.length > 0);
+    return !(this.state.nombre && this.state.subCategoriasConId);
   }
 
   mostrarMuestraCategoria() {
@@ -182,31 +189,6 @@ class CrearTaller extends React.Component {
     );
   }
 
-  requestTalleres() {
-    return axios
-      .get("api/talleres", {
-        params: {
-          categoria: this.editarTaller._categoria,
-          taller: this.editarTaller._nombre
-        }
-      })
-      .then(respuesta => {
-        let subcatConId = respuesta.data.map(s => {
-          return {
-            _id: s._id,
-            _subcategoria: s._subCategoria
-          };
-        });
-
-        this.setState({
-          subCategoriasConId: this.state.subCategoriasConId.concat(subcatConId)
-          //subCategorias: this.state.subCategorias.concat(subcategsinId)
-        });
-      })
-
-      .catch(e => console.log(e));
-  }
-
   requestCategorias() {
     return axios
       .get("api/categorias")
@@ -215,11 +197,24 @@ class CrearTaller extends React.Component {
         this.setState({
           categorias: catSinId
         });
-        if (!this.editarTaller) {
-          this.seleccionarCategoria(this.state.categorias[0]);
-        }
       })
       .catch(e => console.log(e));
+  }
+
+  guardarTallerAxios(self, taller, alert) {
+    axios
+      .put("api/talleres ", taller)
+      .then(function(res) {
+        alert.success("Se creó correctamente el TALLER " + taller._nombre);
+        self.setState({
+          confirmacion: false
+        });
+      })
+      .then(this.cancelarAgregado())
+      .catch(function(error) {
+        console.log(error);
+        alert.error("ERROR - " + error.response.data.message);
+      });
   }
 
   guardarTaller(alert) {
@@ -235,36 +230,7 @@ class CrearTaller extends React.Component {
     });
     //if (!this.state.errorValidar) { //COMENTADO XQ EL EDITAR TALLER CHOCA CON ESTO
 
-    if (!this.editarTaller) {
-      axios
-        .post("api/talleres ", taller)
-        .then(function(res) {
-          alert.success("Se creó correctamente el TALLER " + taller._nombre);
-          self.setState({
-            confirmacion: false
-          });
-        })
-        .then(this.cancelarAgregado())
-        .catch(function(error) {
-          console.log(error);
-          alert.error("ERROR - " + error.response.data.message);
-        });
-    } else {
-      axios
-        .put("api/talleres ", taller)
-        .then(function(res) {
-          alert.success("Se creó correctamente el TALLER " + taller._nombre);
-          self.setState({
-            confirmacion: false
-          });
-        })
-        .then(this.cancelarAgregado())
-        .catch(function(error) {
-          console.log(error);
-          alert.error("ERROR - " + error.response.data.message);
-        });
-    }
-    //}
+    this.guardarTallerAxios(self, taller, alert);
   }
 
   mostrarError(alert) {
@@ -280,7 +246,7 @@ class CrearTaller extends React.Component {
   }
 
   subCategoriasOAviso() {
-    if (this.state.subCategorias.length === 0) {
+    if (this.state.subCategoriasConId.length === 0) {
       return (
         <div class="alert alert-danger" role="alert">
           ERROR!: no se ha asignado ningúna SubCategoria.{" "}
@@ -384,15 +350,81 @@ class CrearTaller extends React.Component {
     return <div className="container"> {this.inputOConfirmacion()} </div>;
   }
 }
+
+//  -- ** COMPONENTE PARA EDITAR UN TALLER!!!!!!!!!!** --
+
 class EditarTaller extends CrearTaller {
   constructor(props) {
     super(props);
     this.editarTaller = this.props.location.state.taller || {};
-
+    console.log(this.editarTaller);
     this.state = {
       nombre: this.editarTaller._nombre || "",
-      categoria: this.editarTaller._categoria || ""
+      categoria: this.editarTaller._categoria || "",
+
+      mostrarSubcategorias: false,
+      categorias: [],
+      subCategoriasConId: []
     };
+  }
+
+  componentDidMount() {
+    this.borrarTallerEnPadre;
+    this.requestCategorias();
+    this.requestTalleres();
+  }
+
+  requestTalleres() {
+    return axios
+      .get("api/talleres", {
+        params: {
+          categoria: this.editarTaller._categoria,
+          taller: this.editarTaller._nombre
+        }
+      })
+      .then(respuesta => {
+        let subcatConId = respuesta.data.map(s => {
+          return {
+            _id: s._id,
+            _subCategoria: s._subCategoria
+          };
+        });
+
+        this.setState({
+          subCategoriasConId: this.state.subCategoriasConId.concat(subcatConId),
+          mostrarSubcategorias: true
+        });
+      })
+
+      .catch(e => console.log(e));
+  }
+
+  guardarTallerAxios(self, taller, alert) {
+    axios
+      .post("api/talleres ", taller)
+      .then(function(res) {
+        alert.success("Se creó correctamente el TALLER " + taller._nombre);
+        self.setState({
+          confirmacion: false
+        });
+      })
+      .then(this.cancelarAgregado())
+      .catch(function(error) {
+        console.log(error);
+        alert.error("ERROR - " + error.response.data.message);
+      });
+  }
+
+  requestCategorias() {
+    return axios
+      .get("api/categorias")
+      .then(respuesta => {
+        let catSinId = respuesta.data.map(c => c._categoria);
+        this.setState({
+          categorias: catSinId
+        });
+      })
+      .catch(e => console.log(e));
   }
 }
 

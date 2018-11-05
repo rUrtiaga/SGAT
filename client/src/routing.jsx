@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { Talleres } from "./talleres";
 import { NuevoAlumno } from "./nuevoAlumno";
 import { NuevoCurso, EditarCurso } from "./nuevoCurso";
-import { CrearTaller } from "./nuevoTallerReact";
+import { CrearTaller, EditarTaller } from "./nuevoTallerReact";
 import { ListarAlumnos } from "./alumnos";
 
 class Routing extends Component {
@@ -19,7 +19,7 @@ class Routing extends Component {
         <Route path="/nuevaCursada/" component={NuevoCurso} />
         <Route path="/editarCursada/" component={EditarCurso} />
         <Route path="/nuevoTaller/" component={CrearTaller} />
-        <Route path="/editarTaller/" component={CrearTaller} />
+        <Route path="/editarTaller/" component={EditarTaller} />
       </Switch>
     );
   }
