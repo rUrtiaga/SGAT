@@ -40,11 +40,19 @@ class BackButton extends React.Component {
       <button
         className={"btn btn-success mr-3 "}
         onClick={this.props.history.goBack}
+<<<<<<< HEAD
       >
         <span className={"fa fa-arrow-circle-left"}>Atrás</span>
+=======
+        >
+        <span className={"fa fa-arrow-circle-left"}>
+          Atrás
+        </span>
+>>>>>>> Boton inscribir alumno en listado de Alumnos
       </button>
     );
   }
+
 }
 
 exports.BackButton = BackButton;

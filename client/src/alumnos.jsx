@@ -4,7 +4,7 @@ const axios = require("axios");
 const { BackButton } = require("./componentesComunes/botones");
 const infoPersona = require("./componentesComunes/infoPersona");
 const { Alert } = require("react-alert");
-const { Link } = require('react-router-dom');
+const { Link } = require("react-router-dom");
 
 const bootbox = require("bootbox");
 const pdfMake = require("pdfmake/build/pdfmake.js");
@@ -17,7 +17,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 /* lista de Alumnos */
 class ListarAlumnos extends React.Component {
   constructor(props) {
-    super(props);    
+    super(props);
     const stateRouter = props.location.state;
     this.state = {
       idCurso: stateRouter ? stateRouter.cursoId : "",
@@ -30,7 +30,6 @@ class ListarAlumnos extends React.Component {
       infoDeAlumno: false,
       mostrarPanelDeAbajo: false
     };
-    
   }
 
   componentDidMount() {
@@ -129,14 +128,15 @@ class ListarAlumnos extends React.Component {
                     "fa-print"
                   )}
 
-                  < Link
-                  className="btn btn-primary md-1"
-                  to={{ pathname: "/agregarAlumno/",
-                  state: { cursoId: this.state.idCurso }} } 
-                  > 
-                    <span className= {"fa fa-edit"} /> Inscribir
+                  <Link
+                    className="btn btn-primary md-1"
+                    to={{
+                      pathname: "/agregarAlumno/",
+                      state: { cursoId: this.state.idCurso }
+                    }}
+                  >
+                    <span className={"fa fa-edit"} /> Inscribir
                   </Link>
-
                 </div>
                 <h4>
                   {" "}
@@ -385,9 +385,19 @@ class ListarAlumnos extends React.Component {
       "fa-close"
     );
   }
+
+  botonInscribir(alumno) {
+    return this.botonStandard(
+      "Info",
+      () => this.mostrarDatosAlumno(alumno),
+      // "btn-info btn-xs",
+      "btn-info mr-3",
+      "far fa-edit"
+    );
+  }
   // Botón -  parámetro con valor por defecto
   // botonStandard(label, accion, clasesAdicionales = "btn-info mr-3", glypIcon) {
-    botonStandard(label, accion, clasesAdicionales, glyphIcon) {
+  botonStandard(label, accion, clasesAdicionales, glyphIcon) {
     return (
       <Alert>
         {alert => (
