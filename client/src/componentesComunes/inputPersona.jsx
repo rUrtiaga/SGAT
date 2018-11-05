@@ -335,7 +335,7 @@ class InputPersona extends React.Component {
         .post("/api/personas", persona)
         .then(function(response) {
           persona._id = response.data.insertedIds[0];
-          self.props.onAccept(persona);
+          self.props.onAccept(persona, alert);
           alert.success(
             "Se creó correctamente " + persona._apellido + " " + persona._nombre
           );

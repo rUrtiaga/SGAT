@@ -5,9 +5,9 @@ class Menu extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary ">
-        <a className="navbar-brand bg-primary text-white " href="/">
+        <Link className="navbar-brand text-white" to="/talleres">
           S. G. A. T.
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -21,33 +21,6 @@ class Menu extends Component {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
-            <li className="nav-item active">
-              <Link
-                className="nav-link"
-                // onClick={() => this.mostrarMuestraTalleres()}
-                to="/talleres"
-              >
-                Talleres
-              </Link>
-            </li>
-            <li className="nav-item dropdown ">
-              <a
-                className="nav-link dropdown-toggle"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Inscribir
-              </a>
-              <div
-                className="dropdown-menu"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <Link className="dropdown-item" to="/agregarAlumno">
-                  Nuevo Alumno
-                </Link>
-              </div>
-            </li>
             <li className="nav-item dropdown ">
               <a
                 className="nav-link dropdown-toggle"
