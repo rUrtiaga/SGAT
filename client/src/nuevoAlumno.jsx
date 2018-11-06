@@ -30,12 +30,20 @@ class NuevoAlumno extends React.Component {
   }
 
   render() {
+    if (!this.state.curso) {
+      return null;
+    }
+
     return (
       <div className="container">
         <h3 className="mt-4 mb-4">Nueva Inscripción</h3>
-
+        <Warning show={!this.state.curso._hayCupo}>
+          El curso se encuentra lleno y se agregará a la lista de espera
+        </Warning>
         {!this.mostrarAceptarAlumno() ? (
           <React.Fragment>
+            {console.log(this.state.curso)}
+
             <LabelCursada curso={this.state.curso} />
             <InputPersona
               persona={this.state.persona || {}}
@@ -53,7 +61,6 @@ class NuevoAlumno extends React.Component {
               {this.state.persona._nombre + " " + this.state.persona._apellido}{" "}
               con {"D.N.I: " + this.state.persona._dni} ?{" "}
             </p>
-
             <AceptarYCancelar
               acceptText={"Si"}
               cancelText={"No"}
@@ -69,9 +76,7 @@ class NuevoAlumno extends React.Component {
   //selecciono y me guardo el id del curso
   selectCurso(curso) {
     this.setState({
-      curso: curso,
-      selectorCursoOculto: true,
-      inputPersonaOculto: !this.state.inputPersonaOculto
+      curso: curso
     });
   }
 
@@ -80,13 +85,13 @@ class NuevoAlumno extends React.Component {
   }
 
   cancelPersona() {
-    this.setState({
-      inputPersonaOculto: true,
-      selectorCursoOculto: false
-    });
+    // this.setState({
+    //   inputPersonaOculto: true,
+    //   selectorCursoOculto: false
+    // });
   }
 
-  acceptPersona(persona, alert) {
+  acceptPersona(persona) {
     this.setState({
       persona
     });
@@ -122,6 +127,14 @@ class LabelCursada extends React.Component {
         CURSADA - {this.props.curso._taller._nombre}{" "}
         {this.props.curso._taller._subCategoria}
       </p>
+    ) : null;
+  }
+}
+
+class Warning extends React.Component {
+  render() {
+    return this.props.show ? (
+      <div className="alert alert-danger">{this.props.children}</div>
     ) : null;
   }
 }
