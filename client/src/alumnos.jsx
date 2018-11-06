@@ -4,7 +4,11 @@ const axios = require("axios");
 const { BackButton } = require("./componentesComunes/botones");
 const infoPersona = require("./componentesComunes/infoPersona");
 const { Alert } = require("react-alert");
+<<<<<<< HEAD
 const { Link } = require("react-router-dom");
+=======
+const { Link } = require('react-router-dom');
+>>>>>>> modificación Boton inscribir alumno en listado de Alumnos
 
 const bootbox = require("bootbox");
 const pdfMake = require("pdfmake/build/pdfmake.js");
@@ -383,16 +387,6 @@ class ListarAlumnos extends React.Component {
       alert => this.eliminarAlumno(alumno, alert),
       "btn-danger mr-3",
       "fa-close"
-    );
-  }
-
-  botonInscribir(alumno) {
-    return this.botonStandard(
-      "Info",
-      () => this.mostrarDatosAlumno(alumno),
-      // "btn-info btn-xs",
-      "btn-info mr-3",
-      "far fa-edit"
     );
   }
   // Botón -  parámetro con valor por defecto
