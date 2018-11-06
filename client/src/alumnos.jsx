@@ -4,6 +4,7 @@ const axios = require("axios");
 const { BackButton } = require("./componentesComunes/botones");
 const infoPersona = require("./componentesComunes/infoPersona");
 const { Alert } = require("react-alert");
+const { Link } = require('react-router-dom');
 
 const bootbox = require("bootbox");
 const pdfMake = require("pdfmake/build/pdfmake.js");
@@ -127,12 +128,12 @@ class ListarAlumnos extends React.Component {
                     "btn-success mr-3",
                     "fa-print"
                   )}
-                   {this.botonStandard(
-                    "Inscribir",
-                    () => {console.log(this.props)},
-                    "btn-success mr-3",
-                    "fa fa-edit"
-                  )}
+                  < Link
+                    className="btn btn-primary md-1"
+                    to={"/agregarAlumno/" + this.props.cursoId}
+                    > 
+                    <span className= {"fa fa-edit"} /> Inscribir
+                  </Link>
                 </div>
                 <h4>
                   {" "}
@@ -381,19 +382,9 @@ class ListarAlumnos extends React.Component {
       "fa-close"
     );
   }
-
-  botonInscribir(alumno) {
-    return this.botonStandard(
-      "Info",
-      () => this.mostrarDatosAlumno(alumno),
-      // "btn-info btn-xs",
-      "btn-info mr-3",
-      "far fa-edit"
-    );
-  }
   // Botón -  parámetro con valor por defecto
   // botonStandard(label, accion, clasesAdicionales = "btn-info mr-3", glypIcon) {
-    botonStandard(label, accion, clasesAdicionales, glypIcon) {
+    botonStandard(label, accion, clasesAdicionales, glyphIcon) {
     return (
       <Alert>
         {alert => (
@@ -402,7 +393,7 @@ class ListarAlumnos extends React.Component {
             // style={{ marginRight: "12px" }}
             onClick={() => accion(alert)}
           >
-            <span className={"fa " + glypIcon}> {label} </span>
+            <span className={"fa " + glyphIcon}> {label} </span>
           </button>
         )}
       </Alert>
