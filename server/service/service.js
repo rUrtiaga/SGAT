@@ -96,30 +96,42 @@ class Service {
   }
   editTaller(dataTaller) {
     // RECIBO UN NOMBRE, UNA CATEGORIA Y UNA LISTA CON SUBCATEGORIAS DONDE TENGO QUE GENERAR
-    //TALLERES, NUEVOS (y guardarlos) Y A EDITAR (y actualizarlos)
+    //TALLERES, NUEVOS (y guardarlos) O/Y A EDITAR (y actualizarlos)
 
     let talleres = dataTaller._subCategoriasConId.map(
       subCat => new Taller(dataTaller, subCat._subCategoria, subCat._id)
     );
 
-    let talleresConId = talleres.filter(t => !t._id == ""); // DEBERIA FILTRAR LOS TALLERES EXISTENTES CON ID
+    let talleresConId = talleres.filter(t => t._id); // DEBERIA FILTRAR LOS TALLERES EXISTENTES CON ID
 
-    let talleresSinId = talleres.filter(t => t._id == undefined); // DEBERIA FILTRAR LOS TALLERES NUEVOS
+    let talleresSinId = talleres.filter(t => !t._id); // DEBERIA FILTRAR LOS TALLERES NUEVOS
 
     console.log("TALLERES CON ID" + talleresConId);
     console.log("TALLERES SIN ID" + talleresSinId);
 
     let nombre = dataTaller._nombre;
 
+    let operation = async db => {
+      let algo;
+      if (talleresSinId) {
+        algo = await store.pushTalleres(db, talleresSinId);
+        console.log(algo);
+        //   return false;
+        // }
+      }
+      return algo; // if (!algo) {
+      // return talleresConId.forEach(t => {
+      //    await store.editTaller(db, t);
+      //   });
+    };
+
     if (!this.validarBlancos(dataTaller)) {
       return this.doOperationOnConnection(db => {
-        return this.existTaller(db, nombre).then(
-          () => store.pushTalleres(db, talleres) // esta linea deberia reemplazarce por las 3 siguientes
+        //this.existTaller(db, nombre).then(
+        return operation(db);
 
-          //() => store.pushTalleres(db, talleresSinId)
-          //.then(() =>
-          //store.editTalleres(db, talleresConId) //) // ASI LA IDEA ES QUE POR LO MENOS EDITE LOS TALLERES Q YA EXISTEN
-        ); // LOS NUEVOS LOS ESTARIA OBVIANDO
+        //store.editTalleres(db, talleresConId)) // ASI LA IDEA ES QUE POR LO MENOS EDITE LOS TALLERES Q YA EXISTEN
+        // LOS NUEVOS LOS ESTARIA OBVIANDO
       });
     } else {
       return Promise.reject(
@@ -132,20 +144,20 @@ class Service {
     return dataTaller._nombre === "" || dataTaller._categoria === "";
   }
 
-  existTaller(db, nombreTaller) {
-    return store.existsTaller(db, nombreTaller).then(talleres => {
-      //if (talleres.length == 0) {     //COMENTADO XQ EL EDITAR TALLER CHOCA CON ESTO
-      return Promise.resolve();
-      // } else {
-      //   return Promise.reject(
-      //     new SgatError(
-      //       "ya se encuentra un Taller con el nombre: " + nombreTaller,
-      //       409
-      //     )
-      //   );
-      // }
-    });
-  }
+  // existTaller(db, nombreTaller) {
+  //   return store.existsTaller(db, nombreTaller).then(talleres => {
+  //     //if (talleres.length == 0) {     //COMENTADO XQ EL EDITAR TALLER CHOCA CON ESTO
+  //     return Promise.resolve();
+  //     // } else {
+  //     //   return Promise.reject(
+  //     //     new SgatError(
+  //     //       "ya se encuentra un Taller con el nombre: " + nombreTaller,
+  //     //       409
+  //     //     )
+  //     //   );
+  //     // }
+  //   });
+  // }
 
   fetchTalleresCategoria(categoria) {
     return this.doOperationOnConnection(db => {

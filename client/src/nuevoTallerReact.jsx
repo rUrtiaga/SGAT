@@ -91,7 +91,6 @@ class CrearTaller extends React.Component {
         subCategoriasConId: [
           ...this.state.subCategoriasConId,
           {
-            _id: "",
             _subCategoria: unaSubCategoria
           }
         ],
@@ -142,7 +141,6 @@ class CrearTaller extends React.Component {
     });
   }
   guardarSubCategoria(id, name) {
-    console.log(name);
     let subc = [];
     subc = this.state.subCategoriasConId.map(function(s) {
       if (s._id === id) {
@@ -163,10 +161,11 @@ class CrearTaller extends React.Component {
           <p> SubCategorias Agregadas: </p>{" "}
           {this.state.subCategoriasConId.map(subC => (
             <MuestraSubCategoria
-              key={subC}
+              key={subC + Math.random()}
               padre={this}
               subCategoria={subC}
               quitarSubCategoria={s => this.quitarSubCategoria(s)}
+              guardarSubC={(i, n) => this.guardarSubCategoria(i, n)}
             />
           ))}{" "}
         </div>
@@ -203,7 +202,7 @@ class CrearTaller extends React.Component {
 
   guardarTallerAxios(self, taller, alert) {
     axios
-      .put("api/talleres ", taller)
+      .post("api/talleres ", taller)
       .then(function(res) {
         alert.success("Se creó correctamente el TALLER " + taller._nombre);
         self.setState({
@@ -401,9 +400,9 @@ class EditarTaller extends CrearTaller {
 
   guardarTallerAxios(self, taller, alert) {
     axios
-      .post("api/talleres ", taller)
+      .put("api/talleres ", taller)
       .then(function(res) {
-        alert.success("Se creó correctamente el TALLER " + taller._nombre);
+        alert.success("Se actualizo correctamente el TALLER " + taller._nombre);
         self.setState({
           confirmacion: false
         });
