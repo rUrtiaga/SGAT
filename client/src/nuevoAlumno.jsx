@@ -6,9 +6,9 @@ const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
 class NuevoAlumno extends React.Component {
   constructor(props) {
     super(props);
-    const params = props.match.params;
+    const stateRouter = props.location.state;
     this.state = {
-      cursoId: params.cursoId
+      cursoId: stateRouter.cursoId
     };
   }
 
