@@ -4,11 +4,7 @@ const axios = require("axios");
 const { BackButton } = require("./componentesComunes/botones");
 const infoPersona = require("./componentesComunes/infoPersona");
 const { Alert } = require("react-alert");
-<<<<<<< HEAD
 const { Link } = require("react-router-dom");
-=======
-const { Link } = require('react-router-dom');
->>>>>>> modificación Boton inscribir alumno en listado de Alumnos
 
 const bootbox = require("bootbox");
 const pdfMake = require("pdfmake/build/pdfmake.js");
