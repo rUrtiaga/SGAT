@@ -222,31 +222,27 @@ class NuevoCurso extends React.Component {
         <div className="form-group">
           <div className="col-md-6">
             <h5>
-              {" "}
-              Usted esta a punto de {this.props.curso ? "editar" : "crear"} la
-              siguiente Cursada:{" "}
-            </h5>{" "}
-            <p>
-              {" "}
-              Categoria: <b> {this.state.taller._categoria} </b>{" "}
-            </p>{" "}
-            <p>
-              {" "}
-              Taller: <b> {this.state.taller._nombre} </b>{" "}
-            </p>{" "}
-            <p>
-              {" "}
-              SubCategoria: <b> {this.state.taller._subCategoria} </b>{" "}
-            </p>{" "}
-            {this.mostrarDhl} {this.profesoresOAviso()} {this.dhlOAviso()}{" "}
+              Usted esta a punto de {this.state.cursoId ? "editar" : "crear"} la
+              siguiente Cursada:
+            </h5>
+            <p key="1">
+              Categoria: <b> {this.state.taller._categoria} </b>
+            </p>
+            <p key="2">
+              Taller: <b> {this.state.taller._nombre} </b>
+            </p>
+            <p key="3">
+              SubCategoria: <b> {this.state.taller._subCategoria} </b>
+            </p>
+            {this.mostrarDhl} {this.profesoresOAviso()} {this.dhlOAviso()}
           </div>
           <AceptarYCancelar
             acceptText={"Aceptar"}
             cancelText={"Volver"}
             cancelar={() => this.volver()}
             aceptar={alert => this.guardarCurso(alert)}
-          />{" "}
-        </div>{" "}
+          />
+        </div>
       </div>
     );
   }
@@ -267,7 +263,7 @@ class NuevoCurso extends React.Component {
     if (this.state.listaDHL.length === 0) {
       return (
         <div className="alert alert-warning" role="alert">
-          Aviso!: no se ha asignado dia, horario y lugar.{" "}
+          Aviso!: no se ha asignado dia, horario y lugar.
         </div>
       );
     } else {
@@ -337,10 +333,10 @@ class NuevoCurso extends React.Component {
               className="btn btn-success col-12"
               onClick={() => this.agregarDocente()}
             >
-              Agregar Docente{" "}
-            </button>{" "}
-          </div>{" "}
-        </AceptarYCancelar>{" "}
+              Agregar Docente
+            </button>
+          </div>
+        </AceptarYCancelar>
       </React.Fragment>
     );
   }

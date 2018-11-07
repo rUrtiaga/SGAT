@@ -42,8 +42,6 @@ class NuevoAlumno extends React.Component {
         </Warning>
         {!this.mostrarAceptarAlumno() ? (
           <React.Fragment>
-            {console.log(this.state.curso)}
-
             <LabelCursada curso={this.state.curso} />
             <InputPersona
               persona={this.state.persona || {}}
@@ -82,13 +80,6 @@ class NuevoAlumno extends React.Component {
 
   cancel() {
     this.limpiar();
-  }
-
-  cancelPersona() {
-    // this.setState({
-    //   inputPersonaOculto: true,
-    //   selectorCursoOculto: false
-    // });
   }
 
   acceptPersona(persona) {
