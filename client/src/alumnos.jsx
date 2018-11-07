@@ -130,7 +130,7 @@ class ListarAlumnos extends React.Component {
                   )}
                   < Link
                     className="btn btn-primary md-1"
-                    to={"/agregarAlumno/" + this.props.cursoId}
+                    to={"/agregarAlumno/" + this.state.idCurso}
                     > 
                     <span className= {"fa fa-edit"} /> Inscribir
                   </Link>
