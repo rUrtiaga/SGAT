@@ -18,9 +18,9 @@ class ListarAlumnos extends React.Component {
   constructor(props) {
     super(props);
     console.log(props);
-    const params = props.match.params;
+    const stateRouter = props.location.state;
     this.state = {
-      idCurso: params ? params.id : "",
+      idCurso: stateRouter ? stateRouter.cursoId : "",
       alumnoActual: null,
       cupo: null,
       listaDeAlumnos: [],
