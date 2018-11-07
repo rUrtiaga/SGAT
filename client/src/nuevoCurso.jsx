@@ -98,42 +98,20 @@ class NuevoCurso extends React.Component {
       _cupo: this.state.cupo,
       _profesores: this.idsProfesores(this.state.profesores)
     };
-    if (this.props.curso) {
-      axios
-        .put("/api/cursos/" + this.props.curso._id, curso)
-        .then(r => alert.success("Se modificó correctamente la cursada"))
-        .catch(function(error) {
-          console.log(error);
-          alert.error("No se pudo modificar esta cursada");
-        });
-    } else {
-      axios
-        .post("/api/cursos", curso)
-        .then(function(res) {
-          alert.success("Se creó correctamente la nueva CURSADA");
-        })
-        .then(this.cancelarAgregado())
-        .catch(function(error) {
-          console.log(error);
-          alert.error("ERROR - " + error.response.data.message);
-        });
-    }
+    axios
+      .post("/api/cursos", curso)
+      .then(function(res) {
+        alert.success("Se creó correctamente la nueva CURSADA");
+      })
+      .then(() => this.cancelarAgregado())
+      .catch(function(error) {
+        console.log(error);
+        alert.error("ERROR - " + error.response.data.message);
+      });
   }
 
   cancelarAgregado() {
-    this.setState({
-      indice: 0,
-      profesores: [],
-      tallerId: "",
-      cupo: 10,
-      dia: "",
-      hora: "",
-      lugar: "",
-      comentario: "",
-      inputCurso: false,
-      inputPersonaOculto: false,
-      confirmacion: false
-    });
+    this.props.history.goBack();
   }
 
   agregarDocente() {
@@ -382,6 +360,7 @@ class EditarCurso extends NuevoCurso {
     super(props);
     this.curso = this.props.location.state.curso || {};
     this.state = {
+      cursoId: this.curso._id,
       profesores: this.curso._profesores || [],
       listaDHL: this.curso._diasHorariosLugares || [],
       taller: "",
@@ -397,6 +376,24 @@ class EditarCurso extends NuevoCurso {
 
   componentDidMount() {
     this.seleccionarCategoria(this.curso.tallerID);
+  }
+
+  guardarCurso(alert) {
+    const curso = {
+      _diasHorariosLugares: this.state.listaDHL,
+      _tallerID: this.state.tallerId,
+      _comentario: this.state.comentario,
+      _cupo: this.state.cupo,
+      _profesores: this.idsProfesores(this.state.profesores)
+    };
+    axios
+      .put("/api/cursos/" + this.state.cursoId, curso)
+      .then(r => alert.success("Se modificó correctamente la cursada"))
+      .then(() => this.cancelarAgregado())
+      .catch(function(error) {
+        console.log(error);
+        alert.error("No se pudo modificar esta cursada");
+      });
   }
 }
 module.exports.NuevoCurso = NuevoCurso;
