@@ -96,18 +96,33 @@ class NuevoAlumno extends React.Component {
 
   aceptarAlumno(alert) {
     let self = this;
-    axios
-      .put("/api/cursos/" + this.state.curso._id + "/alumnos", {
-        _idPersona: this.state.persona._id
-      })
-      .then(function(response) {
-        alert.success("Se agregó el alumno a el curso");
-        self.props.history.goBack();
-      })
-      .catch(function(error) {
-        alert.error(error.response.data.message);
-        console.log(error);
-      });
+    if (this.state.curso._hayCupo) {
+      axios
+        .put("/api/cursos/" + this.state.curso._id + "/alumnos", {
+          _idPersona: this.state.persona._id
+        })
+        .then(function(response) {
+          alert.success("Se agregó el alumno a el curso");
+          self.props.history.goBack();
+        })
+        .catch(function(error) {
+          alert.error(error.response.data.message);
+          console.log(error);
+        });
+    } else {
+      axios
+        .put("/api/cursos/" + this.state.curso._id + "/espera", {
+          _idPersona: this.state.persona._id
+        })
+        .then(function(response) {
+          alert.success("Se agregó el alumno a la lista de espera del curso");
+          self.props.history.goBack();
+        })
+        .catch(function(error) {
+          alert.error(error.response.data.message);
+          console.log(error);
+        });
+    }
   }
 }
 
