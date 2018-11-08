@@ -342,6 +342,10 @@ class Store {
     return this.updateCurso(db, "_alumnos", idCurso, idPersona);
   }
 
+  updateCursoAlumnoEspera(db, idCurso, idPersona) {
+    return this.updateCurso(db, "_espera", idCurso, idPersona);
+  }
+
   updateCursoRemoveAlumnoBaja(db, idCurso, idPersona) {
     return db.collection("cursos").updateOne({
       _id: ObjectID(idCurso)
