@@ -23,4 +23,3 @@ class Routing extends Component {
   }
 }
 export default Routing;
-// module.exports.Routing = Routing;

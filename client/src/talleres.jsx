@@ -216,28 +216,6 @@ class Talleres extends React.Component {
 }
 
 class Botones extends React.Component {
-  botonListaDeEspera() {
-    let onClick = v => this.props.seleccionarListaDeEspera(v);
-    let text = "Espera";
-    let className = "col-md-3 btn btn-primary mr-1 mb-1 ";
-    if (this.props.hayCupo) {
-      return null;
-    }
-
-    return (
-      <button
-        className={className}
-        onClick={onClick}
-        // to={{
-        //   pathname: "/alumnos",
-        //   props: { cursoId: this.props.cursoId }
-        // }}
-      >
-        {text}
-      </button>
-    );
-  }
-
   hayAlumnos() {
     return this.props.cantAlumnos > 0;
   }
@@ -250,7 +228,17 @@ class Botones extends React.Component {
     return (
       <React.Fragment>
         <EditButton curso={this.props.curso} />
-        {this.botonListaDeEspera()}
+        {!this.props.hayCupo ? (
+          <Link
+            className={"col-md-3 btn btn-primary mr-1 mb-1 "}
+            to={{
+              pathname: "/listaEspera",
+              state: { cursoId: this.props.cursoId }
+            }}
+          >
+            Espera
+          </Link>
+        ) : null}
         <Link
           className={"btn btn-primary col-md-3 mr-1 mb-1 " + this.disabled()}
           to={{ pathname: "/alumnos/", state: { cursoId: this.props.cursoId } }}
