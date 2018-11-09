@@ -85,7 +85,10 @@ class NavItem extends React.Component {
         <Link
           className={"nav-link btn " + this.props.extraName}
           onClick={() => this.props.select()}
-          to={"/talleres/" + this.props.categoria}
+          to={{
+            pathname: "/talleres/",
+            state: { categoria: this.props.categoria }
+          }}
         >
           {this.props.categoria}
         </Link>
@@ -97,12 +100,12 @@ class NavItem extends React.Component {
 class Talleres extends React.Component {
   constructor(props) {
     super(props);
-    const params = props.match.params;
+    const state = this.props.location.state;
     this.state = {
       listaDeCursos: [],
       listaDeTalleres: [],
       listaDeCategorias: [],
-      prevSelectedCategory: params ? params.categoria : ""
+      prevSelectedCategory: state ? state.categoria : ""
     };
   }
 
@@ -213,28 +216,6 @@ class Talleres extends React.Component {
 }
 
 class Botones extends React.Component {
-  botonListaDeEspera() {
-    let onClick = v => this.props.seleccionarListaDeEspera(v);
-    let text = "Espera";
-    let className = "col-md-3 btn btn-primary mr-1 mb-1 ";
-    if (this.props.hayCupo) {
-      return null;
-    }
-
-    return (
-      <button
-        className={className}
-        onClick={onClick}
-        // to={{
-        //   pathname: "/alumnos",
-        //   props: { cursoId: this.props.cursoId }
-        // }}
-      >
-        {text}
-      </button>
-    );
-  }
-
   hayAlumnos() {
     return this.props.cantAlumnos > 0;
   }
@@ -247,16 +228,29 @@ class Botones extends React.Component {
     return (
       <React.Fragment>
         <EditButton curso={this.props.curso} />
-        {this.botonListaDeEspera()}
+        {!this.props.hayCupo ? (
+          <Link
+            className={"col-md-3 btn btn-primary mr-1 mb-1 "}
+            to={{
+              pathname: "/listaEspera",
+              state: { cursoId: this.props.cursoId }
+            }}
+          >
+            Espera
+          </Link>
+        ) : null}
         <Link
           className={"btn btn-primary col-md-3 mr-1 mb-1 " + this.disabled()}
-          to={"/alumnos/" + this.props.cursoId}
+          to={{ pathname: "/alumnos/", state: { cursoId: this.props.cursoId } }}
         >
           Alumnos
         </Link>
         <Link
           className="btn btn-primary col-md-4 mb-1"
-          to={"/agregarAlumno/" + this.props.cursoId}
+          to={{
+            pathname: "/agregarAlumno/",
+            state: { cursoId: this.props.cursoId }
+          }}
         >
           Inscribir
         </Link>
@@ -272,7 +266,6 @@ class EditButton extends React.Component {
         className="btn btn-link"
         to={{
           pathname: "/editarCursada",
-          hash: "#" + this.props.curso._id,
           state: { curso: this.props.curso }
         }}
       >

@@ -1,7 +1,17 @@
-const { Taller, Persona, Curso } = require("./dominio/dominio-talleres.js");
-const { store } = require("./Store.js");
-const { MongoClient } = require("mongodb");
-const { SgatError } = require("./extras/SgatError.js");
+const {
+  Taller,
+  Persona,
+  Curso
+} = require("./dominio/dominio-talleres.js");
+const {
+  store
+} = require("./Store.js");
+const {
+  MongoClient
+} = require("mongodb");
+const {
+  SgatError
+} = require("./extras/SgatError.js");
 const process = require("process");
 
 //lo del process es para hacer la variable de sistema.
@@ -24,22 +34,21 @@ class Service {
     let db = null;
 
     return MongoClient.connect(
-      dbServerURL,
-      {
-        useNewUrlParser: true
-      }
-    )
-      .then(function(conn) {
+        dbServerURL, {
+          useNewUrlParser: true
+        }
+      )
+      .then(function (conn) {
         dbConnection = conn; //Guardo la conneccion en la variable externa al promise
         db = dbConnection.db(dbName);
 
         return operation(db);
       })
-      .then(function(data) {
+      .then(function (data) {
         dbConnection.close();
         return Promise.resolve(data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         if (dbConnection) {
           dbConnection.close();
         }
@@ -249,6 +258,23 @@ class Service {
   }
 
   /**
+   * Espera de alumnos en curso
+   */
+
+  putAlumnoEsperaCurso(idCurso, idPersona) {
+    return this.doOperationOnConnection(db => {
+      return store.fetchCursoRaw(db, idCurso).then(dataCurso => {
+        return Curso.estaRepetidoPersona(dataCurso, idPersona)
+          .then(() => {
+            return store.updateCursoAlumnoEspera(db, idCurso, idPersona)
+          })
+          .catch(e => Promise.reject(e));
+      });
+    });
+  }
+
+
+  /**
    * Profesores
    */
   postProfesorCurso(idCurso, idPersona) {
@@ -349,12 +375,9 @@ class Service {
   isEmptyDB() {
     return this.doOperationOnConnection(db => {
       return db
-        .listCollections(
-          {},
-          {
-            nameOnly: true
-          }
-        )
+        .listCollections({}, {
+          nameOnly: true
+        })
         .toArray()
         .then(list => list.length === 0);
     });

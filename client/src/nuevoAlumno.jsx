@@ -3,29 +3,21 @@ const axios = require("axios");
 const { InputPersona } = require("./componentesComunes/inputPersona.jsx");
 const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
 
-const {
-  SelectorNuevoAlumno
-} = require("./componentesComunes/selectorNuevoAlumno");
-
 class NuevoAlumno extends React.Component {
   constructor(props) {
     super(props);
-    const params = props.match.params;
+    const stateRouter = props.location.state;
     this.state = {
-      cursoId: params ? params.cursoId : "",
-      selectorCursoOculto: true,
-      inputPersonaOculto: true,
-      curso: null
+      cursoId: stateRouter.cursoId
     };
-    this.mostrarAceptarAlumno = () => this.state.persona && this.state.curso;
+  }
+
+  mostrarAceptarAlumno() {
+    return this.state.persona && this.state.curso;
   }
 
   componentDidMount() {
-    if (this.state.cursoId) {
-      this.fetchCurso(this.state.cursoId).then(c => this.selectCurso(c));
-    } else {
-      this.setState({ selectorCursoOculto: false });
-    }
+    this.fetchCurso(this.state.cursoId).then(c => this.selectCurso(c));
   }
 
   fetchCurso(idCurso) {
@@ -38,33 +30,27 @@ class NuevoAlumno extends React.Component {
   }
 
   render() {
+    if (!this.state.curso) {
+      return null;
+    }
+
     return (
       <div className="container">
         <h3 className="mt-4 mb-4">Nueva Inscripción</h3>
-
-        {this.state.selectorCursoOculto ? null : (
-          <SelectorNuevoAlumno
-            padre={this}
-            onSelect={c => this.selectCurso(c)}
-          />
-        )}
-
-        {this.state.inputPersonaOculto ? null : (
+        <Warning show={!this.state.curso._hayCupo}>
+          El curso se encuentra lleno y se agregará a la lista de espera
+        </Warning>
+        {!this.mostrarAceptarAlumno() ? (
           <React.Fragment>
-            <p>
-              {" "}
-              CURSADA - {this.state.curso._taller._nombre}{" "}
-              {this.state.curso._taller._subCategoria}
-            </p>
+            <LabelCursada curso={this.state.curso} />
             <InputPersona
               persona={this.state.persona || {}}
-              onCancel={() => null}
-              onAccept={p => this.acceptPersona(p)}
+              onCancel={() => this.props.history.goBack()}
+              onAccept={(p, alert) => this.acceptPersona(p, alert)}
               padre={this}
             />
           </React.Fragment>
-        )}
-        {this.mostrarAceptarAlumno() ? (
+        ) : (
           <React.Fragment>
             <p className="mb-3">
               {" "}
@@ -73,7 +59,6 @@ class NuevoAlumno extends React.Component {
               {this.state.persona._nombre + " " + this.state.persona._apellido}{" "}
               con {"D.N.I: " + this.state.persona._dni} ?{" "}
             </p>
-
             <AceptarYCancelar
               acceptText={"Si"}
               cancelText={"No"}
@@ -81,7 +66,7 @@ class NuevoAlumno extends React.Component {
               aceptar={alert => this.aceptarAlumno(alert)}
             />
           </React.Fragment>
-        ) : null}
+        )}
       </div>
     );
   }
@@ -89,37 +74,23 @@ class NuevoAlumno extends React.Component {
   //selecciono y me guardo el id del curso
   selectCurso(curso) {
     this.setState({
-      curso: curso,
-      selectorCursoOculto: true,
-      inputPersonaOculto: !this.state.inputPersonaOculto
+      curso: curso
     });
   }
 
-  //this.InputPersona.state
   cancel() {
     this.limpiar();
   }
 
-  cancelPersona() {
-    this.setState({
-      inputPersonaOculto: true,
-      selectorCursoOculto: false
-    });
-  }
-
   acceptPersona(persona) {
     this.setState({
-      persona,
-      inputPersonaOculto: !this.state.inputPersonaOculto
+      persona
     });
   }
 
   limpiar() {
     this.setState({
-      curso: null,
-      persona: null,
-      inputPersonaOculto: true,
-      selectorCursoOculto: false
+      persona: null
     });
   }
 
@@ -130,14 +101,32 @@ class NuevoAlumno extends React.Component {
         _idPersona: this.state.persona._id
       })
       .then(function(response) {
-        console.log(response);
         alert.success("Se agregó el alumno a el curso");
-        self.limpiar();
+        self.props.history.goBack();
       })
       .catch(function(error) {
         alert.error(error.response.data.message);
         console.log(error);
       });
+  }
+}
+
+class LabelCursada extends React.Component {
+  render() {
+    return this.props.curso ? (
+      <p>
+        CURSADA - {this.props.curso._taller._nombre}{" "}
+        {this.props.curso._taller._subCategoria}
+      </p>
+    ) : null;
+  }
+}
+
+class Warning extends React.Component {
+  render() {
+    return this.props.show ? (
+      <div className="alert alert-danger">{this.props.children}</div>
+    ) : null;
   }
 }
 
