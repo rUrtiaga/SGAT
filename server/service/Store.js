@@ -201,6 +201,14 @@ class Store {
             foreignField: "_id",
             as: "_alumnos"
           }
+        },
+        {
+          $lookup: {
+            from: "personas",
+            localField: "_espera",
+            foreignField: "_id",
+            as: "_espera"
+          }
         }
       ])
       .toArray();
@@ -366,6 +374,17 @@ class Store {
       }
     });
   }
+
+  updateCursoEliminarEspera(db, idCurso, idPersona) {
+    return db.collection("cursos").updateOne({
+      _id: ObjectID(idCurso)
+    }, {
+      $pull: {
+        _espera: ObjectID(idPersona)
+      }
+    });
+  }
+
 
   updateCursoProfesor(db, idCurso, idPersona) {
     return this.updateCurso(db, "_profesores", idCurso, idPersona);
