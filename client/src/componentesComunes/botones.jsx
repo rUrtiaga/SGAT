@@ -40,15 +40,10 @@ class BackButton extends React.Component {
       <button
         className={"btn btn-success mr-3 "}
         onClick={this.props.history.goBack}
-<<<<<<< Updated upstream
         >
         <span className={"fa fa-arrow-circle-left"}>
           Atrás
         </span>
-=======
-      >
-        <span className={"fa fa-arrow-circle-left"}>Atrás</span>
->>>>>>> Stashed changes
       </button>
     );
   }

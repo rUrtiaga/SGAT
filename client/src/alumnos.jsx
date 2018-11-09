@@ -18,18 +18,9 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 class ListarAlumnos extends React.Component {
   constructor(props) {
     super(props);
-<<<<<<< Updated upstream
-    // console.log(props);
-    const params = props.match.params;
-    this.state = {
-      idCurso: params ? params.id : "",
-=======
     const stateRouter = props.location.state;
     this.state = {
-      // idCurso: stateRouter ? stateRouter.cursoId : "",
       idCurso: stateRouter ? stateRouter.cursoId : "",
-      // idCursoActual: Curso.cursoId,
->>>>>>> Stashed changes
       alumnoActual: null,
       cupo: null,
       listaDeAlumnos: [],
@@ -138,22 +129,12 @@ class ListarAlumnos extends React.Component {
                     "fa-print"
                   )}
                   < Link
-<<<<<<< Updated upstream
-                    className="btn btn-primary md-1"
-                    to={"/agregarAlumno/" + this.state.idCurso}
-                    > 
-                    <span className= {"fa fa-edit"} /> Inscribir
-                  </Link>
-=======
                   className="btn btn-primary md-1"
-                  // to={"/agregarAlumno/" + this.state.idCurso}
                   to={"/agregarAlumno/" + this.state.idCurso } 
                   > 
-                    {console.log(" this :" + this.state.idCurso)}
                     <span className= {"fa fa-edit"} /> Inscribir
                   </Link>
 
->>>>>>> Stashed changes
                 </div>
                 <h4>
                   {" "}
