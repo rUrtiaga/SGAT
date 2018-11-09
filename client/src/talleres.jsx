@@ -252,6 +252,7 @@ class Botones extends React.Component {
             state: { cursoId: this.props.cursoId }
           }}
         >
+        <span className= {"fa fa-edit"} />
           Inscribir
         </Link>
       </React.Fragment>
