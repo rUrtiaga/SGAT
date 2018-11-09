@@ -128,9 +128,11 @@ class ListarAlumnos extends React.Component {
                     "btn-success mr-3",
                     "fa-print"
                   )}
+
                   < Link
                   className="btn btn-primary md-1"
-                  to={"/agregarAlumno/" + this.state.idCurso } 
+                  to={{ pathname: "/agregarAlumno/",
+                  state: { cursoId: this.state.idCurso }} } 
                   > 
                     <span className= {"fa fa-edit"} /> Inscribir
                   </Link>
