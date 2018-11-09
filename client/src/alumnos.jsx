@@ -17,7 +17,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 /* lista de Alumnos */
 class ListarAlumnos extends React.Component {
   constructor(props) {
-    super(props);
+    super(props);    
     const stateRouter = props.location.state;
     this.state = {
       idCurso: stateRouter ? stateRouter.cursoId : "",
@@ -30,7 +30,7 @@ class ListarAlumnos extends React.Component {
       infoDeAlumno: false,
       mostrarPanelDeAbajo: false
     };
-
+    
   }
 
   componentDidMount() {
