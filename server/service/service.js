@@ -273,6 +273,11 @@ class Service {
     });
   }
 
+  deletePersonaEsperaCurso(idCurso, idPersona) {
+    return this.doOperationOnConnection(db => {
+      return store.updateCursoEliminarEspera(db, idCurso, idPersona);
+    });
+  }
 
   /**
    * Profesores

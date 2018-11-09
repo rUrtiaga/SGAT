@@ -49,17 +49,21 @@ class ListarAlumnos extends React.Component {
       .then(function(response) {
         const json = response.data;
 
-        self.setState({
-          listaDeAlumnos: json[0]._alumnos,
-          nombreTaller: json[0]._taller._nombre,
-          categoriaTaller: json[0]._taller._categoria,
-          subCategoriaTaller: json[0]._taller._subCategoria,
-          cupo: json[0]._cupo
-        });
+        self.setDataCurso(json);
       })
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  setDataCurso(json) {
+    this.setState({
+      listaDeAlumnos: json[0]._alumnos,
+      nombreTaller: json[0]._taller._nombre,
+      categoriaTaller: json[0]._taller._categoria,
+      subCategoriaTaller: json[0]._taller._subCategoria,
+      cupo: json[0]._cupo
+    });
   }
 
   removeAlumno(alumno, alert) {
