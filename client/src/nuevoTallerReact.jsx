@@ -140,14 +140,24 @@ class CrearTaller extends React.Component {
       subCategoriasConId: subc
     });
   }
-  guardarSubCategoria(id, name) {
+  guardarSubCategoria(id, nameViejo, name) {
+    console.log(nameViejo + name)
     let subc = [];
-    subc = this.state.subCategoriasConId.map(function(s) {
-      if (s._id === id) {
-        s._id, (s._subCategoria = name);
-      }
-      return s;
-    });
+    if (id) {
+      subc = this.state.subCategoriasConId.map(function(s) {
+        if (s._id === id) {
+          s._id, (s._subCategoria = name);
+        }
+        return s;
+      });
+    } else {
+      subc = this.state.subCategoriasConId.map(function(s) {
+        if (s._subCategoria === nameViejo) {
+          s._id, (s._subCategoria = name);
+        }
+        return s;
+      });
+    }
     this.setState({
       subCategoriasConId: subc
     });
@@ -165,7 +175,7 @@ class CrearTaller extends React.Component {
               padre={this}
               subCategoria={subC}
               quitarSubCategoria={s => this.quitarSubCategoria(s)}
-              guardarSubC={(i, n) => this.guardarSubCategoria(i, n)}
+              guardarSubC={(i, v, n) => this.guardarSubCategoria(i, v, n)}
             />
           ))}{" "}
         </div>

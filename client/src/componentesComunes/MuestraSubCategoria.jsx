@@ -7,7 +7,8 @@ class MuestraSubCategoria extends React.Component {
       nombreSubCategoria: this.props.subCategoria._subCategoria || "",
       idSubCategoria: this.props.subCategoria._id || "",
       mostrarEditar: false,
-      nombreNuevo: ""
+      nombreNuevo: "",
+      nombreViejo: this.props.subCategoria._subCategoria
     };
   }
 
@@ -17,10 +18,10 @@ class MuestraSubCategoria extends React.Component {
 
   guardar() {
     this.setState({ mostrarEditar: false });
-    // this.props.guardarSubCategoria(
+    //this.props.guardarSubCategoria(
     //   this.state.idSubCategoria,
-    //   this.state.nombreSubCategoria
-    // );
+    //  this.state.nombreSubCategoria
+    //);
   }
 
   mostrarSubCategoria() {
@@ -47,10 +48,10 @@ class MuestraSubCategoria extends React.Component {
             onClick={() => {
               this.props.guardarSubC(
                 this.state.idSubCategoria,
+                this.state.nombreViejo,
                 this.state.nombreEditado
               );
-              console.log(this.state.nombreEditado);
-              //this.guardar();
+              this.guardar();
             }}
           >
             <span className="fa fa-check"> </span>
