@@ -116,7 +116,7 @@ class NuevoCurso extends React.Component {
 
   agregarDocente() {
     this.setState({
-      mostrarInputPersona: true
+      mostrarInputPersona: !this.state.mostrarInputPersona
     });
   }
 
