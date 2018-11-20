@@ -45,7 +45,7 @@ class NuevoCurso extends React.Component {
 
       confirmacion: false,
       inputCurso: false,
-      inputPersonaOculto: false,
+      mostrarInputPersona: false,
       borrarDHL: true
     };
   }
@@ -116,13 +116,13 @@ class NuevoCurso extends React.Component {
 
   agregarDocente() {
     this.setState({
-      inputPersonaOculto: true
+      mostrarInputPersona: true
     });
   }
 
   ocultarNuevaPersona() {
     this.setState({
-      inputPersonaOculto: false
+      mostrarInputPersona: false
     });
   }
 
@@ -140,7 +140,7 @@ class NuevoCurso extends React.Component {
   }
 
   nuevaPersona() {
-    if (this.state.inputPersonaOculto) {
+    if (this.state.mostrarInputPersona && !this.state.confirmacion) {
       return (
         <InputPersona
           id="inputPersona"
@@ -251,7 +251,7 @@ class NuevoCurso extends React.Component {
     if (this.state.profesores.length === 0) {
       return (
         <div className="alert alert-warning" role="alert">
-          Aviso!: no se ha asignado ningún Profesor.{" "}
+          Aviso!: no se ha asignado ningún Profesor.
         </div>
       );
     } else {
@@ -344,7 +344,9 @@ class NuevoCurso extends React.Component {
   render() {
     return (
       <div className="container">
-        <h3 className="mt-4 mb-4"> Nueva Cursada </h3>
+        <h3 className="mt-4 mb-4">
+          {this.curso ? "Editando" : "Nueva"} Cursada
+        </h3>
         {this.inputOConfirmacion()}
         {this.nuevaPersona()}{" "}
       </div>
@@ -365,7 +367,7 @@ class EditarCurso extends NuevoCurso {
 
       confirmacion: false,
       inputCurso: false,
-      inputPersonaOculto: false,
+      mostrarInputPersona: false,
       borrarDHL: true
     };
   }
