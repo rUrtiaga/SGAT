@@ -15,7 +15,10 @@ class MostrarPersona extends React.Component {
         <label>
           {this.state.persona._nombre + " " + this.state.persona._apellido}
         </label>
-        <button className="btn btn-link" onClick={this.props.delete}>
+        <button
+          className="btn btn-link text-danger"
+          onClick={this.props.delete}
+        >
           <span className={"fa fa-close"} />
         </button>
       </React.Fragment>
