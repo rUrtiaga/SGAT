@@ -11,7 +11,7 @@ class Confirmacion extends Component {
           acceptText={"Si"}
           cancelText={"No"}
           cancelar={() => this.props.cancelar()}
-          aceptar={() => this.props.aceptar()}
+          aceptar={alert => this.props.aceptar(alert)}
         />
       </div>
     );
