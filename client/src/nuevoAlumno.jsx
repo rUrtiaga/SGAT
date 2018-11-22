@@ -1,7 +1,7 @@
 const React = require("react");
 const axios = require("axios");
 const { InputPersona } = require("./componentesComunes/inputPersona.jsx");
-const { AceptarYCancelar } = require("./componentesComunes/botones.jsx");
+const { Confirmacion } = require("./componentesComunes/confirmacion");
 
 class NuevoAlumno extends React.Component {
   constructor(props) {
@@ -51,21 +51,26 @@ class NuevoAlumno extends React.Component {
             />
           </React.Fragment>
         ) : (
-          <React.Fragment>
+          <Confirmacion
+            aceptar={alert => this.aceptarAlumno(alert)}
+            cancelar={() => this.cancel()}
+          >
             <p className="mb-3">
-              {" "}
-              ¿Desea agregar al curso {this.state.curso._taller._nombre}{" "}
-              {this.state.curso._taller._subCategoria} el alumno llamado{" "}
-              {this.state.persona._nombre + " " + this.state.persona._apellido}{" "}
-              con {"D.N.I: " + this.state.persona._dni} ?{" "}
+              ¿Desea agregar a la cursada{" "}
+              <strong>
+                {this.state.curso._taller._nombre}{" "}
+                {this.state.curso._taller._subCategoria}
+              </strong>{" "}
+              el alumno llamado{" "}
+              <strong>
+                {this.state.persona._nombre +
+                  " " +
+                  this.state.persona._apellido}{" "}
+              </strong>
+              con D.N.I:
+              <strong>{this.state.persona._dni}</strong>?
             </p>
-            <AceptarYCancelar
-              acceptText={"Si"}
-              cancelText={"No"}
-              cancelar={() => this.cancel()}
-              aceptar={alert => this.aceptarAlumno(alert)}
-            />
-          </React.Fragment>
+          </Confirmacion>
         )}
       </div>
     );

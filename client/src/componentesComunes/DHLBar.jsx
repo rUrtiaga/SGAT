@@ -77,7 +77,7 @@ class DHLBar extends React.Component {
                   lugar: event.target.value
                 })
               }
-            />{" "}
+            />
           </div>
           <div className="col-md-2">
             <select
@@ -86,9 +86,9 @@ class DHLBar extends React.Component {
               onChange={this.manejarSeleccion.bind(this)}
               id="dias"
             >
-              {this.desplegarDias()}{" "}
-            </select>{" "}
-          </div>{" "}
+              {this.desplegarDias()}
+            </select>
+          </div>
           <div className="col-10 col-md-2">
             <input
               type="time"
@@ -101,8 +101,8 @@ class DHLBar extends React.Component {
                   horario: event.target.value
                 })
               }
-            />{" "}
-          </div>{" "}
+            />
+          </div>
           <div className="col-1 col-md-1">
             <button
               type="button"
@@ -114,8 +114,8 @@ class DHLBar extends React.Component {
               ) : (
                 <span className="fa fa-check"> </span>
               )}
-            </button>{" "}
-          </div>{" "}
+            </button>
+          </div>
         </div>
       );
     } else {
@@ -145,10 +145,10 @@ class DHLBar extends React.Component {
               </button>
               <button
                 type="button"
-                className="btn btn-link col-md-6"
+                className="btn btn-link text-danger col-md-6"
                 onClick={() => this.props.borrarDHL()}
               >
-                <span className="fa fa-minus"> </span>
+                <span className="fa fa-close"> </span>
               </button>
             </div>
           </div>

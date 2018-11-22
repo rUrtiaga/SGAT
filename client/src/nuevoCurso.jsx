@@ -1,6 +1,7 @@
 const React = require("react");
 const axios = require("axios");
 
+const { Fragment, Component } = require("react");
 const { Selector } = require("./componentesComunes/selector");
 const { InputPersona } = require("./componentesComunes/inputPersona");
 const { AceptarYCancelar } = require("./componentesComunes/botones");
@@ -8,8 +9,9 @@ const { DHLBar } = require("./componentesComunes/DHLBar");
 const {
   MostrarPersona
 } = require("./componentesComunes/MostrarPesonaConCerrar");
+const { Confirmacion } = require("./componentesComunes/confirmacion");
 
-class DHLList extends React.Component {
+class DHLList extends Component {
   render() {
     return (
       <div className="card mt-sm-2">
@@ -164,8 +166,8 @@ class NuevoCurso extends React.Component {
   mostrarProfesores() {
     if (!(this.state.profesores.length === 0)) {
       return (
-        <div className="card mb-2 mt-2">
-          <p> Profesores: </p>{" "}
+        <div className="container border mb-2 ">
+          <p> Profesores: </p>
           <h5>
             {this.state.profesores.map(p => (
               <MostrarPersona
@@ -209,41 +211,34 @@ class NuevoCurso extends React.Component {
   }
 
   inputOConfirmacion() {
-    if (this.state.confirmacion === false) {
-      return this.inputCurso();
-    } else {
+    if (this.state.confirmacion) {
       return this.datosCursoSeleccionado();
+    } else {
+      return this.inputCurso();
     }
   }
 
   datosCursoSeleccionado() {
     return (
-      <div className="card mb-8 mt-2">
-        <div className="form-group">
-          <div className="col-md-6">
-            <h5>
-              Usted esta a punto de {this.state.cursoId ? "editar" : "crear"} la
-              siguiente Cursada:
-            </h5>
-            <p key="1">
-              Categoria: <b> {this.state.taller._categoria} </b>
-            </p>
-            <p key="2">
-              Taller: <b> {this.state.taller._nombre} </b>
-            </p>
-            <p key="3">
-              SubCategoria: <b> {this.state.taller._subCategoria} </b>
-            </p>
-            {this.mostrarDhl} {this.profesoresOAviso()} {this.dhlOAviso()}
-          </div>
-          <AceptarYCancelar
-            acceptText={"Aceptar"}
-            cancelText={"Volver"}
-            cancelar={() => this.volver()}
-            aceptar={alert => this.guardarCurso(alert)}
-          />
-        </div>
-      </div>
+      <Confirmacion
+        cancelar={() => this.volver()}
+        aceptar={alert => this.guardarCurso(alert)}
+      >
+        <h5>
+          Usted esta a punto de {this.state.cursoId ? "editar" : "crear"} la
+          siguiente Cursada:
+        </h5>
+        <p key="1">
+          Categoria: <b> {this.state.taller._categoria} </b>
+        </p>
+        <p key="2">
+          Taller: <b> {this.state.taller._nombre} </b>
+        </p>
+        <p key="3">
+          SubCategoria: <b> {this.state.taller._subCategoria} </b>
+        </p>
+        {this.mostrarDhl} {this.profesoresOAviso()} {this.dhlOAviso()}
+      </Confirmacion>
     );
   }
 
@@ -279,11 +274,11 @@ class NuevoCurso extends React.Component {
             padre={this}
             subCategoriaId={this.state.tallerId}
             callbackNuevoCurso={c => this.seleccionarCategoria(c)}
-          />{" "}
-        </div>{" "}
+          />
+        </div>
         <div className="form-group form-row">
           <div className="col-md-2">
-            <label htmlFor="cupo"> Cupo: </label>{" "}
+            <label htmlFor="cupo"> Cupo: </label>
             <input
               type="number"
               min="1"
@@ -297,15 +292,15 @@ class NuevoCurso extends React.Component {
                   cupo: event.target.value
                 })
               }
-            />{" "}
-          </div>{" "}
-        </div>{" "}
+            />
+          </div>
+        </div>
         <DHLList guardarDHL={(d, h, l) => this.guardarDHL(d, h, l)}>
           {this.mostrarDhl()}
         </DHLList>
         <div className="form-group form-row">
           <div className="col">
-            <label htmlFor="comentario"> Comentario: </label>{" "}
+            <label htmlFor="comentario"> Comentario: </label>
             <input
               type="textarea"
               className="form-control"
@@ -318,8 +313,8 @@ class NuevoCurso extends React.Component {
                   comentario: event.target.value
                 })
               }
-            />{" "}
-          </div>{" "}
+            />
+          </div>
         </div>
         {this.mostrarProfesores()}
         <AceptarYCancelar
@@ -348,7 +343,7 @@ class NuevoCurso extends React.Component {
           {this.curso ? "Editando" : "Nueva"} Cursada
         </h3>
         {this.inputOConfirmacion()}
-        {this.nuevaPersona()}{" "}
+        {this.nuevaPersona()}
       </div>
     );
   }
