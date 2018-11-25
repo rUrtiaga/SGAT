@@ -185,9 +185,8 @@ class Service {
   }
 
   pushCurso(dataCurso) {
-    let curso = new Curso(dataCurso);
-
     if (!this.validarCurso(dataCurso)) {
+      let curso = new Curso(dataCurso);
       return this.doOperationOnConnection(db => {
         return store.pushCurso(db, curso);
       });
@@ -196,9 +195,6 @@ class Service {
         new SgatError("El Cupo del curso no puede ser NEGATIVO", 409)
       );
     }
-    return this.doOperationOnConnection(db => {
-      return store.pushCurso(db, curso);
-    });
   }
 
   validarCurso(dataCurso) {
