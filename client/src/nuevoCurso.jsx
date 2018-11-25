@@ -44,12 +44,18 @@ class NuevoCurso extends React.Component {
       taller: "",
       cupo: 10,
       comentario: "",
+      anio: this.cicloActual(),
 
       confirmacion: false,
       inputCurso: false,
       mostrarInputPersona: false,
       borrarDHL: true
     };
+  }
+
+  cicloActual() {
+    let today = new Date();
+    return today.getFullYear() + (today.getMonth() > 9 ? 1 : 0);
   }
 
   idsProfesores(profesores) {
@@ -98,7 +104,8 @@ class NuevoCurso extends React.Component {
       _tallerID: this.state.tallerId,
       _comentario: this.state.comentario,
       _cupo: this.state.cupo,
-      _profesores: this.idsProfesores(this.state.profesores)
+      _profesores: this.idsProfesores(this.state.profesores),
+      _anio: this.state.anio
     };
     axios
       .post("/api/cursos", curso)
@@ -295,6 +302,24 @@ class NuevoCurso extends React.Component {
                 }
               />
             </div>
+            <div className="col-md-2">
+              <label htmlFor="anio"> Año: </label>
+              <input
+                disabled={this.state.editar}
+                type="number"
+                min={new Date().getFullYear()}
+                max={new Date().getFullYear() + 30}
+                className="form-control"
+                id="anio"
+                placeholder="000"
+                value={this.state.anio}
+                onChange={event =>
+                  this.setState({
+                    anio: event.target.value
+                  })
+                }
+              />
+            </div>
           </div>
           <DHLList guardarDHL={(d, h, l) => this.guardarDHL(d, h, l)}>
             {this.mostrarDhl()}
@@ -356,12 +381,14 @@ class EditarCurso extends NuevoCurso {
     super(props);
     this.curso = this.props.location.state.curso || {};
     this.state = {
+      editar: true,
       cursoId: this.curso._id,
       profesores: this.curso._profesores || [],
       listaDHL: this.curso._diasHorariosLugares || [],
       taller: "",
       cupo: this.curso._cupo || 10,
       comentario: this.curso._comentario || "",
+      anio: this.curso._anio || this.cicloActual(),
 
       confirmacion: false,
       inputCurso: false,
@@ -380,7 +407,8 @@ class EditarCurso extends NuevoCurso {
       _tallerID: this.state.tallerId,
       _comentario: this.state.comentario,
       _cupo: this.state.cupo,
-      _profesores: this.idsProfesores(this.state.profesores)
+      _profesores: this.idsProfesores(this.state.profesores),
+      _anio: this.state.anio
     };
     axios
       .put("/api/cursos/" + this.state.cursoId, curso)
