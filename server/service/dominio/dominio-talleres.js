@@ -1,6 +1,10 @@
-const { SgatError } = require("../extras/SgatError");
+const {
+  SgatError
+} = require("../extras/SgatError");
 
-const { ObjectID } = require("mongodb");
+const {
+  ObjectID
+} = require("mongodb");
 
 /********************
  * DOMINIO
@@ -65,27 +69,6 @@ class Taller {
   //     : [new SubCategoria('UNICO', this)];
   // }
 }
-
-// class SubCategoria {
-//   constructor(nombre) {
-//     this._id = new ObjectID();
-//     this._nombre = nombre;
-//     this._cursos = []
-//   }
-//   setNombre(nombre) {
-//     this._nombre = nombre;
-//   }
-//   getNombre() {
-//     return this._nombre;
-//   }
-
-//   setCursos(cursos) {
-//     this._cursos = cursos;
-//   }
-//   getCursos() {
-//     this._cursos;
-//   }
-// }
 
 class Persona {
   constructor(dataPersona) {
@@ -166,19 +149,6 @@ class Persona {
   getComentario() {
     return this._comentario;
   }
-
-  /*
-    JSON
-      no usado por ahora
-  */
-  persistentJSON() {
-    return JSON.stringify(this);
-  }
-
-  basicUIJSON() {
-    //TODO
-    return JSON.stringify(this);
-  }
 }
 
 class Curso {
@@ -193,7 +163,7 @@ class Curso {
     this._comentario = dataCurso._comentario;
     this._cupo = parseInt(dataCurso._cupo, 10);
     this._profesores = dataCurso._profesores.map(p => new ObjectID(p));
-    this._anio = new Date().getFullYear();
+    this._anio = dataCurso._anio || new Date().getFullYear();
   }
 
   /**
@@ -265,26 +235,11 @@ class Curso {
     this.addAlumno(DNIalumno);
     this.removeEspera(DNIalumno);
   }
-  //se espera que inscriba a un alumno a este curso dependiendo del cupo
-  //ESTO VA EN SERVICIO
-  inscribir(alumno) {
-    this.validarAdd(alumno);
-    //store.addPersona(alumno);
-    if (this.hayCupo()) {
-      this.addAlumno(alumno);
-    } else {
-      this.addEspera(alumno);
-    }
-  }
 
   hayCupo() {
     return this.getCantidadAlumnos() < this.getCupo();
   }
 
-  //remplazar por ID
-  estaPersona(DNIpersona) {
-    return this.estaEnProf(DNIpersona) || this.estaEnAlumno(DNIpersona);
-  }
 
   validarAdd(persona) {
     let DNIpersona = persona.getDNI();
@@ -304,13 +259,6 @@ class Curso {
   }
   estaEnAlumno(dni) {
     return this.getAlumnos().some(dniProf => dniProf == dni);
-  }
-
-  //duda donde va
-  estaEnEspera(alumno) {
-    if (!this.getEspera().find(e => e == alumno)) {
-      throw "El alumno ingresado no esta en la lista de espera";
-    }
   }
 
   hayCupo() {
@@ -427,7 +375,7 @@ class DiaHorarioLugar {
 function toDHL(listJsonDHL) {
   return listJsonDHL.map(
     dhlJSON =>
-      new DiaHorarioLugar(dhlJSON._dia, dhlJSON._horario, dhlJSON._lugar)
+    new DiaHorarioLugar(dhlJSON._dia, dhlJSON._horario, dhlJSON._lugar)
   );
 }
 

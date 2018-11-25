@@ -350,6 +350,7 @@ class NuevoCurso extends React.Component {
     );
   }
 }
+
 class EditarCurso extends NuevoCurso {
   constructor(props) {
     super(props);
