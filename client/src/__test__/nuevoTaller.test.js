@@ -30,8 +30,8 @@ describe("Nuevo Taller API", () => {
   });
 
   test("guardar un taller", () => {
-    expect(true).toBe(true);
-    /*
+    //expect(true).toBe(true);
+
     const taller = {
       _categoria: "Deportes",
       _nombre: "Futbol",
@@ -57,7 +57,6 @@ describe("Nuevo Taller API", () => {
       .catch(function(error) {
         fail(error);
       });
-      */
   });
 
   /*
@@ -89,6 +88,7 @@ describe("Nuevo Taller API", () => {
         done();
       });
   });
+  */
 
   test("guardar un taller con blancos", done => {
     const taller = {
@@ -117,5 +117,5 @@ describe("Nuevo Taller API", () => {
         );
         done();
       });
-  });*/
+  });
 });

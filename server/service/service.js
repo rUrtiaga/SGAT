@@ -1,17 +1,7 @@
-const {
-  Taller,
-  Persona,
-  Curso
-} = require("./dominio/dominio-talleres.js");
-const {
-  store
-} = require("./Store.js");
-const {
-  MongoClient
-} = require("mongodb");
-const {
-  SgatError
-} = require("./extras/SgatError.js");
+const { Taller, Persona, Curso } = require("./dominio/dominio-talleres.js");
+const { store } = require("./Store.js");
+const { MongoClient } = require("mongodb");
+const { SgatError } = require("./extras/SgatError.js");
 const process = require("process");
 
 //lo del process es para hacer la variable de sistema.
@@ -34,21 +24,22 @@ class Service {
     let db = null;
 
     return MongoClient.connect(
-        dbServerURL, {
-          useNewUrlParser: true
-        }
-      )
-      .then(function (conn) {
+      dbServerURL,
+      {
+        useNewUrlParser: true
+      }
+    )
+      .then(function(conn) {
         dbConnection = conn; //Guardo la conneccion en la variable externa al promise
         db = dbConnection.db(dbName);
 
         return operation(db);
       })
-      .then(function (data) {
+      .then(function(data) {
         dbConnection.close();
         return Promise.resolve(data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         if (dbConnection) {
           dbConnection.close();
         }
@@ -58,16 +49,6 @@ class Service {
   /**
    * Talleres
    */
-
-  // pushTaller(dataTaller) {
-  //   let talleres = dataTaller._subCategorias.map(
-  //     subCat => new Taller(dataTaller, subCat)
-  //   );
-  //   return this.doOperationOnConnection(db => {
-  //     // store.pushCategoria(dataTaller._categoria)
-  //     return store.pushTalleres(db, talleres);
-  //   });
-  // }
 
   fetchTalleres() {
     return this.doOperationOnConnection(db => {
@@ -101,28 +82,20 @@ class Service {
     let talleres = dataTaller._subCategoriasConId.map(
       subCat => new Taller(dataTaller, subCat._subCategoria, subCat._id)
     );
-
     let talleresConId = talleres.filter(t => t._id); // DEBERIA FILTRAR LOS TALLERES EXISTENTES CON ID
-
     let talleresSinId = talleres.filter(t => !t._id); // DEBERIA FILTRAR LOS TALLERES NUEVOS
 
-    console.log("TALLERES CON ID" + talleresConId);
-    console.log("TALLERES SIN ID" + talleresSinId);
+    let operation = db => {
+      let promiseArray = [];
 
-    let nombre = dataTaller._nombre;
-
-    let operation = async db => {
-      let algo;
-      if (talleresSinId) {
-        algo = await store.pushTalleres(db, talleresSinId);
-        console.log(algo);
-        //   return false;
-        // }
+      if (talleresSinId.length > 0) {
+        promiseArray.push(store.pushTalleres(db, talleresSinId));
       }
-      return algo; // if (!algo) {
-      // return talleresConId.forEach(t => {
-      //    await store.editTaller(db, t);
-      //   });
+      if (talleresConId.length > 0) {
+        promiseArray.concat(talleresConId.map(t => store.editTaller(db, t)));
+      }
+
+      return Promise.all(promiseArray);
     };
 
     if (!this.validarBlancos(dataTaller)) {
@@ -144,20 +117,20 @@ class Service {
     return dataTaller._nombre === "" || dataTaller._categoria === "";
   }
 
-  // existTaller(db, nombreTaller) {
-  //   return store.existsTaller(db, nombreTaller).then(talleres => {
-  //     //if (talleres.length == 0) {     //COMENTADO XQ EL EDITAR TALLER CHOCA CON ESTO
-  //     return Promise.resolve();
-  //     // } else {
-  //     //   return Promise.reject(
-  //     //     new SgatError(
-  //     //       "ya se encuentra un Taller con el nombre: " + nombreTaller,
-  //     //       409
-  //     //     )
-  //     //   );
-  //     // }
-  //   });
-  // }
+  existTaller(db, nombreTaller) {
+    return store.existsTaller(db, nombreTaller).then(talleres => {
+      //if (talleres.length == 0) {     //COMENTADO XQ EL EDITAR TALLER CHOCA CON ESTO
+      return Promise.resolve();
+      // } else {
+      //   return Promise.reject(
+      //     new SgatError(
+      //       "ya se encuentra un Taller con el nombre: " + nombreTaller,
+      //       409
+      //     )
+      //   );
+      // }
+    });
+  }
 
   fetchTalleresCategoria(categoria) {
     return this.doOperationOnConnection(db => {
@@ -278,7 +251,7 @@ class Service {
       return store.fetchCursoRaw(db, idCurso).then(dataCurso => {
         return Curso.estaRepetidoPersona(dataCurso, idPersona)
           .then(() => {
-            return store.updateCursoAlumnoEspera(db, idCurso, idPersona)
+            return store.updateCursoAlumnoEspera(db, idCurso, idPersona);
           })
           .catch(e => Promise.reject(e));
       });
@@ -392,9 +365,12 @@ class Service {
   isEmptyDB() {
     return this.doOperationOnConnection(db => {
       return db
-        .listCollections({}, {
-          nameOnly: true
-        })
+        .listCollections(
+          {},
+          {
+            nameOnly: true
+          }
+        )
         .toArray()
         .then(list => list.length === 0);
     });
