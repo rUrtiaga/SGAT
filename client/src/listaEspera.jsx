@@ -1,5 +1,4 @@
 const { ListarAlumnos } = require("./alumnos");
-const React = require("react");
 const axios = require("axios");
 
 class ListaEspera extends ListarAlumnos {

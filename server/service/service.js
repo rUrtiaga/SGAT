@@ -160,9 +160,9 @@ class Service {
    * Cursos
    */
 
-  fetchCursosCompletos() {
+  fetchCursosCompletos(anio) {
     return this.doOperationOnConnection(db => {
-      return store.fetchCursosCompletos(db);
+      return store.fetchCursosCompletos(db, anio);
     });
   }
 

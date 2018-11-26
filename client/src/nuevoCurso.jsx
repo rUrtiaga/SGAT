@@ -276,13 +276,50 @@ class NuevoCurso extends React.Component {
   inputCurso() {
     if (!this.state.mostrarInputPersona) {
       return (
-        <React.Fragment>
+        <Fragment>
           <div className="form-group">
             <Selector
               padre={this}
               subCategoriaId={this.state.tallerId}
               callbackNuevoCurso={c => this.seleccionarCategoria(c)}
             />
+          </div>
+          <div className="form-group form-row">
+            <div className="col-md-2">
+              <label htmlFor="cupo"> Cupo: </label>
+              <input
+                type="number"
+                min="1"
+                max="999"
+                className="form-control"
+                id="cupo"
+                placeholder="000"
+                value={this.state.cupo}
+                onChange={event =>
+                  this.setState({
+                    cupo: event.target.value
+                  })
+                }
+              />
+            </div>
+            <div className="col-md-2">
+              <label htmlFor="anio"> Año: </label>
+              <input
+                disabled={this.state.editar}
+                type="number"
+                min={new Date().getFullYear()}
+                max={new Date().getFullYear() + 30}
+                className="form-control"
+                id="anio"
+                placeholder="000"
+                value={this.state.anio}
+                onChange={event =>
+                  this.setState({
+                    anio: event.target.value
+                  })
+                }
+              />
+            </div>
           </div>
           <div className="form-group form-row">
             <div className="col-md-2">
@@ -358,7 +395,7 @@ class NuevoCurso extends React.Component {
               </button>
             </div>
           </AceptarYCancelar>
-        </React.Fragment>
+        </Fragment>
       );
     }
   }

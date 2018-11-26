@@ -11,8 +11,8 @@ class Routing extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" render={() => <Redirect to="/talleres/" />} />
-        <Route exact path="/talleres/" component={Talleres} />
+        <Route exact path="/" render={() => <Redirect to={`/talleres/`} />} />
+        <Route path="/talleres/" component={Talleres} />
         <Route exact path="/agregarAlumno" component={NuevoAlumno} />
         <Route exact path="/alumnos/" component={ListarAlumnos} />
         <Route exact path="/listaEspera/" component={ListaEspera} />
@@ -24,4 +24,5 @@ class Routing extends Component {
     );
   }
 }
+
 export default Routing;
