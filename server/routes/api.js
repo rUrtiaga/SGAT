@@ -11,9 +11,9 @@ const {
  * Cursos
  */
 
-router.route("/cursosCompletos").get(function (req, res, next) {
+router.route("/cursosCompletos/:anio").get(function (req, res, next) {
   service
-    .fetchCursosCompletos()
+    .fetchCursosCompletos(req.params.anio)
     .then(cursos => res.send(cursos))
     .catch(e => next(e));
 });

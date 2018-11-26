@@ -1,4 +1,6 @@
-const { ObjectID } = require("mongodb");
+const {
+  ObjectID
+} = require("mongodb");
 
 /* Tres cosas de carlos
  *  - no vale abrir mas de una conexion para cada llamada por API
@@ -35,18 +37,15 @@ class Store {
   }
 
   editTaller(db, taller) {
-    return db.collection("talleres").updateOne(
-      {
-        _id: ObjectID(taller._id)
-      },
-      {
-        $set: {
-          _categoria: taller._categoria,
-          _nombre: taller._nombre,
-          _subCategoria: taller._subCategoria
-        }
+    return db.collection("talleres").updateOne({
+      _id: ObjectID(taller._id)
+    }, {
+      $set: {
+        _categoria: taller._categoria,
+        _nombre: taller._nombre,
+        _subCategoria: taller._subCategoria
       }
-    );
+    });
   }
 
   fetchTalleres(db) {
@@ -89,8 +88,7 @@ class Store {
   fetchTalleresQueContienenCursos(db) {
     return db
       .collection("talleres")
-      .aggregate([
-        {
+      .aggregate([{
           $lookup: {
             from: "cursos",
             localField: "_id",
@@ -101,8 +99,7 @@ class Store {
         {
           $match: {
             $expr: {
-              $gt: [
-                {
+              $gt: [{
                   $size: "$_cursos"
                 },
                 0
@@ -126,8 +123,7 @@ class Store {
   fetchCurso(db, id) {
     return db
       .collection("cursos")
-      .aggregate([
-        {
+      .aggregate([{
           $match: {
             _id: ObjectID(id)
           }
@@ -151,8 +147,7 @@ class Store {
         {
           $addFields: {
             _taller: {
-              $ifNull: [
-                {
+              $ifNull: [{
                   $arrayElemAt: ["$_taller", 0]
                 },
                 {
@@ -167,8 +162,7 @@ class Store {
               $gt: [
                 "$_cupo",
                 {
-                  $subtract: [
-                    {
+                  $subtract: [{
                       $size: "$_alumnos"
                     },
                     {
@@ -200,11 +194,14 @@ class Store {
       .toArray();
   }
 
-  fetchCursosCompletos(db) {
+  fetchCursosCompletos(db, anio) {
     return db
       .collection("cursos")
-      .aggregate([
-        {
+      .aggregate([{
+          $match: {
+            _anio: parseInt(anio)
+          }
+        }, {
           $lookup: {
             from: "personas",
             localField: "_profesores",
@@ -218,8 +215,7 @@ class Store {
               $gt: [
                 "$_cupo",
                 {
-                  $subtract: [
-                    {
+                  $subtract: [{
                       $size: "$_alumnos"
                     },
                     {
@@ -230,8 +226,7 @@ class Store {
               ]
             },
             _cantAlumnos: {
-              $subtract: [
-                {
+              $subtract: [{
                   $size: "$_alumnos"
                 },
                 {
@@ -255,8 +250,7 @@ class Store {
   fetchCursosTaller(db, idTaller) {
     return db
       .collection("cursos")
-      .aggregate([
-        {
+      .aggregate([{
           $match: {
             _tallerID: ObjectID(idTaller)
           }
@@ -280,8 +274,7 @@ class Store {
         {
           $addFields: {
             _taller: {
-              $ifNull: [
-                {
+              $ifNull: [{
                   $arrayElemAt: ["$_taller", 0]
                 },
                 {
@@ -293,8 +286,7 @@ class Store {
               $gt: [
                 "$_cupo",
                 {
-                  $subtract: [
-                    {
+                  $subtract: [{
                       $size: "$_alumnos"
                     },
                     {
@@ -315,33 +307,27 @@ class Store {
   }
 
   editCurso(db, idCurso, newDataCurso) {
-    return db.collection("cursos").updateOne(
-      {
-        _id: ObjectID(idCurso)
-      },
-      {
-        $set: {
-          _diasHorariosLugares: newDataCurso._diasHorariosLugares,
-          _tallerID: ObjectID(newDataCurso._tallerID),
-          _comentario: newDataCurso._comentario,
-          _cupo: parseInt(newDataCurso._cupo, 10),
-          _profesores: newDataCurso._profesores.map(p => new ObjectID(p))
-        }
+    return db.collection("cursos").updateOne({
+      _id: ObjectID(idCurso)
+    }, {
+      $set: {
+        _diasHorariosLugares: newDataCurso._diasHorariosLugares,
+        _tallerID: ObjectID(newDataCurso._tallerID),
+        _comentario: newDataCurso._comentario,
+        _cupo: parseInt(newDataCurso._cupo, 10),
+        _profesores: newDataCurso._profesores.map(p => new ObjectID(p))
       }
-    );
+    });
   }
 
   updateCurso(db, property, idCurso, idPersona) {
-    return db.collection("cursos").updateOne(
-      {
-        _id: ObjectID(idCurso)
-      },
-      {
-        $push: {
-          [property]: ObjectID(idPersona)
-        }
+    return db.collection("cursos").updateOne({
+      _id: ObjectID(idCurso)
+    }, {
+      $push: {
+        [property]: ObjectID(idPersona)
       }
-    );
+    });
   }
 
   updateCursoAlumno(db, idCurso, idPersona) {
@@ -353,43 +339,34 @@ class Store {
   }
 
   updateCursoRemoveAlumnoBaja(db, idCurso, idPersona) {
-    return db.collection("cursos").updateOne(
-      {
-        _id: ObjectID(idCurso)
-      },
-      {
-        $pull: {
-          _alumnosBaja: ObjectID(idPersona)
-        }
+    return db.collection("cursos").updateOne({
+      _id: ObjectID(idCurso)
+    }, {
+      $pull: {
+        _alumnosBaja: ObjectID(idPersona)
       }
-    );
+    });
   }
 
   updateCursoBajaAlumno(db, idCurso, idPersona) {
-    return db.collection("cursos").updateOne(
-      {
-        _id: ObjectID(idCurso),
-        _alumnos: ObjectID(idPersona)
-      },
-      {
-        $addToSet: {
-          _alumnosBaja: ObjectID(idPersona)
-        }
+    return db.collection("cursos").updateOne({
+      _id: ObjectID(idCurso),
+      _alumnos: ObjectID(idPersona)
+    }, {
+      $addToSet: {
+        _alumnosBaja: ObjectID(idPersona)
       }
-    );
+    });
   }
 
   updateCursoEliminarEspera(db, idCurso, idPersona) {
-    return db.collection("cursos").updateOne(
-      {
-        _id: ObjectID(idCurso)
-      },
-      {
-        $pull: {
-          _espera: ObjectID(idPersona)
-        }
+    return db.collection("cursos").updateOne({
+      _id: ObjectID(idCurso)
+    }, {
+      $pull: {
+        _espera: ObjectID(idPersona)
       }
-    );
+    });
   }
 
   updateCursoProfesor(db, idCurso, idPersona) {
@@ -413,14 +390,11 @@ class Store {
   updatePersona(db, persona) {
     let id = persona._id;
     delete persona._id;
-    return db.collection("personas").updateOne(
-      {
-        _id: ObjectID(id)
-      },
-      {
-        $set: persona
-      }
-    );
+    return db.collection("personas").updateOne({
+      _id: ObjectID(id)
+    }, {
+      $set: persona
+    });
   }
 
   fetchCategorias(db) {
@@ -431,11 +405,9 @@ class Store {
   }
 
   pushCategoria(db, categoria) {
-    return db.collection("categorias").insertMany([
-      {
-        _categoria: categoria
-      }
-    ]);
+    return db.collection("categorias").insertMany([{
+      _categoria: categoria
+    }]);
   }
 
   existsCategoria(db, categoria) {

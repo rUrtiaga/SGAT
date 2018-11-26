@@ -56,6 +56,35 @@ class MostrarTalleres extends React.Component {
   }
 }
 
+class ListaAnios extends React.Component {
+  seleccionarAnio(anio) {
+    this.props.setAnio(anio);
+    this.props.getCursos(anio);
+  }
+  render() {
+    return (
+      <React.Fragment>
+        <h5 className="text-center pt-3">Año</h5>
+        <ul className="nav flex-column  nav-pills border rounded">
+          {this.props.anios.map(a => (
+            <li className="nav-item" key={a}>
+              <button
+                className={
+                  "col-12 nav-link btn " +
+                  (this.props.anio.toString() === a.toString() ? "active" : "")
+                }
+                onClick={() => this.seleccionarAnio(a)}
+              >
+                {a}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </React.Fragment>
+    );
+  }
+}
+
 class ListaCategorias extends React.Component {
   render() {
     return (
@@ -100,8 +129,9 @@ class NavItem extends React.Component {
 class Talleres extends React.Component {
   constructor(props) {
     super(props);
-    const state = this.props.location.state;
+    const state = props.location.state;
     this.state = {
+      anio: state ? state.anio : new Date().getFullYear(),
       listaDeCursos: [],
       listaDeTalleres: [],
       listaDeCategorias: [],
@@ -110,13 +140,35 @@ class Talleres extends React.Component {
   }
 
   componentDidMount() {
-    this.getDataCursos().then(listCursos => this.getDataTalleres(listCursos));
+    this.datosTalleres(this.state.anio);
+  }
+
+  datosTalleres(anio) {
+    this.getDataCursos(anio).then(listCursos =>
+      this.getDataTalleres(listCursos)
+    );
+  }
+
+  getDataCursos(anio) {
+    let self = this;
+    return axios
+      .get(`/api/cursosCompletos/${anio}`)
+      .then(function(response) {
+        const listCursos = response.data;
+        self.setState({
+          listaDeCursos: listCursos
+        });
+        return Promise.resolve(listCursos);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
   getDataTalleres(listCursos) {
     let self = this;
     return axios
-      .get("/api/talleres")
+      .get(`/api/talleres/`)
       .then(function(response) {
         let listTalleres = response.data.filter(t =>
           listCursos.some(c => c._tallerID === t._id)
@@ -141,20 +193,10 @@ class Talleres extends React.Component {
     );
   }
 
-  getDataCursos() {
-    let self = this;
-    return axios
-      .get("/api/cursosCompletos")
-      .then(function(response) {
-        const listCursos = response.data;
-        self.setState({
-          listaDeCursos: listCursos
-        });
-        return Promise.resolve(listCursos);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+  setAnio(anio) {
+    this.setState({
+      anio
+    });
   }
 
   render() {
@@ -166,6 +208,12 @@ class Talleres extends React.Component {
               categorias={this.state.listaDeCategorias}
               select={this.selecCategoria.bind(this)}
               selected={this.state.selectedCategory}
+            />
+            <ListaAnios
+              anios={[2018, 2019]}
+              anio={this.state.anio}
+              setAnio={anio => this.setAnio(anio)}
+              getCursos={anio => this.datosTalleres(anio)}
             />
           </div>
 
@@ -252,7 +300,7 @@ class Botones extends React.Component {
             state: { cursoId: this.props.cursoId }
           }}
         >
-        <span className= {"fa fa-edit"} />
+          <span className={"fa fa-edit"} />
           Inscribir
         </Link>
       </React.Fragment>
