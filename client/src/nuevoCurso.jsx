@@ -267,73 +267,75 @@ class NuevoCurso extends React.Component {
   }
 
   inputCurso() {
-    return (
-      <React.Fragment>
-        <div className="form-group">
-          <Selector
-            padre={this}
-            subCategoriaId={this.state.tallerId}
-            callbackNuevoCurso={c => this.seleccionarCategoria(c)}
-          />
-        </div>
-        <div className="form-group form-row">
-          <div className="col-md-2">
-            <label htmlFor="cupo"> Cupo: </label>
-            <input
-              type="number"
-              min="1"
-              max="999"
-              className="form-control"
-              id="cupo"
-              placeholder="000"
-              value={this.state.cupo}
-              onChange={event =>
-                this.setState({
-                  cupo: event.target.value
-                })
-              }
+    if (!this.state.mostrarInputPersona) {
+      return (
+        <React.Fragment>
+          <div className="form-group">
+            <Selector
+              padre={this}
+              subCategoriaId={this.state.tallerId}
+              callbackNuevoCurso={c => this.seleccionarCategoria(c)}
             />
           </div>
-        </div>
-        <DHLList guardarDHL={(d, h, l) => this.guardarDHL(d, h, l)}>
-          {this.mostrarDhl()}
-        </DHLList>
-        <div className="form-group form-row">
-          <div className="col">
-            <label htmlFor="comentario"> Comentario: </label>
-            <input
-              type="textarea"
-              className="form-control"
-              id="comentario"
-              placeholder="Agregue algún comentario"
-              row="3"
-              value={this.state.comentario}
-              onChange={event =>
-                this.setState({
-                  comentario: event.target.value
-                })
-              }
-            />
+          <div className="form-group form-row">
+            <div className="col-md-2">
+              <label htmlFor="cupo"> Cupo: </label>
+              <input
+                type="number"
+                min="1"
+                max="999"
+                className="form-control"
+                id="cupo"
+                placeholder="000"
+                value={this.state.cupo}
+                onChange={event =>
+                  this.setState({
+                    cupo: event.target.value
+                  })
+                }
+              />
+            </div>
           </div>
-        </div>
-        {this.mostrarProfesores()}
-        <AceptarYCancelar
-          acceptText={"Guardar Cursada"}
-          cancelText={"Cancelar"}
-          cancelar={() => this.cancelarAgregado()}
-          aceptar={() => this.confirmar()}
-        >
-          <div className="col col-md-3">
-            <button
-              className="btn btn-success col-12"
-              onClick={() => this.agregarDocente()}
-            >
-              Agregar Docente
-            </button>
+          <DHLList guardarDHL={(d, h, l) => this.guardarDHL(d, h, l)}>
+            {this.mostrarDhl()}
+          </DHLList>
+          <div className="form-group form-row">
+            <div className="col">
+              <label htmlFor="comentario"> Comentario: </label>
+              <input
+                type="textarea"
+                className="form-control"
+                id="comentario"
+                placeholder="Agregue algún comentario"
+                row="3"
+                value={this.state.comentario}
+                onChange={event =>
+                  this.setState({
+                    comentario: event.target.value
+                  })
+                }
+              />
+            </div>
           </div>
-        </AceptarYCancelar>
-      </React.Fragment>
-    );
+          {this.mostrarProfesores()}
+          <AceptarYCancelar
+            acceptText={"Guardar Cursada"}
+            cancelText={"Cancelar"}
+            cancelar={() => this.cancelarAgregado()}
+            aceptar={() => this.confirmar()}
+          >
+            <div className="col col-md-3">
+              <button
+                className="btn btn-success col-12"
+                onClick={() => this.agregarDocente()}
+              >
+                Agregar Docente
+              </button>
+            </div>
+          </AceptarYCancelar>
+        </React.Fragment>
+      );
+    }
   }
 
   render() {
