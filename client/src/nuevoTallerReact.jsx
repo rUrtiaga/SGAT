@@ -216,10 +216,8 @@ class CrearTaller extends React.Component {
     axios
       .post("api/talleres ", taller)
       .then(function(res) {
+        self.props.history.push("/talleres/");
         alert.success("Se creó correctamente el TALLER " + taller._nombre);
-        self.setState({
-          confirmacion: false
-        });
       })
       .then(this.cancelarAgregado())
       .catch(function(error) {
@@ -419,10 +417,8 @@ class EditarTaller extends CrearTaller {
     axios
       .put("api/talleres ", taller)
       .then(function(res) {
+        self.props.history.push("/talleres/");
         alert.success("Se actualizo correctamente el TALLER " + taller._nombre);
-        self.setState({
-          confirmacion: false
-        });
       })
       .then(this.cancelarAgregado())
       .catch(function(error) {
