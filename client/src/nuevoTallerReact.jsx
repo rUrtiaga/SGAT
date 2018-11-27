@@ -19,6 +19,8 @@ class CrearTaller extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tituloPagina: " Crear ",
+
       nombre: "",
       categoria: "",
 
@@ -141,7 +143,7 @@ class CrearTaller extends React.Component {
     });
   }
   guardarSubCategoria(id, nameViejo, name) {
-    console.log(nameViejo + name)
+    console.log(nameViejo + name);
     let subc = [];
     if (id) {
       subc = this.state.subCategoriasConId.map(function(s) {
@@ -273,7 +275,11 @@ class CrearTaller extends React.Component {
         <div className="card mb-8 mt-2">
           <div className="form-group">
             <div className="col-md-6">
-              <h5> Usted esta a punto de crear el siguiente Taller: </h5>{" "}
+              <h5>
+                {" "}
+                Usted esta a punto de {this.state.tituloPagina} el siguiente
+                Taller:{" "}
+              </h5>{" "}
               <p>
                 {" "}
                 Nombre: <b> {this.state.nombre} </b>{" "}
@@ -301,7 +307,7 @@ class CrearTaller extends React.Component {
     return (
       <div className="container">
         <form>
-          <h3 className="mt-4 mb-4"> Nuevo Taller </h3>{" "}
+          <h3 className="mt-4 mb-4"> {this.state.tituloPagina} Taller </h3>{" "}
           <div className="form-group">
             <label htmlFor="nombreTaller"> Nombre </label>{" "}
             <input
@@ -368,6 +374,7 @@ class EditarTaller extends CrearTaller {
     this.editarTaller = this.props.location.state.taller || {};
     console.log(this.editarTaller);
     this.state = {
+      tituloPagina: " Editar ",
       nombre: this.editarTaller._nombre || "",
       categoria: this.editarTaller._categoria || "",
 
