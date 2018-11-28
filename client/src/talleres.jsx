@@ -57,16 +57,29 @@ class MostrarTalleres extends React.Component {
 }
 
 class ListaAnios extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      anios: this.calcularAnios()
+    };
+  }
+
+  calcularAnios() {
+    let anioActual = new Date().getFullYear();
+    return [anioActual - 1, anioActual, anioActual + 1];
+  }
+
   seleccionarAnio(anio) {
     this.props.setAnio(anio);
     this.props.getCursos(anio);
   }
+
   render() {
     return (
       <React.Fragment>
         <h5 className="text-center pt-3">Año</h5>
         <ul className="nav flex-column  nav-pills border rounded">
-          {this.props.anios.map(a => (
+          {this.state.anios.map(a => (
             <li className="nav-item" key={a}>
               <button
                 className={
@@ -87,23 +100,27 @@ class ListaAnios extends React.Component {
 
 class ListaCategorias extends React.Component {
   render() {
-    return (
-      <React.Fragment>
-        <h5 className="text-center">Categorias</h5>
-        <ul className="nav flex-column  nav-pills border rounded">
-          {this.props.categorias.map(c => (
-            <NavItem
-              categoria={c}
-              extraName={this.props.selected === c ? "active" : ""}
-              select={() => {
-                this.props.select(c);
-              }}
-              key={c}
-            />
-          ))}
-        </ul>
-      </React.Fragment>
-    );
+    if (this.props.categorias.length > 0) {
+      return (
+        <React.Fragment>
+          <h5 className="text-center">Categorias</h5>
+          <ul className="nav flex-column  nav-pills border rounded">
+            {this.props.categorias.map(c => (
+              <NavItem
+                categoria={c}
+                extraName={this.props.selected === c ? "active" : ""}
+                select={() => {
+                  this.props.select(c);
+                }}
+                key={c}
+              />
+            ))}
+          </ul>
+        </React.Fragment>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
@@ -131,7 +148,7 @@ class Talleres extends React.Component {
     super(props);
     const state = props.location.state;
     this.state = {
-      anio: state ? state.anio : new Date().getFullYear(),
+      anio: new Date().getFullYear(),
       listaDeCursos: [],
       listaDeTalleres: [],
       listaDeCategorias: [],
@@ -210,7 +227,6 @@ class Talleres extends React.Component {
               selected={this.state.selectedCategory}
             />
             <ListaAnios
-              anios={[2018, 2019]}
               anio={this.state.anio}
               setAnio={anio => this.setAnio(anio)}
               getCursos={anio => this.datosTalleres(anio)}
