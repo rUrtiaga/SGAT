@@ -20,17 +20,12 @@ class CrearTaller extends React.Component {
     super(props);
     this.state = {
       tituloPagina: " Crear ",
-
       nombre: "",
       categoria: "",
-
       tengoTallerAEditar: false,
-
       mostrarSubcategorias: false,
-
       categorias: [],
       subCategoriasConId: [],
-
       agregaSubCategoria: false,
       agregaCategoria: false,
       disabled: false,
@@ -103,15 +98,7 @@ class CrearTaller extends React.Component {
   }
 
   cancelarAgregado() {
-    this.setState({
-      nombre: ""
-    });
-    this.setState({
-      categoria: ""
-    });
-    this.setState({
-      subCategoriasConId: []
-    });
+    this.props.history.push("/talleres/");
   }
 
   seleccionarCategoria(valor) {
@@ -208,6 +195,9 @@ class CrearTaller extends React.Component {
         this.setState({
           categorias: catSinId
         });
+        this.setState({
+          categoria: catSinId[0]
+        });
       })
       .catch(e => console.log(e));
   }
@@ -284,7 +274,7 @@ class CrearTaller extends React.Component {
               </p>{" "}
               <p>
                 {" "}
-                Taller: <b> {this.state.categoria} </b>{" "}
+                Categoria: <b> {this.state.categoria} </b>{" "}
               </p>{" "}
               {this.subCategoriasOAviso()}{" "}
             </div>{" "}
