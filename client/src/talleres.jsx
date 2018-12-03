@@ -6,33 +6,42 @@ const { Curso } = require("./componentesComunes/MostrarCurso");
 
 class MostrarTalleres extends React.Component {
   render() {
-    return this.props.talleres.map(nombreTaller => {
+    if (this.props.talleres.length === 0) {
+      return <h3 className="text-center">No hay talleres para mostrar</h3>;
+    } else {
       return (
-        <div className="card mb-sm-3 mb-3" key={nombreTaller}>
-          <div className="card-header">
-            <h4 className="card-title">
-              {nombreTaller}
+        <React.Fragment>
+          <h3 className="text-center">{this.props.categoria}</h3>
+          {this.props.talleres.map(nombreTaller => {
+            return (
+              <div className="card mb-sm-3 mb-3" key={nombreTaller}>
+                <div className="card-header">
+                  <h4 className="card-title">
+                    {nombreTaller}
 
-              <Link
-                className="btn btn-link"
-                to={{
-                  pathname: "/editarTaller/",
-                  state: {
-                    taller: {
-                      _categoria: this.props.categoria,
-                      _nombre: nombreTaller
-                    }
-                  }
-                }}
-              >
-                <span className="fa fa-pencil" />
-              </Link>
-            </h4>
-          </div>
-          {this.desplegarSubcategorias(nombreTaller)}
-        </div>
+                    <Link
+                      className="btn btn-link"
+                      to={{
+                        pathname: "/editarTaller/",
+                        state: {
+                          taller: {
+                            _categoria: this.props.categoria,
+                            _nombre: nombreTaller
+                          }
+                        }
+                      }}
+                    >
+                      <span className="fa fa-pencil" />
+                    </Link>
+                  </h4>
+                </div>
+                {this.desplegarSubcategorias(nombreTaller)}
+              </div>
+            );
+          })}
+        </React.Fragment>
       );
-    });
+    }
   }
 
   desplegarSubcategorias(nombreTaller) {
@@ -232,9 +241,7 @@ class Talleres extends React.Component {
               getCursos={anio => this.datosTalleres(anio)}
             />
           </div>
-
           <div className="col-sm-9">
-            <h3 className="text-center">{this.state.selectedCategory}</h3>
             <MostrarTalleres
               categoria={this.state.selectedCategory}
               listTalleres={this.state.listaDeTalleres}
