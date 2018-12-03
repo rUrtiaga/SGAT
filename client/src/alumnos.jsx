@@ -49,6 +49,7 @@ class ListarAlumnos extends React.Component {
         const json = response.data;
 
         self.setState({
+          profesores: json[0]._profesores,
           listaDeAlumnos: json[0]._alumnos,
           nombreTaller: json[0]._taller._nombre,
           categoriaTaller: json[0]._taller._categoria,
@@ -299,7 +300,12 @@ class ListarAlumnos extends React.Component {
     ];
     var lAlumnos = this.state.listaDeAlumnos;
 
-    var tituloPpal = this.state.categoriaTaller;
+    var tituloPpal = `${this.state.categoriaTaller} - ${
+      this.state.nombreTaller
+    } - ${this.state.subCategoriaTaller}`;
+    let subTitulo = `Profesor/es: ${this.state.profesores
+      .map(p => p._apellido + ", " + p._nombre)
+      .join(" - ")}`;
     cuerpo.push(titulosLinea1);
     cuerpo.push(titulosLinea2);
 
@@ -335,6 +341,11 @@ class ListarAlumnos extends React.Component {
           bold: true,
           alignment: "center",
           fontSize: 20
+        },
+        {
+          text: subTitulo,
+          alignment: "center",
+          fontSize: 13
         },
         {
           table: {
