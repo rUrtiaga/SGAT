@@ -7,7 +7,7 @@ class MuestraSubCategoria extends React.Component {
       nombreSubCategoria: this.props.subCategoria._subCategoria || "",
       idSubCategoria: this.props.subCategoria._id || "",
       mostrarEditar: false,
-      nombreNuevo: "",
+      nombreEditado: this.props.subCategoria._subCategoria,
       nombreViejo: this.props.subCategoria._subCategoria
     };
   }
@@ -18,10 +18,6 @@ class MuestraSubCategoria extends React.Component {
 
   guardar() {
     this.setState({ mostrarEditar: false });
-    //this.props.guardarSubCategoria(
-    //   this.state.idSubCategoria,
-    //  this.state.nombreSubCategoria
-    //);
   }
 
   mostrarSubCategoria() {
