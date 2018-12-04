@@ -38,7 +38,6 @@ class CrearTaller extends React.Component {
   }
 
   componentDidMount() {
-    this.borrarTallerEnPadre;
     this.requestCategorias();
   }
 
@@ -129,21 +128,23 @@ class CrearTaller extends React.Component {
       subCategoriasConId: subc
     });
   }
+
   guardarSubCategoria(id, nameViejo, name) {
-    console.log(nameViejo + name);
     let subc = [];
+
     if (id) {
       subc = this.state.subCategoriasConId.map(function(s) {
         if (s._id === id) {
-          s._id, (s._subCategoria = name);
+          s._subCategoria = name;
         }
         return s;
       });
     } else {
       subc = this.state.subCategoriasConId.map(function(s) {
         if (s._subCategoria === nameViejo) {
-          s._id, (s._subCategoria = name);
+          s._subCategoria = name;
         }
+
         return s;
       });
     }
@@ -373,7 +374,6 @@ class EditarTaller extends CrearTaller {
   }
 
   componentDidMount() {
-    this.borrarTallerEnPadre;
     this.requestCategorias();
     this.requestTalleres();
   }

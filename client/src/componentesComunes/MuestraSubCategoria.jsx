@@ -41,6 +41,7 @@ class MuestraSubCategoria extends React.Component {
           <button
             type="button"
             className="btn btn-success"
+            disabled={!this.state.nombreEditado}
             onClick={() => {
               this.props.guardarSubC(
                 this.state.idSubCategoria,
