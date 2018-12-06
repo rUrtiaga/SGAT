@@ -41,7 +41,9 @@ class Selector extends React.Component {
             curso: null
           });
         } else {
-          this.seleccionMuestraCategorias(this.state.categorias[0]);
+          if (this.state.categorias.length > 0) {
+            this.seleccionMuestraCategorias(this.state.categorias[0]);
+          }
         }
       })
       .catch(e => console.log(e));
@@ -105,6 +107,15 @@ class Selector extends React.Component {
   }
 
   render() {
+    if (this.state.categorias.length == 0) {
+      return (
+        <div className="row mt-3 mb-3">
+          <div className="col-md-4">
+            <h4>No hay talleres para mostrar</h4>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="row mt-3 mb-3">
         <div className="col-md-4">
