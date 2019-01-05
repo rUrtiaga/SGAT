@@ -11,10 +11,40 @@ const pdfMake = require("pdfmake/build/pdfmake.js");
 const pdfFonts = require("pdfmake/build/vfs_fonts.js");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+class FilaAlumno extends React.Component {
+  /** --- Link para Info del Alumno ---  */
+  linkInfoAlumno(alumno) {
+    return (
+      <button
+        type="button"
+        className="btn btn-link"
+        onClick={() => this.mostrarDatosAlumno(alumno)}
+      >
+        {alumno._apellido}
+      </button>
+    );
+  }
+
+  render() {
+    const alumno = this.props.alumno;
+    return (
+      <tr id="infoAlum" key={alumno._dni}>
+        <td>{alumno._dni}</td>
+        <td>{this.linkInfoAlumno(alumno)}</td>
+        <td>{alumno._nombre}</td>
+        <td>{alumno._telPrincipal}</td>
+        <td>{alumno._mail}</td>
+        <td>{this.props.children}</td>
+      </tr>
+    );
+  }
+}
+
 /***********************************************
  Alumnos
 ***********************************************/
 /* lista de Alumnos */
+
 class ListarAlumnos extends React.Component {
   constructor(props) {
     super(props);
@@ -169,29 +199,21 @@ class ListarAlumnos extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {this.state.listaDeAlumnos.map(alum => this.infoAlumnos(alum))}
+          {this.state.listaDeAlumnos.map(alum => (
+            <FilaAlumno alumno={alum}>{this.botones(alum)}</FilaAlumno>
+          ))}
         </tbody>
       </table>
     );
   }
 
-  /*Acá completo la tabla con la info de Alumno */
-  // dni, nombre, apellido, fechaNac, direccion, telPrincipal, telSecundario, mail, comentario
-  infoAlumnos(alumno) {
-    const rowDatosAlumno = (
-      <tr id="infoAlum" key={alumno._dni}>
-        <td>{alumno._dni}</td>
-        <td>{this.linkInfoAlumno(alumno)}</td>
-        <td>{alumno._nombre}</td>
-        <td>{alumno._telPrincipal}</td>
-        <td>{alumno._mail}</td>
-        <td>
-          {this.botonDetalle(alumno)}
-          {this.botonEliminar(alumno)}
-        </td>
-      </tr>
+  botones(alum) {
+    return (
+      <React.Fragment>
+        {this.botonDetalle(alum)}
+        {this.botonEliminar(alum)}
+      </React.Fragment>
     );
-    return rowDatosAlumno;
   }
 
   /** --- Encabezado de la Tabla --- */
@@ -208,19 +230,6 @@ class ListarAlumnos extends React.Component {
         </div>
         <div className={"col-md-" + (12 - anchoLabel)}>{valor}</div>
       </div>
-    );
-  }
-
-  /** --- Link para Info del Alumno ---  */
-  linkInfoAlumno(alumno) {
-    return (
-      <button
-        type="button"
-        className="btn btn-link"
-        onClick={() => this.mostrarDatosAlumno(alumno)}
-      >
-        {alumno._apellido}
-      </button>
     );
   }
 

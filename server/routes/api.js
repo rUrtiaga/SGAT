@@ -80,12 +80,20 @@ router.delete("/cursos/:id/alumnos/:idAlum", function (req, res, next) {
     .catch(e => next(e));
 });
 
-router.delete("/cursos/:id/espera/:idPersona", function (req, res, next) {
-  service
-    .deletePersonaEsperaCurso(req.params.id, req.params.idPersona)
-    .then(() => res.send("OK"))
-    .catch(e => next(e));
-});
+
+router
+  .route("/cursos/:id/espera/:idPersona")
+  .delete(function (req, res, next) {
+    service
+      .deletePersonaEsperaCurso(req.params.id, req.params.idPersona)
+      .then(() => res.send("OK"))
+      .catch(e => next(e));
+  })
+  .put(function (req, res, next) {
+    service.moveEsperaToAlumnos(req.params.id, req.params.idPersona)
+      .then(() => res.send("OK"))
+      .catch(e => next(e));
+  })
 
 router.post("/cursos/:id/profesores", function (req, res, next) {
   service

@@ -1,7 +1,17 @@
-const { Taller, Persona, Curso } = require("./dominio/dominio-talleres.js");
-const { store } = require("./Store.js");
-const { MongoClient } = require("mongodb");
-const { SgatError } = require("./extras/SgatError.js");
+const {
+  Taller,
+  Persona,
+  Curso
+} = require("./dominio/dominio-talleres.js");
+const {
+  store
+} = require("./Store.js");
+const {
+  MongoClient
+} = require("mongodb");
+const {
+  SgatError
+} = require("./extras/SgatError.js");
 const process = require("process");
 
 //lo del process es para hacer la variable de sistema.
@@ -18,28 +28,43 @@ function sleep(milliseconds) {
   }
 }
 
+function putAlumnoCursoOperation(db, idCurso, idPersona) {
+  return store.fetchCursoRaw(db, idCurso).then(dataCurso => {
+    if (Curso.estaLleno(dataCurso)) {
+      return Promise.reject(new Error("El curso está lleno"))
+    }
+    return Curso.estaRepetidoPersona(dataCurso, idPersona)
+      .then(() => {
+        if (Curso.personaBorrada(dataCurso, idPersona)) {
+          return store.updateCursoRemoveAlumnoBaja(db, idCurso, idPersona);
+        }
+        return store.updateCursoAlumno(db, idCurso, idPersona);
+      })
+      .catch(e => Promise.reject(e));
+  });
+}
+
 class Service {
   doOperationOnConnection(operation) {
     let dbConnection = null;
     let db = null;
 
     return MongoClient.connect(
-      dbServerURL,
-      {
-        useNewUrlParser: true
-      }
-    )
-      .then(function(conn) {
+        dbServerURL, {
+          useNewUrlParser: true
+        }
+      )
+      .then(function (conn) {
         dbConnection = conn; //Guardo la conneccion en la variable externa al promise
         db = dbConnection.db(dbName);
 
         return operation(db);
       })
-      .then(function(data) {
+      .then(function (data) {
         dbConnection.close();
         return Promise.resolve(data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         if (dbConnection) {
           dbConnection.close();
         }
@@ -213,16 +238,7 @@ class Service {
 
   putAlumnoCurso(idCurso, idPersona) {
     return this.doOperationOnConnection(db => {
-      return store.fetchCursoRaw(db, idCurso).then(dataCurso => {
-        return Curso.estaRepetidoPersona(dataCurso, idPersona)
-          .then(() => {
-            if (Curso.personaBorrada(dataCurso, idPersona)) {
-              return store.updateCursoRemoveAlumnoBaja(db, idCurso, idPersona);
-            }
-            return store.updateCursoAlumno(db, idCurso, idPersona);
-          })
-          .catch(e => Promise.reject(e));
-      });
+      return putAlumnoCursoOperation(db, idCurso, idPersona)
     });
   }
 
@@ -258,6 +274,14 @@ class Service {
     return this.doOperationOnConnection(db => {
       return store.updateCursoEliminarEspera(db, idCurso, idPersona);
     });
+  }
+
+  moveEsperaToAlumnos(idCurso, idPersona) {
+    return this.doOperationOnConnection(db => {
+      return putAlumnoCursoOperation(db, idCurso, idPersona)
+        .then(() => store.updateCursoEliminarEspera(db, idCurso, idPersona))
+        .catch(e => Promise.reject(e))
+    })
   }
 
   /**
@@ -361,12 +385,9 @@ class Service {
   isEmptyDB() {
     return this.doOperationOnConnection(db => {
       return db
-        .listCollections(
-          {},
-          {
-            nameOnly: true
-          }
-        )
+        .listCollections({}, {
+          nameOnly: true
+        })
         .toArray()
         .then(list => list.length === 0);
     });
