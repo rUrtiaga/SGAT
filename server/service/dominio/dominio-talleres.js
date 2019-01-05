@@ -170,6 +170,11 @@ class Curso {
    * STATIC
    *
    */
+
+  static estaLleno(dataCurso) {
+    return dataCurso._alumnos.length - dataCurso._alumnosBaja.length >= dataCurso._cupo
+  }
+
   static personaBorrada(dataCurso, idPersona) {
     return (
       dataCurso._alumnos.some(pOid => pOid.toString() == idPersona) &&

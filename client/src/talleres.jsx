@@ -299,7 +299,7 @@ class Botones extends React.Component {
     return (
       <React.Fragment>
         <EditButton curso={this.props.curso} />
-        {!this.props.hayCupo ? (
+        {this.props.curso._espera.length > 0 ? (
           <Link
             className={"col-md-3 btn btn-primary mr-1 mb-1 "}
             to={{
