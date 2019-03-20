@@ -1,12 +1,13 @@
 var fs = require('fs');
 var process = require('process');
 
-fs.writeFile("./src/forBuild/proxyApi.js","export default '" + process.env.PROXY_API +"'", function(err) {
-    if(err) {
+let direccion = process.env.PROXY_API || 'http://localhost:3001';
+
+fs.writeFile("./src/forBuild/proxyApi.js", "export default '" + direccion + "'", function (err) {
+    if (err) {
         return console.log(err);
     } else {
-        
-        console.log("La variable de entorno PROXY_API fue grabada éxitosamente");
+        console.log(process.env.PROXY_API);
+        console.log(`La direccion para request API (${direccion}) fue grabada éxitosamente`);
     }
-
-}); 
+});
