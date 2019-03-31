@@ -84,13 +84,7 @@ class InputPersona extends React.Component {
 
   //Devuelve verdadero (trusty) si los campos requeridos estan completos
   requiredFields() {
-    return (
-      this.state.dni &&
-      this.state.nombre &&
-      this.state.apellido &&
-      this.state.fechaNac &&
-      this.state.telPrincipal
-    );
+    return this.state.dni && this.state.nombre && this.state.apellido;
   }
 
   handleChange(event) {
@@ -172,7 +166,7 @@ class InputPersona extends React.Component {
             />
             <Input
               divClass="col-12 col-md-6"
-              label="Fecha de Nacimiento *"
+              label="Fecha de Nacimiento"
               htmlFor="date"
               type="date"
               name="fechaNac"
@@ -228,7 +222,7 @@ class InputPersona extends React.Component {
           <div className="form-group form-row">
             <Input
               divClass="col-12 col-md-6"
-              label="Teléfono Principal *"
+              label="Teléfono Principal"
               type="number"
               name="telPrincipal"
               placeholder="formato: 0224345XXXX"
@@ -323,7 +317,9 @@ class InputPersona extends React.Component {
       _dni: parseInt(this.state.dni, 10),
       _nombre: this.state.nombre,
       _apellido: this.state.apellido,
-      _fechaNac: new Date(this.state.fechaNac).toISOString(),
+      _fechaNac: this.state.fechaNac
+        ? new Date(this.state.fechaNac).toISOString()
+        : "",
       _direccion: this.state.direccion,
       _telPrincipal: this.state.telPrincipal,
       _telSecundario: this.state.telSecundario,
