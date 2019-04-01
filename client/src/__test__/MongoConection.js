@@ -40,24 +40,24 @@ class Mongo {
         })
     }
 
-    removeAlumno(idCurso,idPersona){
+    removeAlumno(idCurso, idPersona) {
         return this.doOperationOnConnection(db => {
-            return removeAlumno(db,idCurso,idPersona)
-        })    
+            return removeAlumno(db, idCurso, idPersona)
+        })
     }
 }
 
 function removeAlumno(db, idCurso, idPersona) {
     return db
-      .collection("cursos")
-      .updateOne({
-        _id: ObjectID(idCurso)
-      }, {
-        $pull: {
-          _alumnos: ObjectID(idPersona)
-        }
-      });
-  }
+        .collection("cursos")
+        .updateOne({
+            _id: ObjectID(idCurso)
+        }, {
+            $pull: {
+                _alumnos: ObjectID(idPersona)
+            }
+        });
+}
 
 
 function deleteByID(db, id) {
@@ -81,22 +81,22 @@ function deleteByID(db, id) {
 
 //Encuentra una coleccion (en una lista de colecciones mongoDB) que contiene un ID especifico, 
 function findCollection(collections, id) {
-  let findedC;
-  let promises = collections.map(collection => {
-    return collection.findOne({
-        _id: ObjectID(id)
-      })
-      .then(value => {
-        if (value) {
-          findedC = collection
-        }
-        return Promise.resolve()
-      }).catch(e => {
-        console.log(e);
-        Promise.reject(e)
-      })
-  });
-  return Promise.all(promises).then(() => findedC).catch(e => console.log(e))
+    let findedC;
+    let promises = collections.map(collection => {
+        return collection.findOne({
+                _id: ObjectID(id)
+            })
+            .then(value => {
+                if (value) {
+                    findedC = collection
+                }
+                return Promise.resolve()
+            }).catch(e => {
+                console.log(e);
+                Promise.reject(e)
+            })
+    });
+    return Promise.all(promises).then(() => findedC).catch(e => console.log(e))
 }
 
 let mongo = new Mongo();
