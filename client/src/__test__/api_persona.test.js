@@ -11,16 +11,25 @@ describe("API Persona  ", () => {
 
   describe("Existoso", () => {
     let id;
+    let id2;
 
     //Despues de unos test, borro la persona
     afterAll(done => {
-      return mongo.deleteID(id).then(r => {
-        expect(r.result).toEqual({
-          "n": 1,
-          "ok": 1
-        });
-        done()
-      }).catch(e => console.log(e))
+      mongo.deleteID(id).then(r => {
+          expect(r.result).toEqual({
+            "n": 1,
+            "ok": 1
+          });
+        }).then(() => {
+          return mongo.deleteID(id2).then(r => {
+            expect(r.result).toEqual({
+              "n": 1,
+              "ok": 1
+            });
+          })
+        })
+        .then(() => done())
+        .catch(e => console.log(e))
     });
 
 
@@ -103,22 +112,24 @@ describe("API Persona  ", () => {
           done()
         })
     });
-    test("fecha de nacimiento vacia", done => {
+    test("solo dni, nombre y apellido", done => {
       return axios
         .post("/api/personas", {
-          _dni: 99999999,
+          _dni: 99999998,
           _nombre: "Juan",
           _apellido: "Casta",
-          _mail: "a@a.com",
-          _telPrincipal: "1231233",
-          _telSecundario: "12312313",
+          _mail: "",
+          _telPrincipal: "",
+          _telSecundario: "",
           _fechaNac: ""
         })
         .then(r => {
-          console.log(r)
-        }).catch(e => {
-          expect(e.response.status).toBe(201);
+          id2 = r.data.insertedIds[0];
+          expect(r.status).toBe(201);
           done()
+        })
+        .catch(e => {
+          console.log(e)
         })
     })
 
