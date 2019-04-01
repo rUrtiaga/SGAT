@@ -1,5 +1,7 @@
 import axios from "axios";
-const { mongo } = require("./MongoConection.js");
+const {
+  mongo
+} = require("./MongoConection.js");
 
 const proxyApi = require("../forBuild/proxyApi.js");
 axios.defaults.baseURL = proxyApi.default;
@@ -29,14 +31,13 @@ describe("Nuevo Taller API", () => {
     }
   });
 
-  test("guardar un taller", () => {
+  test("guardar un taller", done => {
     //expect(true).toBe(true);
 
     const taller = {
       _categoria: "Deportes",
       _nombre: "Futbol",
-      _subCategoriasConId: [
-        {
+      _subCategoriasConId: [{
           _id: "",
           _subCategoria: "uno"
         },
@@ -48,13 +49,13 @@ describe("Nuevo Taller API", () => {
     };
     axios
       .post("api/talleres", taller)
-      .then(function(res) {
+      .then(function (res) {
         expect(res.status).toBe(201);
         ids = res.data.insertedIds;
         idsCant = res.data.insertedCount;
         done();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         fail(error);
       });
   });
@@ -94,8 +95,7 @@ describe("Nuevo Taller API", () => {
     const taller = {
       _categoria: "",
       _nombre: "",
-      _subCategoriasConId: [
-        {
+      _subCategoriasConId: [{
           _id: "",
           _subCategoria: "uno"
         },
@@ -107,7 +107,7 @@ describe("Nuevo Taller API", () => {
     };
     axios
       .post("api/talleres", taller)
-      .then(function(res) {
+      .then(function (res) {
         done();
       })
       .catch(error => {
