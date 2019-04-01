@@ -103,6 +103,25 @@ describe("API Persona  ", () => {
           done()
         })
     });
+    test("fecha de nacimiento vacia", done => {
+      return axios
+        .post("/api/personas", {
+          _dni: 99999999,
+          _nombre: "Juan",
+          _apellido: "Casta",
+          _mail: "a@a.com",
+          _telPrincipal: "1231233",
+          _telSecundario: "12312313",
+          _fechaNac: ""
+        })
+        .then(r => {
+          console.log(r)
+        }).catch(e => {
+          expect(e.response.status).toBe(201);
+          done()
+        })
+    })
+
   });
 
   describe("Fallidos", () => {
@@ -231,26 +250,6 @@ describe("API Persona  ", () => {
     })
     describe("POST persona - Fecha nacimiento", () => {
 
-      test("vacia", done => {
-        return axios
-          .post("/api/personas", {
-            _dni: 99999999,
-            _nombre: "Juan",
-            _apellido: "Casta",
-            _mail: "a@a.com",
-            _telPrincipal: "1231233",
-            _telSecundario: "12312313",
-            _fechaNac: ""
-          })
-          .then(r => {
-            console.log(r)
-          }).catch(e => {
-            expect(e.response.status).toBe(400);
-            expect(e.response.data.message).toMatch('La persona no es valida')
-            expect(e.response.data.listElementos).toEqual(['Fecha Nacimiento'])
-            done()
-          })
-      })
       test("no ISO date", done => {
         let a = new Date('2015-12-31').toDateString()
         return axios

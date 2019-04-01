@@ -11,9 +11,9 @@ var validator = {
         let errors = []
         console.log(person)
         //En la fecha la valido enviando la fecha y las limitantes de años, seria entre 110 años desde el año actual y 2 años desde el año actual.
-        // if ( !validate.isoDate(person._fechaNac) || !validate.fechaNacimiento(person._fechaNac, 2, 110)) {
-        //     errors.push("Fecha Nacimiento")
-        // }
+        if ((!validate.isoDate(person._fechaNac) || !validate.fechaNacimiento(person._fechaNac, 2, 110)) && !!person._fechaNac !== false) {
+            errors.push("Fecha Nacimiento")
+        }
         if (!validate.dni(person._dni.toString())) {
             errors.push("D.N.I.")
         }
