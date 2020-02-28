@@ -41,7 +41,7 @@ $ npm run dev
 
 Debe tener un daemon mongodb en el puerto por defecto, sino reconfigurarlo
 
-Setear la variable de entorno PROXY_API, con la dirección donde se encuentra alojado el servidor y el puerto en el que estará corriendo,por defecto el 3001.
+Setear la variable de entorno REACT_APP_PROXY_API, con la dirección donde se encuentra alojado el servidor y el puerto en el que estará corriendo,por defecto el 3001.
 ejemplo: http://127.0.0.1:3001
 
 ```
