@@ -157,7 +157,7 @@ class ListarAlumnos extends React.Component {
 
                   {this.botonStandard(
                     "Imprimir",
-                    () => this.imprimirAlumnos(),
+                    alert => this.imprimirAlumnos(alert),
                     "btn-success mr-3",
                     "fa-print"
                   )}
@@ -270,7 +270,7 @@ class ListarAlumnos extends React.Component {
     this.removeAlumno(alumno, alert)
   }
 
-  imprimirAlumnos() {
+  imprimirAlumnos(alert) {
     var cuerpo = []
     var titulosLinea1 = [
       { text: "Apellido", bold: true },
@@ -387,6 +387,7 @@ class ListarAlumnos extends React.Component {
       ]
     }
     pdfMake.createPdf(docDefinition).open()
+    alert.info("Recuerde tener habilitado para ventanas emergentes")
   }
 
   /** ---   Botones   --- */
