@@ -1,15 +1,15 @@
-const React = require("react");
-const axios = require("axios");
+const React = require("react")
+const axios = require("axios")
 
-const { BackButton } = require("./componentesComunes/botones");
-const infoPersona = require("./componentesComunes/infoPersona");
-const { Alert } = require("react-alert");
-const { Link } = require("react-router-dom");
+const { BackButton } = require("./componentesComunes/botones")
+const infoPersona = require("./componentesComunes/infoPersona")
+const { Alert } = require("react-alert")
+const { Link } = require("react-router-dom")
 
-const bootbox = require("bootbox");
-const pdfMake = require("pdfmake/build/pdfmake.js");
-const pdfFonts = require("pdfmake/build/vfs_fonts.js");
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const bootbox = require("bootbox")
+const pdfMake = require("pdfmake/build/pdfmake.js")
+const pdfFonts = require("pdfmake/build/vfs_fonts.js")
+pdfMake.vfs = pdfFonts.pdfMake.vfs
 
 class FilaAlumno extends React.Component {
   /** --- Link para Info del Alumno ---  */
@@ -22,11 +22,11 @@ class FilaAlumno extends React.Component {
       >
         {alumno._apellido}
       </button>
-    );
+    )
   }
 
   render() {
-    const alumno = this.props.alumno;
+    const alumno = this.props.alumno
     return (
       <tr id="infoAlum" key={alumno._dni}>
         <td>{alumno._dni}</td>
@@ -36,7 +36,7 @@ class FilaAlumno extends React.Component {
         <td>{alumno._mail}</td>
         <td>{this.props.children}</td>
       </tr>
-    );
+    )
   }
 }
 
@@ -47,10 +47,11 @@ class FilaAlumno extends React.Component {
 
 class ListarAlumnos extends React.Component {
   constructor(props) {
-    super(props);
-    const stateRouter = props.location.state;
+    super(props)
+    const stateRouter = props.location.state
     this.state = {
       idCurso: stateRouter ? stateRouter.cursoId : "",
+      profesores: [],
       alumnoActual: null,
       cupo: null,
       listaDeAlumnos: [],
@@ -59,28 +60,28 @@ class ListarAlumnos extends React.Component {
       subCategoriaTaller: null,
       infoDeAlumno: false,
       mostrarPanelDeAbajo: false
-    };
+    }
   }
 
   componentDidMount() {
-    this.getDataCurso();
+    this.getDataCurso()
   }
 
   cerrarInfoPersona() {
     // A esta función la llamo desde el infoPersona para cerrar la pantalla
-    this.setState({ mostrarPanelDeAbajo: false });
+    this.setState({ mostrarPanelDeAbajo: false })
   }
 
   getDataCurso() {
-    let self = this;
+    let self = this
     return axios
       .get("/api/cursos/" + this.state.idCurso)
       .then(function(response) {
-        self.setDataCurso(response.data);
+        self.setDataCurso(response.data)
       })
       .catch(function(error) {
-        console.log(error);
-      });
+        console.log(error)
+      })
   }
 
   setDataCurso(json) {
@@ -89,25 +90,26 @@ class ListarAlumnos extends React.Component {
       nombreTaller: json[0]._taller._nombre,
       categoriaTaller: json[0]._taller._categoria,
       subCategoriaTaller: json[0]._taller._subCategoria,
+      profesores: json[0]._profesores,
       cupo: json[0]._cupo
-    });
+    })
   }
 
   removeAlumno(alumno, alert) {
-    let alumnoEliminar = alumno;
+    let alumnoEliminar = alumno
     return axios
       .delete("/api/cursos/" + this.state.idCurso + "/alumnos/" + alumno._id)
       .then(function(response) {
-        alert.success("Se elimino el alumno :  " + alumnoEliminar._apellido);
+        alert.success("Se elimino el alumno :  " + alumnoEliminar._apellido)
       })
       .catch(function(error) {
-        alert.error(error.response.data.message);
-        console.log("Error, no se pudo eliminar el alumno : ", error);
-      });
+        alert.error(error.response.data.message)
+        console.log("Error, no se pudo eliminar el alumno : ", error)
+      })
   }
 
   render() {
-    let panelDeAbajo = null;
+    let panelDeAbajo = null
     if (this.state.mostrarPanelDeAbajo) {
       // acá le paso el Alumno a la pantalla de InfoPersona
       panelDeAbajo = (
@@ -115,7 +117,7 @@ class ListarAlumnos extends React.Component {
           data={this.state.alumnoActual}
           screen={() => this.cerrarInfoPersona()}
         />
-      );
+      )
     }
 
     return (
@@ -180,7 +182,7 @@ class ListarAlumnos extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   /*Tabla info de Alumno */
@@ -200,11 +202,13 @@ class ListarAlumnos extends React.Component {
         </thead>
         <tbody>
           {this.state.listaDeAlumnos.map(alum => (
-            <FilaAlumno alumno={alum}>{this.botones(alum)}</FilaAlumno>
+            <FilaAlumno alumno={alum} key={alum._id}>
+              {this.botones(alum)}
+            </FilaAlumno>
           ))}
         </tbody>
       </table>
-    );
+    )
   }
 
   botones(alum) {
@@ -213,12 +217,12 @@ class ListarAlumnos extends React.Component {
         {this.botonDetalle(alum)}
         {this.botonEliminar(alum)}
       </React.Fragment>
-    );
+    )
   }
 
   /** --- Encabezado de la Tabla --- */
   encabezadoDeTabla(titulos) {
-    return titulos.map((titulo, ix) => <th key={ix}>{titulo}</th>);
+    return titulos.map((titulo, ix) => <th key={ix}>{titulo}</th>)
   }
 
   /** --- Filas de la Tabla --- */
@@ -230,16 +234,16 @@ class ListarAlumnos extends React.Component {
         </div>
         <div className={"col-md-" + (12 - anchoLabel)}>{valor}</div>
       </div>
-    );
+    )
   }
 
   mostrarDatosAlumno(unAlumno) {
-    this.setState({ mostrarPanelDeAbajo: true, alumnoActual: unAlumno });
+    this.setState({ mostrarPanelDeAbajo: true, alumnoActual: unAlumno })
   }
 
   eliminarAlumno(alumno, alert) {
     // este es el metodo que genera la ventana de confirmación y llama al metodo eliminar
-    let self = this;
+    let self = this
     bootbox.dialog({
       message: "Va a eliminar a " + alumno._apellido + "  esta seguro ? ",
       buttons: {
@@ -254,20 +258,20 @@ class ListarAlumnos extends React.Component {
           callback: result => self.confirmaEliminar(alumno, alert)
         }
       }
-    });
+    })
   }
 
   confirmaEliminar(alumno, alert) {
     // Este es el metodo que hace la eliminación del Alumno
     let codigo = this.state.listaDeAlumnos.filter(
       alu => alu._dni !== alumno._dni
-    );
-    this.setState({ listaDeAlumnos: codigo });
-    this.removeAlumno(alumno, alert);
+    )
+    this.setState({ listaDeAlumnos: codigo })
+    this.removeAlumno(alumno, alert)
   }
 
   imprimirAlumnos() {
-    var cuerpo = [];
+    var cuerpo = []
     var titulosLinea1 = [
       { text: "Apellido", bold: true },
       { text: "Nombre", bold: true },
@@ -287,7 +291,7 @@ class ListarAlumnos extends React.Component {
       "  ",
       "  ",
       "  "
-    ];
+    ]
     var titulosLinea2 = [
       "        ",
       "      ",
@@ -307,40 +311,37 @@ class ListarAlumnos extends React.Component {
       "  ",
       "  ",
       "  "
-    ];
-    var lAlumnos = this.state.listaDeAlumnos;
+    ]
 
-    var tituloPpal = `${this.state.categoriaTaller} - ${
-      this.state.nombreTaller
-    } - ${this.state.subCategoriaTaller}`;
+    var tituloPpal = `${this.state.categoriaTaller} - ${this.state.nombreTaller} - ${this.state.subCategoriaTaller}`
     let subTitulo = `Profesor/es: ${this.state.profesores
       .map(p => p._apellido + ", " + p._nombre)
-      .join(" - ")}`;
-    cuerpo.push(titulosLinea1);
-    cuerpo.push(titulosLinea2);
+      .join(" - ")}`
+    cuerpo.push(titulosLinea1)
+    cuerpo.push(titulosLinea2)
 
-    lAlumnos.map(alum => {
-      var fila = [];
-      fila.push(alum._apellido);
-      fila.push(alum._nombre);
-      fila.push(alum._telPrincipal);
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      fila.push(" ");
-      return cuerpo.push(fila);
-    });
+    this.state.listaDeAlumnos.forEach(alum => {
+      var fila = []
+      fila.push(alum._apellido)
+      fila.push(alum._nombre)
+      fila.push(alum._telPrincipal)
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      fila.push(" ")
+      return cuerpo.push(fila)
+    })
 
     var docDefinition = {
       pageOrientation: "landscape",
@@ -384,8 +385,8 @@ class ListarAlumnos extends React.Component {
           }
         }
       ]
-    };
-    pdfMake.createPdf(docDefinition).open();
+    }
+    pdfMake.createPdf(docDefinition).open()
   }
 
   /** ---   Botones   --- */
@@ -395,7 +396,7 @@ class ListarAlumnos extends React.Component {
       () => this.mostrarDatosAlumno(alumno),
       "btn-info mr-3",
       "fa-info"
-    );
+    )
   }
 
   botonEliminar(alumno) {
@@ -404,7 +405,7 @@ class ListarAlumnos extends React.Component {
       alert => this.eliminarAlumno(alumno, alert),
       "btn-danger mr-3",
       "fa-close"
-    );
+    )
   }
   // Botón -  parámetro con valor por defecto
   // botonStandard(label, accion, clasesAdicionales = "btn-info mr-3", glypIcon) {
@@ -421,8 +422,8 @@ class ListarAlumnos extends React.Component {
           </button>
         )}
       </Alert>
-    );
+    )
   }
 }
 
-module.exports.ListarAlumnos = ListarAlumnos;
+module.exports.ListarAlumnos = ListarAlumnos
