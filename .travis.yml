@@ -11,6 +11,6 @@ before_script:
 
 script:
   - npm run server &
+  - npm run proxyApiGenerator
   - npm run iDB
-  - npm run copyBuild
   - npm test
