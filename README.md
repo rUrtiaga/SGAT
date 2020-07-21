@@ -12,7 +12,7 @@ El S.G.A.T. (Sistema de gestion y administracion de talleres) está pensado para
 - JS (ES6)
 - NodeJS
 
-- [Heroku](https://sgat-belg.herokuapp.com/) staging version
+- [Heroku](https://sgat.herokuapp.com/talleres/) staging version
 
 #### Organizacion
 
