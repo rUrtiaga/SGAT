@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-    - "10"
+  - "10"
 
 services: mongodb
 
@@ -11,5 +11,6 @@ before_script:
 
 script:
   - npm run server &
+  - npm run proxyApiGenerator
   - npm run iDB
   - npm test
